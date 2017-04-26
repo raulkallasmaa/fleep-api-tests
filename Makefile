@@ -10,6 +10,6 @@ refresh:
 	rm -rf dist node_modules
 	npm install
 
-check:
+check-versions:
 	npm outdated --depth 0
 
