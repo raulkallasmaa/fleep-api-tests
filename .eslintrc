@@ -6,7 +6,6 @@
 	},
 	"env": { "es6": true, "node": true, "jest": true },
 	"globals": {
-		"console": false,
 		"jasmine": false
 	},
 	"rules": {

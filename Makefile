@@ -1,8 +1,8 @@
 
 all:
-	@echo "*eslint*"
+	@echo "[eslint]"
 	@./node_modules/.bin/eslint lib tests
-	@echo "*jest*"
+	@echo "[jest] env=$(FLEEP_ENV_NAME)"
 	@./node_modules/.bin/jest tests
 
 refresh:
