@@ -3,8 +3,8 @@ PATH := ./node_modules/.bin:$(PATH)
 export PATH
 
 all:
-	eslint .
-	jest
+	eslint lib tests
+	jest tests
 
 refresh:
 	rm -rf dist node_modules
