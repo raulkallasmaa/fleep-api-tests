@@ -1,0 +1,55 @@
+{
+	"extends": ["eslint:recommended"],
+	"parserOptions": {
+		"ecmaVersion": 6,
+		"sourceType": "module"
+	},
+	"env": { "es6": true, "node": true, "jest": true },
+	"globals": {
+		"console": false,
+		"jasmine": false
+	},
+	"rules": {
+		// maybe fix?
+		"consistent-this": [1, "thisContext"],
+		"no-shadow": 1,
+		"vars-on-top": 0,
+
+		// disable, too aggressive?
+		"comma-dangle": 0,
+		"no-class-assign": 0,
+		"no-console": 0,
+		"no-constant-condition": 0,
+		"no-empty": 0,
+		"no-case-declarations": 0,
+		"prefer-const": 0,
+
+		// enforce additional style
+		"no-unused-vars": [2, {"vars": "local", "args": "none"}],
+		"accessor-pairs": 2,
+		"block-scoped-var": 2,
+		"brace-style": [2, "1tbs", { "allowSingleLine": true }],
+		"comma-spacing": 2,
+		"comma-style": 2,
+		"curly": 2,
+		"dot-location": [2, "property"],
+		"eqeqeq": [2, "allow-null"],
+		"linebreak-style": 2,
+		"no-bitwise": 2,
+		"no-div-regex": 2,
+		"no-nested-ternary": 2,
+		"no-self-compare": 2,
+		"no-spaced-func": 2,
+		"no-throw-literal": 2,
+		"no-trailing-spaces": 2,
+		"no-undef": 2,
+		"no-use-before-define": [2, "nofunc"],
+		"semi": 2,
+		"semi-spacing": 2,
+		"space-before-blocks": 2,
+		"space-before-function-paren": [2, {"anonymous": "always", "named": "never"}],
+		"keyword-spacing": 2,
+		"wrap-iife": [2, "any"],
+		"yoda": 2
+	}
+}
