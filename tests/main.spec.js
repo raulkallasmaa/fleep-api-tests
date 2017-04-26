@@ -1,7 +1,7 @@
 
 "use strict";
 
-import { UserCache } from '../lib/lib';
+import { UserCache } from '../lib';
 
 var UC = new UserCache([
     'Alice Adamson',
