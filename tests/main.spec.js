@@ -153,7 +153,71 @@ describe('create new conversation', () => {
                         "topic_message_nr": 1,
                         "unread_count": 0,
                     }
-            });
-})
+                });
+            })
     );
 });
+
+describe('send message to flow', () => {
+    it('should send message to flow',
+        () => UC.alice.api_call("api/conversation/create", {topic: 'hello'})
+            .then((res) => {
+                UC.clean(res, {});
+                expect(res.header.topic).toEqual('hello');
+                return res.header.conversation_id;
+            })
+            .then((conversation_id) => UC.alice.api_call("api/message/send/" + conversation_id, {message: 'hello'})
+            )
+            .then((res) => {
+                let xres = UC.clean(res, {});
+                xres.stream = [];
+                expect(xres).toEqual({
+                    "result_message_nr": 2,
+                    "stream": [],
+                    "header": {
+                        "admins": [],
+                        "can_post": true,
+                        "conversation_id": "<conv:hello>",
+                        "creator_id": "<account:alice>",
+                        "export_files": [],
+                        "export_progress": "1",
+                        "has_email_subject": false,
+                        "has_pinboard": false,
+                        "has_task_archive": false,
+                        "has_taskboard": false,
+                        "inbox_message_nr": 2,
+                        "inbox_time": "...",
+                        "is_automute": false,
+                        "is_list": false,
+                        "is_managed": false,
+                        "is_mark_unread": false,
+                        "is_premium": false,
+                        "join_message_nr": 1,
+                        "label_ids": [],
+                        "last_inbox_nr": 1,
+                        "last_message_nr": 2,
+                        "last_message_time": "...",
+                        "mk_alert_level": "default",
+                        "mk_conv_type": "cct_default",
+                        "mk_rec_type": "conv",
+                        "organisation_id": null,
+                        "profile_id": "<account:alice>",
+                        "read_message_nr": 2,
+                        "send_message_nr": 1,
+                        "show_message_nr": 2,
+                        "snooze_interval": 0,
+                        "snooze_time": 0,
+                        "teams": [],
+                        "topic": "hello",
+                        "topic_message_nr": 1,
+                        "unread_count": 0,
+                }
+
+
+            });
+})
+)
+;
+})
+;
+
