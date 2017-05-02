@@ -211,13 +211,34 @@ describe('send message to flow', () => {
                         "topic": "hello",
                         "topic_message_nr": 1,
                         "unread_count": 0,
-                }
+                    }
 
 
+                });
+            })
+    )
+    ;
+})
+;
+
+describe('add members to conversation', () => {
+    it('should add members to conversation',
+        () => UC.alice.api_call("api/conversation/create", {topic: 'members'})
+            .then((res) => {
+                UC.clean(res, {});
+                expect(res.header.topic).toEqual('members');
+                return res.header.conversation_id;
+            })
+            .then((conversation_id) => UC.alice.api_call("api/conversation/add_members/" + conversation_id, {emails: 'UC.Bob.email'})
+            )
+            .then((res) => {
+                let xres = UC.clean(res, {});
+                xres.stream = [];
+                expect(xres).toEqual({
+                    "stream": [],
             });
 })
 )
 ;
 })
 ;
-
