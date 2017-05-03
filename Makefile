@@ -1,9 +1,12 @@
 
+#NFLAGS = --trace-warnings --trace-sync-io
+#JFLAGS = --verbose
+
 all: lint jest
 
 jest:
 	@echo "[jest] env=$(FLEEP_ENV_NAME)"
-	@node --trace-warnings --trace-sync-io ./node_modules/.bin/jest --verbose tests
+	@node $(NFLAGS) ./node_modules/.bin/jest $(JFLAGS) tests
 
 lint:
 	@echo "[eslint]"
