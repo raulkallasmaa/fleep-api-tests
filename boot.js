@@ -4,3 +4,4 @@ require('babel-register');
 
 require('./lib/main');
 
+require('./lib/usercache');
