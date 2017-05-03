@@ -103,7 +103,6 @@ describe('create new conversation', () => {
                 expect(xres).toEqual({
                     "stream": [],
                     "header": {
-                        "account_id": "",
                         "admins": [],
                         "autojoin_url": "<autojoin:test>",
                         "begin_message_nr": 1,
@@ -236,6 +235,44 @@ describe('', () => {
                 xres.stream = [];
                 expect(xres).toEqual({
                     "stream": [],
+                "header": {
+                    "admins": [],
+                    "can_post": true,
+                    "conversation_id": "<conv:members>",
+                    "creator_id": "<account:alice>",
+                    "export_files": [],
+                    "export_progress": "1",
+                    "has_email_subject": false,
+                    "has_pinboard": false,
+                    "has_task_archive": false,
+                    "has_taskboard": false,
+                    "inbox_message_nr": 1,
+                    "inbox_time": "...",
+                    "is_automute": false,
+                    "is_list": false,
+                    "is_managed": false,
+                    "is_mark_unread": false,
+                    "is_premium": false,
+                    "join_message_nr": 1,
+                    "label_ids": [],
+                    "last_inbox_nr": 0,
+                    "last_message_nr": 1,
+                    "last_message_time": "...",
+                    "mk_alert_level": "default",
+                    "mk_conv_type": "cct_default",
+                    "mk_rec_type": "conv",
+                    "organisation_id": null,
+                    "profile_id": "<account:alice>",
+                    "read_message_nr": 1,
+                    "send_message_nr": 1,
+                    "show_message_nr": 1,
+                    "snooze_interval": 0,
+                    "snooze_time": 0,
+                    "teams": [],
+                    "topic": "members",
+                    "topic_message_nr": 1,
+                    "unread_count": 0},
+
             });
 })
 )
