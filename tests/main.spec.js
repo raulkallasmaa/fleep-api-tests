@@ -1,12 +1,15 @@
 import {UserCache} from '../lib';
 
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+
 let UC = new UserCache([
     'Alice Adamson',
     'Bob Dylan',
     'Charlie Chaplin',
 ]);
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+
 beforeAll(() => UC.setup());
+afterAll(() => UC.setup());
 
 describe('test account setup', () => {
     it('should login',
