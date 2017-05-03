@@ -213,14 +213,10 @@ describe('', () => {
                         "topic_message_nr": 1,
                         "unread_count": 0,
                     }
-
-
                 });
             })
-    )
-    ;
-})
-;
+      );
+});
 
 describe('', () => {
     it('should add members to conversation',
@@ -230,19 +226,15 @@ describe('', () => {
                 expect(res.header.topic).toEqual('members');
                 return res.header.conversation_id;
             })
-            .then((conversation_id) => UC.alice.api_call("api/conversation/add_members/" + conversation_id, {emails: 'UC.Bob.email'})
-            )
+            .then((conversation_id) => UC.alice.api_call("api/conversation/add_members/" + conversation_id, {emails: 'UC.Bob.email'}))
             .then((res) => {
                 let xres = UC.clean(res, {});
                 xres.stream = [];
                 expect(xres).toEqual({
                     "stream": [],
-            });
-})
-)
-;
-})
-;
+                });
+            }));
+});
 
 describe('', () => {
     it('should set conversation topic',
@@ -252,57 +244,54 @@ describe('', () => {
                 expect(res.header.topic).toEqual('hey');
                 return res.header.conversation_id;
             })
-            .then((conversation_id) => UC.alice.api_call("api/conversation/set_topic/" + conversation_id, {topic: 'testing'})
-            )
+            .then((conversation_id) => UC.alice.api_call("api/conversation/set_topic/" + conversation_id, {topic: 'testing'}))
             .then((res) => {
                 let xres = UC.clean(res, {});
                 xres.stream = [];
                 expect(xres).toEqual({
                     "stream": [],
-                "header": {
-                    "admins": [],
-                    "can_post": true,
-                    "conversation_id": "<conv:hey>",
-                    "creator_id": "<account:alice>",
-                    "default_members": [],
-                    "export_files": [],
-                    "export_progress": "1",
-                    "has_email_subject": false,
-                    "has_pinboard": false,
-                    "has_task_archive": false,
-                    "has_taskboard": false,
-                    "inbox_message_nr": 1,
-                    "inbox_time": "...",
-                    "is_automute": false,
-                    "is_list": false,
-                    "is_managed": false,
-                    "is_mark_unread": false,
-                    "is_premium": false,
-                    "join_message_nr": 1,
-                    "label_ids": [],
-                    "last_inbox_nr": 0,
-                    "last_message_nr": 2,
-                    "last_message_time": "...",
-                    "leavers": [],
-                    "members": ["<account:alice>"],
-                    "mk_alert_level": "default",
-                    "mk_conv_type": "cct_default",
-                    "mk_rec_type": "conv",
-                    "organisation_id": null,
-                    "profile_id": "<account:alice>",
-                    "read_message_nr": 1,
-                    "send_message_nr": 1,
-                    "show_message_nr": 1,
-                    "snooze_interval": 0,
-                    "snooze_time": 0,
-                    "teams": [],
-                    "topic": "testing",
-                    "topic_message_nr": 2,
-                    "unread_count": 0},
-                    "result_message_nr": 2,
-            });
-            })
-    )
-    ;
-})
-;
+                    "header": {
+                        "admins": [],
+                        "can_post": true,
+                        "conversation_id": "<conv:hey>",
+                        "creator_id": "<account:alice>",
+                        "default_members": [],
+                        "export_files": [],
+                        "export_progress": "1",
+                        "has_email_subject": false,
+                        "has_pinboard": false,
+                        "has_task_archive": false,
+                        "has_taskboard": false,
+                        "inbox_message_nr": 1,
+                        "inbox_time": "...",
+                        "is_automute": false,
+                        "is_list": false,
+                        "is_managed": false,
+                        "is_mark_unread": false,
+                        "is_premium": false,
+                        "join_message_nr": 1,
+                        "label_ids": [],
+                        "last_inbox_nr": 0,
+                        "last_message_nr": 2,
+                        "last_message_time": "...",
+                        "leavers": [],
+                        "members": ["<account:alice>"],
+                        "mk_alert_level": "default",
+                        "mk_conv_type": "cct_default",
+                        "mk_rec_type": "conv",
+                        "organisation_id": null,
+                        "profile_id": "<account:alice>",
+                        "read_message_nr": 1,
+                        "send_message_nr": 1,
+                        "show_message_nr": 1,
+                        "snooze_interval": 0,
+                        "snooze_time": 0,
+                        "teams": [],
+                        "topic": "testing",
+                        "topic_message_nr": 2,
+                        "unread_count": 0},
+                        "result_message_nr": 2,
+                });
+            }));
+});
+
