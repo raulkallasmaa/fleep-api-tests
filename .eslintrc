@@ -49,7 +49,7 @@
 		"arrow-body-style": 2,
 		"arrow-parens": 2,
 		"func-style": [2, "declaration"],
-		"no-param-reassign": 2,
+		"no-param-reassign": 0,
 		"no-var": 2,
 		"prefer-arrow-callback": 2,
 		"prefer-spread": 2,

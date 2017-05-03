@@ -6,7 +6,9 @@ let UC = new UserCache([
     'Charlie Chaplin',
 ]);
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+
 beforeAll(() => UC.setup());
+afterAll(() => UC.cleanup());
 
 describe('test account setup', () => {
     it('should login',
@@ -103,7 +105,6 @@ describe('create new conversation', () => {
                 expect(xres).toEqual({
                     "stream": [],
                     "header": {
-                        "account_id": "",
                         "admins": [],
                         "autojoin_url": "<autojoin:test>",
                         "begin_message_nr": 1,
