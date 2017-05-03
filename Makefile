@@ -3,7 +3,7 @@ all: lint jest
 
 jest:
 	@echo "[jest] env=$(FLEEP_ENV_NAME)"
-	@./node_modules/.bin/jest --verbose tests
+	@node --trace-warnings --trace-sync-io ./node_modules/.bin/jest --verbose tests
 
 lint:
 	@echo "[eslint]"
