@@ -27,7 +27,7 @@
     "request-promise": "~4.2.0"
   },
   "scripts": {
-    "test": "eslint lib tests && jest"
+    "test": "eslint lib tests && node boot.js && jest"
   },
   "jest": {
     "testEnvironment": "node"
