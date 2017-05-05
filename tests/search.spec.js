@@ -11,8 +11,6 @@ let UC = new UserCache([
 beforeAll(() => UC.setup());
 afterAll(() => UC.setup());
 
-
-
 // return arg after waiting msec milliseconds
 function promiseWait(msec, arg) {
     return new Promise(function (resolve, reject) {
@@ -38,22 +36,28 @@ describe('search for content', function () {
                 return promiseWait(5 * 1000, conversation_id);
             })
             .then(function (conversation_id) {
-                return UC.alice.api_call("api/search", {keywords: 'hello'})
+                return UC.alice.api_call("api/search", {keywords: 'hello', search_types: ['topic', 'chat']})
                     .then(function (res) {
-                        expect(findMsgCount(res.matches, 'hello')).toEqual(1);
+                        expect(findMsgCount(res, 'hello')).toEqual([1, 1]);
                         return conversation_id;
+
                     });
             });
     });
 });
 
-
-function findMsgCount(matches, word) {
-    let count = 0;
-    for (let i = 0; i < matches.length; i++) {
-        if (matches[i].message.indexOf(word) >= 0) {
-            count++;
+function findMsgCount(res, word) {
+    let msgCount = 0;
+    for (let i = 0; i < res.matches.length; i++) {
+        if (res.matches[i].message.indexOf(word) >= 0) {
+            msgCount++;
         }
     }
-    return count;
+    let topicCount = 0;
+    for (let i = 0; i < res.headers.length; i++) {
+        if (res.headers[i].topic.indexOf(word) >= 0) {
+            topicCount++;
+        }
+    }
+    return [msgCount, topicCount];
 }
