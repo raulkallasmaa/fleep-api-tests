@@ -11,6 +11,8 @@ let UC = new UserCache([
 beforeAll(() => UC.setup());
 afterAll(() => UC.setup());
 
+
+
 // return arg after waiting msec milliseconds
 function promiseWait(msec, arg) {
     return new Promise(function (resolve, reject) {
@@ -27,7 +29,7 @@ describe('search for content', function () {
                 return res.header.conversation_id;
             })
             .then(function (conversation_id) {
-                return UC.alice.api_call("api/message/send/" + conversation_id, {message: 'hello'})
+                return UC.alice.api_call("api/message/send/" + conversation_id, {message: 'hello friend'})
                     .then(function () {
                         return conversation_id;
                     });
@@ -38,17 +40,20 @@ describe('search for content', function () {
             .then(function (conversation_id) {
                 return UC.alice.api_call("api/search", {keywords: 'hello'})
                     .then(function (res) {
-                        expect(res.matches).toEqual(['hello1']);
-                        expect(res.stream).toEqual(['hello2']);
-                        expect(findMsgCount(res.matches, 'hello')).toEqual(['hello']);
+                        expect(findMsgCount(res.matches, 'hello')).toEqual(1);
                         return conversation_id;
                     });
             });
     });
 });
 
-function findMsgCount(stream, message) {
-    for (let i = 0; i < stream.length; i++) {
+
+function findMsgCount(matches, word) {
+    let count = 0;
+    for (let i = 0; i < matches.length; i++) {
+        if (matches[i].message.indexOf(word) >= 0) {
+            count++;
+        }
     }
-    return stream;
+    return count;
 }

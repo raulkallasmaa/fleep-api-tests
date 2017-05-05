@@ -168,8 +168,7 @@ describe('', () => {
                 expect(res.header.topic).toEqual('hello');
                 return res.header.conversation_id;
             })
-            .then((conversation_id) => UC.alice.api_call("api/message/send/" + conversation_id, {message: 'hello'})
-            )
+            .then((conversation_id) => UC.alice.api_call("api/message/send/" + conversation_id, {message: 'hello'}))
             .then((res) => {
                 let xres = UC.clean(res, {result_message_nr: null});
                 xres.stream = [];
@@ -218,10 +217,8 @@ describe('', () => {
 
                 });
             })
-    )
-    ;
-})
-;
+    );
+});
 
 describe('', () => {
     it('should add members to conversation',
