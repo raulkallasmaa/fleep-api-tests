@@ -26,15 +26,15 @@ describe('search for content', () => {
                 it('should search for content',
                     () => UC.alice.api_call("api/search", {keywords: 'hello'})
                         .then((res) => {
-                           // expect(findMsgCount(res.stream, 'hello')).toEqual(1);
+                            expect(findMsgCount(res.stream, 'hello')).toEqual(1);
 
                         })
                 )
             );
 });
 
-// function findMsgCount(stream, message) {
-//     for (let i = 0; i < stream.length; i++) {
-//     }
-//     return stream;
-// }
+function findMsgCount(stream, message) {
+    for (let i = 0; i < stream.length; i++) {
+    }
+    return stream;
+}
