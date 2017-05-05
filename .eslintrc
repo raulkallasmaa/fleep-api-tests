@@ -51,7 +51,7 @@
 		"func-style": [2, "declaration"],
 		"no-param-reassign": 0,
 		"no-var": 2,
-		"prefer-arrow-callback": 2,
+		"prefer-arrow-callback": 0,
 		"prefer-spread": 2,
 		"prefer-promise-reject-errors": 2,
 		"space-infix-ops": 2,

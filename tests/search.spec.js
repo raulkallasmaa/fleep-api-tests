@@ -8,29 +8,43 @@ let UC = new UserCache([
     'Charlie Chaplin',
 ]);
 
-
-
 beforeAll(() => UC.setup());
 afterAll(() => UC.setup());
 
-describe('search for content', () => {
-    it('',
-        () => UC.alice.api_call("api/conversation/create", {topic: 'hello'})
-            .then((res) => {
+// return arg after waiting msec milliseconds
+function promiseWait(msec, arg) {
+    return new Promise(function (resolve, reject) {
+        setTimeout(resolve, msec, arg);
+    });
+}
+
+describe('search for content', function () {
+    it('should search for content', function () {
+        return UC.alice.api_call("api/conversation/create", {topic: 'hello'})
+            .then(function (res) {
                 UC.clean(res, {});
                 expect(res.header.topic).toEqual('hello');
                 return res.header.conversation_id;
             })
-            .then((conversation_id) => UC.alice.api_call("api/message/send/" + conversation_id, {message: 'hello'})
-            ),
-                it('should search for content',
-                    () => UC.alice.api_call("api/search", {keywords: 'hello'})
-                        .then((res) => {
-                            expect(findMsgCount(res.stream, 'hello')).toEqual(1);
-
-                        })
-                )
-            );
+            .then(function (conversation_id) {
+                return UC.alice.api_call("api/message/send/" + conversation_id, {message: 'hello'})
+                    .then(function () {
+                        return conversation_id;
+                    });
+            })
+            .then(function (conversation_id) {
+                return promiseWait(5 * 1000, conversation_id);
+            })
+            .then(function (conversation_id) {
+                return UC.alice.api_call("api/search", {keywords: 'hello'})
+                    .then(function (res) {
+                        expect(res.matches).toEqual(['hello1']);
+                        expect(res.stream).toEqual(['hello2']);
+                        expect(findMsgCount(res.matches, 'hello')).toEqual(['hello']);
+                        return conversation_id;
+                    });
+            });
+    });
 });
 
 function findMsgCount(stream, message) {
