@@ -18,16 +18,16 @@ function promiseWait(msec, arg) {
     });
 }
 
-describe('search for content', function () {
-    it('should search for content', function () {
-        return UC.alice.api_call("api/conversation/create", {topic: 'hello'})
+describe('search for keywords', function () {
+    it('should search for complete keywords', function () {
+        return UC.alice.api_call("api/conversation/create", {topic: 'hello friend whats up'})
             .then(function (res) {
                 UC.clean(res, {});
-                expect(res.header.topic).toEqual('hello');
+                expect(res.header.topic).toEqual('hello friend whats up');
                 return res.header.conversation_id;
             })
             .then(function (conversation_id) {
-                return UC.alice.api_call("api/message/send/" + conversation_id, {message: 'hello friend'})
+                return UC.alice.api_call("api/message/send/" + conversation_id, {message: 'hello my dear friend how are you'})
                     .then(function () {
                         return conversation_id;
                     });
@@ -36,7 +36,35 @@ describe('search for content', function () {
                 return promiseWait(5 * 1000, conversation_id);
             })
             .then(function (conversation_id) {
-                return UC.alice.api_call("api/search", {keywords: 'hello', search_types: ['topic', 'chat']})
+                return UC.alice.api_call("api/search", {keywords: 'hello friend', search_types: ['topic', 'chat']})
+                    .then(function (res) {
+                        expect(findMsgCount(res, 'hello')).toEqual([1, 1]);
+                        return conversation_id;
+
+                    });
+            });
+    });
+});
+
+describe('', function () {
+    it('should search for partial keywords', function () {
+        return UC.alice.api_call("api/conversation/create", {topic: 'hello friend whats up'})
+            .then(function (res) {
+                UC.clean(res, {});
+                expect(res.header.topic).toEqual('hello friend whats up');
+                return res.header.conversation_id;
+            })
+            .then(function (conversation_id) {
+                return UC.alice.api_call("api/message/send/" + conversation_id, {message: 'hello my dear friend how are you'})
+                    .then(function () {
+                        return conversation_id;
+                    });
+            })
+            .then(function (conversation_id) {
+                return promiseWait(5 * 1000, conversation_id);
+            })
+            .then(function (conversation_id) {
+                return UC.alice.api_call("api/search", {keywords: 'hell frie', search_types: ['topic', 'chat']})
                     .then(function (res) {
                         expect(findMsgCount(res, 'hello')).toEqual([1, 1]);
                         return conversation_id;
