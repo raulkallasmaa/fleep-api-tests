@@ -10,7 +10,7 @@ jest:
 
 lint:
 	@echo "[eslint]"
-	@./node_modules/.bin/eslint --verbose lib tests
+	@./node_modules/.bin/eslint lib tests
 
 refresh:
 	rm -rf dist node_modules
