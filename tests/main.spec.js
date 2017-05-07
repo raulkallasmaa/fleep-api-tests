@@ -9,7 +9,7 @@ let UC = new UserCache([
 ]);
 
 beforeAll(() => UC.setup());
-afterAll(() => UC.setup());
+afterAll(() => UC.cleanup());
 
 describe('test account setup', () => {
     it('should login',
