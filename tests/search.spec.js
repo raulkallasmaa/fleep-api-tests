@@ -1,4 +1,4 @@
-import {UserCache} from '../lib';
+import {UserCache, promiseWait} from '../lib';
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
 
@@ -10,13 +10,6 @@ let UC = new UserCache([
 
 beforeAll(() => UC.setup());
 afterAll(() => UC.setup());
-
-// return arg after waiting msec milliseconds
-function promiseWait(msec, arg) {
-    return new Promise(function (resolve, reject) {
-        setTimeout(resolve, msec, arg);
-    });
-}
 
 describe('search for keywords', function () {
     it('should search for complete keywords', function () {
