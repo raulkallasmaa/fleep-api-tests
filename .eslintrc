@@ -46,7 +46,7 @@
 		"spaced-comment": 0,
 
 		// experiment with good style for es6
-		"arrow-body-style": 2,
+		"arrow-body-style": 0,
 		"arrow-parens": 2,
 		"func-style": [2, "declaration"],
 		"no-param-reassign": 0,
