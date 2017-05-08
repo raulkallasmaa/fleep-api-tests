@@ -110,6 +110,33 @@ describe('', function () {
     });
 });
 
+describe('', () => {
+    it('should search by participants names',
+        () => UC.alice.api_call("api/conversation/create", {})
+            .then((res) => {
+                UC.clean(res, {});
+                expect(res.header.topic).toEqual('');
+                return res.header.conversation_id;
+            })
+
+            .then((conversation_id) => UC.alice.api_call("api/conversation/add_members/" + conversation_id, {emails: UC.bob.fleep_email}))
+            .then(function (conversation_id) {
+                console.log(conversation_id);
+                return UC.alice.api_call("api/search", {keywords: 'Bob Dylan', search_types: ['topic']});
+            })
+            .then((res) => {
+                let xres = UC.clean(res, {});
+                xres.stream = [];
+                expect(xres).toEqual({
+                    "headers": [],
+                    "matches": [],
+                    "stream": [],
+                    "suggestions": null,
+                });
+            })
+    );
+});
+
 function findMsgCount(res, word) {
     let msgCount = 0;
     for (let i = 0; i < res.matches.length; i++) {
