@@ -2,7 +2,7 @@
 //import { requestPromise } from '../lib/utils';
 import tls from 'tls';
 
-import { ENV_HOST } from '../lib/usercache';
+import { ENV_HOST, BIG_TEST } from '../lib/usercache';
 
 // "Jun 28 04:44:00 2017 GMT"
 function parseCertDate(dstr) {
@@ -121,7 +121,7 @@ let domlist = [
     ['https://dev7.fleep.ee', LETSENCRYPT],
     //['https://dev8.fleep.ee', LETSENCRYPT],
     //['https://dev9.fleep.ee', LETSENCRYPT],
-    ['https://dev10.fleep.ee', DIGICERT],
+    ['https://dev10.fleep.ee', LETSENCRYPT],
     //['https://dev11.fleep.ee', LETSENCRYPT],
     //['https://dev12.fleep.ee', LETSENCRYPT],
     //['https://dev13.fleep.ee', LETSENCRYPT],
@@ -129,7 +129,7 @@ let domlist = [
     ['https://dev15.fleep.ee', DIGICERT],
 ];
 
-if (1) {
+if (!BIG_TEST) {
     // test only current domain
     domlist = [
         ['https://' + ENV_HOST, LETSENCRYPT]

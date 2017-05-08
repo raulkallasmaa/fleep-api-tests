@@ -5,6 +5,10 @@ jest:
 	@echo "[jest] env=$(FLEEP_ENV_NAME)"
 	@./node_modules/.bin/jest tests
 
+big-test: lint
+	@echo "[jest] env=$(FLEEP_ENV_NAME) BIG_TEST"
+	@BIG_TEST=1 ./node_modules/.bin/jest tests
+
 lint:
 	@echo "[eslint]"
 	@./node_modules/.bin/eslint lib tests
