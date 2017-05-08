@@ -1,5 +1,6 @@
 
 import { parseMime } from '../lib/mime';
+import { randomInt, randomUUID } from '../lib/utils';
 
 let mail1 = `Return-Path: <tester+box.2661894524.e222e8c11e@box.fleep.ee>
 X-Original-To: tester+box.2661894524.e222e8c11e@box.fleep.ee
@@ -31,6 +32,32 @@ describe('test mime parsing', () => {
             },
             "body": "some text in body"
         });
+    });
+});
+
+describe('test random utils', () => {
+    it('should return random integer', () => {
+        /* eslint no-bitwise:0 */
+        let v1 = randomInt();
+        let v2 = randomInt();
+
+        expect(typeof v1).toEqual("number");
+        expect(typeof v2).toEqual("number");
+        expect(v1 | 0).toEqual(v1);
+        expect(v2 | 0).toEqual(v2);
+        expect(v1 !== v2).toEqual(true);
+    });
+    it('should return random uuid', () => {
+        /* eslint no-bitwise:0 */
+        let v1 = randomUUID();
+        let v2 = randomUUID();
+        expect(typeof v1).toEqual("string");
+        expect(typeof v2).toEqual("string");
+        expect(v1.replace(/[0-9a-f]/g, 'x')).toEqual('xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx');
+        expect(v2.replace(/[0-9a-f]/g, 'x')).toEqual('xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx');
+        expect([v1[14], v2[14]]).toEqual(['4', '4']);
+
+        expect(v1 !== v2).toEqual(true);
     });
 });
 
