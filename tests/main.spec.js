@@ -162,10 +162,14 @@ describe('create new conversation', () => {
 
 describe('', () => {
     it('should send message to flow',
-        () => UC.alice.api_call("api/conversation/create", {topic: 'hello'})
+        () => UC.alice.api_call("api/conversation/create", {
+                topic: 'hello',
+                account_ids: [UC.bob.info.account_id, UC.charlie.info.account_id],
+            })
             .then((res) => {
                 UC.clean(res, {});
                 expect(res.header.topic).toEqual('hello');
+                expect(res.header.members.length).toEqual(3);
                 return res.header.conversation_id;
             })
             .then((conversation_id) => UC.alice.api_call("api/message/send/" + conversation_id, {message: 'hello'}))
@@ -213,8 +217,6 @@ describe('', () => {
                         "topic_message_nr": 1,
                         "unread_count": 0,
                     }
-
-
                 });
             })
     );
@@ -338,13 +340,10 @@ describe('', () => {
                         "topic_message_nr": 2,
                         "unread_count": 0,
                     },
-
                 });
             })
-    )
-    ;
-})
-;
+    );
+});
 
 describe('', () => {
     it('should remove members from conversation',
