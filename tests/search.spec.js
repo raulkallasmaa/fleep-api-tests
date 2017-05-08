@@ -111,7 +111,7 @@ describe('', function () {
 });
 
 describe('', () => {
-    it('should search by participants names',
+    it('should search by participants name',
         () => UC.alice.api_call("api/conversation/create", {})
             .then((res) => {
                 UC.clean(res, {});
@@ -119,22 +119,28 @@ describe('', () => {
                 return res.header.conversation_id;
             })
 
-            .then((conversation_id) => UC.alice.api_call("api/conversation/add_members/" + conversation_id, {emails: UC.bob.fleep_email}))
+            .then((conversation_id) => UC.alice.api_call("api/conversation/add_members/" + conversation_id, {emails: [UC.bob.fleep_email, UC.charlie.fleep_email].join(', ')}))
             .then(function (res) {
                 return UC.alice.poke(res.header.conversation_id, true);
             })
             .then(function (conversation_id) {
-                console.log(conversation_id);
-                return UC.alice.api_call("api/search", {keywords: 'Bob Dylan', search_types: ['topic']});
+                return UC.alice.api_call("api/search", {keywords: 'Charlie Chaplin', search_types: ['topic']});
             })
             .then((res) => {
                 let xres = UC.clean(res, {});
                 xres.stream = [];
                 expect(xres).toEqual({
-                    "headers": [],
+                    "headers": [{
+                        "conversation_id": "<conv:Monologue with myself>",
+                        "members": ["<account:Alice Adamson>",
+                            "<account:Bob Dylan>",
+                            "<account:Charlie Chaplin>", ],
+                        "mk_rec_type": "conv",
+                        "topic": ""
+                    }],
                     "matches": [],
                     "stream": [],
-                    "suggestions": null,
+                    "suggestions": null
                 });
             })
     );
