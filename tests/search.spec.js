@@ -120,6 +120,9 @@ describe('', () => {
             })
 
             .then((conversation_id) => UC.alice.api_call("api/conversation/add_members/" + conversation_id, {emails: UC.bob.fleep_email}))
+            .then(function (res) {
+                return UC.alice.poke(res.header.conversation_id, true);
+            })
             .then(function (conversation_id) {
                 console.log(conversation_id);
                 return UC.alice.api_call("api/search", {keywords: 'Bob Dylan', search_types: ['topic']});
