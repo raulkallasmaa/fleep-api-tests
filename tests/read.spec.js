@@ -153,6 +153,102 @@ let bob_first_header = {
    "creator_id": "<account:Alice In Wonderland>",
    "default_members": [
      "<account:Alice In Wonderland>",
+     "<account:Charlie Sheen>",
+   ],
+   "export_files": [],
+   "export_progress": "1",
+   "fw_message_nr": 4,
+   "guests": [],
+   "has_email_subject": false,
+   "has_pinboard": false,
+   "has_task_archive": false,
+   "has_taskboard": false,
+   "inbox_message_nr": 2,
+   "inbox_time": "...",
+   "is_automute": false,
+   "is_init": true,
+   "is_list": true,
+   "is_managed": false,
+   "is_premium": false,
+   "is_tiny": false,
+   "join_message_nr": 1,
+   "label_ids": [],
+   "last_inbox_nr": 3,
+   "last_message_nr": 4,
+   "last_message_time": "...",
+   "leavers": [],
+   "members": [
+     "<account:Alice In Wonderland>",
+     "<account:Bob Geldof>",
+     "<account:Charlie Sheen>",
+   ],
+   "mk_alert_level": "default",
+   "mk_conv_type": "cct_list",
+   "mk_init_mode": "ic_full",
+   "mk_rec_type": "conv",
+   "organisation_id": null,
+   "profile_id": "<account:Bob Geldof>",
+   "read_message_nr": 0,
+   "send_message_nr": 1,
+   "show_message_nr": 4,
+   "snooze_interval": 0,
+   "snooze_time": 0,
+   "teams": [],
+   "topic": "readings",
+   "topic_message_nr": 1,
+   "unread_count": 3,
+};
+
+let bob_header_after_read = {
+   "admins": [],
+   "can_post": true,
+   "conversation_id": "<conv:readings>",
+   "creator_id": "<account:Alice In Wonderland>",
+   "export_files": [],
+   "export_progress": "1",
+   "has_email_subject": false,
+   "has_pinboard": false,
+   "has_task_archive": false,
+   "has_taskboard": false,
+   "inbox_message_nr": 4,
+   "inbox_time": "...",
+   "is_automute": false,
+   "is_list": true,
+   "is_managed": false,
+   "is_mark_unread": false,
+   "is_premium": false,
+   "join_message_nr": 1,
+   "label_ids": [],
+   "last_inbox_nr": 3,
+   "last_message_nr": 4,
+   "last_message_time": "...",
+   "mk_alert_level": "default",
+   "mk_conv_type": "cct_list",
+   "mk_rec_type": "conv",
+   "organisation_id": null,
+   "profile_id": "<account:Bob Geldof>",
+   "read_message_nr": 4,
+   "send_message_nr": 1,
+   "show_message_nr": 4,
+   "snooze_interval": 0,
+   "snooze_time": 0,
+   "teams": [],
+   "topic": "readings",
+   "topic_message_nr": 1,
+   "unread_count": 0,
+};
+
+let charlie_first_header = {
+   "admins": [],
+   "autojoin_url": "<autojoin:readings>",
+   "begin_message_nr": 1,
+   "bw_message_nr": 1,
+   "can_post": true,
+   "cmail": "<cmail:readings>",
+   "conversation_id": "<conv:readings>",
+   "creator_id": "<account:Alice In Wonderland>",
+   "default_members": [
+     "<account:Alice In Wonderland>",
      "<account:Bob Geldof>",
    ],
    "export_files": [],
@@ -199,13 +295,23 @@ let bob_first_header = {
    "unread_count": 3,
 };
 
-let bob_header_after_read = {
+let charlie_header_after_read = {
    "admins": [],
+   "autojoin_url": "<autojoin:readings>",
+   "begin_message_nr": 1,
+   "bw_message_nr": 4,
    "can_post": true,
+   "cmail": "<cmail:readings>",
    "conversation_id": "<conv:readings>",
    "creator_id": "<account:Alice In Wonderland>",
+   "default_members": [
+     "<account:Alice In Wonderland>",
+     "<account:Charlie Sheen>",
+   ],
    "export_files": [],
    "export_progress": "1",
+   "fw_message_nr": 4,
+   "guests": [],
    "has_email_subject": false,
    "has_pinboard": false,
    "has_task_archive": false,
@@ -213,20 +319,29 @@ let bob_header_after_read = {
    "inbox_message_nr": 4,
    "inbox_time": "...",
    "is_automute": false,
+   "is_init": true,
    "is_list": true,
    "is_managed": false,
    "is_mark_unread": false,
    "is_premium": false,
+   "is_tiny": true,
    "join_message_nr": 1,
    "label_ids": [],
    "last_inbox_nr": 3,
    "last_message_nr": 4,
    "last_message_time": "...",
+   "leavers": [],
+   "members": [
+     "<account:Alice In Wonderland>",
+     "<account:Bob Geldof>",
+     "<account:Charlie Sheen>",
+   ],
    "mk_alert_level": "default",
    "mk_conv_type": "cct_list",
+   "mk_init_mode": "ic_tiny",
    "mk_rec_type": "conv",
    "organisation_id": null,
-   "profile_id": "<account:Alice In Wonderland>",
+   "profile_id": "<account:Bob Geldof>",
    "read_message_nr": 4,
    "send_message_nr": 1,
    "show_message_nr": 4,
@@ -236,12 +351,6 @@ let bob_header_after_read = {
    "topic": "readings",
    "topic_message_nr": 1,
    "unread_count": 0,
-};
-
-let charlie_first_header = {
-};
-
-let charlie_header_after_read = {
 };
 
 beforeAll(() => UC.setup());
@@ -288,10 +397,10 @@ describe('mark read unread calls', function () {
             .then(function (res) {
                 let bob_header = getRecFromStream(res.stream, {mk_rec_type: 'conv', topic: 'readings'});
                 expect(UC.clean(bob_header)).toEqual(bob_first_header);
-                return bob_header.conversation_id;
+                return bob_header;
             })
-            .then(function (conversation_id) {
-                return UC.bob.api_call("api/conversation/store/" + conversation_id, {
+            .then(function (bob_header) {
+                return UC.bob.api_call("api/conversation/store/" + bob_header.conversation_id, {
 			read_message_nr: bob_header.last_message_nr});
             })
             .then(function (res) {
@@ -313,5 +422,6 @@ describe('mark read unread calls', function () {
                 expect(UC.clean(res.header)).toEqual(charlie_header_after_read);
                 return res.header;
             })
+            ;
     });
 });
