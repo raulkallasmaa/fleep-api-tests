@@ -21,7 +21,7 @@ function parseCertDate(dstr) {
 }
 
 function connectTLS(opts) {
-    return new Promise((resolve, reject) => {
+    return new Promise(function (resolve, reject) {
         if (!opts.host || !opts.port) {
             throw new Error("need host and port");
         }
@@ -32,7 +32,7 @@ function connectTLS(opts) {
             }
         }
         function handleState(name, isErr, errArg) {
-            sock.on(name, (arg) => {
+            sock.on(name, function (arg) {
                 if (isErr && arg) {
                     logEvent(name + ': ' + arg);
                     if (sock) {
@@ -55,7 +55,7 @@ function connectTLS(opts) {
         handleState('timeout', true);
         handleState('OCSPResponse');
 
-        sock.on('secureConnect', () => {
+        sock.on('secureConnect', function () {
             logEvent('secureConnect');
             if (sock.authorized) {
                 resolve({
@@ -75,26 +75,28 @@ function connectTLS(opts) {
 function checkHttps(uri, ca) {
     let tmp = uri.split('://');
     let protomap = {https: 443, imaps: 993, submission: 587, ssmtp: 465};
-    return () => connectTLS({host: tmp[1], port: protomap[tmp[0]]})
-        .then((resp) => {
-            expect(resp.proto).toEqual('TLSv1.2');
+    return function () {
+        return connectTLS({host: tmp[1], port: protomap[tmp[0]]})
+            .then(function (resp) {
+                expect(resp.proto).toEqual('TLSv1.2');
 
-            let now = Date.now(); // ms
-            let days = 10;
-            let day_ms = 24 * 60 * 60 * 1000;
-            let danger = now + days * day_ms;
+                let now = Date.now(); // ms
+                let days = 10;
+                let day_ms = 24 * 60 * 60 * 1000;
+                let danger = now + days * day_ms;
 
-            let cdate_ms = parseCertDate(resp.cert.valid_to);
-            if (cdate_ms <= danger) {
-                /* eslint no-bitwise:0 */
-                let age = ((cdate_ms - now) / day_ms) | 0;
-                return Promise.reject(new Error("cert dangerously old: " + age + " days remaining"));
-            }
-            if (resp.cert.issuer.O !== ca) {
-                return Promise.reject(new Error("invalid issuer: " + JSON.stringify(resp.cert.issuer)));
-            }
-            return Promise.resolve();
-        });
+                let cdate_ms = parseCertDate(resp.cert.valid_to);
+                if (cdate_ms <= danger) {
+                    /* eslint no-bitwise:0 */
+                    let age = ((cdate_ms - now) / day_ms) | 0;
+                    return Promise.reject(new Error("cert dangerously old: " + age + " days remaining"));
+                }
+                if (resp.cert.issuer.O !== ca) {
+                    return Promise.reject(new Error("invalid issuer: " + JSON.stringify(resp.cert.issuer)));
+                }
+                return Promise.resolve();
+            });
+    };
 }
 
 let DIGICERT = "DigiCert Inc";
@@ -136,8 +138,8 @@ if (!BIG_TEST) {
     ];
 }
 
-describe('testing tls cert age', () => {
-    domlist.forEach((info) => {
+describe('testing tls cert age', function () {
+    domlist.forEach(function (info) {
         let uri = info[0];
         let ca = info[1];
         it(uri + ' (' + ca + ')', checkHttps(uri, ca));

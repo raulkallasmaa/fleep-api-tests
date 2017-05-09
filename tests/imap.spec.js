@@ -45,9 +45,3 @@ describe('test email recv', function () {
     });
 });
 
-/*
-describe('test email recv', () => {
-    it('should recv email',
-        () => Promise.resolve());
-});
-*/
