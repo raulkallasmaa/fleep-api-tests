@@ -36,9 +36,7 @@ describe('search for keywords', function () {
                     });
             });
     });
-});
 
-describe('', function () {
     it('should search for partial keywords', function () {
         return UC.alice.api_call("api/conversation/create", {topic: 'hello friend whats up'})
             .then(function (res) {
@@ -64,9 +62,7 @@ describe('', function () {
                     });
             });
     });
-});
 
-describe('', function () {
     it('pin, tasks and mixed keywords search', function () {
         return UC.alice.api_call("api/conversation/create", {topic: 'hello friend whats up'})
             .then(function (res) {
@@ -109,23 +105,26 @@ describe('', function () {
     });
 });
 
-describe('', () => {
-    it('should search by participants name',
-        () => UC.alice.api_call("api/conversation/create", {})
-            .then((res) => {
+describe('contacts', function () {
+    it('should search by participants name', function () {
+        return UC.alice.api_call("api/conversation/create", {})
+            .then(function (res) {
                 UC.clean(res, {});
                 expect(res.header.topic).toEqual('');
                 return res.header.conversation_id;
             })
-
-            .then((conversation_id) => UC.alice.api_call("api/conversation/add_members/" + conversation_id, {emails: [UC.bob.fleep_email, UC.charlie.fleep_email].join(', ')}))
+            .then(function (conversation_id) {
+                return UC.alice.api_call("api/conversation/add_members/" + conversation_id, {
+                    emails: [UC.bob.fleep_email, UC.charlie.fleep_email].join(', ')
+                });
+            })
             .then(function (res) {
                 return UC.alice.poke(res.header.conversation_id, true);
             })
-            .then(function (conversation_id) {
+            .then(function () {
                 return UC.alice.api_call("api/search", {keywords: 'Charlie Chaplin', search_types: ['topic']});
             })
-            .then((res) => {
+            .then(function (res) {
                 let xres = UC.clean(res, {});
                 xres.stream = [];
                 expect(xres).toEqual({
@@ -141,27 +140,29 @@ describe('', () => {
                     "stream": [],
                     "suggestions": null
                 });
-            })
-    );
-});
+            });
+    });
 
-describe('', () => {
-    it('should search by participants email address',
-        () => UC.alice.api_call("api/conversation/create", {})
-            .then((res) => {
+    it('should search by participants email address', function () {
+        return UC.alice.api_call("api/conversation/create", {})
+            .then(function (res) {
                 UC.clean(res, {});
                 expect(res.header.topic).toEqual('');
                 return res.header.conversation_id;
             })
 
-            .then((conversation_id) => UC.alice.api_call("api/conversation/add_members/" + conversation_id, {emails: [UC.bob.fleep_email, UC.charlie.fleep_email, 'tester@box.fleep.ee'].join(', ')}))
+            .then(function (conversation_id) {
+                return UC.alice.api_call("api/conversation/add_members/" + conversation_id, {
+                    emails: [UC.bob.fleep_email, UC.charlie.fleep_email, 'tester@box.fleep.ee'].join(', ')
+                });
+            })
             .then(function (res) {
                 return UC.alice.poke(res.header.conversation_id, true);
             })
-            .then(function (conversation_id) {
+            .then(function () {
                 return UC.alice.api_call("api/search", {keywords: 'tester@box.fleep.ee', search_types: ['topic']});
             })
-            .then((res) => {
+            .then(function (res) {
                 let xres = UC.clean(res, {});
                 xres.stream = [];
                 expect(xres).toEqual({
@@ -178,8 +179,8 @@ describe('', () => {
                     "stream": [],
                     "suggestions": null
                 });
-            })
-    );
+            });
+    });
 });
 
 function findMsgCount(res, word) {

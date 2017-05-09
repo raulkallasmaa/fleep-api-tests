@@ -21,8 +21,8 @@ some text in body
 
 `;
 
-describe('test mime parsing', () => {
-    it('parse headers', () => {
+describe('test mime parsing', function () {
+    it('parse headers', function () {
         expect(parseMime(mail1)).toEqual({
             "headers": {
                 "date": "Tue, 02 May 2017 20:07:26 +0000",
@@ -35,8 +35,8 @@ describe('test mime parsing', () => {
     });
 });
 
-describe('test random utils', () => {
-    it('should return random integer', () => {
+describe('test random utils', function () {
+    it('should return random integer', function () {
         /* eslint no-bitwise:0 */
         let v1 = randomInt();
         let v2 = randomInt();
@@ -47,7 +47,7 @@ describe('test random utils', () => {
         expect(v2 | 0).toEqual(v2);
         expect(v1 !== v2).toEqual(true);
     });
-    it('should return random uuid', () => {
+    it('should return random uuid', function () {
         /* eslint no-bitwise:0 */
         let v1 = randomUUID();
         let v2 = randomUUID();
