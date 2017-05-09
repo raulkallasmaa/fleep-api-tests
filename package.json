@@ -20,6 +20,7 @@
     "emailjs-imap-client": "~2.0.0",
     "emailjs-mime-parser": "~1.0.0",
     "eslint": "~3.19.0",
+    "eslint-plugin-json": "^1.2.0",
     "jest": "~20.0.0",
     "lodash": "~4.17.0",
     "nodemailer": "~4.0.1",
@@ -27,7 +28,8 @@
     "request-promise": "~4.2.0"
   },
   "scripts": {
-    "test": "eslint lib tests && node boot.js && jest"
+    "pretest": "eslint --ext .js --ext .json lib tests",
+    "test": "node boot.js && jest"
   },
   "jest": {
     "verbose": true,

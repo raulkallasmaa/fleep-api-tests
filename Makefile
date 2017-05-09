@@ -9,8 +9,7 @@ big-test:
 	BIG_TEST=1 npm test
 
 lint:
-	@echo "[eslint]"
-	@./node_modules/.bin/eslint lib tests
+	npm run pretest
 
 refresh:
 	rm -rf dist node_modules
