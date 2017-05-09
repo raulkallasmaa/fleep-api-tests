@@ -8,7 +8,8 @@ usage
 -----
 
 - reinstall npm modules: `make refresh`
-- run tests: `make`
+- run tests: `make` or `npm test`
+- run specific test: `make poll` or `npm test poll`
 - check versions of npm modules: `make check-versions`
 
 fleep docs
