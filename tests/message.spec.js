@@ -1,6 +1,6 @@
 import {UserCache} from '../lib';
 
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 35000;
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
 let UC = new UserCache([
     'Alice Adamson',
@@ -11,7 +11,8 @@ let UC = new UserCache([
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
 
-describe('receive messages', () => {
+// storing messages, editing them with edit and with store
+describe('store and edit messages', () => {
     it('should store and edit messages',
         () => UC.alice.api_call("api/conversation/create", {topic: 'greetings'})
             .then(function (res) {
@@ -40,8 +41,24 @@ describe('receive messages', () => {
             .then(function (res) {
                 return UC.alice.api_call("api/message/edit/" + res.header.conversation_id, {message: 'How are you?', message_nr: res.result_message_nr})
                     .then(function () {
-                        return res.header.conversation_id;
+                        return UC.alice.poll_filter({mk_rec_type: 'message', message: 'How are you?', message_nr: res.result_message_nr});
+                    })
+                    .then(function () {
+                        return res;
                     });
             })
+            .then(function (res) {
+                return UC.alice.api_call("api/message/store/" + res.header.conversation_id, {
+                           message: 'How you doing?',
+                           message_nr: res.result_message_nr})
+                    .then(function () {
+                        return UC.alice.poll_filter({mk_rec_type: 'message', message: 'How you doing?', message_nr: res.result_message_nr});
+                    })
+                    .then(function () {
+                        let msg = UC.alice.cache.message[res.header.conversation_id][res.result_message_nr];
+                        expect(msg.message).toEqual("<msg><p>How you doing?</p></msg>");
+                    });
+            })
+
 );
 });

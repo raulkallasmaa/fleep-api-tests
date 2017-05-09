@@ -1,7 +1,6 @@
 import {UserCache, promiseWait} from '../lib';
 
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
-
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 let UC = new UserCache([
     'Alice Adamson',
     'Bob Dylan',
