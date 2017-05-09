@@ -1,13 +1,12 @@
 
-all: lint jest
+all:
+	npm test
 
-jest:
-	@echo "[jest] env=$(FLEEP_ENV_NAME)"
-	@./node_modules/.bin/jest tests
+%:
+	npm test $@
 
-big-test: lint
-	@echo "[jest] env=$(FLEEP_ENV_NAME) BIG_TEST"
-	@BIG_TEST=1 ./node_modules/.bin/jest tests
+big-test:
+	BIG_TEST=1 npm test
 
 lint:
 	@echo "[eslint]"
@@ -19,12 +18,4 @@ refresh:
 
 check-versions:
 	npm outdated --depth 0
-
-etests: lint
-	@echo "[jest] env=$(FLEEP_ENV_NAME)"
-	@./node_modules/.bin/jest tests/imap
-
-mtests: lint
-	@echo "[jest] env=$(FLEEP_ENV_NAME)"
-	@./node_modules/.bin/jest tests/mime
 
