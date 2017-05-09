@@ -35,27 +35,13 @@ describe('receive messages', () => {
                         });
                 })
             .then(function (conversation_id) {
-                return UC.alice.api_call("api/message/store/" + conversation_id, {message: 'How are you doing?'})
-                    .then(function () {
-                        return conversation_id;
-                    });
+                return UC.alice.api_call("api/message/store/" + conversation_id, {message: 'How are you doing?'});
             })
-            .then(function (conversation_id) {
-                return UC.alice.api_call("api/message/edit/" + conversation_id, {message: 'How are you?', message_nr: 4})
+            .then(function (res) {
+                return UC.alice.api_call("api/message/edit/" + res.header.conversation_id, {message: 'How are you?', message_nr: res.result_message_nr})
                     .then(function () {
-                        return conversation_id;
+                        return res.header.conversation_id;
                     });
-                // to be continued:
-                // - edit own message
-                // - delete own message
-                // - check that other user cannot edit senders message
-                // - check that other user can delete others message
-                // - test message copy api call
-            // .then(function (res) {
-            //     let xres = UC.clean(res, {});
-            //     xres.stream = [];
-            //     expect(xres).toEqual({});
-            // });
             })
 );
 });
