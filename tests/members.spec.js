@@ -71,9 +71,8 @@ describe('member adding', function () {
 });
 
 describe('member removal', function () {
-    it('should remove members from conversation',
-        function () {
-            return UC.alice.api_call("api/conversation/create", {topic: 'test'})
+    it('should remove members from conversation', function () {
+        return UC.alice.api_call("api/conversation/create", {topic: 'test'})
             .then(function (res) {
                 UC.clean(res, {});
                 expect(res.header.topic).toEqual('test');

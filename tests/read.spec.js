@@ -244,7 +244,7 @@ afterAll(() => UC.cleanup());
 
 describe('mark read unread calls', function () {
     it('mark messages read', function () {
-            return Promise.all([
+        return Promise.all([
                 UC.alice.initial_poll(),
                 UC.bob.initial_poll(),
                 UC.charlie.initial_poll(),
