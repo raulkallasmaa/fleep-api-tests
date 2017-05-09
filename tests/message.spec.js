@@ -11,10 +11,10 @@ let UC = new UserCache([
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
 
-// storing messages, editing them with edit and with store
-describe('store and edit messages', () => {
-    it('should store and edit messages',
-        () => UC.alice.api_call("api/conversation/create", {topic: 'greetings'})
+// storing messages, editing them with edit and with store and adding & removing subject
+describe('store & edit messages and add & remove subject', function () {
+    it('should store & edit messages and add & remove subject', function () {
+        return UC.alice.api_call("api/conversation/create", {topic: 'greetings'})
             .then(function (res) {
                 UC.clean(res, {});
                 expect(res.header.topic).toEqual('greetings');
@@ -47,18 +47,55 @@ describe('store and edit messages', () => {
                         return res;
                     });
             })
+            // change message and add subject
             .then(function (res) {
                 return UC.alice.api_call("api/message/store/" + res.header.conversation_id, {
                            message: 'How you doing?',
-                           message_nr: res.result_message_nr})
+                           message_nr: res.result_message_nr,
+                           subject: 'hello there'})
                     .then(function () {
                         return UC.alice.poll_filter({mk_rec_type: 'message', message: 'How you doing?', message_nr: res.result_message_nr});
                     })
                     .then(function () {
                         let msg = UC.alice.cache.message[res.header.conversation_id][res.result_message_nr];
                         expect(msg.message).toEqual("<msg><p>How you doing?</p></msg>");
+                    })
+                    .then(function () {
+                        return res;
                     });
             })
+            // remove subject
+            .then(function (res) {
+                return UC.alice.api_call("api/message/store/" + res.header.conversation_id, {
+                    message_nr: res.result_message_nr,
+                    subject: ''});
+            });
+});
+});
 
-);
+describe('pin and unpin message', function () {
+    it('should pin and unpin message', function () {
+        return UC.alice.api_call("api/conversation/create", {topic: 'hi'})
+            .then(function (res) {
+                UC.clean(res, {});
+                expect(res.header.topic).toEqual('hi');
+                return res.header.conversation_id;
+            })
+            // pin this message
+            .then(function (conversation_id) {
+                return UC.alice.api_call("api/message/store/" + conversation_id,
+                    {message: 'remember to do this', tags: ['pin']});
+            })
+            // unpin this message
+            .then(function (res) {
+                return UC.alice.api_call("api/message/store/" + res.header.conversation_id, {
+                    message_nr: res.result_message_nr,
+                    tags: ['pin', 'is_archived']
+                })
+                    .then(function () {
+                        let msg = UC.alice.cache.message[res.header.conversation_id][res.result_message_nr];
+                        expect(msg.message).toEqual('<msg><p>remember to do this</p></msg>');
+                    });
+            });
+    });
 });
