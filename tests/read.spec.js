@@ -238,6 +238,11 @@ let bob_header_after_read = {
    "unread_count": 0,
 };
 
+let charlie_first_header = {
+};
+
+let charlie_header_after_read = {
+};
 
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
@@ -278,20 +283,35 @@ describe('mark read unread calls', function () {
                 return UC.alice.poke(res.header.conversation_id, true);
             })
             .then(function () {
-		return UC.charlie.poll_filter({mk_rec_type: 'message', message: 'Talk'});
+		return UC.bob.poll_filter({mk_rec_type: 'message', message: 'Talk'});
             })
             .then(function (res) {
                 let bob_header = getRecFromStream(res.stream, {mk_rec_type: 'conv', topic: 'readings'});
                 expect(UC.clean(bob_header)).toEqual(bob_first_header);
-                return bob_header;
+                return bob_header.conversation_id;
             })
-            .then(function (bob_header) {
-                return UC.alice.api_call("api/conversation/store/" + bob_header.conversation_id, {
+            .then(function (conversation_id) {
+                return UC.bob.api_call("api/conversation/store/" + conversation_id, {
 			read_message_nr: bob_header.last_message_nr});
             })
             .then(function (res) {
                 expect(UC.clean(res.header)).toEqual(bob_header_after_read);
                 return res.header;
-            });
+            })
+            .then(function () {
+                return UC.charlie.poll_filter({mk_rec_type: 'message', message: 'Talk'});
+            })
+            .then(function (res) {
+                let charlie_header = getRecFromStream(res.stream, {mk_rec_type: 'conv', topic: 'readings'});
+                expect(UC.clean(charlie_header)).toEqual(charlie_first_header);
+                return charlie_header.conversation_id;
+            })
+            .then(function (conversation_id) {
+                return UC.bob.api_call("api/conversation/mark_read/" + conversation_id, {});
+            })
+            .then(function (res) {
+                expect(UC.clean(res.header)).toEqual(charlie_header_after_read);
+                return res.header;
+            })
     });
 });
