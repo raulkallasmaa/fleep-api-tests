@@ -1,40 +1,4 @@
-import {UserCache} from '../lib';
-
-
-function matchRec(rec, pat) {
-    //console.log("matchRec pat=" + JSON.stringify(pat) + " rec=" + JSON.stringify(rec));
-    if (rec.mk_rec_type !== pat.mk_rec_type) {
-        return false;
-    }
-    for (let k in pat) {
-         if (rec[k] == null) {
-            return false;
-        }
-        let frag = pat[k];
-        if (typeof(frag) === 'string' && rec[k].indexOf(frag) >= 0) {
-            continue;
-        } else if (typeof(frag) === 'number' && rec[k] === frag) {
-            continue;
-        } else if (typeof(frag) === 'boolean' && rec[k] === frag) {
-            continue;
-        } else {
-            return false;
-        }
-    }
-    return true;
-}
-
-// match stream against pattern
-function getRecFromStream(stream, pat) {
-    let i, rec;
-    for (i = 0; i < stream.length; i++) {
-        rec = stream[i];
-        if (matchRec(rec, pat)) {
-            return rec;
-        }
-    }
-    return {};
-}
+import {UserCache, matchStream} from '../lib';
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 35000;
 
@@ -435,7 +399,7 @@ describe('mark read unread calls', function () {
 		return UC.bob.poll_filter({mk_rec_type: 'message', message: 'Talk'});
             })
             .then(function (res) { // find header from response
-                let bob_header = getRecFromStream(res.stream, {mk_rec_type: 'conv', topic: 'readings'});
+                let bob_header = matchStream(res.stream, {mk_rec_type: 'conv', topic: 'readings'});
                 expect(UC.clean(bob_header)).toEqual(bob_first_header);
                 return bob_header;
             })
@@ -451,7 +415,7 @@ describe('mark read unread calls', function () {
                 return UC.charlie.poll_filter({mk_rec_type: 'message', message: 'Talk'});
             })
             .then(function (res) { // find conversation header
-                let charlie_header = getRecFromStream(res.stream, {mk_rec_type: 'conv', topic: 'readings'});
+                let charlie_header = matchStream(res.stream, {mk_rec_type: 'conv', topic: 'readings'});
                 expect(UC.clean(charlie_header)).toEqual(charlie_first_header);
                 return charlie_header.conversation_id;
             })
