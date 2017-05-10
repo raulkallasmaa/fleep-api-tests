@@ -75,26 +75,38 @@ describe('store & edit messages and add & remove subject', function () {
 
 describe('pin and unpin message', function () {
     it('should pin and unpin message', function () {
-        return UC.alice.api_call("api/conversation/create", {topic: 'hi'})
+        return UC.alice.api_call("api/conversation/create", {topic: 'pin1alice'})
             .then(function (res) {
                 UC.clean(res, {});
-                expect(res.header.topic).toEqual('hi');
+                expect(res.header.topic).toEqual('pin1alice');
                 return res.header.conversation_id;
             })
-            // pin this message
             .then(function (conversation_id) {
-                return UC.alice.api_call("api/message/store/" + conversation_id,
-                    {message: 'remember to do this', tags: ['pin']});
+                return UC.alice.api_call("api/message/store/" + conversation_id, {
+                    message: 'pin1alice'
+                    });
             })
-            // unpin this message
+            // pin message
+            .then(function (res) {
+                        return UC.alice.api_call("api/message/store/" + res.header.conversation_id, {
+                            message: 'pin1alice',
+                            tags: ['pin'],
+                            message_nr: res.result_message_nr
+                            })
+                            .then(function () {
+                                return res;
+                            });
+                    })
+            // unpin message and change message text
             .then(function (res) {
                 return UC.alice.api_call("api/message/store/" + res.header.conversation_id, {
                     message_nr: res.result_message_nr,
+                    message: 'pin2',
                     tags: ['pin', 'is_archived']
                 })
-                    .then(function () {
+                    .then(function (res2) {
                         let msg = UC.alice.cache.message[res.header.conversation_id][res.result_message_nr];
-                        expect(msg.message).toEqual('<msg><p>remember to do this</p></msg>');
+                        expect(msg.message).toEqual('<msg><p>pin2</p></msg>');
                     });
             });
     });
