@@ -1,4 +1,5 @@
-import {UserCache, waitAsync} from '../lib';
+
+import {UserCache, waitAsync, thenSequence} from '../lib';
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 let UC = new UserCache([
@@ -12,96 +13,49 @@ afterAll(() => UC.cleanup());
 
 describe('search for keywords', function () {
     it('should search for complete keywords', function () {
-        return UC.alice.api_call("api/conversation/create", {topic: 'hello friend whats up'})
-            .then(function (res) {
-                UC.clean(res, {});
-                expect(res.header.topic).toEqual('hello friend whats up');
-                return res.header.conversation_id;
-            })
-            .then(function (conversation_id) {
-                return UC.alice.api_call("api/message/send/" + conversation_id, {message: 'hello my dear friend how are you'})
-                    .then(function () {
-                        return conversation_id;
-                    });
-            })
-            .then(function (conversation_id) {
-                return waitAsync(5 * 1000, conversation_id);
-            })
-            .then(function (conversation_id) {
-                return UC.alice.api_call("api/search", {keywords: 'hello friend', search_types: ['topic', 'chat']})
-                    .then(function (res) {
-                        expect(findMsgCount(res, 'hello')).toEqual([1, 1]);
-                        return conversation_id;
-
-                    });
-            });
+        let client = UC.alice;
+        return thenSequence([
+            () => client.api_call("api/conversation/create", {topic: 'hello friend whats up'}),
+            (res) => expect(res.header.topic).toEqual('hello friend whats up'),
+            () => client.poll_filter({mk_rec_type: 'conv', topic: /hello/}),
+            () => client.api_call("api/message/send/" + client.getConvId(/hello friend/), {message: 'hello my dear friend how are you'}),
+            () => waitAsync(5 * 1000),
+            () => client.api_call("api/search", {keywords: 'hello friend', search_types: ['topic', 'chat']}),
+            (res) => expect(findMsgCount(res, 'hello')).toEqual([1, 1]),
+        ]);
     });
 
     it('should search for partial keywords', function () {
-        return UC.alice.api_call("api/conversation/create", {topic: 'hello friend whats up'})
-            .then(function (res) {
-                UC.clean(res, {});
-                expect(res.header.topic).toEqual('hello friend whats up');
-                return res.header.conversation_id;
-            })
-            .then(function (conversation_id) {
-                return UC.alice.api_call("api/message/send/" + conversation_id, {message: 'hello my dear friend how are you'})
-                    .then(function () {
-                        return conversation_id;
-                    });
-            })
-            .then(function (conversation_id) {
-                return waitAsync(5 * 1000, conversation_id);
-            })
-            .then(function (conversation_id) {
-                return UC.alice.api_call("api/search", {keywords: 'hell frie', search_types: ['topic', 'chat']})
-                    .then(function (res) {
-                        expect(findMsgCount(res, 'hello')).toEqual([1, 1]);
-                        return conversation_id;
-
-                    });
-            });
+        let client = UC.bob;
+        return thenSequence([
+            () => client.api_call("api/conversation/create", {topic: 'hello friend whats up'}),
+            (res) => expect(res.header.topic).toEqual('hello friend whats up'),
+            () => client.poll_filter({mk_rec_type: 'conv', topic: /hello/}),
+            () => client.api_call("api/message/send/" + client.getConvId(/hello/), {message: 'hello my dear friend how are you'}),
+            () => waitAsync(5 * 1000),
+            () => client.api_call("api/search", {keywords: 'hell frie', search_types: ['topic', 'chat']}),
+            (res) => expect(findMsgCount(res, 'hello')).toEqual([1, 1]),
+            () => client.api_call("api/search", {keywords: 'hell frie', search_types: ['task']}),
+            (res) => expect(findMsgCount(res, 'hello')).toEqual([0, 0]),
+        ]);
     });
 
     it('pin, tasks and mixed keywords search', function () {
-        return UC.alice.api_call("api/conversation/create", {topic: 'hello friend whats up'})
-            .then(function (res) {
-                UC.clean(res, {});
-                expect(res.header.topic).toEqual('hello friend whats up');
-                return res.header.conversation_id;
-            })
-            .then(function (conversation_id) {
-                return UC.alice.api_call("api/message/store/" + conversation_id,
-                    {message: 'hello my dear friend how are you', tags: ['pin']})
-                    .then(function () {
-                        return conversation_id;
-                    });
-            })
-            .then(function (conversation_id) {
-                return UC.alice.api_call("api/message/store/" + conversation_id,
-                    {message: 'hello friend what are you doing', tags: ['is_todo']})
-                    .then(function () {
-                        return conversation_id;
-                    });
-            })
-            .then(function (conversation_id) {
-                return UC.alice.api_call("api/message/store/" + conversation_id,
-                    {message: 'hello what is going on friend', tags: ['is_done']})
-                    .then(function () {
-                        return conversation_id;
-                    });
-            })
-            .then(function (conversation_id) {
-                return waitAsync(5 * 1000, conversation_id);
-            })
-            .then(function (conversation_id) {
-                return UC.alice.api_call("api/search", {keywords: 'hello frie', search_types: ['topic', 'chat']})
-                    .then(function (res) {
-                        expect(findMsgCount(res, 'hello')).toEqual([1, 1]);
-                        return conversation_id;
-
-                    });
-            });
+        let client = UC.charlie;
+        return thenSequence([
+            () => client.api_call("api/conversation/create", {topic: 'taskChat common text'}),
+            (res) => expect(res.header.topic).toEqual('taskChat common text'),
+            () => client.poll_filter({mk_rec_type: 'conv', topic: /taskChat/}),
+            () => client.api_call("api/message/store/" + client.getConvId(/taskChat/), {message: 'pinMessage common text', tags: ['pin']}),
+            () => client.api_call("api/message/store/" + client.getConvId(/taskChat/), {message: 'todoMessage common text', tags: ['is_todo']}),
+            () => client.api_call("api/message/store/" + client.getConvId(/taskChat/), {message: 'doneMessage common text', tags: ['is_done']}),
+            () => client.poll_filter({mk_rec_type: 'message', message: /doneMessage/}),
+            () => waitAsync(5 * 1000),
+            () => client.api_call("api/search", {keywords: 'comm'}),
+            (res) => expect(findMsgCount(res, 'common')).toEqual([3, 1]),
+            () => client.api_call("api/search", {keywords: 'comm', search_types: ['task']}),
+            (res) => expect(findMsgCount(res, 'common')).toEqual([2, 1]),
+        ]);
     });
 });
 
