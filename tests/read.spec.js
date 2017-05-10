@@ -353,6 +353,46 @@ let charlie_header_after_read = {
    "unread_count": 0,
 };
 
+let charlie_after_mark_unread = {
+   "admins": [],
+   "can_post": true,
+   "conversation_id": "<conv:readings>",
+   "creator_id": "<account:Alice In Wonderland>",
+   "export_files": [],
+   "export_progress": "1",
+   "has_email_subject": false,
+   "has_pinboard": false,
+   "has_task_archive": false,
+   "has_taskboard": false,
+   "inbox_message_nr": 2,
+   "inbox_time": "...",
+   "is_automute": false,
+   "is_list": true,
+   "is_managed": false,
+   "is_mark_unread": true,
+   "is_premium": false,
+   "join_message_nr": 1,
+   "label_ids": [],
+   "last_inbox_nr": 3,
+   "last_message_nr": 4,
+   "last_message_time": "...",
+   "mk_alert_level": "default",
+   "mk_conv_type": "cct_list",
+   "mk_rec_type": "conv",
+   "organisation_id": null,
+   "profile_id": "<account:Bob Geldof>",
+   "read_message_nr": 1,
+   "send_message_nr": 1,
+   "show_message_nr": 4,
+   "snooze_interval": 0,
+   "snooze_time": 0,
+   "teams": [],
+   "topic": "readings",
+   "topic_message_nr": 1,
+   "unread_count": 3,
+};
+
+
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
 
@@ -374,7 +414,7 @@ describe('mark read unread calls', function () {
                 expect(xres.header).toEqual(alice_create_header);
                 return res;
             })
-            .then(function (res) {
+            .then(function (res) { // send some messages
                 return UC.alice.api_call("api/message/store/" + res.header.conversation_id, {message: 'Greetings, friend!'});
             })
             .then(function (res) {
@@ -388,18 +428,18 @@ describe('mark read unread calls', function () {
                 expect(xres.header).toEqual(alice_first_header);
                 return res;
             })
-            .then(function (res) {
+            .then(function (res) { // wait until bg jobs have done their things
                 return UC.alice.poke(res.header.conversation_id, true);
             })
-            .then(function () {
+            .then(function () {	// read conversation for bob
 		return UC.bob.poll_filter({mk_rec_type: 'message', message: 'Talk'});
             })
-            .then(function (res) {
+            .then(function (res) { // find header from response
                 let bob_header = getRecFromStream(res.stream, {mk_rec_type: 'conv', topic: 'readings'});
                 expect(UC.clean(bob_header)).toEqual(bob_first_header);
                 return bob_header;
             })
-            .then(function (bob_header) {
+            .then(function (bob_header) { // mark messages read
                 return UC.bob.api_call("api/conversation/store/" + bob_header.conversation_id, {
 			read_message_nr: bob_header.last_message_nr});
             })
@@ -407,19 +447,27 @@ describe('mark read unread calls', function () {
                 expect(UC.clean(res.header)).toEqual(bob_header_after_read);
                 return res.header;
             })
-            .then(function () {
+            .then(function () { // get state for charlie
                 return UC.charlie.poll_filter({mk_rec_type: 'message', message: 'Talk'});
             })
-            .then(function (res) {
+            .then(function (res) { // find conversation header
                 let charlie_header = getRecFromStream(res.stream, {mk_rec_type: 'conv', topic: 'readings'});
                 expect(UC.clean(charlie_header)).toEqual(charlie_first_header);
                 return charlie_header.conversation_id;
             })
-            .then(function (conversation_id) {
+            .then(function (conversation_id) { // mark conversation read
                 return UC.bob.api_call("api/conversation/mark_read/" + conversation_id, {});
             })
             .then(function (res) {
                 expect(UC.clean(res.header)).toEqual(charlie_header_after_read);
+                return res.header;
+            })
+            .then(function (header) { // mark some messages unread
+                return UC.bob.api_call("api/conversation/store/" + header.conversation_id, {
+                        read_message_nr: 1});
+            })
+            .then(function (res) {
+                expect(UC.clean(res.header)).toEqual(charlie_after_mark_unread);
                 return res.header;
             })
             ;
