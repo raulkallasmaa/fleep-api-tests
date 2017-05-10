@@ -1,4 +1,4 @@
-import {UserCache, promiseWait} from '../lib';
+import {UserCache, waitAsync} from '../lib';
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 let UC = new UserCache([
@@ -25,7 +25,7 @@ describe('search for keywords', function () {
                     });
             })
             .then(function (conversation_id) {
-                return promiseWait(5 * 1000, conversation_id);
+                return waitAsync(5 * 1000, conversation_id);
             })
             .then(function (conversation_id) {
                 return UC.alice.api_call("api/search", {keywords: 'hello friend', search_types: ['topic', 'chat']})
@@ -51,7 +51,7 @@ describe('search for keywords', function () {
                     });
             })
             .then(function (conversation_id) {
-                return promiseWait(5 * 1000, conversation_id);
+                return waitAsync(5 * 1000, conversation_id);
             })
             .then(function (conversation_id) {
                 return UC.alice.api_call("api/search", {keywords: 'hell frie', search_types: ['topic', 'chat']})
@@ -92,7 +92,7 @@ describe('search for keywords', function () {
                     });
             })
             .then(function (conversation_id) {
-                return promiseWait(5 * 1000, conversation_id);
+                return waitAsync(5 * 1000, conversation_id);
             })
             .then(function (conversation_id) {
                 return UC.alice.api_call("api/search", {keywords: 'hello frie', search_types: ['topic', 'chat']})
