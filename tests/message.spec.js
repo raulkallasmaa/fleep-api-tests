@@ -41,7 +41,7 @@ describe('store & edit messages and add & remove subject', function () {
             .then(function (res) {
                 return UC.alice.api_call("api/message/edit/" + res.header.conversation_id, {message: 'How are you?', message_nr: res.result_message_nr})
                     .then(function () {
-                        return UC.alice.poll_filter({mk_rec_type: 'message', message: 'How are you?', message_nr: res.result_message_nr});
+                        return UC.alice.poll_filter({mk_rec_type: 'message', message: /How are you\?/, message_nr: res.result_message_nr});
                     })
                     .then(function () {
                         return res;
@@ -54,7 +54,7 @@ describe('store & edit messages and add & remove subject', function () {
                            message_nr: res.result_message_nr,
                            subject: 'hello there'})
                     .then(function () {
-                        return UC.alice.poll_filter({mk_rec_type: 'message', message: 'How you doing?', message_nr: res.result_message_nr});
+                        return UC.alice.poll_filter({mk_rec_type: 'message', message: /How you doing\?/, message_nr: res.result_message_nr});
                     })
                     .then(function () {
                         let msg = UC.alice.cache.message[res.header.conversation_id][res.result_message_nr];

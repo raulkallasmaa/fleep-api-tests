@@ -30,9 +30,9 @@ describe('polling in new conversation', function () {
         })
         .then(function () {
             return Promise.all([
-                UC.alice.poll_filter({mk_rec_type: 'message', message: 'hello'}),
-                UC.bob.poll_filter({mk_rec_type: 'message', message: 'hello'}),
-                UC.charlie.poll_filter({mk_rec_type: 'message', message: 'hello'}),
+                UC.alice.poll_filter({mk_rec_type: 'message', message: /hello/}),
+                UC.bob.poll_filter({mk_rec_type: 'message', message: /hello/}),
+                UC.charlie.poll_filter({mk_rec_type: 'message', message: /hello/}),
             ]);
         })
         .then(function (res) {

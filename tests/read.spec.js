@@ -396,7 +396,7 @@ describe('mark read unread calls', function () {
                 return UC.alice.poke(res.header.conversation_id, true);
             })
             .then(function () {	// read conversation for bob
-		return UC.bob.poll_filter({mk_rec_type: 'message', message: 'Talk'});
+		return UC.bob.poll_filter({mk_rec_type: 'message', message: /Talk/});
             })
             .then(function (res) { // find header from response
                 let bob_header = matchStream(res.stream, {mk_rec_type: 'conv', topic: 'readings'});
@@ -412,7 +412,7 @@ describe('mark read unread calls', function () {
                 return res.header;
             })
             .then(function () { // get state for charlie
-                return UC.charlie.poll_filter({mk_rec_type: 'message', message: 'Talk'});
+                return UC.charlie.poll_filter({mk_rec_type: 'message', message: /Talk/});
             })
             .then(function (res) { // find conversation header
                 let charlie_header = matchStream(res.stream, {mk_rec_type: 'conv', topic: 'readings'});
