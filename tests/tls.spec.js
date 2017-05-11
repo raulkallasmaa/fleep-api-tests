@@ -131,18 +131,15 @@ let domlist = [
     ['https://dev15.fleep.ee', DIGICERT],
 ];
 
-if (!BIG_TEST) {
-    // test only current domain
-    domlist = [
-        ['https://' + ENV_HOST, LETSENCRYPT]
-    ];
-}
-
 describe('testing tls cert age', function () {
+    let curHost = 'https://' + ENV_HOST;
     domlist.forEach(function (info) {
         let uri = info[0];
         let ca = info[1];
-        it(uri + ' (' + ca + ')', checkHttps(uri, ca));
+        // test only current domain if not BIG_TEST
+        if (BIG_TEST || uri === curHost) {
+            it(uri + ' (' + ca + ')', checkHttps(uri, ca));
+        }
     });
 });
 
