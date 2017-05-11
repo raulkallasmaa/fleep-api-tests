@@ -1,4 +1,4 @@
-import {UserCache} from '../lib';
+import {UserCache, thenSequence} from '../lib';
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
@@ -250,4 +250,16 @@ it('should copy a message from another conversation', function () {
                     });
                 });
         });
+});
+
+test.skip('should try to copy a deleted message', function () {
+    let client = UC.bob;
+    return thenSequence([
+        () => client.api_call("api/conversation/create", {topic: 'copyDeletedMsg'}),
+        (res) => expect(res.header.topic).toEqual('copyDeletedMsg'),
+        () => client.poll_filter({mk_rec_type: 'conv', topic: /copyDeletedMsg/}),
+        () => client.api_call("api/message/store/" + client.getConvId('copyDeletedMsg'), {message: 'deletedMessage'}),
+        () => client.api_call("api/message/store/" + client.getConvId('copyDeletedMsg'), {message_nr: client.getMessageNr(/deletedMessage/), tags: ['is_deleted']}),
+        () => client.api_call("api/message/copy/" + client.getConvId('copyDeletedMsg'), {message_nr: client.getMessageNr(/deletedMessage/), to_conv_id: client.getConvId('copyDeletedMsg')}),
+    ]);
 });
