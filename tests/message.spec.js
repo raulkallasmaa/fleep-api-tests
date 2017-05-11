@@ -87,7 +87,7 @@ it('should store & edit messages and add & remove subject', function () {
         });
 });
 
-it('should let other user delete message but not edit & message/copy', function () {
+it('should let other user delete message but not edit', function () {
     return UC.alice.api_call("api/conversation/create", {topic: 'topic1'})
         .then(function (res) {
             UC.clean(res, {});
@@ -218,6 +218,36 @@ it('should assign task, set task done & undone and archive task', function () {
                 .then(function (res2) {
                     let msg = UC.alice.cache.message[res.header.conversation_id][res.result_message_nr];
                     expect(msg.message).toEqual('<msg><p>task2</p></msg>');
+                });
+        });
+});
+
+it('should copy a message from another conversation', function () {
+    return UC.alice.api_call("api/conversation/create", {topic: 'topic1'})
+        .then(function (res) {
+            expect(res.header.topic).toEqual('topic1');
+            return res.header.conversation_id;
+        })
+        .then(function (conversation_id) {
+            return UC.alice.api_call("api/message/store/" + conversation_id, {message: 'message1'});
+        })
+        .then(function () {
+            return UC.alice.api_call("api/conversation/create", {topic: 'topic2'});
+        })
+        .then(function () {
+            let fromConv = UC.alice.getConvId('topic1');
+            let toConv = UC.alice.getConvId('topic2');
+            let msgNr = UC.alice.getMessageNr(/message1/);
+            return UC.alice.api_call("api/message/copy/" + fromConv, {
+                message_nr: msgNr,
+                to_conv_id: toConv
+            })
+                .then(function () {
+                    return UC.alice.poll_filter({
+                        mk_rec_type: 'message',
+                        message_nr: msgNr,
+                        conversation_id: toConv
+                    });
                 });
         });
 });
