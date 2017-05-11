@@ -75,13 +75,14 @@ function connectTLS(opts) {
 function checkHttps(uri, ca) {
     let tmp = uri.split('://');
     let protomap = {https: 443, imaps: 993, submission: 587, ssmtp: 465};
-    return function () {
+
+    test(uri + ' (' + ca + ')', function () {
         return connectTLS({host: tmp[1], port: protomap[tmp[0]]})
             .then(function (resp) {
                 expect(resp.proto).toEqual('TLSv1.2');
 
                 let now = Date.now(); // ms
-                let days = 10;
+                let days = 30;
                 let day_ms = 24 * 60 * 60 * 1000;
                 let danger = now + days * day_ms;
 
@@ -96,23 +97,26 @@ function checkHttps(uri, ca) {
                 }
                 return Promise.resolve();
             });
-    };
+    });
 }
 
 let DIGICERT = "DigiCert Inc";
 let LETSENCRYPT = "Let's Encrypt";
 
-let domlist = [
+let LiveList = [
     ['https://fleep.io', DIGICERT],
-    ['https://fleep.it', DIGICERT],
-    ['https://fleep.im', DIGICERT],
+    ['https://fleep.it', LETSENCRYPT],
+    ['https://fleep.im', LETSENCRYPT],
     ['https://builds.fleep.ee', DIGICERT],
     ['https://box.fleep.ee', DIGICERT],
     ['https://fleephub.com', LETSENCRYPT],
-    ['https://dev-monitor.fleep.ee', LETSENCRYPT],
     ['https://monitor.fleephub.com', LETSENCRYPT],
     ['https://stats.fleep.io', DIGICERT],
+    ['https://dev-monitor.fleep.ee', LETSENCRYPT],
     ['https://test.fleep.ee', LETSENCRYPT],
+];
+
+let DevList = [
     ['https://dev0.fleep.ee', LETSENCRYPT],
     //['https://dev1.fleep.ee', LETSENCRYPT],
     //['https://dev2.fleep.ee', LETSENCRYPT],
@@ -124,22 +128,20 @@ let domlist = [
     //['https://dev8.fleep.ee', LETSENCRYPT],
     //['https://dev9.fleep.ee', LETSENCRYPT],
     ['https://dev10.fleep.ee', LETSENCRYPT],
-    //['https://dev11.fleep.ee', LETSENCRYPT],
+    ['https://dev11.fleep.ee', DIGICERT],
     //['https://dev12.fleep.ee', LETSENCRYPT],
     //['https://dev13.fleep.ee', LETSENCRYPT],
     ['https://dev14.fleep.ee', DIGICERT],
     ['https://dev15.fleep.ee', DIGICERT],
 ];
 
-describe('testing tls cert age', function () {
+LiveList.forEach(function (info) {
+    checkHttps(info[0], info[1]);
+});
+DevList.forEach(function (info) {
     let curHost = 'https://' + ENV_HOST;
-    domlist.forEach(function (info) {
-        let uri = info[0];
-        let ca = info[1];
-        // test only current domain if not BIG_TEST
-        if (BIG_TEST || uri === curHost) {
-            it(uri + ' (' + ca + ')', checkHttps(uri, ca));
-        }
-    });
+    if (BIG_TEST || info[0] === curHost) {
+        checkHttps(info[0], info[1]);
+    }
 });
 
