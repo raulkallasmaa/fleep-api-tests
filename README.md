@@ -27,3 +27,12 @@ JS docs for backend developers
 - https://github.com/request/request-promise
 - https://lodash.com/docs/
 
+test api (see jest doc for details)
+-----------------------------------
+
+- it('should do foo', func) - test
+- test('if foo works', func) - test
+- describe(desc, func) - subgroup of tests
+- it.skip, test.skip, describe.skip - skip this test
+- it.only, test.only, describe.only - run only this test
+
