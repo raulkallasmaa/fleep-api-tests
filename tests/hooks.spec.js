@@ -18,23 +18,27 @@ test('should create a hook and post messages over it', function () {
         () => client.api_call("api/conversation/create", {topic: 'createHook'}),
         (res) => expect(res.header.topic).toEqual('createHook'),
         () => client.poll_filter({mk_rec_type: 'conv', topic: /createHook/}),
-        () => client.api_call("api/conversation/create_hook/" + client.getConvId(/createHook/), {hook_name: 'plainHook', mk_hook_type: 'plain'}),
+        () => client.api_call("api/conversation/create_hook/" + client.getConvId(/createHook/), {
+            hook_name: 'plainHook',
+            mk_hook_type: 'plain'
+        }),
         () => client.api_call("api/conversation/show_hooks/" + client.getConvId(/createHook/)),
         (res) => expect(UC.clean(res, {})).toEqual({
-        "hooks":
-            [{"account_id": "<account:Charlie Chaplin>",
-            "avatar_urls": "<avatar:plainHook>",
-            "conversation_id": "<conv:createHook>",
-            "hook_id": "<id:plainHook>",
-            "hook_key": "<key:plainHook>",
-            "hook_name": "plainHook",
-            "hook_url": "<url:plainHook>",
-            "is_active": true,
-            "mk_hook_type": "plain",
-            "mk_rec_type": "hook",
-            "outgoing_disable_reason": null,
-            "outgoing_disabled": false,
-            "outgoing_url": ""}]
+            "hooks": [{
+                "account_id": "<account:Charlie Chaplin>",
+                "avatar_urls": "<avatar:plainHook>",
+                "conversation_id": "<conv:createHook>",
+                "hook_id": "<id:plainHook>",
+                "hook_key": "<key:plainHook>",
+                "hook_name": "plainHook",
+                "hook_url": "<url:plainHook>",
+                "is_active": true,
+                "mk_hook_type": "plain",
+                "mk_rec_type": "hook",
+                "outgoing_disable_reason": null,
+                "outgoing_disabled": false,
+                "outgoing_url": ""
+            }]
         }),
         () => client.poll_filter({mk_rec_type: 'hook', hook_name: 'plainHook'}),
         () => requestAsync({
@@ -44,6 +48,27 @@ test('should create a hook and post messages over it', function () {
             json: true,
             agent: false
         }),
-        () => client.poll_filter({mk_rec_type: 'message', message: /hookMessage/}),
+        () => requestAsync({
+            uri: client.getHookUrl('plainHook'),
+            method: 'POST',
+            form: {message: 'formMessage'},
+            agent: false
+        }),
+        () => client.poll_filter({mk_rec_type: 'message', message: /formMessage/}),
+        () => expect(UC.clean(client.matchStream({mk_rec_type: 'message', message: /hookMessage/}))).toEqual({
+            "account_id": "<account:Charlie Chaplin>",
+            "conversation_id": "<conv:createHook>",
+            "hook_key": "<key:plainHook>",
+            "inbox_nr": 1,
+            "is_new_sheet": false,
+            "message": "<msg><p>hookMessage</p></msg>",
+            "message_nr": 3,
+            "mk_message_type": "text",
+            "mk_rec_type": "message",
+            "posted_time": "...",
+            "prev_message_nr": 2,
+            "profile_id": "<account:Charlie Chaplin>",
+            "tags": []
+}),
     ]);
 });
