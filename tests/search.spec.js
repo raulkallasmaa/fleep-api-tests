@@ -61,23 +61,19 @@ describe('search for keywords', function () {
 
 describe('contacts', function () {
     it('should search by participants name', function () {
-        return UC.alice.api_call("api/conversation/create", {})
-            .then(function (res) {
-                UC.clean(res, {});
-                expect(res.header.topic).toEqual('');
-                return res.header.conversation_id;
-            })
-            .then(function (conversation_id) {
-                return UC.alice.api_call("api/conversation/add_members/" + conversation_id, {
-                    emails: [UC.bob.fleep_email, UC.charlie.fleep_email].join(', ')
-                });
-            })
-            .then(function (res) {
-                return UC.alice.poke(res.header.conversation_id, true);
-            })
-            .then(function () {
-                return UC.alice.api_call("api/search", {keywords: 'Charlie Chaplin', search_types: ['topic']});
-            })
+        let client = UC.alice;
+        let add_emails = [UC.bob.fleep_email, UC.charlie.fleep_email].join(', ');
+        let conversation_id = null;
+        return thenSequence([
+                () => client.api_call("api/conversation/create", {}),
+                (res) => {
+                    expect(res.header.topic).toEqual('');
+                    conversation_id = res.header.conversation_id;
+                },
+                () => client.api_call("api/conversation/add_members/" + conversation_id, {emails: add_emails}),
+                () => client.poke(conversation_id, true),
+                () => client.api_call("api/search", {keywords: 'Charlie Chaplin', search_types: ['topic']}),
+            ])
             .then(function (res) {
                 let xres = UC.clean(res, {});
                 xres.stream = [];
