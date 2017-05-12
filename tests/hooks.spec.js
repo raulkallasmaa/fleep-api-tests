@@ -72,3 +72,20 @@ test('should create a hook and post messages over it', function () {
 }),
     ]);
 });
+
+test('should rename hook and drop hook', function () {
+    let client = UC.alice;
+    return thenSequence([
+        () => client.api_call("api/conversation/create", {topic: 'renameHook'}),
+        (res) => expect(res.header.topic).toEqual('renameHook'),
+        () => client.poll_filter({mk_rec_type: 'conv', topic: /renameHook/}),
+        () => client.api_call("api/conversation/create_hook/" + client.getConvId(/renameHook/), {
+            hook_name: 'hookRename',
+            mk_hook_type: 'plain'}),
+        () => client.api_call("api/conversation/configure_hook/" + client.getConvId(/renameHook/), {
+            hook_key: client.getHookKey('hookRename'),
+            hook_name: 'hookDelete'}),
+        () => client.api_call("api/conversation/drop_hook/" + client.getConvId(/renameHook/), {
+            hook_key: client.getHookKey('hookDelete')}),
+    ]);
+});
