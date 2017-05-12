@@ -252,7 +252,7 @@ it('should copy a message from another conversation', function () {
         });
 });
 
-test('should try to copy a deleted message', function () {
+test.skip('should try to copy a deleted message', function () {
     let client = UC.bob;
     return thenSequence([
         () => client.api_call("api/conversation/create", {topic: 'copyDeletedMsg'}),
