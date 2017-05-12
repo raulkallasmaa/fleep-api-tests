@@ -90,7 +90,7 @@ test('should rename hook and drop hook', function () {
     ]);
 });
 
-test.only('should import hook', function () {
+test('should import hook', function () {
     let client = UC.bob;
     let dateparse = Math.floor(Date.parse('Sat, 12 May 2012 12:12:12 GMT') / 1000);
     return thenSequence([

@@ -114,7 +114,7 @@ it('should let other user delete message but not edit', function () {
                 message: 'message2'
             })
                 .then(function () {
-                    return Promise.reject(new Error('Viga'));
+                    return Promise.reject(new Error('Error 431'));
                 })
                 .catch(function (r) {
                     expect(r.statusCode).toEqual(431);
@@ -252,7 +252,7 @@ it('should copy a message from another conversation', function () {
         });
 });
 
-test.skip('should try to copy a deleted message', function () {
+test('should try to copy a deleted message', function () {
     let client = UC.bob;
     return thenSequence([
         () => client.api_call("api/conversation/create", {topic: 'copyDeletedMsg'}),
@@ -264,5 +264,11 @@ test.skip('should try to copy a deleted message', function () {
             {message_nr: client.getMessageNr(/deletedMessage/), tags: ['is_deleted']}),
         () => client.api_call("api/message/copy/" + client.getConvId('copyDeletedMsg'),
             {message_nr: client.getMessageNr(/deletedMessage/), to_conv_id: client.getConvId('copyDeletedMsg')}),
-    ]);
+    ])
+        .then(function () {
+            return Promise.reject(new Error('Error 431'));
+        })
+        .catch(function (r) {
+            expect(r.statusCode).toEqual(431);
+        });
 });
