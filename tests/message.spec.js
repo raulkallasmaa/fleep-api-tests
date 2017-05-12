@@ -1,6 +1,6 @@
 import {UserCache, thenSequence} from '../lib';
 
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 35000;
 
 let UC = new UserCache([
     'Alice Adamson',
@@ -258,8 +258,11 @@ test.skip('should try to copy a deleted message', function () {
         () => client.api_call("api/conversation/create", {topic: 'copyDeletedMsg'}),
         (res) => expect(res.header.topic).toEqual('copyDeletedMsg'),
         () => client.poll_filter({mk_rec_type: 'conv', topic: /copyDeletedMsg/}),
-        () => client.api_call("api/message/store/" + client.getConvId('copyDeletedMsg'), {message: 'deletedMessage'}),
-        () => client.api_call("api/message/store/" + client.getConvId('copyDeletedMsg'), {message_nr: client.getMessageNr(/deletedMessage/), tags: ['is_deleted']}),
-        () => client.api_call("api/message/copy/" + client.getConvId('copyDeletedMsg'), {message_nr: client.getMessageNr(/deletedMessage/), to_conv_id: client.getConvId('copyDeletedMsg')}),
+        () => client.api_call("api/message/store/" + client.getConvId('copyDeletedMsg'),
+            {message: 'deletedMessage'}),
+        () => client.api_call("api/message/store/" + client.getConvId('copyDeletedMsg'),
+            {message_nr: client.getMessageNr(/deletedMessage/), tags: ['is_deleted']}),
+        () => client.api_call("api/message/copy/" + client.getConvId('copyDeletedMsg'),
+            {message_nr: client.getMessageNr(/deletedMessage/), to_conv_id: client.getConvId('copyDeletedMsg')}),
     ]);
 });
