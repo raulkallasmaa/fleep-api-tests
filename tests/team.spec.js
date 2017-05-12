@@ -88,6 +88,72 @@ let actors_team_after_alice_autojoin = {
    "team_version_nr": 4,
 };
 
+let actors_team_label = {
+   "index": "...",
+   "is_in_muted": true,
+   "is_in_recent": true,
+   "is_on_left_pane": false,
+   "label": "Actors",
+   "label_id": "<label:Actors>",
+   "mk_label_status": "active",
+   "mk_label_subtype": "team_label",
+   "mk_label_type": "system_label",
+   "mk_rec_type": "label",
+   "team_id": "<team:Actors>",
+};
+
+let conv_after_actors_added = {
+   "admins": [],
+   "can_post": true,
+   "conversation_id": "<conv:teamsBasic>",
+   "creator_id": "<account:Charlie Chaplin>",
+   "default_members": [
+     "<account:Alice Adamson>",
+     "<account:Mel Gibson>",
+   ],
+   "export_files": [],
+   "export_progress": "1",
+   "guests": [],
+   "has_email_subject": false,
+   "has_pinboard": false,
+   "has_task_archive": false,
+   "has_taskboard": false,
+   "inbox_message_nr": 1,
+   "inbox_time": "...",
+   "is_automute": false,
+   "is_list": false,
+   "is_managed": false,
+   "is_mark_unread": false,
+   "is_premium": false,
+   "join_message_nr": 1,
+   "label_ids": [
+     "<label:Actors>",
+   ],
+   "last_inbox_nr": 0,
+   "last_message_nr": 3,
+   "last_message_time": "...",
+   "leavers": [],
+   "members": [
+     "<account:Alice Adamson>",
+     "<account:Charlie Chaplin>",
+     "<account:Mel Gibson>",
+   ],
+   "mk_conv_type": "cct_default",
+   "mk_rec_type": "conv",
+   "organisation_id": null,
+   "profile_id": "<account:Charlie Chaplin>",
+   "read_message_nr": 3,
+   "send_message_nr": 1,
+   "show_message_nr": 3,
+   "snooze_interval": 0,
+   "snooze_time": 0,
+   "teams": [
+     "<team:Actors>",
+   ],
+   "topic": "teamsBasic",
+   "topic_message_nr": 1,
+   "unread_count": 0,
+};
 
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
@@ -113,6 +179,7 @@ test('create teams and team conversations', function () {
         () => expect(UC.clean(client.getTeam(singers_team))).toEqual(singers_team_after_create),
 	// check actors before changes
         () => expect(UC.clean(client.getTeam(actors_team))).toEqual(actors_team_after_create),
+
 	// add member to actors
         () => client.api_call("api/team/configure/" + client.getTeamId(actors_team), {
                 add_account_ids: [UC.mel.account_id]}),
@@ -128,5 +195,22 @@ test('create teams and team conversations', function () {
         () => client.poke(client.getConvId(conv_topic)),
 	// check that alice is part of the team
         () => expect(UC.clean(client.getTeam(actors_team))).toEqual(actors_team_after_alice_autojoin),
+
+        // try sync teams
+        () => client.api_call("api/account/sync_teams"),
+        (res) =>  expect(res.stream.length).toEqual(2),
+
+        () => client.api_call("api/team/configure/" + client.getTeamId(actors_team), {
+               add_conversations: [client.getConvId(conv_topic)]}),
+        () => client.poke(client.getConvId(conv_topic), true),
+	// check that team is in conversation header and team members are there too
+        () => client.api_call("api/team/sync/" + client.getTeamId(actors_team), {
+               conversation_id: client.getConvId(conv_topic)}),
+        () => client.getConv(conv_topic),
+	(conv) => expect(UC.clean(conv)).toEqual(conv_after_actors_added),
+	// check that team label is created
+	() => client.matchStream({mk_rec_type: 'label', team_id: client.getTeamId(actors_team)}),
+	(team_label) => expect(UC.clean(team_label)).toEqual(actors_team_label),
+
     ]);
 });
