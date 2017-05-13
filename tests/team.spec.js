@@ -340,10 +340,7 @@ let conv_2dogs_for_alice = {
    "show_message_nr": 6,
    "snooze_interval": 0,
    "snooze_time": 0,
-   "teams": [
-     "<team:Actors>",
-     "<team:Singers>",
-   ],
+   "teams": [],
    "topic": "2 dogs",
    "topic_message_nr": 1,
    "unread_count": 0,
@@ -468,6 +465,25 @@ let actors_team_after_remove = {
    "team_version_nr": 8,
 };
 
+let singers_team_after_rename = {
+   "admins": [],
+   "autojoin_url": "<autojoin:Singers>",
+   "is_autojoin": false,
+   "is_deleted": false,
+   "is_managed": false,
+   "is_tiny": false,
+   "members": [
+     "<account:Bob Dylan>",
+     "<account:Charlie Chaplin>",
+     "<account:Don Johnson>",
+   ],
+   "mk_rec_type": "team",
+   "mk_sync_mode": "tsm_full",
+   "organisation_id": null,
+   "team_id": "<team:Singers>",
+   "team_name": "Performrs",
+   "team_version_nr": 3,
+};
 
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
@@ -511,10 +527,11 @@ test('create teams and team conversations', function () {
 	// check that alice is part of the team
         () => expect(UC.clean(client.getTeam(actors_team))).toEqual(actors_team_after_alice_autojoin),
 
-        // try sync teams
+        // try sync teams (must get 2)
         () => client.api_call("api/account/sync_teams"),
         (res) =>  expect(res.stream.length).toEqual(2),
 
+        // add conversation to team
         () => client.api_call("api/team/configure/" + client.getTeamId(actors_team), {
                add_conversations: [client.getConvId(conv_topic)]}),
         () => client.poke(client.getConvId(conv_topic), true),
@@ -556,5 +573,10 @@ test('create teams and team conversations', function () {
         () => client.getConv(conv_topic),
         (conv) => expect(UC.clean(conv)).toEqual(conv_after_removing_singers),
         () => expect(UC.clean(client.getTeam(actors_team))).toEqual(actors_team_after_remove),
+
+        // test team rename
+        () => client.api_call("api/team/configure/" + client.getTeamId(singers_team), {
+            team_name: 'Performrs'}),
+        () => expect(UC.clean(client.getTeam('Performrs'))).toEqual(singers_team_after_rename),
     ]);
 });
