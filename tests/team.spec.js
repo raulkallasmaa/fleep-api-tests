@@ -196,7 +196,7 @@ let conv_2dogs_after_create = {
      "<account:Mel Gibson>",
    ],
    "mk_alert_level": "default",
-   "mk_conv_type": "cct_no_mail",
+   "mk_conv_type": "cct_default",
    "mk_init_mode": "ic_full",
    "mk_rec_type": "conv",
    "organisation_id": null,
@@ -231,7 +231,7 @@ let actors_after_removing_alice = {
    "organisation_id": null,
    "team_id": "<team:Actors>",
    "team_name": "Actors",
-   "team_version_nr": 7,
+   "team_version_nr": 8,
 };
 
 let conv_2dogs_after_remove_alice = {
@@ -271,7 +271,7 @@ let conv_2dogs_after_remove_alice = {
      "<account:Don Johnson>",
      "<account:Mel Gibson>",
    ],
-   "mk_conv_type": "cct_no_mail",
+   "mk_conv_type": "cct_default",
    "mk_rec_type": "conv",
    "organisation_id": null,
    "profile_id": "<account:Charlie Chaplin>",
@@ -330,7 +330,7 @@ let conv_2dogs_for_alice = {
      "<account:Mel Gibson>",
    ],
    "mk_alert_level": "default",
-   "mk_conv_type": "cct_no_mail",
+   "mk_conv_type": "cct_default",
    "mk_init_mode": "ic_full",
    "mk_rec_type": "conv",
    "organisation_id": null,
@@ -382,7 +382,7 @@ let conv_2dogs_after_removing_actors = {
      "<account:Charlie Chaplin>",
      "<account:Don Johnson>",
    ],
-   "mk_conv_type": "cct_no_mail",
+   "mk_conv_type": "cct_default",
    "mk_rec_type": "conv",
    "organisation_id": null,
    "profile_id": "<account:Charlie Chaplin>",
@@ -462,7 +462,7 @@ let actors_team_after_remove = {
    "organisation_id": null,
    "team_id": "<team:Actors>",
    "team_name": "Actors",
-   "team_version_nr": 8,
+   "team_version_nr": 9,
 };
 
 let singers_team_after_rename = {
