@@ -153,8 +153,6 @@ test('create org and invite via reminder', function () {
     let client = UC.charlie;
     let conv_topic = 'test-org-topic';
     let org_name = 'test-org-name';
-    let org_team = 'test-org-team-name';
-    let org_team_2 = 'org-team-renamed';
 
     return thenSequence([
         // create first conversation before team so team can be added later
@@ -172,11 +170,40 @@ test('create org and invite via reminder', function () {
         () => UC.mel.poll_filter({mk_rec_type: 'reminder', organisation_id: client.getOrgId(org_name)}),
         () => UC.mel.matchStream({mk_rec_type: 'reminder', organisation_id: client.getOrgId(org_name)}),
         (reminder) => expect(UC.clean(reminder)).toEqual(mels_reminder_active),
-
         () => UC.mel.matchStream({mk_rec_type: 'reminder', organisation_id: client.getOrgId(org_name)}),
         (reminder) => UC.mel.api_call("api/business/join/" + client.getOrgId(org_name), {
             reminder_id: reminder.reminder_id}),
         (res) => expect(UC.clean(res)).toEqual(mels_org_join),
+
+        // close org
+        () => client.api_call("api/business/close/" + client.getOrgId(org_name)),
+        () => client.poke(client.getConvId(conv_topic)),
+
+        // check final state
+        () => UC.mel.poll_filter({
+            mk_rec_type: 'contact', organisation_id: null, account_id: UC.mel.account_id}),
+    ]);
+});
+
+test('create org and add managed team', function () {
+    let client = UC.charlie;
+    let conv_topic = 'test-org-topic';
+    let org_name = 'test-org-name';
+    let org_team = 'test-org-team-name';
+    let org_team_2 = 'org-team-renamed';
+
+    return thenSequence([
+        // create first conversation before team so team can be added later
+        () => client.api_call("api/conversation/create", {topic: conv_topic}),
+        // create org
+        () => client.api_call("api/business/create", {organisation_name: org_name}),
+        () => client.api_call("api/business/configure/" + client.getOrgId(org_name), {
+            add_account_ids: [UC.mel.account_id, UC.don.account_id]}),
+        // get mel into org
+        () => UC.mel.poll_filter({mk_rec_type: 'reminder', organisation_id: client.getOrgId(org_name)}),
+        () => UC.mel.matchStream({mk_rec_type: 'reminder', organisation_id: client.getOrgId(org_name)}),
+        (reminder) => UC.mel.api_call("api/business/join/" + client.getOrgId(org_name), {
+            reminder_id: reminder.reminder_id}),
 
 	// create managed team
         () => client.api_call("api/business/create_team/" + client.getOrgId(org_name), {
@@ -209,5 +236,64 @@ test('create org and invite via reminder', function () {
         //() => client.poke(client.getConvId(conv_topic)),
         //() => client.api_call('/api/business/sync_changelog/' + client.getOrgId(org_name)),
         //(res) => expect(UC.clean(res)).toEqual({}),
+
+        // close org
+        () => client.api_call("api/business/close/" + client.getOrgId(org_name)),
+        () => client.poke(client.getConvId(conv_topic)),
     ]);
 });
+
+
+test('create org and create team and then manage team', function () {
+    let client = UC.charlie;
+    let conv_topic = 'four-org-conv-topic';
+    let org_name = 'four-org-name';
+    let org_team = 'four-org-team-name';
+
+    return thenSequence([
+        // create first conversation before team so team can be added later
+        () => client.api_call("api/conversation/create", {topic: conv_topic}),
+        () => client.poll_filter({mk_rec_type: 'conv', topic: conv_topic}),
+        // create team
+        () => client.api_call("api/team/create", {
+            team_name: org_team,
+            account_ids: [UC.mel.account_id, UC.don.account_id]}),
+        () => client.poll_filter({mk_rec_type: 'team', team_name: org_team}),
+        // create org
+        () => client.api_call("api/business/create", {organisation_name: org_name}),
+
+        // turn conversation to managed
+        () => client.api_call("api/conversation/store/" + client.getConvId(conv_topic), {
+            is_managed: true }),
+        () => client.getConv(conv_topic),
+        (conv) => expect({organisation_id: conv.organisation_id, is_managed: conv.is_managed})
+            .toEqual({organisation_id: client.getOrgId(org_name), is_managed: true, }),
+
+        // turn team into managed team
+        () => client.api_call("api/team/configure/" + client.getTeamId(org_team), {
+            is_managed: true }),
+        () => client.getTeam(org_team),
+        (team) => expect({organisation_id: team.organisation_id, is_managed: team.is_managed})
+            .toEqual({organisation_id: client.getOrgId(org_name), is_managed: true, }),
+
+        // close org
+        () => client.poke(client.getConvId(conv_topic), true),
+        () => client.api_call("api/business/close/" + client.getOrgId(org_name)),
+
+	// check that conv is back to unmanaged
+        () => client.poll_filter({mk_rec_type: 'message', mk_message_type: 'unmanage'}),
+        () => client.matchStream({mk_rec_type: 'message', mk_message_type: 'unmanage'}),
+        (msg) => expect(msg.mk_message_type).toEqual('unmanage'),
+
+        () => client.getConv(conv_topic),
+        //(conv) => expect(UC.clean(conv)).toEqual({}),
+        //(conv) => expect({organisation_id: conv.organisation_id, is_managed: conv.is_managed})
+        //    .toEqual({organisation_id: null, is_managed: false, }),
+
+        // check that team is back to unmanaged
+        () => client.getTeam(org_team),
+        //(team) => expect({organisation_id: team.organisation_id, is_managed: team.is_managed})
+        //    .toEqual({organisation_id: null, is_managed: false, }),
+    ]);
+});
+
