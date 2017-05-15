@@ -17,6 +17,7 @@ let managed_team_created = {
      "<account:Charlie Chaplin>",
    ],
    "autojoin_url": "<autojoin:org-team-name>",
+   "conversations": [],
    "is_autojoin": false,
    "is_deleted": false,
    "is_managed": true,
