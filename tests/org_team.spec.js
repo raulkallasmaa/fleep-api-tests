@@ -16,73 +16,77 @@ let managed_team_created = {
    "admins": [
      "<account:Charlie Chaplin>",
    ],
-   "autojoin_url": "<autojoin:test-org-team-name>",
-   "conversations": [],
+   "autojoin_url": "<autojoin:org-team-name>",
    "is_autojoin": false,
    "is_deleted": false,
    "is_managed": true,
+   "is_tiny": false,
    "members": [
      "<account:Charlie Chaplin>",
      "<account:Don Johnson>",
      "<account:Mel Gibson>",
    ],
    "mk_rec_type": "team",
+   "mk_sync_mode": "tsm_full",
    "organisation_id": "<org:test-org-name>",
-   "team_id": "<team:test-org-team-name>",
-   "team_name": "test-org-team-name",
-   "version_nr": 1,
+   "team_id": "<team:org-team-name>",
+   "team_name": "org-team-name",
+   "team_version_nr": 1,
 };
 
 let team_after_store = {
    "admins": [
      "<account:Charlie Chaplin>",
    ],
-   "autojoin_url": "<autojoin:test-org-team-name>",
-   "conversations": [],
+   "autojoin_url": "<autojoin:org-team-name>",
    "is_autojoin": true,
    "is_deleted": false,
    "is_managed": true,
+   "is_tiny": false,
    "members": [
      "<account:Bob Geldof>",
      "<account:Charlie Chaplin>",
      "<account:Don Johnson>",
    ],
    "mk_rec_type": "team",
+   "mk_sync_mode": "tsm_full",
    "organisation_id": "<org:test-org-name>",
-   "team_id": "<team:test-org-team-name>",
+   "team_id": "<team:org-team-name>",
    "team_name": "org-team-renamed",
-   "version_nr": 5,
+   "team_version_nr": 5,
 };
 
 let team_after_unmanage_and_remove = {
    "admins": [],
-   "autojoin_url": "<autojoin:test-org-team-name>",
-   "conversations": [],
+   "autojoin_url": "<autojoin:org-team-name>",
    "is_autojoin": true,
    "is_deleted": true,
    "is_managed": false,
+   "is_tiny": false,
    "members": [
      "<account:Bob Geldof>",
      "<account:Charlie Chaplin>",
      "<account:Don Johnson>",
    ],
    "mk_rec_type": "team",
+   "mk_sync_mode": "tsm_full",
    "organisation_id": null,
-   "team_id": "<team:test-org-team-name>",
+   "team_id": "<team:org-team-name>",
    "team_name": "org-team-renamed",
-   "version_nr": 7,
+   "team_version_nr": 7,
 };
 
 test('create org and add managed team', function () {
     let client = UC.charlie;
-    let conv_topic = 'tm-org-topic';
-    let org_name = 'tm-org-name';
-    let org_team = 'tm-org-team-name';
-    let org_team_2 = 'tm-org-team-renamed';
+    let conv_topic = 'test-org-topic';
+    let org_name = 'test-org-name';
+    let org_team = 'org-team-name';
+    let org_team_2 = 'org-team-renamed';
 
     return thenSequence([
         // create first conversation before team so team can be added later
         () => client.api_call("api/conversation/create", {topic: conv_topic}),
+        () => client.poll_filter({mk_rec_type: 'conv', topic: conv_topic}),
         // create org
         () => client.api_call("api/business/create", {organisation_name: org_name}),
         () => client.api_call("api/business/configure/" + client.getOrgId(org_name), {
