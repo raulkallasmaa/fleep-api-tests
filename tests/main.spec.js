@@ -11,7 +11,7 @@ let UC = new UserCache([
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
 
-describe.only('create new conversation', function () {
+describe('create new conversation', function () {
     it('should create new conversation', function () {
         let client = UC.alice;
         return thenSequence([
@@ -66,7 +66,7 @@ describe.only('create new conversation', function () {
                     "topic_message_nr": 1,
                     "unread_count": 0,
             }),
-                ]);
+        ]);
     });
 });
 
@@ -92,13 +92,9 @@ describe('message send', function () {
                     "stream": [],
                     "result_message_nr": '...',
                     "header": {
-                        "admins": [],
-                        "can_post": true,
                         "conversation_id": "<conv:hello>",
-                        "creator_id": "<account:Alice Adamson>",
                         "export_files": [],
                         "export_progress": "1",
-                        "has_email_subject": false,
                         "has_pinboard": false,
                         "has_task_archive": false,
                         "has_taskboard": false,
@@ -106,18 +102,14 @@ describe('message send', function () {
                         "inbox_time": "...",
                         "is_automute": false,
                         "is_list": true,
-                        "is_managed": false,
                         "is_mark_unread": false,
-                        "is_premium": false,
                         "join_message_nr": 1,
                         "label_ids": [],
                         "last_inbox_nr": 1,
                         "last_message_nr": 2,
                         "last_message_time": "...",
                         "mk_alert_level": "default",
-                        "mk_conv_type": "cct_list",
                         "mk_rec_type": "conv",
-                        "organisation_id": null,
                         "profile_id": "<account:Alice Adamson>",
                         "read_message_nr": 2,
                         "send_message_nr": 1,
@@ -125,8 +117,6 @@ describe('message send', function () {
                         "snooze_interval": 0,
                         "snooze_time": 0,
                         "teams": [],
-                        "topic": "hello",
-                        "topic_message_nr": 1,
                         "unread_count": 0,
                     }
                 });
@@ -159,6 +149,7 @@ describe('topic', function () {
                         "default_members": [],
                         "export_files": [],
                         "export_progress": "1",
+                        "guests": [],
                         "has_email_subject": false,
                         "has_pinboard": false,
                         "has_task_archive": false,
