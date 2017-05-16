@@ -4,12 +4,22 @@
 		"ecmaVersion": 6,
 		"sourceType": "module"
 	},
-	"plugins": ["json"],
+	"plugins": [
+		"jest",
+		"jest-async",
+		"json"
+	],
 	"env": { "es6": true, "node": true, "jest": true },
 	"globals": {
 		"jasmine": false
 	},
 	"rules": {
+		"jest/no-disabled-tests": 1,	// .skip()
+		"jest/no-focused-tests": 1,	// .only()
+		"jest/no-identical-title": 2,
+		"jest/valid-expect": 2,
+		"jest-async/expect-return": 2,
+
 		// noise from eslint:all
 		"camelcase": 0,
 		"capitalized-comments": 0,
