@@ -6,7 +6,7 @@ let UC = new UserCache([
     'Alice Adamson',
     'Bob Dylan',
     'Charlie Chaplin',
-]);
+], __filename);
 
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());

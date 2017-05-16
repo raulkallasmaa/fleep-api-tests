@@ -8,7 +8,7 @@ let UC = new UserCache([
     'Charlie Chaplin',
     'Don Johnson',
     'Mel Gibson',
-]);
+], __filename);
 
 let singers_team_after_create = {
    "admins": [],

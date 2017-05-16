@@ -1,11 +1,14 @@
 
 all:
+	@mkdir -p logs
 	npm test
 
 %:
+	@mkdir -p logs
 	npm test $@
 
 big-test:
+	@mkdir -p logs
 	BIG_TEST=1 npm test
 
 lint:

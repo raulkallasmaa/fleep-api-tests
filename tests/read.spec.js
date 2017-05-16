@@ -6,7 +6,7 @@ let UC = new UserCache([
     'Alice In Wonderland',
     'Bob Geldof',
     'Charlie Sheen',
-]);
+], __filename);
 
 let alice_create_header = {
    "admins": [],

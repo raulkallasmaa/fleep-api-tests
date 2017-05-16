@@ -1,6 +1,10 @@
 
 import { UserCache } from '../lib';
-let UC = new UserCache([ 'Box User', ]);
+let UC = new UserCache([
+    'Box User',
+], __filename);
+
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 50 * 1000;
 
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
@@ -15,6 +19,10 @@ describe('test email sending', function () {
             })
             .then(function (res) {
                 expect(res.accepted).toEqual([UC.box.email]);
+                return true;
+            })
+            .catch(function (err) {
+                expect(err).toEqual({});
                 return true;
             });
     });
@@ -40,6 +48,10 @@ describe('test email recv', function () {
             })
             .then(function (res) {
                 expect(res[0].body).toEqual("another text in body");
+                return true;
+            })
+            .catch(function (err) {
+                expect(err).toEqual({});
                 return true;
             });
     });

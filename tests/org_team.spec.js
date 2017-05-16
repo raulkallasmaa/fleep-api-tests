@@ -7,7 +7,7 @@ let UC = new UserCache([
     'Charlie Chaplin',
     'Don Johnson',
     'Mel Gibson',
-]);
+], __filename);
 
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
