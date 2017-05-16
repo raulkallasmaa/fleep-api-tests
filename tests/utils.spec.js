@@ -22,6 +22,13 @@ some text in body
 
 `;
 
+test('setup-early', function () {
+    expect(typeof Promise.config).toEqual('function');
+    let setup = require('../lib/setup-early');
+    expect(setup.Promise).toEqual(Promise);
+    expect(setup.NativePromise === Promise).toEqual(false);
+});
+
 test('parseMime', function () {
     expect(parseMime(mail1)).toEqual({
         "headers": {
