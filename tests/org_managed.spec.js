@@ -34,16 +34,17 @@ test('create org and create team and then manage team', function () {
         // turn conversation to managed
         () => client.api_call("api/conversation/store/" + client.getConvId(conv_topic), {
             is_managed: true }),
-        () => client.getConv(conv_topic),
-        (conv) => expect({organisation_id: conv.organisation_id, is_managed: conv.is_managed})
-            .toEqual({organisation_id: client.getOrgId(org_name), is_managed: true, }),
+        (res) => expect(res.header).toMatchObject({
+            organisation_id: client.getOrgId(org_name),
+            is_managed: true, }),
 
         // turn team into managed team
         () => client.api_call("api/team/configure/" + client.getTeamId(org_team), {
             is_managed: true }),
         () => client.getTeam(org_team),
-        (team) => expect({organisation_id: team.organisation_id, is_managed: team.is_managed})
-            .toEqual({organisation_id: client.getOrgId(org_name), is_managed: true, }),
+        (team) => expect(team).toMatchObject({
+            organisation_id: client.getOrgId(org_name),
+            is_managed: true, }),
 
         // close org
         () => client.poke(client.getConvId(conv_topic), true),
@@ -55,14 +56,11 @@ test('create org and create team and then manage team', function () {
         (msg) => expect(msg.mk_message_type).toEqual('unmanage'),
 
         () => client.getConv(conv_topic),
-        //(conv) => expect(UC.clean(conv)).toEqual({}),
-        //(conv) => expect({organisation_id: conv.organisation_id, is_managed: conv.is_managed})
-        //    .toEqual({organisation_id: null, is_managed: false, }),
+        (conv) => expect(conv).toMatchObject({organisation_id: null, is_managed: false, }),
 
         // check that team is back to unmanaged
         () => client.getTeam(org_team),
-        //(team) => expect({organisation_id: team.organisation_id, is_managed: team.is_managed})
-        //    .toEqual({organisation_id: null, is_managed: false, }),
+        (team) => expect(team).toMatchObject({organisation_id: null, is_managed: false, }),
     ]);
 });
 
