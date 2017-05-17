@@ -70,121 +70,73 @@ describe('create new conversation', function () {
     });
 });
 
-describe('message send', function () {
-    it('should send message to flow', function () {
-        return UC.alice.api_call("api/conversation/create", {
-                topic: 'hello',
-                account_ids: [UC.bob.info.account_id, UC.charlie.info.account_id],
-            })
-            .then(function (res) {
-                UC.clean(res, {});
-                expect(res.header.topic).toEqual('hello');
+describe('send message', function () {
+    it('should send message', function () {
+        let client = UC.alice;
+        return thenSequence([
+            () => client.api_call("api/conversation/create", {topic: 'sendMsg', account_ids: [UC.bob.info.account_id, UC.charlie.info.account_id]}),
+            (res) => {
+                expect(res.header.topic).toEqual('sendMsg');
                 expect(res.header.members.length).toEqual(3);
-                return res.header.conversation_id;
-            })
-            .then(function (conversation_id) {
-                return UC.alice.api_call("api/message/send/" + conversation_id, {message: 'hello'});
-            })
-            .then(function (res) {
-                let xres = UC.clean(res, {result_message_nr: null});
-                xres.stream = [];
-                expect(xres).toEqual({
-                    "stream": [],
-                    "result_message_nr": '...',
-                    "header": {
-                        "conversation_id": "<conv:hello>",
-                        "export_files": [],
-                        "export_progress": "1",
-                        "has_pinboard": false,
-                        "has_task_archive": false,
-                        "has_taskboard": false,
-                        "inbox_message_nr": 2,
-                        "inbox_time": "...",
-                        "is_automute": false,
-                        "is_list": true,
-                        "is_mark_unread": false,
-                        "join_message_nr": 1,
-                        "label_ids": [],
-                        "last_inbox_nr": 1,
-                        "last_message_nr": 2,
-                        "last_message_time": "...",
-                        "mk_alert_level": "default",
-                        "mk_rec_type": "conv",
-                        "profile_id": "<account:Alice Adamson>",
-                        "read_message_nr": 2,
-                        "send_message_nr": 1,
-                        "show_message_nr": 2,
-                        "snooze_interval": 0,
-                        "snooze_time": 0,
-                        "teams": [],
-                        "unread_count": 0,
-                    }
-                });
-            });
+            },
+            () => client.api_call("api/message/send/" + client.getConvId(/sendMsg/), {message: 'msgSend1'}),
+            (res) => expect(UC.clean(res, {result_message_nr: null})).toEqual({
+                "header": {
+                    "conversation_id": "<conv:sendMsg>",
+                    "export_files": [],
+                    "export_progress": "1",
+                    "has_pinboard": false,
+                    "has_task_archive": false,
+                    "has_taskboard": false,
+                    "inbox_message_nr": 2,
+                    "inbox_time": "...",
+                    "is_automute": false,
+                    "is_list": true,
+                    "is_mark_unread": false,
+                    "join_message_nr": 1,
+                    "label_ids": [],
+                    "last_inbox_nr": 1,
+                    "last_message_nr": 2,
+                    "last_message_time": "...",
+                    "mk_alert_level": "default",
+                    "mk_rec_type": "conv",
+                    "profile_id": "<account:Alice Adamson>",
+                    "read_message_nr": 2,
+                    "send_message_nr": 1,
+                    "show_message_nr": 2,
+                    "snooze_interval": 0,
+                    "snooze_time": 0,
+                    "teams": [],
+                    "unread_count": 0,
+                },
+                "result_message_nr": "...",
+                "stream": [{
+                "account_id": "<account:Alice Adamson>",
+                "conversation_id": "<conv:sendMsg>",
+                "inbox_nr": 1,
+                "message": "<msg><p>msgSend1</p></msg>",
+                "message_nr": 2,
+                "mk_message_type": "text",
+                "mk_rec_type": "message",
+                "posted_time": "...",
+                "prev_message_nr": 1,
+                "profile_id": "<account:Alice Adamson>",
+                "tags": [],
+            }],
+            }),
+        ]);
     });
 });
 
-describe('topic', function () {
+describe('set conversation topic', function () {
     it('should set conversation topic', function () {
-        return UC.alice.api_call("api/conversation/create", {topic: 'hey'})
-            .then(function (res) {
-                UC.clean(res, {});
-                expect(res.header.topic).toEqual('hey');
-                return res.header.conversation_id;
-            })
-            .then(function (conversation_id) {
-                return UC.alice.api_call("api/conversation/set_topic/" + conversation_id, {topic: 'testing'});
-            })
-            .then(function (res) {
-                let xres = UC.clean(res, {result_message_nr: null});
-                xres.stream = [];
-                expect(xres).toEqual({
-                    "stream": [],
-                    "result_message_nr": '...',
-                    "header": {
-                        "admins": [],
-                        "can_post": true,
-                        "conversation_id": "<conv:hey>",
-                        "creator_id": "<account:Alice Adamson>",
-                        "default_members": [],
-                        "export_files": [],
-                        "export_progress": "1",
-                        "guests": [],
-                        "has_email_subject": false,
-                        "has_pinboard": false,
-                        "has_task_archive": false,
-                        "has_taskboard": false,
-                        "inbox_message_nr": 1,
-                        "inbox_time": "...",
-                        "is_automute": false,
-                        "is_list": false,
-                        "is_managed": false,
-                        "is_mark_unread": false,
-                        "is_premium": false,
-                        "join_message_nr": 1,
-                        "label_ids": [],
-                        "last_inbox_nr": 0,
-                        "last_message_nr": 2,
-                        "last_message_time": "...",
-                        "leavers": [],
-                        "members": ["<account:Alice Adamson>"],
-                        "mk_alert_level": "default",
-                        "mk_conv_type": "cct_default",
-                        "mk_rec_type": "conv",
-                        "organisation_id": null,
-                        "profile_id": "<account:Alice Adamson>",
-                        "read_message_nr": 1,
-                        "send_message_nr": 1,
-                        "show_message_nr": 1,
-                        "snooze_interval": 0,
-                        "snooze_time": 0,
-                        "teams": [],
-                        "topic": "testing",
-                        "topic_message_nr": 2,
-                        "unread_count": 0,
-                    },
-                });
-            });
+        let client = UC.alice;
+        return thenSequence([
+            () => client.api_call("api/conversation/create", {topic: 'convTopic'}),
+            (res) => expect(res.header.topic).toEqual('convTopic'),
+            () => client.api_call("api/conversation/set_topic/" + client.getConvId(/convTopic/), {topic: 'newTopic'}),
+            (res) => expect(res.header.topic).toEqual('newTopic')
+        ]);
     });
 });
 
