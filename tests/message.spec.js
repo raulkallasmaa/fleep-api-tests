@@ -122,57 +122,35 @@ it('should pin and unpin message', function () {
 });
 
 it('should assign task, set task done & undone and archive task', function () {
-    return UC.alice.api_call("api/conversation/create", {topic: 'tasks'})
-        .then(function (res) {
-            UC.clean(res, {});
-            expect(res.header.topic).toEqual('tasks');
-            return res.header.conversation_id;
-        })
-        .then(function (conversation_id) {
-            return UC.alice.api_call("api/message/store/" + conversation_id, {
-                message: 'task1'
-            });
-        })
-        // assign task to alice
-        .then(function (res) {
-            return UC.alice.api_call("api/message/store/" + res.header.conversation_id, {
-                message: 'task1',
-                tags: ['is_todo'],
-                message_nr: res.result_message_nr,
-                assignee_ids: [UC.alice.account_id]
-            })
-                .then(function () {
-                    return res;
-                });
-        })
-        // task complete
-        .then(function (res) {
-            return UC.alice.api_call("api/message/store/" + res.header.conversation_id, {
-                message_nr: res.result_message_nr,
-                message: 'task1',
-                tags: ['is_done']
-            });
-        })
-        // task incomplete
-        .then(function (res) {
-            return UC.alice.api_call("api/message/store/" + res.header.conversation_id, {
-                message_nr: res.result_message_nr,
-                message: 'task1',
-                tags: ['is_todo']
-            });
-        })
-        // task archive
-        .then(function (res) {
-            return UC.alice.api_call("api/message/store/" + res.header.conversation_id, {
-                message_nr: res.result_message_nr,
-                message: 'task2',
-                tags: ['is_todo', 'is_archived']
-            })
-                .then(function (res2) {
-                    let msg = UC.alice.cache.message[res.header.conversation_id][res.result_message_nr];
-                    expect(msg.message).toEqual('<msg><p>task2</p></msg>');
-                });
-        });
+    let client = UC.alice;
+    return thenSequence([
+        () => client.api_call("api/conversation/create", {topic: 'tasks'}),
+        (res) => expect(res.header.topic).toEqual('tasks'),
+        () => client.poll_filter({mk_rec_type: 'conv', topic: /tasks/}),
+        () => client.api_call("api/message/store/" + client.getConvId(/tasks/), {message: 'task1'}),
+        () => client.api_call("api/message/store/" + client.getConvId(/tasks/), {
+            message: 'task1',
+            tags: ['is_todo'],
+            message_nr: client.getMessageNr(/task1/),
+            assignee_ids: [UC.alice.account_id]
+        }),
+        () => client.api_call("api/message/store/" + client.getConvId(/tasks/), {
+            message_nr: client.getMessageNr(/task1/),
+            message: 'task1',
+            tags: ['is_done']
+        }),
+        () => client.api_call("api/message/store/" + client.getConvId(/tasks/), {
+            message_nr: client.getMessageNr(/task1/),
+            message: 'task1',
+            tags: ['is_todo']
+        }),
+        () => client.api_call("api/message/store/" + client.getConvId(/tasks/), {
+            message_nr: client.getMessageNr(/task1/),
+            message: 'task2',
+            tags: ['is_todo', 'is_archived']
+        }),
+        () => expect(client.getMessage(/task2/).tags).toEqual(["is_shared", "is_task", "is_todo", "is_archived"])
+    ]);
 });
 
 it('should copy a message from another conversation', function () {
