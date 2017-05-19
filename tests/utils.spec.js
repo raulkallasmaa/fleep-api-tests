@@ -31,12 +31,10 @@ test('setup-early', function () {
 
 test('parseMime', function () {
     expect(parseMime(mail1)).toEqual({
-        "headers": {
-            "date": "Tue, 02 May 2017 20:07:26 +0000",
-            "from": [ "tester+box.2661894524.e222e8c11e@box.fleep.ee", ],
-            "subject": "just trying",
-            "to": [ "tester+box.2661894524.e222e8c11e@box.fleep.ee" ],
-        },
+        "date": "Tue, 02 May 2017 20:07:26 +0000",
+        "from": [ "tester+box.2661894524.e222e8c11e@box.fleep.ee", ],
+        "subject": "just trying",
+        "to": [ "tester+box.2661894524.e222e8c11e@box.fleep.ee" ],
         "body": "some text in body"
     });
 });
