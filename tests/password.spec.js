@@ -11,7 +11,7 @@ let UC = new UserCache([
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
 
-it.skip('should reset password', function () {
+it('should reset password and set new', function () {
    let client = UC.jessica;
    return thenSequence([
        () => client.logout(),
@@ -24,11 +24,10 @@ it.skip('should reset password', function () {
            client.password = client.password + 'esdgs53h45gh43g5k435k435dgsdf';
            return nfid;
        },
-       (nfid) => client.raw_api_call("api/account/confirm/v2", {
+       (nfid) => client.raw_api_call("api/account/confirm_password", {
            notification_id: nfid,
-           display_name: 'Jessica Alba',
-           password: client.password,
-           fleep_address: client.info.fleep_address}),
+           password: client.password
+       }),
        () => client.login()
    ]);
 });
