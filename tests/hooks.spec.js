@@ -1,7 +1,7 @@
 import {UserCache, thenSequence} from '../lib';
 import {requestAsync} from '../lib/utils';
 
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 35000;
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 65000;
 
 let UC = new UserCache([
     'Alice Adamson',
