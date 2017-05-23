@@ -31,7 +31,7 @@ it('should add, confirm, remove and sync alias', function () {
             "failed": null,
             "stream": [
                 {
-                    "account_id": "<account:tester+michael.f8e34b239d.baac34b117@box.fleep.ee>",
+                    "account_id": "<account:Michael Jackson>",
                     "dialog_id": null,
                     "display_name": "<email:Michael Jackson>",
                     "email": "<email:Michael Jackson>",
@@ -45,7 +45,7 @@ it('should add, confirm, remove and sync alias', function () {
                     "account_id": "<account:Snoop Dogg>",
                     "activated_time": "...",
                     "alias_account_ids": [
-                        "<account:tester+michael.f8e34b239d.baac34b117@box.fleep.ee>",
+                        "<account:Michael Jackson>",
                     ],
                     "client_flags": [
                         "emoticons_old",
