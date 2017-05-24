@@ -24,7 +24,7 @@ let create_conv_result = {
        "default_members": [],
        "guests": [],
        "has_email_subject": false,
-       "is_deletable": false,
+       "is_deletable": true,
        "is_list": false,
        "is_managed": true,
        "leavers": [],

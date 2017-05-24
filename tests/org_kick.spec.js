@@ -45,7 +45,6 @@ let sx_managed_conv_one = {
    "default_members": [],
    "guests": [],
    "has_email_subject": false,
-   "is_deletable": false,
    "is_list": false,
    "is_managed": true,
    "leavers": [],
@@ -124,7 +123,6 @@ let sx_managed_conv_one_after_kick = {
    "default_members": [],
    "guests": [],
    "has_email_subject": false,
-   "is_deletable": false,
    "is_list": false,
    "is_managed": true,
    "leavers": [
