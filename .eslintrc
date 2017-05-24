@@ -63,7 +63,7 @@
 		"no-param-reassign": 0,
 		"no-var": 2,
 		"prefer-arrow-callback": 0,
-		"prefer-spread": 2,
+		"prefer-spread": 0,
 		"prefer-promise-reject-errors": 2,
 		"space-infix-ops": 2,
 		"strict": 2,
