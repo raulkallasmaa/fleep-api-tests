@@ -1,9 +1,7 @@
 import {UserCache, thenSequence} from '../lib';
 let UC = new UserCache([
     'Box User',
-], __filename);
-
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 50 * 1000;
+], __filename, jasmine);
 
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());

@@ -1,12 +1,10 @@
 import {UserCache, matchStream} from '../lib';
 
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 35000;
-
 let UC = new UserCache([
     'Alice In Wonderland',
     'Bob Geldof',
     'Charlie Sheen',
-], __filename);
+], __filename, jasmine);
 
 let alice_create_header = {
    "admins": [],

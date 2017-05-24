@@ -1,13 +1,11 @@
 import {UserCache, thenSequence} from '../lib';
 import {requestAsync} from '../lib/utils';
 
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 65000;
-
 let UC = new UserCache([
     'Alice Adamson',
     'Bob Dylan',
     'Charlie Chaplin',
-], __filename);
+], __filename, jasmine);
 
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());

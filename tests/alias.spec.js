@@ -1,11 +1,9 @@
 import {UserCache, thenSequence} from '../lib';
 
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 35000;
-
 let UC = new UserCache([
     'Snoop Dogg',
     'Michael Jackson@',
-], __filename);
+], __filename, jasmine);
 
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
