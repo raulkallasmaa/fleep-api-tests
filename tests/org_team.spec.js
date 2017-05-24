@@ -187,7 +187,6 @@ let org_changelog = {
      {
        "account_id": "<account:Mel Gibson>",
        "event_data": {
-         "email_account_id": null,
          "member_account_id": "<account:Mel Gibson>",
        },
        "event_time": "...",

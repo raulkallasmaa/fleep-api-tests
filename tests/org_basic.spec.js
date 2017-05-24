@@ -25,6 +25,7 @@ let org_after_create = {
 
 let mels_reminder_active = {
    "account_id": "<account:Mel Gibson>",
+   "creator_id": "<account:Charlie Chaplin>",
    "expire_time": "...",
    "is_active": true,
    "mk_rec_type": "reminder",
@@ -74,6 +75,7 @@ let mels_org_join = {
      },
      {
        "account_id": "<account:Mel Gibson>",
+       "creator_id": "<account:Charlie Chaplin>",
        "expire_time": "...",
        "is_active": false,
        "mk_rec_type": "reminder",
