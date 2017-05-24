@@ -84,7 +84,7 @@ let sync_changelog = {
    ],
 };
 
-test('join org via invite reminder', function () {
+test('join org via invite', function () {
     let client = UC.john;
     let conv_topic = 'inviteReminder';
     let org_name = 'organisationName';
