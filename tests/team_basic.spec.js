@@ -1,14 +1,12 @@
 import {UserCache, thenSequence} from '../lib';
 
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 50000;
-
 let UC = new UserCache([
     'Alice Adamson',
     'Bob Dylan',
     'Charlie Chaplin',
     'Don Johnson',
     'Mel Gibson',
-], __filename);
+], __filename, jasmine);
 
 let singers_team_after_create = {
    "admins": [],
