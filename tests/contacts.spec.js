@@ -100,6 +100,7 @@ it('should check that information changes are synced properly', function () {
     let client2 = UC.bob;
     let client3 = UC.charlie;
     let members = [client2.fleep_email, client3.fleep_email].join(', ');
+
     return thenSequence([
         () => client.api_call("api/conversation/create", {topic: 'contactInfo'}),
         (res) => expect(res.header.topic).toEqual('contactInfo'),
@@ -109,6 +110,8 @@ it('should check that information changes are synced properly', function () {
             client2.poll_filter({mk_rec_type: 'conv', topic: /contactInfo/}),
             client3.poll_filter({mk_rec_type: 'conv', topic: /contactInfo/})
         ]),
+
+        // set contact names for others for only the user himself to see
         () => client.api_call("api/contact/describe", {contact_id: client2.account_id, contact_name: 'Brother'}),
         () => client.poll_filter({mk_rec_type: 'contact', display_name: /Brother/}),
         () => client.api_call("api/contact/describe", {contact_id: client3.account_id, contact_name: 'Father'}),
@@ -124,6 +127,8 @@ it('should check that information changes are synced properly', function () {
         () => expect(client2.getContact(/Alice/).display_name).toEqual('Alice Adamson'),
         () => expect(client3.getContact(/Friend/).display_name).toEqual('Friend'),
         () => expect(client3.getContact(/Alice/).display_name).toEqual('Alice Adamson'),
+
+        // hide bob from contacts
         () => client.api_call("api/contact/hide", {contacts: [client2.account_id]}),
         () => client.poll_filter({mk_rec_type: 'contact', account_id: client2.account_id}),
         () => client.api_call("api/contact/sync", {contact_id: client2.account_id}),
@@ -140,16 +145,22 @@ it('should check that information changes are synced properly', function () {
             "organisation_id": null,
             "sort_rank": "...",
         }),
+
+        // import 2 contacts via email
         () => client.api_call("api/contact/import", {contact_list: [
             {addr_full: UC.donald.email, addr_descr: 'President', phone_nr: '+37258012547'},
             {addr_full: UC.hillary.email, addr_descr: 'Wannabe President'}]
         }),
+
+        // sync all contacts except for these 3
         () => client.api_call("api/contact/sync/all", {
             ignore: [client2.account_id,
                 client3.account_id,
                 client.getContact(/Fleep Support/).account_id]
         }),
         (res) => {
+
+        // check that there are 2 contacts synced
             expect(res.contacts.length).toEqual(2);
             client.cache_add_stream(res.contacts);
     },
@@ -176,6 +187,8 @@ it('should check that information changes are synced properly', function () {
             "organisation_id": null,
             "sort_rank": "...",
         }),
+
+        // sync by activity; check contacts' last seen time; note that 2 email users are not listed because they have never been active yet
         () => client.api_call("api/contact/sync/activity", {contacts: [
             client2.account_id,
             client3.account_id,
@@ -201,6 +214,8 @@ it('should check that information changes are synced properly', function () {
         },
     ],
         }),
+
+        // sync all the contacts you want to list by account ids
         () => client.api_call("api/contact/sync/list", {contacts: [
             client.getContact(/Brother/).account_id,
             client.getContact(/Father/).account_id,
