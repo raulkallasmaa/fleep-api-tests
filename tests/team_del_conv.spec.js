@@ -33,6 +33,7 @@ let bob_team_label_sync = {
 test('team: add and remove conversations', function () {
     let client = UC.charlie;
     let convTopic = 'teamsDelConvTestTopic';
+    let convTopic2 = 'teamsDelConvTopicToo';
     let teamName = 'Performers';
     let orgName = 'teamsDelConvTestOrgName';
     return thenSequence([
@@ -48,11 +49,12 @@ test('team: add and remove conversations', function () {
                 account_ids: [UC.bob.account_id, UC.don.account_id],
                 is_managed: true, }),
         () => client.api_call("api/message/store/" + client.getConvId(convTopic), {
-            message: 'message1', }),
-        // wait for bg worker to do it's stuff
-        () => client.poke(client.getConvId(convTopic), true),
-        // sync conversation also for Bob
-        () => UC.bob.poll_filter({mk_rec_type: 'conv', topic: convTopic}),
+                message: 'message1', }),
+        // create another team
+        () => client.api_call("api/conversation/create", {
+                topic: convTopic2,
+                team_ids: [client.getTeamId(teamName)], }),
+        () => UC.bob.poll_filter({mk_rec_type: 'conv', topic: convTopic2}),
 
         // Delete from Charlie's conversation list
         () => UC.bob.api_call('api/conversation/store/' + client.getConvId(convTopic), {
@@ -62,7 +64,7 @@ test('team: add and remove conversations', function () {
 	}),
 
         // let delete be synced into account schema
-        () => client.poke(client.getConvId(convTopic)),
+        () => client.poke(client.getConvId(convTopic2), true),
 
         () => client.matchStream({mk_rec_type: 'label', team_id: UC.bob.getTeamId(teamName)}),
         (team_label) => UC.bob.api_call("api/label/sync_conversations/", {
