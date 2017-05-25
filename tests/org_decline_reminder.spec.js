@@ -1,11 +1,9 @@
 import {UserCache, thenSequence} from '../lib';
 
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 50000;
-
 let UC = new UserCache([
     'Fernando Sucre',
     'Alex Mahone',
-], __filename);
+], __filename, jasmine);
 
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
