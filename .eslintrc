@@ -61,11 +61,11 @@
 		"arrow-parens": 2,
 		"func-style": [2, "declaration"],
 		"no-param-reassign": 0,
-		"no-var": 2,
+		"no-var": 1,
 		"prefer-arrow-callback": 0,
 		"prefer-spread": 0,
 		"prefer-promise-reject-errors": 2,
-		"space-infix-ops": 2,
+		"space-infix-ops": 1,
 		"strict": 2,
 
 		// maybe fix?
@@ -83,7 +83,7 @@
 		"prefer-const": 0,
 
 		// enforce additional style
-		"no-unused-vars": [2, {"vars": "local", "args": "none"}],
+		"no-unused-vars": [1, {"vars": "local", "args": "none"}],
 		"accessor-pairs": 2,
 		"block-scoped-var": 2,
 		"brace-style": [2, "1tbs", { "allowSingleLine": true }],
