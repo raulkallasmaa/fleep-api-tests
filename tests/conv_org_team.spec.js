@@ -40,6 +40,8 @@ test.skip('free conversation with managed team', function () {
         // charlie tries to add managed team to conv; WORKS RIGHT NOW BUT SHOULDN'T
         () => UC.charlie.api_call("api/conversation/store/" + client.getConvId(conv_topic), {
             add_team_ids: [client.getTeamId(team_name)]}),
+        // .then(() => Promise.reject(new Error('Must be managed team member or team admin!')),
+        //     () => true),
 
         // don adds managed team to conv
         // () => UC.don.api_call("api/conversation/store/" + client.getConvId(conv_topic), {
@@ -48,6 +50,8 @@ test.skip('free conversation with managed team', function () {
         // charlie tries to remove managed team from conv; WORKS RIGHT NOW BUT SHOULDN'T
         () => UC.charlie.api_call("api/conversation/store/" + client.getConvId(conv_topic), {
             remove_team_ids: [client.getTeamId(team_name)]}),
+        // .then(() => Promise.reject(new Error('Must be managed team member or team admin!')),
+        //     () => true),
 
         // jon removes managed team from conv
         // () => UC.jon.api_call("api/conversation/store/" + client.getConvId(conv_topic), {
