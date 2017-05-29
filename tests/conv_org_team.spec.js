@@ -10,7 +10,7 @@ let UC = new UserCache([
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
 
-test('free conversation with managed team', function () {
+test.skip('free conversation with managed team', function () {
     let client = UC.bob;
     let conv_topic = 'freeConv';
     let team_name = 'managedTeam';
@@ -21,10 +21,14 @@ test('free conversation with managed team', function () {
         () => client.api_call("api/conversation/create", {topic: conv_topic, account_ids: [UC.charlie.account_id]}),
         (res) => expect(res.header.topic).toEqual(conv_topic),
         () => client.poll_filter({mk_rec_type: 'conv', topic: conv_topic}),
+
+        // create org and add jon & don
         () => client.api_call("api/business/create", {organisation_name: org_name}),
         () => client.poll_filter({mk_rec_type: 'org_header', organisation_name: org_name}),
         () => client.api_call("api/business/configure/" + client.getOrgId(org_name), {
             add_account_ids: [UC.jon.account_id, UC.don.account_id]}),
+
+        // create managed team and add don and jon
         () => client.api_call("api/business/create_team/" + client.getOrgId(org_name), {team_name: team_name}),
         () => client.poll_filter({mk_rec_type: 'team', team_name: team_name}),
         () => client.api_call("api/business/store_team/" + client.getOrgId(org_name), {
@@ -32,7 +36,21 @@ test('free conversation with managed team', function () {
             add_account_ids: [UC.don.account_id, UC.jon.account_id],
             is_managed: true}),
         () => client.poll_filter({mk_rec_type: 'team', team_name: team_name}),
+
+        // charlie tries to add managed team to conv; WORKS RIGHT NOW BUT SHOULDN'T
         () => UC.charlie.api_call("api/conversation/store/" + client.getConvId(conv_topic), {
             add_team_ids: [client.getTeamId(team_name)]}),
+
+        // don adds managed team to conv
+        // () => UC.don.api_call("api/conversation/store/" + client.getConvId(conv_topic), {
+        //     add_team_ids: [client.getTeamId(team_name)]}),
+
+        // charlie tries to remove managed team from conv; WORKS RIGHT NOW BUT SHOULDN'T
+        () => UC.charlie.api_call("api/conversation/store/" + client.getConvId(conv_topic), {
+            remove_team_ids: [client.getTeamId(team_name)]}),
+
+        // jon removes managed team from conv
+        // () => UC.jon.api_call("api/conversation/store/" + client.getConvId(conv_topic), {
+        //     remove_team_ids: [client.getTeamId(team_name)]}),
     ]);
 });
