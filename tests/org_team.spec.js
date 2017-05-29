@@ -19,6 +19,7 @@ let managed_team_created = {
    "is_deleted": false,
    "is_managed": true,
    "is_tiny": false,
+   "managed_time": "...",
    "members": [
      "<account:Charlie Chaplin>",
      "<account:Don Johnson>",
