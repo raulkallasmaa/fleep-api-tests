@@ -45,6 +45,41 @@ let sync_conversations = {
    "sync_cursor": "{}",
 };
 
+let mel_removed_from_team = {
+    "stream": [{
+    "admins": [
+        "<account:Meg Griffin>",
+        ],
+        "autojoin_url": "<autojoin:managedConv>",
+        "cmail": "<cmail:managedConv>",
+        "conversation_id": "<conv:managedConv>",
+        "creator_id": "<account:Meg Griffin>",
+        "default_members": [],
+        "guests": [],
+        "has_email_subject": false,
+        "is_deletable": true,
+        "is_list": false,
+        "is_managed": true,
+        "leavers": [
+        "<account:Mel Gibson>",
+        ],
+        "managed_time": "...",
+        "members": [
+        "<account:Don Johnson>",
+            "<account:Meg Griffin>",
+        ],
+        "mk_conv_type": "cct_no_mail",
+        "mk_rec_type": "org_conv",
+        "organisation_id": "<org:organisationName>",
+        "teams": [
+        "<team:freeTeam>",
+        ],
+        "topic": "managedConv",
+},
+],
+"sync_cursor": "{}",
+};
+
 test('managed conversation and free team', function () {
     let client = UC.bob;
     let conv_topic = 'managedConv';
@@ -87,8 +122,33 @@ test('managed conversation and free team', function () {
         () => UC.don.poll_filter({mk_rec_type: 'team', team_name: team_name}),
 
         // sync conversation
-        () => UC.don.poke(UC.don.getConvId(conv_topic), true),
+        () => UC.don.poke(UC.meg.getConvId(conv_topic), true),
         () => client.api_call("api/business/sync_conversations/" + client.getOrgId(org_name), {}),
         (res) => expect(UC.clean(res)).toEqual(sync_conversations),
+
+        // check that mel can not remove team from conv
+        () => UC.mel.api_call("api/conversation/store/" + UC.meg.getConvId(conv_topic), {
+           remove_team_ids: [UC.don.getTeamId(team_name)]})
+            .then(() => Promise.reject(new Error('Not member of organisation!')),
+                (r) => expect(r.statusCode).toEqual(431)),
+
+        // check that don can not remove team from conv
+        () => UC.don.api_call("api/conversation/store/" + UC.meg.getConvId(conv_topic), {
+            remove_team_ids: [UC.don.getTeamId(team_name)]})
+            .then(() => Promise.reject(new Error('Not member of organisation!')),
+                (r) => expect(r.statusCode).toEqual(431)),
+
+        // remove mel from free team and check that he is in leavers list
+        () => UC.don.api_call("api/team/configure/" + UC.don.getTeamId(team_name), {
+            remove_account_ids: [UC.mel.account_id]}),
+        () => UC.don.poke(UC.don.getConvId(conv_topic), true),
+        () => client.api_call("api/business/sync_conversations/" + client.getOrgId(org_name), {}),
+        (res) => expect(UC.clean(res)).toEqual(mel_removed_from_team),
+
+        // bob tries to remove free team from conv
+        () => client.api_call("api/conversation/store/" + UC.meg.getConvId(conv_topic), {
+            remove_team_ids: [UC.don.getTeamId(team_name)]})
+            .then(() => Promise.reject(new Error('Must be member or team admin!')),
+                (r) => expect(r.statusCode).toEqual(431)),
     ]);
 });
