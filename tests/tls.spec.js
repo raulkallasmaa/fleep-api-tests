@@ -1,12 +1,17 @@
 
 //import { requestPromise } from '../lib/utils';
 import tls from 'tls';
+import globby from 'globby';
 
-import { ENV_HOST, BIG_TEST } from '../lib/usercache';
+import { KEY_DIR, ENV_HOST, BIG_TEST } from '../lib/usercache';
+import { thenSequence, execAsync } from '../lib/utils';
+
+let CERT_PATS = [KEY_DIR + '/cf/*/*.crt', KEY_DIR + '/intca/*/*.crt'];
+let CERT_FILES = globby.sync(CERT_PATS);
 
 // "Jun 28 04:44:00 2017 GMT"
 function parseCertDate(dstr) {
-    let parts = dstr.split(' ');
+    let parts = dstr.split(/ +/g);
     let mmap = {
         'Jan': '01', 'Feb': '02', 'Mar': '03', 'Apr': '04',
         'May': '05', 'Jun': '06', 'Jul': '07', 'Aug': '08',
@@ -72,6 +77,21 @@ function connectTLS(opts) {
     });
 }
 
+function checkDate(dstr, desc) {
+    let now = Date.now(); // ms
+    let days = 30;
+    let day_ms = 24 * 60 * 60 * 1000;
+    let danger = now + days * day_ms;
+
+    let cdate_ms = parseCertDate(dstr);
+    if (cdate_ms <= danger) {
+        /* eslint no-bitwise:0 */
+        let age = ((cdate_ms - now) / day_ms) | 0;
+        return Promise.reject(new Error("cert dangerously old: " + age + " days remaining - " + desc));
+    }
+    return Promise.resolve();
+}
+
 function checkHttps(uri, ca) {
     let tmp = uri.split('://');
     let protomap = {https: 443, imaps: 993, submission: 587, ssmtp: 465};
@@ -81,21 +101,11 @@ function checkHttps(uri, ca) {
             .then(function (resp) {
                 expect(resp.proto).toEqual('TLSv1.2');
 
-                let now = Date.now(); // ms
-                let days = 30;
-                let day_ms = 24 * 60 * 60 * 1000;
-                let danger = now + days * day_ms;
-
-                let cdate_ms = parseCertDate(resp.cert.valid_to);
-                if (cdate_ms <= danger) {
-                    /* eslint no-bitwise:0 */
-                    let age = ((cdate_ms - now) / day_ms) | 0;
-                    return Promise.reject(new Error("cert dangerously old: " + age + " days remaining"));
-                }
                 if (resp.cert.issuer.O !== ca) {
                     return Promise.reject(new Error("invalid issuer: " + JSON.stringify(resp.cert.issuer)));
                 }
-                return Promise.resolve();
+
+                return checkDate(resp.cert.valid_to, uri);
             });
     });
 }
@@ -143,5 +153,24 @@ DevList.forEach(function (info) {
     if (BIG_TEST || info[0] === curHost) {
         checkHttps(info[0], info[1]);
     }
+});
+
+function certCheck(fn) {
+    return thenSequence([
+        () => execAsync('openssl', ['x509', '-text', '-in', fn]),
+        (data) => {
+            let m = /Not After *:(.*)$/m.exec(data);
+            let after = m[1].trim();
+            return checkDate(after, fn);
+        },
+    ]);
+}
+
+test('Certs in keys repo (#' + CERT_FILES.length + ')', function () {
+    let p = Promise.resolve();
+    CERT_FILES.forEach(function (fn) {
+        p = p.then(function () { return certCheck(fn); });
+    });
+    return p;
 });
 
