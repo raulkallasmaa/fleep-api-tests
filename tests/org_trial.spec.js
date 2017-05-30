@@ -80,7 +80,7 @@ let changelog_before_timetravel = {
 let changelog_after_timetravel = {
     "event_horizon": 30,
     "limit_time": 0,
-    "static_version": "3c8c363874",
+    "static_version": "...",
     "stream": [{
     "is_member": false,
         "mk_rec_type": "org_header",
@@ -289,7 +289,7 @@ it('should unmanage conv and team after trial ends', function () {
            body: /Fleep for Business trial ended/,
        }),
        () => client.poke(client.getConvId(conv_topic), true),
-       (res) => expect(UC.clean(res)).toEqual(changelog_after_timetravel),
+       (res) => expect(UC.clean(res, {static_version: null})).toEqual(changelog_after_timetravel),
    ]);
 });
 });
