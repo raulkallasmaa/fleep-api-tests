@@ -54,16 +54,13 @@ test('managed conversation and free team', function () {
     return thenSequence([
 
         // create org and add don
+	() => UC.meg.initial_poll(),
+        () => UC.don.initial_poll(),
+        () => client.initial_poll(),
         () => client.api_call("api/business/create", {organisation_name: org_name}),
         () => client.poll_filter({mk_rec_type: 'org_header', organisation_name: org_name}),
         () => client.api_call("api/business/configure/" + client.getOrgId(org_name), {
             add_account_ids: [UC.don.account_id, UC.meg.account_id]}),
-
-        // get meg into org
-        () => UC.meg.poll_filter({mk_rec_type: 'reminder', organisation_id: client.getOrgId(org_name)}),
-        () => UC.meg.matchStream({mk_rec_type: 'reminder', organisation_id: client.getOrgId(org_name)}),
-        (reminder) => UC.meg.api_call("api/business/join/" + client.getOrgId(org_name), {
-            reminder_id: reminder.reminder_id}),
 
         // create free team and add meg
         () => UC.don.api_call("api/team/create", {team_name: team_name}),
@@ -71,6 +68,12 @@ test('managed conversation and free team', function () {
         () => UC.don.api_call("api/team/configure/" + UC.don.getTeamId(team_name), {
             add_account_ids: [UC.meg.account_id]}),
         () => UC.don.poll_filter({mk_rec_type: 'team', team_name: team_name}),
+
+        // get meg into org
+        () => UC.meg.poll_filter({mk_rec_type: 'reminder', organisation_id: client.getOrgId(org_name)}),
+        () => UC.meg.matchStream({mk_rec_type: 'reminder', organisation_id: client.getOrgId(org_name)}),
+        (reminder) => UC.meg.api_call("api/business/join/" + client.getOrgId(org_name), {
+            reminder_id: reminder.reminder_id}),
 
         // create managed conversation
         () => UC.meg.api_call("api/conversation/create/", {
@@ -84,6 +87,7 @@ test('managed conversation and free team', function () {
         () => UC.don.poll_filter({mk_rec_type: 'team', team_name: team_name}),
 
         // sync conversation
+        () => UC.don.poke(UC.don.getConvId(conv_topic), true),
         () => client.api_call("api/business/sync_conversations/" + client.getOrgId(org_name), {}),
         (res) => expect(UC.clean(res)).toEqual(sync_conversations),
     ]);
