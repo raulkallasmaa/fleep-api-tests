@@ -32,24 +32,24 @@ test('free conversation with team', function () {
         () => UC.charlie.api_call("api/conversation/store/" + client.getConvId(conv_topic), {
             add_team_ids: [client.getTeamId(team_name)]})
             .then(() => Promise.reject(new Error('Must be member or team admin!')),
-            () => true),
+            (r) => expect(r.statusCode).toEqual(431)),
 
         // don tries to add team to conv
         () => UC.don.api_call("api/conversation/store/" + client.getConvId(conv_topic), {
             add_team_ids: [client.getTeamId(team_name)]})
-            .then(() => Promise.reject(new Error('Must be member or team admin!')),
-                () => true),
+            .then(() => Promise.reject(new Error('Member or conversation not found!')),
+            (r) => expect(r.statusCode).toEqual(430)),
 
         // charlie tries to remove team from conv
         () => UC.charlie.api_call("api/conversation/store/" + client.getConvId(conv_topic), {
             remove_team_ids: [client.getTeamId(team_name)]})
             .then(() => Promise.reject(new Error('Must be member or team admin!')),
-                () => true),
+            (r) => expect(r.statusCode).toEqual(431)),
 
         // jon tries to remove team from conv
         () => UC.jon.api_call("api/conversation/store/" + client.getConvId(conv_topic), {
             remove_team_ids: [client.getTeamId(team_name)]})
-            .then(() => Promise.reject(new Error('Must be member or team admin!')),
-                () => true),
+            .then(() => Promise.reject(new Error('Member or conversation not found!')),
+            (r) => expect(r.statusCode).toEqual(430)),
     ]);
 });
