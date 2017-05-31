@@ -14,7 +14,7 @@ afterAll(() => UC.cleanup());
 
 let org_after_create = {
     "stream": [{
-    "is_admin": true,
+        "is_admin": true,
         "is_member": true,
         "mk_rec_type": "org_header",
         "organisation_founder_id": "<account:Meg Griffin>",
@@ -23,38 +23,24 @@ let org_after_create = {
         "status": "bos_new",
         "trial_time": "...",
         "version_nr": 2,
-},
- {
-    "account_id": "<account:Ron Jeremy>",
-        "inviter_id": "<account:Meg Griffin>",
-        "is_admin": true,
-        "mk_member_status": "bms_pending",
-        "mk_rec_type": "org_member",
-        "organisation_id": "<org:organisationName1>",
-},
- {
-    "account_id": "<account:Don Johnson>",
+    },
+    {
+        "account_id": "<account:Don Johnson>",
         "inviter_id": "<account:Meg Griffin>",
         "is_admin": false,
         "mk_member_status": "bms_pending",
         "mk_rec_type": "org_member",
         "organisation_id": "<org:organisationName1>",
-},
- {
-    "account_id": "<account:Ron Jeremy>",
+    },
+    {
+        "account_id": "<account:Ron Jeremy>",
         "inviter_id": "<account:Meg Griffin>",
         "is_admin": true,
         "mk_member_status": "bms_pending",
         "mk_rec_type": "org_member",
         "organisation_id": "<org:organisationName1>",
-},
- {
-    "account_id": "<account:Meg Griffin>",
-        "is_admin": true,
-        "mk_member_status": "bms_active",
-        "mk_rec_type": "org_member",
-        "organisation_id": "<org:organisationName1>",
-}]};
+    },
+]};
 
 let conv_after_create = {
     "stream": [{
@@ -165,7 +151,7 @@ test('two orgs and one shared managed conv between them', function () {
         () => UC.meg.poll_filter({mk_rec_type: 'org_header', organisation_name: org_name1}),
         () => UC.meg.api_call("api/business/configure/" + UC.meg.getOrgId(org_name1), {
             add_account_ids: [UC.ron.account_id, UC.don.account_id],
-            add_admin_ids: [UC.ron.account_id, UC.meg.account_id]}),
+            add_admin_ids: [UC.ron.account_id]}),
         (res) => expect(UC.clean(res)).toEqual(org_after_create),
 
         // ron accepts org invite
