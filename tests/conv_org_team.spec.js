@@ -10,7 +10,7 @@ let UC = new UserCache([
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
 
-test.skip('free conversation with managed team', function () {
+test('free conversation with managed team', function () {
     let client = UC.bob;
     let conv_topic = 'freeConv';
     let team_name = 'managedTeam';
@@ -37,24 +37,30 @@ test.skip('free conversation with managed team', function () {
             is_managed: true}),
         () => client.poll_filter({mk_rec_type: 'team', team_name: team_name}),
 
-        // charlie tries to add managed team to conv; WORKS RIGHT NOW BUT SHOULDN'T
+        // charlie tries to add managed team to conv but fails to do so
         () => UC.charlie.api_call("api/conversation/store/" + client.getConvId(conv_topic), {
+            add_team_ids: [client.getTeamId(team_name)]})
+            .then(() => Promise.reject(new Error('Business logic error!')),
+                 (r) => expect(r.statusCode).toEqual(431)),
+
+        // don tries to add managed team to conv but can't cause he's not in the conv so he can't see the conv
+        () => UC.don.api_call("api/conversation/store/" + client.getConvId(conv_topic), {
+            add_team_ids: [client.getTeamId(team_name)]})
+            .then(() => Promise.reject(new Error('Member or conversation not found!')),
+                (r) => expect(r.statusCode).toEqual(430)),
+
+        // Bob adds managed team to conv
+        () => client.api_call("api/conversation/store/" + client.getConvId(conv_topic), {
             add_team_ids: [client.getTeamId(team_name)]}),
-        // .then(() => Promise.reject(new Error('Must be managed team member or team admin!')),
-        //     () => true),
 
-        // don adds managed team to conv
-        // () => UC.don.api_call("api/conversation/store/" + client.getConvId(conv_topic), {
-        //     add_team_ids: [client.getTeamId(team_name)]}),
-
-        // charlie tries to remove managed team from conv; WORKS RIGHT NOW BUT SHOULDN'T
+        // charlie tries to remove managed team from conv but fails
         () => UC.charlie.api_call("api/conversation/store/" + client.getConvId(conv_topic), {
-            remove_team_ids: [client.getTeamId(team_name)]}),
-        // .then(() => Promise.reject(new Error('Must be managed team member or team admin!')),
-        //     () => true),
+            remove_team_ids: [client.getTeamId(team_name)]})
+        .then(() => Promise.reject(new Error('Business logic error!')),
+            (r) => expect(r.statusCode).toEqual(431)),
 
         // jon removes managed team from conv
-        // () => UC.jon.api_call("api/conversation/store/" + client.getConvId(conv_topic), {
-        //     remove_team_ids: [client.getTeamId(team_name)]}),
+        () => UC.jon.api_call("api/conversation/store/" + client.getConvId(conv_topic), {
+            remove_team_ids: [client.getTeamId(team_name)]}),
     ]);
 });
