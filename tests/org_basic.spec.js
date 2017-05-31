@@ -92,6 +92,7 @@ test('create org and invite via reminder', function () {
 
     return thenSequence([
         // create first conversation before team so team can be added later
+        () => UC.mel.initial_poll(),
         () => client.api_call("api/conversation/create", {topic: conv_topic}),
         (res) => expect(res.header.topic).toEqual(conv_topic),
         () => client.poll_filter({mk_rec_type: 'conv', topic: conv_topic}),
