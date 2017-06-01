@@ -4,7 +4,7 @@ import tls from 'tls';
 import globby from 'globby';
 
 import { KEY_DIR, ENV_HOST, BIG_TEST } from '../lib/usercache';
-import { thenSequence, execAsync } from '../lib/utils';
+import { execAsync } from '../lib/utils';
 
 let CERT_PATS = [KEY_DIR + '/cf/*/*.crt', KEY_DIR + '/intca/*/*.crt'];
 let CERT_FILES = globby.sync(CERT_PATS);
