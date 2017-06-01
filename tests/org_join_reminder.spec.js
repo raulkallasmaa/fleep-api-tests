@@ -95,9 +95,7 @@ test('join org via invite', function () {
         // register theodore with common fleep account flow
         () => UC.theodore.register_via_email(),
         () => UC.theodore.login(),
-
-        // get theodore into org via event reminder
-        () => UC.theodore.poll_filter({mk_rec_type: 'reminder', organisation_id: client.getOrgId(org_name)}),
+        () => UC.theodore.api_call('api/account/sync_reminders'),
         () => UC.theodore.matchStream({mk_rec_type: 'reminder', organisation_id: client.getOrgId(org_name)}),
         (res) => UC.theodore.api_call("api/business/join/" + client.getOrgId(org_name), {
             reminder_id: res.reminder_id}),

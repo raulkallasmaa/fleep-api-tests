@@ -240,6 +240,7 @@ test('create org and add managed team', function () {
     let org_team_2 = 'org-team-renamed';
 
     return thenSequence([
+        () => UC.mel.initial_poll(),
         // create first conversation before team so team can be added later
         () => client.api_call("api/conversation/create", {topic: conv_topic}),
         () => client.poll_filter({mk_rec_type: 'conv', topic: conv_topic}),

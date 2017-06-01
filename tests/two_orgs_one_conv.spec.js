@@ -147,6 +147,7 @@ test('two orgs and one shared managed conv between them', function () {
     return thenSequence([
         // meg creates org and adds ron and don
         () => UC.jon.initial_poll(),
+        () => UC.ron.initial_poll(),
         () => UC.meg.api_call("api/business/create", {organisation_name: org_name1}),
         () => UC.meg.poll_filter({mk_rec_type: 'org_header', organisation_name: org_name1}),
         () => UC.meg.api_call("api/business/configure/" + UC.meg.getOrgId(org_name1), {
