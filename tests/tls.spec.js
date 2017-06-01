@@ -156,14 +156,12 @@ DevList.forEach(function (info) {
 });
 
 function certCheck(fn) {
-    return thenSequence([
-        () => execAsync('openssl', ['x509', '-text', '-in', fn]),
-        (data) => {
-            let m = /Not After *:(.*)$/m.exec(data);
-            let after = m[1].trim();
-            return checkDate(after, fn);
-        },
-    ]);
+    return execAsync('openssl', ['x509', '-text', '-in', fn])
+        .then(function (data) {
+                let m = /Not After *:(.*)$/m.exec(data);
+                let after = m[1].trim();
+                return checkDate(after, fn);
+            });
 }
 
 test('Certs in keys repo (#' + CERT_FILES.length + ')', function () {
