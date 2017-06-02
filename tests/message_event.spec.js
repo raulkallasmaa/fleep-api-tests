@@ -14,7 +14,11 @@ it('should send message events using stream api', function () {
     let client = UC.alice;
     let members = [UC.bob.fleep_email, UC.charlie.fleep_email].join(', ');
     let conversation_id = null;
-    let message_nr = null;
+
+    let client_req_id = null;
+    let mk_event_type = null;
+    let r_message = {};
+    let r_request = {};
     return thenSequence([
         () => client.api_call("api/conversation/create", {topic: 'topic1'}),
         (res) => {
@@ -24,12 +28,20 @@ it('should send message events using stream api', function () {
         () => client.poll_filter({mk_rec_type: 'conv', topic: /topic1/}),
         () => client.api_call("api/conversation/add_members/" + client.getConvId(/topic1/), {emails: members}),
         () => client.poke(client.getConvId(/topic1/), true),
-        // add text message
+
+        /*
+         *  Add text message
+         */
+
+        () => {
+            client_req_id = randomUUID();
+            mk_event_type = "urn:fleep:client:conversation:message:add_text";
+        },
         () => client.api_call("api/event/store/", {
             stream: [
                 {
-                    "mk_event_type": "urn:fleep:client:conversation:message:add_text",
-                    "client_req_id": randomUUID(),
+                    "mk_event_type": mk_event_type,
+                    "client_req_id": client_req_id,
                     "params": {
                         "conversation_id": conversation_id,
                         "message": "message1",
@@ -37,45 +49,101 @@ it('should send message events using stream api', function () {
                 },
             ],
         }),
-
-        // check poll & message state
-        () => client.poll_filter({mk_rec_type: 'message', message: /message1/}),
         () => {
-            message_nr = client.getMessage(/message1/).message_nr;
-            expect(client.getMessage(/message1/).mk_message_state).toEqual("urn:fleep:msgstate:text");
+            r_request = client.matchStream({
+                mk_rec_type: 'request',
+                client_req_id: client_req_id,
+                mk_event_type: mk_event_type,
+            });
+            expect(r_request.status_code).toEqual(200);
+
+            r_message = client.matchStream({
+                mk_rec_type: 'message',
+                conversation_id: r_request.identifier.conversation_id,
+                message_nr: r_request.identifier.message_nr
+            });
+            expect(r_message.mk_message_state).toEqual("urn:fleep:msgstate:text");
+
+            console.log(r_request);
+            console.log(r_message);
         },
 
-        // pin message
+        /*
+         *  Pin message
+         */
+        () => {
+            client_req_id = randomUUID();
+            mk_event_type = "urn:fleep:client:conversation:message:set_pin";
+        },
+
         () => client.api_call("api/event/store/", {
             stream: [
                 {
-                    "mk_event_type": "urn:fleep:client:conversation:message:set_pin",
-                    "client_req_id": randomUUID(),
+                    "mk_event_type": mk_event_type,
+                    "client_req_id": client_req_id,
                     "params": {
                         "conversation_id": conversation_id,
-                        "message_nr": message_nr,
+                        "message_nr": r_message.message_nr,
                     },
                 },
             ],
         }),
 
-        // check poll & message state
-        () => client.poll_filter({mk_rec_type: 'message', message: /message1/}),
-        () => expect(client.getMessage(/message1/).mk_message_state).toEqual("urn:fleep:msgstate:pinned"),
+        () => {
+            r_request = client.matchStream({
+                mk_rec_type: 'request',
+                client_req_id: client_req_id,
+                mk_event_type: mk_event_type,
+            });
+            console.log(r_request);
+            expect(r_request.status_code).toEqual(200);
 
-        // del message
+            r_message = client.matchStream({
+                mk_rec_type: 'message',
+                conversation_id: r_request.identifier.conversation_id,
+                message_nr: r_message.message_nr
+            });
+            console.log(r_message);
+            expect(r_message.mk_message_state).toEqual("urn:fleep:msgstate:pinned");
+        },
+
+        /*
+         *  Del message
+         */
+        () => {
+            client_req_id = randomUUID();
+            mk_event_type = "urn:fleep:client:conversation:message:del";
+        },
+
+
         () => client.api_call("api/event/store/", {
             stream: [
                 {
-                    "mk_event_type": "urn:fleep:client:conversation:message:del",
-                    "client_req_id": randomUUID(),
+                    "mk_event_type": mk_event_type,
+                    "client_req_id": client_req_id,
                     "params": {
                         "conversation_id": conversation_id,
-                        "message_nr": message_nr,
+                        "message_nr": r_message.message_nr,
                     },
                 },
             ],
         }),
-        () => client.poll_filter({mk_rec_type: 'message', message_nr: message_nr}),
+        () => {
+            r_request = client.matchStream({
+                mk_rec_type: 'request',
+                client_req_id: client_req_id,
+                mk_event_type: mk_event_type,
+            });
+            console.log(r_request);
+            expect(r_request.status_code).toEqual(200);
+
+            r_message = client.matchStream({
+                mk_rec_type: 'message',
+                conversation_id: r_request.identifier.conversation_id,
+                message_nr: r_message.message_nr
+            });
+            console.log(r_message);
+            expect(r_message.mk_message_state).toEqual("urn:fleep:msgstate:deleted");
+        },
     ]);
 });
