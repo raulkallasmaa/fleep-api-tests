@@ -39,7 +39,7 @@ it('should sync alice contacts', function () {
                     "is_hidden_for_add": true,
                     "mk_account_status": "active",
                     "organisation_id": null,
-                    "sort_rank": "..."}]
+                    "sort_rank": 1}]
             });
         },
     ]);
@@ -63,7 +63,7 @@ it('should sync bob contacts', function () {
                     "is_hidden_for_add": true,
                     "mk_account_status": "active",
                     "organisation_id": null,
-                    "sort_rank": "..."}]
+                    "sort_rank": 1}]
             });
         },
     ]);
@@ -87,7 +87,7 @@ it('should sync charlie contacts', function () {
                     "is_hidden_for_add": true,
                     "mk_account_status": "active",
                     "organisation_id": null,
-                    "sort_rank": "..."}]
+                    "sort_rank": 1}]
             });
         },
     ]);
@@ -141,7 +141,7 @@ it('should check that information changes are synced properly', function () {
             "mk_account_status": "active",
             "mk_rec_type": "contact",
             "organisation_id": null,
-            "sort_rank": "...",
+            "sort_rank": 0,
         }),
 
         // import 2 contacts via email
@@ -168,23 +168,23 @@ it('should check that information changes are synced properly', function () {
             "dialog_id": null,
             "display_name": "President",
             "email": "<email:Donald Trump>",
-            "is_hidden_for_add": false,
+            "is_hidden_for_add": true,
             "mk_account_status": "new",
             "mk_rec_type": "contact",
             "organisation_id": null,
             "phone_nr": "+37258012547",
-            "sort_rank": "...",
+            "sort_rank": 3,
         }),
         () => expect(UC.clean(client.getContact('Wannabe President'))).toEqual({
             "account_id": "<account:Wannabe President>",
             "dialog_id": null,
             "display_name": "Wannabe President",
             "email": "<email:Hillary Clinton>",
-            "is_hidden_for_add": false,
+            "is_hidden_for_add": true,
             "mk_account_status": "new",
             "mk_rec_type": "contact",
             "organisation_id": null,
-            "sort_rank": "...",
+            "sort_rank": 3,
         }),
 
         // sync by activity; check contacts' last seen time; note that 2 email users are not listed because they have never been active yet
@@ -240,7 +240,7 @@ it('should check that information changes are synced properly', function () {
                     "mk_account_status": "active",
                     "mk_rec_type": "contact",
                     "organisation_id": null,
-                    "sort_rank": "...",
+                    "sort_rank": 0,
                 },
                 {
                     "account_id": "<account:Charlie Chaplin>",
@@ -253,7 +253,7 @@ it('should check that information changes are synced properly', function () {
                     "mk_account_status": "active",
                     "mk_rec_type": "contact",
                     "organisation_id": null,
-                    "sort_rank": "...",
+                    "sort_rank": 4,
                 },
                 {
                     "account_id": "<account:Fleep Support>",
@@ -266,30 +266,30 @@ it('should check that information changes are synced properly', function () {
                     "mk_account_status": "active",
                     "mk_rec_type": "contact",
                     "organisation_id": null,
-                    "sort_rank": "...",
+                    "sort_rank": 1,
                 },
                 {
                     "account_id": "<account:President>",
                     "dialog_id": null,
                     "display_name": "President",
                     "email": "<email:Donald Trump>",
-                    "is_hidden_for_add": false,
+                    "is_hidden_for_add": true,
                     "mk_account_status": "new",
                     "mk_rec_type": "contact",
                     "organisation_id": null,
                     "phone_nr": "+37258012547",
-                    "sort_rank": "...",
+                    "sort_rank": 3,
                 },
                 {
                     "account_id": "<account:Wannabe President>",
                     "dialog_id": null,
                     "display_name": "Wannabe President",
                     "email": "<email:Hillary Clinton>",
-                    "is_hidden_for_add": false,
+                    "is_hidden_for_add": true,
                     "mk_account_status": "new",
                     "mk_rec_type": "contact",
                     "organisation_id": null,
-                    "sort_rank": "...",
+                    "sort_rank": 3,
                 },
             ],
         }),
