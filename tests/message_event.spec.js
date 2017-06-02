@@ -10,7 +10,7 @@ let UC = new UserCache([
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
 
-it('should store text message using stream api', function () {
+it('should send message events using stream api', function () {
     let client = UC.alice;
     let members = [UC.bob.fleep_email, UC.charlie.fleep_email].join(', ');
     return thenSequence([
@@ -68,9 +68,5 @@ it('should store text message using stream api', function () {
                 },
             ],
         }),
-
-        // check poll & message state
-        () => client.poll_filter({mk_rec_type: 'message', message: /message1/}),
-        () => expect(client.getMessage(/message1/).mk_message_state).toEqual("urn:fleep:msgstate:deleted"),
     ]);
 });
