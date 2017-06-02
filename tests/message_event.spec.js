@@ -145,5 +145,36 @@ it('should send message events using stream api', function () {
             console.log(r_message);
             expect(r_message.mk_message_state).toEqual("urn:fleep:msgstate:deleted");
         },
+        /*
+         *  Pin deleted message
+         */
+        () => {
+            client_req_id = randomUUID();
+            mk_event_type = "urn:fleep:client:conversation:message:set_pin";
+        },
+
+        () => client.api_call("api/event/store/", {
+            stream: [
+                {
+                    "mk_event_type": mk_event_type,
+                    "client_req_id": client_req_id,
+                    "params": {
+                        "conversation_id": conversation_id,
+                        "message_nr": r_message.message_nr,
+                    },
+                },
+            ],
+        }),
+
+        () => {
+            r_request = client.matchStream({
+                mk_rec_type: 'request',
+                client_req_id: client_req_id,
+                mk_event_type: mk_event_type,
+            });
+            console.log(r_request);
+            expect(r_request.status_code).toEqual(400);
+            expect(r_request.error_id).toEqual('invalid_call');
+        },
     ]);
 });
