@@ -4,12 +4,19 @@ api-tests for fleep
 
 blackbox tests against dev servers.
 
+config
+------
+
+FLEEP\_ENV\_NAME
+FLEEP\_KEY\_DIR
+
 usage
 -----
 
 - reinstall npm modules: `make refresh`
 - run tests: `make` or `npm test`
 - run specific test: `make poll` or `npm test poll`
+- run in other env: `make env=dev8 poll`
 - check versions of npm modules: `make check-versions`
 
 fleep docs
