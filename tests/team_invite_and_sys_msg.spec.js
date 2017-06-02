@@ -27,7 +27,7 @@ let system_message = {
         "mk_account_status": "active",
         "mk_rec_type": "contact",
         "organisation_id": null,
-        "sort_rank": "...",
+        "sort_rank": 4,
 },
  {
     "account_id": "<account:Ron Jeremy>",
@@ -39,7 +39,7 @@ let system_message = {
         "mk_account_status": "new",
         "mk_rec_type": "contact",
         "organisation_id": null,
-        "sort_rank": "...",
+        "sort_rank": 4,
 },
  {
     "admins": [],

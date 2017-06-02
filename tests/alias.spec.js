@@ -37,7 +37,7 @@ it('should add, confirm, remove and sync alias', function () {
                     "mk_account_status": "alias",
                     "mk_rec_type": "contact",
                     "organisation_id": null,
-                    "sort_rank": "...",
+                    "sort_rank": 0,
                 },
                 {
                     "account_id": "<account:Snoop Dogg>",

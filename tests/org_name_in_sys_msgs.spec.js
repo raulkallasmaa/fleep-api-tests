@@ -82,7 +82,7 @@ let mels_view_on_convo = [
      "mk_account_status": "active",
      "mk_rec_type": "contact",
      "organisation_id": "<org:managedConvOrgName>",
-     "sort_rank": "...",
+     "sort_rank": 1,
    },
    {
      "account_id": "<account:Don Johnson>",
@@ -95,7 +95,7 @@ let mels_view_on_convo = [
      "mk_account_status": "active",
      "mk_rec_type": "contact",
      "organisation_id": null,
-     "sort_rank": "...",
+     "sort_rank": 0,
    },
    {
      "admins": [],
