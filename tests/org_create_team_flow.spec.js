@@ -8,7 +8,7 @@ let UC = new UserCache([
 
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
-/*
+
 let create_conv_result = {
    "stream": [
      {
@@ -42,7 +42,7 @@ let create_conv_result = {
      },
    ],
 };
-*/
+
 test('business create team flow', function () {
     let client = UC.charlie;
     let conv_topic = 'managedConvTopic';
@@ -65,35 +65,7 @@ test('business create team flow', function () {
         (team) => client.api_call("api/business/create_conversation/" + client.getOrgId(org_name), {
             topic: conv_topic,
             team_ids: [team.team_id], }),
-        (res) => expect(UC.clean(res)).toEqual({
-            "stream": [
-             {
-               "admins": [
-                 "<account:Charlie Chaplin>",
-               ],
-               "autojoin_url": "<autojoin:managedConvTopic>",
-               "cmail": "<cmail:managedConvTopic>",
-               "conversation_id": "<conv:managedConvTopic>",
-               "creator_id": "<account:Charlie Chaplin>",
-               "default_members": [],
-               "guests": [],
-               "has_email_subject": false,
-               "is_deletable": true,
-               "is_list": false,
-               "is_managed": true,
-               "leavers": [],
-               "managed_time": "...",
-               "members": [
-                 "<account:Charlie Chaplin>",
-               ],
-               "mk_conv_type": "cct_no_mail",
-               "mk_rec_type": "org_conv",
-               "organisation_id": "<org:managedConvOrgName>",
-               "teams": [],
-               "topic": "managedConvTopic",
-             },
-            ],
-        }),
+        (res) => expect(UC.clean(res)).toEqual(create_conv_result),
     ]);
 });
 
