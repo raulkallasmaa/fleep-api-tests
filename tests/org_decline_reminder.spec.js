@@ -8,18 +8,6 @@ let UC = new UserCache([
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
 
-let org_after_create = {
-    "is_admin": true,
-    "is_member": true,
-    "mk_rec_type": "org_header",
-    "organisation_founder_id": "<account:Fernando Sucre>",
-    "organisation_id": "<org:organisationName>",
-    "organisation_name": "organisationName",
-    "status": "bos_new",
-    "trial_time": "...",
-    "version_nr": 2,
-};
-
 let sync_changelog = {
    "stream": [
      {
@@ -87,7 +75,6 @@ test('decline org invite', function () {
         // send alex invite reminder
         () => client.api_call("api/business/configure/" + client.getOrgId(org_name), {
             add_account_ids: [UC.alex.account_id]}),
-        () => expect(UC.clean(client.getOrg(org_name))).toEqual(org_after_create),
         () => UC.alex.poll_filter({mk_rec_type: 'reminder', organisation_id: client.getOrgId(org_name)}),
         () => UC.alex.matchStream({mk_rec_type: 'reminder', organisation_id: client.getOrgId(org_name), account_id: UC.alex.account_id}),
         (res) => UC.alex.api_call("api/account/click_reminder", {reminder_id: res.reminder_id}),

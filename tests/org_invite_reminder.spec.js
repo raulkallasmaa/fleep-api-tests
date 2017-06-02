@@ -8,18 +8,6 @@ let UC = new UserCache([
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
 
-let org_after_create = {
-    "is_admin": true,
-    "is_member": true,
-    "mk_rec_type": "org_header",
-    "organisation_founder_id": "<account:John Abruzzi>",
-    "organisation_id": "<org:organisationName>",
-    "organisation_name": "organisationName",
-    "status": "bos_new",
-    "trial_time": "...",
-    "version_nr": 2,
-};
-
 let reminder_rec = {
    "account_id": "<account:Theodore Bagwell>",
    "creator_id": "<account:John Abruzzi>",
@@ -98,7 +86,6 @@ test('join org via invite', function () {
         () => client.poll_filter({mk_rec_type: 'org_header', organisation_name: org_name}),
         () => client.api_call("api/business/configure/" + client.getOrgId(org_name), {
             add_account_ids: [UC.theodore.account_id]}),
-        () => expect(UC.clean(client.getOrg(org_name))).toEqual(org_after_create),
 
         // get theodore into org via event reminder
         () => UC.theodore.poll_filter({mk_rec_type: 'reminder', organisation_id: client.getOrgId(org_name)}),

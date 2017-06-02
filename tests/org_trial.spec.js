@@ -82,7 +82,8 @@ let changelog_after_timetravel = {
     "limit_time": 0,
     "static_version": "...",
     "stream": [{
-    "is_member": false,
+        "grace_time": 0,
+        "is_member": false,
         "mk_rec_type": "org_header",
         "organisation_founder_id": "<account:Bob Marley>",
         "organisation_id": "<org:organisationName>",

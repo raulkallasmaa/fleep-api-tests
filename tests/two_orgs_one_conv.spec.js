@@ -14,6 +14,7 @@ afterAll(() => UC.cleanup());
 
 let org_after_create = {
     "stream": [{
+        "grace_time": 0,
         "is_admin": true,
         "is_member": true,
         "mk_rec_type": "org_header",
@@ -192,7 +193,7 @@ test('two orgs and one shared managed conv between them', function () {
             conversation_id: UC.meg.getConvId(conv_topic),
             add_account_ids: [UC.bob.account_id]})
             .then(() => Promise.reject(new Error('Unauthorized!')),
-                 (r) => expect(r.statusCode).toEqual(401)),
+                 (r) => expect(r.statusCode).toEqual(403)),
 
         // meg sets jon as conv admin
         () => UC.meg.api_call("api/business/store_conversation/" + UC.meg.getOrgId(org_name1), {
@@ -206,7 +207,7 @@ test('two orgs and one shared managed conv between them', function () {
             conversation_id: UC.meg.getConvId(conv_topic),
             add_account_ids: [UC.bob.account_id]})
             .then(() => Promise.reject(new Error('Unauthorized!')),
-                (r) => expect(r.statusCode).toEqual(401)),
+                (r) => expect(r.statusCode).toEqual(403)),
 
         // // meg adds bob to conv
         () => UC.meg.poll_filter({mk_rec_type: 'conv', topic: conv_topic}),

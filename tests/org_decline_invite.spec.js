@@ -8,18 +8,6 @@ let UC = new UserCache([
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
 
-let org_after_create = {
-    "is_admin": true,
-    "is_member": true,
-    "mk_rec_type": "org_header",
-    "organisation_founder_id": "<account:Michael Scofield>",
-    "organisation_id": "<org:organisationName>",
-    "organisation_name": "organisationName",
-    "status": "bos_new",
-    "trial_time": "...",
-    "version_nr": 2,
-};
-
 let sync_changelog = {
     "stream": [{
     "account_id": "<account:Lincoln Burrows>",
@@ -92,7 +80,6 @@ test('decline org email invite', function () {
             add_account_ids: [
                 client.getRecord('contact', 'email', UC.lincoln.email).account_id]
         }),
-        () => expect(UC.clean(client.getOrg(org_name))).toEqual(org_after_create),
         () => UC.lincoln.waitMail({
             subject: /Invitation to/,
             body: /invites you to join the organization/
