@@ -1,4 +1,5 @@
 import {UserCache, thenSequence} from '../lib';
+import {randomUUID} from '../lib/utils';
 
 let UC = new UserCache([
     'Alice Adamson',
@@ -23,7 +24,7 @@ it('should store text message using stream api', function () {
             stream: [
                 {
                     "mk_event_type": "urn:fleep:client:conversation:message:add_text",
-                    "client_req_id": "54710943-1473-4d03-938b-ea028e270909",
+                    "client_req_id": randomUUID(),
                     "params": {
                         "conversation_id": client.getConvId(/topic1/),
                         "message": "message1",
