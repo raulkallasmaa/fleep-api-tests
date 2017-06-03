@@ -551,7 +551,7 @@ test('create teams and team conversations', function () {
             team_ids: [client.getTeamId(actors_team), client.getTeamId(singers_team)]}),
         () => client.poke(client.getConvId(conv_2dogs), true),
         () => client.getConv(conv_2dogs),
-        (conv) => expect(UC.clean(conv, {"conv": {default_members: null}})).toEqual(conv_2dogs_after_create),
+        (conv) => expect(UC.clean(conv, {"conv": {default_members: null}})).toMatchObject(conv_2dogs_after_create),
 
         // remove alice and turn autojon off
         () => client.api_call("api/team/configure/" + client.getTeamId(actors_team), {
