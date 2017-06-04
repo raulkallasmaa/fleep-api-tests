@@ -34,7 +34,7 @@ let team_after_create = {
 
 let team_after_bob_is_set_admin = {
    "admins": [
-     "<account:Bob Dylan>",
+       "<account:Charlie Chaplin>",
    ],
    "autojoin_url": "<autojoin:Performers>",
    "is_autojoin": false,
@@ -51,41 +51,11 @@ let team_after_bob_is_set_admin = {
    "organisation_id": "<org:teamsCreateOrgName>",
    "team_id": "<team:Performers>",
    "team_name": "Performers",
-   "team_version_nr": 2,
+   "team_version_nr": 1,
 };
 
 let changelog = {
    "stream": [
-     {
-       "account_id": "<account:Charlie Chaplin>",
-       "event_data": {
-         "account_id": "<account:Charlie Chaplin>",
-         "admin_ids": [],
-         "team_id": "<team:Performers>",
-         "team_name": "Performers",
-       },
-       "event_time": "...",
-       "event_type": "team.set_admins",
-       "mk_rec_type": "org_changelog",
-       "organisation_id": "<org:teamsCreateOrgName>",
-       "version_nr": 4,
-     },
-     {
-       "account_id": "<account:Charlie Chaplin>",
-       "event_data": {
-         "account_id": "<account:Charlie Chaplin>",
-         "admin_ids": [
-           "<account:Bob Dylan>",
-         ],
-         "team_id": "<team:Performers>",
-         "team_name": "Performers",
-       },
-       "event_time": "...",
-       "event_type": "team.set_admins",
-       "mk_rec_type": "org_changelog",
-       "organisation_id": "<org:teamsCreateOrgName>",
-       "version_nr": 3,
-     },
      {
        "account_id": "<account:Charlie Chaplin>",
        "event_data": {
@@ -147,11 +117,7 @@ test('team set admins', function () {
         // disable autojoin
         () => client.api_call("api/business/store_team/" + client.getOrgId(orgName), {
                 team_id: client.getTeamId(teamName),
-                admin_ids: [], }),
-        () => client.poke(client.getConvId(convTopic)),
-        () => expect(UC.clean(client.getTeam(teamName))).toMatchObject({
-            "admins": [],
-            "team_version_nr": 3, }),
+                admin_ids: []}),
 	// let bg worker copy log
         () => client.poke(client.getConvId(convTopic), true),
 	// view org changelog to see team changes there
