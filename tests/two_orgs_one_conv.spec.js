@@ -14,7 +14,7 @@ afterAll(() => UC.cleanup());
 
 let org_after_create = {
     "stream": [{
-        "grace_time": 0,
+        "grace_time": "...",
         "is_admin": true,
         "is_member": true,
         "mk_rec_type": "org_header",

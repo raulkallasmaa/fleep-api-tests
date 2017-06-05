@@ -16,7 +16,7 @@ let changelog_before_timetravel = {
         "event_data": {
         "account_id": "<account:Bob Marley>",
             "conversation_ids": [
-            "<conv:organisationTrial>",
+            "<conv:organisationGrace>",
             ],
             "team_id": "<team:teamName>",
             "team_name": "teamName",
@@ -31,12 +31,12 @@ let changelog_before_timetravel = {
     "account_id": "<account:Bob Marley>",
         "event_data": {
         "account_id": "<account:Bob Marley>",
-            "conversation_id": "<conv:organisationTrial>",
+            "conversation_id": "<conv:organisationGrace>",
             "email_members": [],
             "fleep_members": [
             "<account:Bob Marley>",
             ],
-            "topic": "organisationTrial",
+            "topic": "organisationGrace",
     },
     "event_time": "...",
         "event_type": "chat.create_conversation",
@@ -90,7 +90,7 @@ let changelog_after_timetravel = {
         "organisation_name": "organisationName",
         "status": "bos_closed",
         "trial_time": "...",
-        "version_nr": 8,
+        "version_nr": 9,
 },
 {
     "account_id": "<account:Bob Marley>",
@@ -151,7 +151,7 @@ let changelog_after_timetravel = {
 {
     "admins": [],
         "can_post": true,
-        "conversation_id": "<conv:organisationTrial>",
+        "conversation_id": "<conv:organisationGrace>",
         "creator_id": "<account:Bob Marley>",
         "default_members": [],
         "export_files": [],
@@ -193,13 +193,13 @@ let changelog_after_timetravel = {
         "teams": [
         "<team:teamName>",
         ],
-        "topic": "organisationTrial",
+        "topic": "organisationGrace",
         "topic_message_nr": 1,
         "unread_count": 0,
 },
 {
     "account_id": "<account:Fleep Support>",
-        "conversation_id": "<conv:organisationTrial>",
+        "conversation_id": "<conv:organisationGrace>",
         "inbox_nr": 0,
         "message":  {
         "organisation_id": "<org:organisationName>",
@@ -215,21 +215,21 @@ let changelog_after_timetravel = {
 },
 {
     "account_id": "<account:Fleep Support>",
-        "conversation_id": "<conv:organisationTrial>",
+        "conversation_id": "<conv:organisationGrace>",
         "mk_rec_type": "activity",
 },
 {
     "account_id": "<account:Bob Marley>",
-        "conversation_id": "<conv:organisationTrial>",
+        "conversation_id": "<conv:organisationGrace>",
         "message_nr": '...',
         "mk_rec_type": "poke",
 }]
 };
 
-describe('time travel', function () {
-it('should unmanage conv and team after trial ends', function () {
+describe('end grace period', function () {
+it('should delete org (unmanage conv and team) after grace period ends', function () {
    let client = UC.bob;
-   let conv_topic = 'organisationTrial';
+   let conv_topic = 'organisationGrace';
    let team_name = 'teamName';
    let org_name = 'organisationName';
    return thenSequence([
@@ -257,37 +257,46 @@ it('should unmanage conv and team after trial ends', function () {
        () => client.api_call("api/business/sync_changelog/" + client.getOrgId(org_name), {}),
        (res) => expect(UC.clean(res)).toEqual(changelog_before_timetravel),
 
-       // time travel 80 days and look for email
-       () => UC.sysclient.sys_call("sys/shard/time_travel", {
-           object_id: client.getOrgId(org_name),
-           mk_time_action: 'bbg_trial_notif',
-           time_interval: '80 days',
+       // start grace period and look for email
+       () => UC.sysclient.sys_call("sys/business/start_grace_period", {
+           organisation_id: client.getOrgId(org_name),
        }),
        () => client.waitMail({
-           subject: /Please add your payment details/,
-           body: /Your free trial of Fleep for Business will end in 10 days/,
+           subject: /Payment failed/,
+           body: /next 30 days/,
        }),
 
-       // time travel for 89 days and look for email
+       // time travel 20 days and look for email
        () => UC.sysclient.sys_call("sys/shard/time_travel", {
            object_id: client.getOrgId(org_name),
-           mk_time_action: 'bbg_trial_warn',
-           time_interval: '89 days',
+           mk_time_action: 'bbg_grace_notif',
+           time_interval: '20 days',
        }),
        () => client.waitMail({
-           subject: /Your free trial of Fleep for Business is ending tomorrow/,
-           body: /Your free trial of Fleep for Business will end tomorrow/,
+           subject: /Payment failure/,
+           body: /next 10 days/,
        }),
 
-       // time travel for 90 days and look for email
+       // time travel for 29 days and look for email
        () => UC.sysclient.sys_call("sys/shard/time_travel", {
            object_id: client.getOrgId(org_name),
-           mk_time_action: 'bbg_trial_end',
-           time_interval: '90 days',
+           mk_time_action: 'bbg_grace_warn',
+           time_interval: '29 days',
        }),
        () => client.waitMail({
-           subject: /Your trial of Fleep for Business just ended/,
-           body: /Fleep for Business trial ended/,
+           subject: /Payment failure/,
+           body: /tomorrow/,
+       }),
+
+       // time travel for 30 days and look for email
+       () => UC.sysclient.sys_call("sys/shard/time_travel", {
+           object_id: client.getOrgId(org_name),
+           mk_time_action: 'bbg_grace_end',
+           time_interval: '30 days',
+       }),
+       () => client.waitMail({
+           subject: /Subscription cancelled/,
+           body: /has been cancelled/,
        }),
        () => client.poke(client.getConvId(conv_topic), true),
        (res) => expect(UC.clean(res, {static_version: null})).toEqual(changelog_after_timetravel),
