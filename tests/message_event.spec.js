@@ -55,17 +55,16 @@ it('should send message events using stream api', function () {
                 client_req_id: client_req_id,
                 mk_event_type: mk_event_type,
             });
+            console.log(r_request);
             expect(r_request.status_code).toEqual(200);
 
             r_message = client.matchStream({
                 mk_rec_type: 'message',
                 conversation_id: r_request.identifier.conversation_id,
-                message_nr: r_request.identifier.message_nr
+                message_nr: r_request.identifier.message_nr,
             });
-            expect(r_message.mk_message_state).toEqual("urn:fleep:msgstate:text");
-
-            console.log(r_request);
             console.log(r_message);
+            expect(r_message.mk_message_state).toEqual("urn:fleep:msgstate:text");
         },
 
         /*
@@ -101,7 +100,7 @@ it('should send message events using stream api', function () {
             r_message = client.matchStream({
                 mk_rec_type: 'message',
                 conversation_id: r_request.identifier.conversation_id,
-                message_nr: r_message.message_nr
+                message_nr: r_request.identifier.message_nr,
             });
             console.log(r_message);
             expect(r_message.mk_message_state).toEqual("urn:fleep:msgstate:pinned");
@@ -140,7 +139,7 @@ it('should send message events using stream api', function () {
             r_message = client.matchStream({
                 mk_rec_type: 'message',
                 conversation_id: r_request.identifier.conversation_id,
-                message_nr: r_message.message_nr
+                message_nr: r_request.identifier.message_nr,
             });
             console.log(r_message);
             expect(r_message.mk_message_state).toEqual("urn:fleep:msgstate:deleted");
