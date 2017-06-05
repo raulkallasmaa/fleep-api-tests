@@ -32,14 +32,15 @@
     "request-promise": "~4.2.0"
   },
   "scripts": {
-    "pretest": "eslint --ext .js --ext .json lib tests",
-    "test": "node boot.js && jest"
+    "pretest": "eslint lib tests",
+    "test": "node boot.js && jest -w8"
   },
   "jest": {
     "verbose": true,
     "setupFiles": [
       "./lib/setup-early"
     ],
+    "roots": ["<rootDir>/tests/"],
     "testEnvironment": "node"
   }
 }
