@@ -1,15 +1,17 @@
 
+env = $(FLEEP_ENV_NAME)
+
 all:
 	@mkdir -p logs
-	npm test
+	FLEEP_ENV_NAME=$(env) npm test
 
 %:
 	@mkdir -p logs
-	npm test $@
+	FLEEP_ENV_NAME=$(env) npm test $@
 
 big-test:
 	@mkdir -p logs
-	BIG_TEST=1 npm test
+	FLEEP_ENV_NAME=$(env) BIG_TEST=1 npm test
 
 lint:
 	npm run pretest

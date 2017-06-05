@@ -118,7 +118,7 @@ let LiveList = [
     ['https://fleep.it', LETSENCRYPT],
     ['https://fleep.im', LETSENCRYPT],
     ['https://builds.fleep.ee', DIGICERT],
-    ['https://box.fleep.ee', DIGICERT],
+    ['imaps://box.fleep.ee', DIGICERT],
     ['https://fleephub.com', LETSENCRYPT],
     ['https://monitor.fleephub.com', LETSENCRYPT],
     ['https://stats.fleep.io', DIGICERT],

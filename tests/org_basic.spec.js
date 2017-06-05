@@ -10,6 +10,7 @@ beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
 
 let org_after_create = {
+   "grace_time": "...",
    "is_admin": true,
    "is_member": true,
    "mk_rec_type": "org_header",
@@ -36,6 +37,7 @@ let mels_reminder_active = {
 let mels_org_join = {
   "stream": [
      {
+       "grace_time": "...",
        "is_admin": false,
        "is_member": true,
        "mk_rec_type": "org_header",
