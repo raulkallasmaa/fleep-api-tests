@@ -64,7 +64,7 @@ test('decline org invite', function () {
     let org_name = 'organisationName';
 
     return thenSequence([
-
+        () => UC.alex.initial_poll(),
         // create conversation for the organisation
         () => client.api_call("api/conversation/create", {topic: conv_topic}),
         (res) => expect(res.header.topic).toEqual(conv_topic),
