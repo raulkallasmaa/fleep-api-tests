@@ -90,9 +90,7 @@ let sx_managed_conv_two = {
 };
 
 let sx_managed_team_after_kick = {
-   "admins": [
-       "<account:Don Johnson>",
-   ],
+   "admins": [],
    "autojoin_url": "<autojoin:five-org-team-name>",
    "is_autojoin": false,
    "is_deleted": false,
@@ -108,13 +106,11 @@ let sx_managed_team_after_kick = {
    "organisation_id": "<org:five-org-name>",
    "team_id": "<team:five-org-team-name>",
    "team_name": "five-org-team-name",
-   "team_version_nr": 2,
+   "team_version_nr": 3,
 };
 
 let sx_managed_conv_one_after_kick = {
-   "admins": [
-       "<account:Don Johnson>",
-   ],
+   "admins": [],
    "autojoin_url": "<autojoin:five-org-conv-topic>",
    "cmail": "<cmail:five-org-conv-topic>",
    "conversation_id": "<conv:five-org-conv-topic>",
@@ -141,9 +137,7 @@ let sx_managed_conv_one_after_kick = {
 };
 
 let sx_managed_conv_two_after_kick = {
-   "admins": [
-       "<account:Don Johnson>",
-   ],
+   "admins": [],
    "autojoin_url": "<autojoin:six-topix>",
    "cmail": "<cmail:six-topix>",
    "conversation_id": "<conv:six-topix>",
