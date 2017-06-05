@@ -292,7 +292,7 @@ test(`Turn text message todo message.`, function () {
 test(`Turn todo message into done message`, function () {
     let state = {};
     return thenSequence([
-        () => setupConv(state, 'topic4', UC.alice, [UC.bob, UC.charlie]),
+        () => setupConv(state, 'topic7', UC.alice, [UC.bob, UC.charlie]),
         () => {
             state.client_req_id = randomUUID();
             state.mk_event_type = "urn:fleep:client:conversation:message:add_todo";
