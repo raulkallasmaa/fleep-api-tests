@@ -10,170 +10,179 @@ let UC = new UserCache([
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
 
-it('should send message events using stream api', function () {
-    let client = UC.alice;
-    let members = [UC.bob.fleep_email, UC.charlie.fleep_email].join(', ');
-    let conversation_id = null;
-
-    let client_req_id = null;
-    let mk_event_type = null;
-    let r_message = {};
-    let r_request = {};
+function setupConv(state, topic, client, members) {
+    let r_conversation = null;
+    let account_ids = [];
+    for (let member of members) {
+        account_ids.push(member.account_id);
+    }
     return thenSequence([
-        () => client.api_call("api/conversation/create", {topic: 'topic1'}),
-        (res) => {
-            expect(res.header.topic).toEqual('topic1');
-            conversation_id = res.header.conversation_id;
+        () => client.api_call("api/conversation/create", {topic: topic, account_ids: account_ids}),
+        () => client.poll_filter({mk_rec_type: 'conv', topic: topic}),
+        () => {
+            r_conversation = client.matchStream({
+                mk_rec_type: 'conv',
+                topic: topic,
+            });
+            state.conversation_id = r_conversation.conversation_id;
+            state.client_req_id = null;
+            state.mk_event_type = null;
+            state.r_message = {};
+            state.r_request = {};
         },
-        () => client.poll_filter({mk_rec_type: 'conv', topic: /topic1/}),
-        () => client.api_call("api/conversation/add_members/" + client.getConvId(/topic1/), {emails: members}),
-        () => client.poke(client.getConvId(/topic1/), true),
+    ]);
+}
 
+it('should send message events using stream api', function () {
+    let state = {};
+    return thenSequence([
+        () => setupConv(state, 'topic1', UC.alice, [UC.bob, UC.charlie]),
         /*
          *  Add text message
          */
-
         () => {
-            client_req_id = randomUUID();
-            mk_event_type = "urn:fleep:client:conversation:message:add_text";
+            state.client_req_id = randomUUID();
+            state.mk_event_type = "urn:fleep:client:conversation:message:add_text";
         },
-        () => client.api_call("api/event/store/", {
+        () => UC.alice.api_call("api/event/store/", {
             stream: [
                 {
-                    "mk_event_type": mk_event_type,
-                    "client_req_id": client_req_id,
+                    "mk_event_type": state.mk_event_type,
+                    "client_req_id": state.client_req_id,
                     "params": {
-                        "conversation_id": conversation_id,
+                        "conversation_id": state.conversation_id,
                         "message": "message1",
                     },
                 },
             ],
         }),
         () => {
-            r_request = client.matchStream({
+            state.r_request = UC.alice.matchStream({
                 mk_rec_type: 'request',
-                client_req_id: client_req_id,
-                mk_event_type: mk_event_type,
+                client_req_id: state.client_req_id,
+                mk_event_type: state.mk_event_type,
             });
-            console.log(r_request);
-            expect(r_request.status_code).toEqual(200);
+            console.log(UC.clean(state.r_request), {client_req_id: null});
+            console.log(state.r_request);
+            expect(state.r_request.status_code).toEqual(200);
 
-            r_message = client.matchStream({
+            state.r_message = UC.alice.matchStream({
                 mk_rec_type: 'message',
-                conversation_id: r_request.identifier.conversation_id,
-                message_nr: r_request.identifier.message_nr,
+                conversation_id: state.r_request.identifier.conversation_id,
+                message_nr: state.r_request.identifier.message_nr,
             });
-            console.log(r_message);
-            expect(r_message.mk_message_state).toEqual("urn:fleep:msgstate:text");
+            console.log(UC.clean(state.r_message));
+            console.log(state.r_message);
+            expect(state.r_message.mk_message_state).toEqual("urn:fleep:msgstate:text");
         },
 
         /*
          *  Pin message
          */
         () => {
-            client_req_id = randomUUID();
-            mk_event_type = "urn:fleep:client:conversation:message:set_pin";
+            state.client_req_id = randomUUID();
+            state.mk_event_type = "urn:fleep:client:conversation:message:set_pin";
         },
 
-        () => client.api_call("api/event/store/", {
+        () => UC.alice.api_call("api/event/store/", {
             stream: [
                 {
-                    "mk_event_type": mk_event_type,
-                    "client_req_id": client_req_id,
+                    "mk_event_type": state.mk_event_type,
+                    "client_req_id": state.client_req_id,
                     "params": {
-                        "conversation_id": conversation_id,
-                        "message_nr": r_message.message_nr,
+                        "conversation_id": state.conversation_id,
+                        "message_nr": state.r_message.message_nr,
                     },
                 },
             ],
         }),
 
         () => {
-            r_request = client.matchStream({
+            state.r_request = UC.alice.matchStream({
                 mk_rec_type: 'request',
-                client_req_id: client_req_id,
-                mk_event_type: mk_event_type,
+                client_req_id: state.client_req_id,
+                mk_event_type: state.mk_event_type,
             });
-            console.log(r_request);
-            expect(r_request.status_code).toEqual(200);
+            console.log(state.r_request);
+            expect(state.r_request.status_code).toEqual(200);
 
-            r_message = client.matchStream({
+            state.r_message = UC.alice.matchStream({
                 mk_rec_type: 'message',
-                conversation_id: r_request.identifier.conversation_id,
-                message_nr: r_request.identifier.message_nr,
+                conversation_id: state.r_request.identifier.conversation_id,
+                message_nr: state.r_request.identifier.message_nr,
             });
-            console.log(r_message);
-            expect(r_message.mk_message_state).toEqual("urn:fleep:msgstate:pinned");
+            console.log(state.r_message);
+            expect(state.r_message.mk_message_state).toEqual("urn:fleep:msgstate:pinned");
         },
 
         /*
          *  Del message
          */
         () => {
-            client_req_id = randomUUID();
-            mk_event_type = "urn:fleep:client:conversation:message:del";
+            state.client_req_id = randomUUID();
+            state.mk_event_type = "urn:fleep:client:conversation:message:del";
         },
 
 
-        () => client.api_call("api/event/store/", {
+        () => UC.alice.api_call("api/event/store/", {
             stream: [
                 {
-                    "mk_event_type": mk_event_type,
-                    "client_req_id": client_req_id,
+                    "mk_event_type": state.mk_event_type,
+                    "client_req_id": state.client_req_id,
                     "params": {
-                        "conversation_id": conversation_id,
-                        "message_nr": r_message.message_nr,
+                        "conversation_id": state.conversation_id,
+                        "message_nr": state.r_message.message_nr,
                     },
                 },
             ],
         }),
         () => {
-            r_request = client.matchStream({
+            state.r_request = UC.alice.matchStream({
                 mk_rec_type: 'request',
-                client_req_id: client_req_id,
-                mk_event_type: mk_event_type,
+                client_req_id: state.client_req_id,
+                mk_event_type: state.mk_event_type,
             });
-            console.log(r_request);
-            expect(r_request.status_code).toEqual(200);
+            console.log(state.r_request);
+            expect(state.r_request.status_code).toEqual(200);
 
-            r_message = client.matchStream({
+            state.r_message = UC.alice.matchStream({
                 mk_rec_type: 'message',
-                conversation_id: r_request.identifier.conversation_id,
-                message_nr: r_request.identifier.message_nr,
+                conversation_id: state.r_request.identifier.conversation_id,
+                message_nr: state.r_request.identifier.message_nr,
             });
-            console.log(r_message);
-            expect(r_message.mk_message_state).toEqual("urn:fleep:msgstate:deleted");
+            console.log(state.r_message);
+            expect(state.r_message.mk_message_state).toEqual("urn:fleep:msgstate:deleted");
         },
         /*
          *  Pin deleted message
          */
         () => {
-            client_req_id = randomUUID();
-            mk_event_type = "urn:fleep:client:conversation:message:set_pin";
+            state.client_req_id = randomUUID();
+            state.mk_event_type = "urn:fleep:client:conversation:message:set_pin";
         },
 
-        () => client.api_call("api/event/store/", {
+        () => UC.alice.api_call("api/event/store/", {
             stream: [
                 {
-                    "mk_event_type": mk_event_type,
-                    "client_req_id": client_req_id,
+                    "mk_event_type": state.mk_event_type,
+                    "client_req_id": state.client_req_id,
                     "params": {
-                        "conversation_id": conversation_id,
-                        "message_nr": r_message.message_nr,
+                        "conversation_id": state.conversation_id,
+                        "message_nr": state.r_message.message_nr,
                     },
                 },
             ],
         }),
 
         () => {
-            r_request = client.matchStream({
+            state.r_request = UC.alice.matchStream({
                 mk_rec_type: 'request',
-                client_req_id: client_req_id,
-                mk_event_type: mk_event_type,
+                client_req_id: state.client_req_id,
+                mk_event_type: state.mk_event_type,
             });
-            console.log(r_request);
-            expect(r_request.status_code).toEqual(400);
-            expect(r_request.error_id).toEqual('invalid_call');
+            console.log(state.r_request);
+            expect(state.r_request.status_code).toEqual(400);
+            expect(state.r_request.error_id).toEqual('invalid_call');
         },
     ]);
 });
