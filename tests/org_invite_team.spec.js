@@ -56,13 +56,6 @@ let invite_team_response = {
        "organisation_id": "<org:teamsCreateOrgName>",
      },
      {
-       "account_id": "<account:Charlie Chaplin>",
-       "is_admin": true,
-       "mk_member_status": "bms_active",
-       "mk_rec_type": "org_member",
-       "organisation_id": "<org:teamsCreateOrgName>",
-     },
-     {
        "account_id": "<account:Don Johnson>",
        "inviter_id": "<account:Charlie Chaplin>",
        "is_admin": false,
@@ -111,7 +104,3 @@ test('create teams and invite into org', function () {
             is_managed: true, }),
     ]);
 });
-
-
-
-
