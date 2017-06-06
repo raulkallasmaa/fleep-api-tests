@@ -13,7 +13,7 @@ afterAll(() => UC.cleanup());
 let invite_team_response = {
    "stream": [
      {
-       "grace_time": 0,
+       "grace_time": "...",
        "is_admin": true,
        "is_member": true,
        "mk_rec_type": "org_header",
