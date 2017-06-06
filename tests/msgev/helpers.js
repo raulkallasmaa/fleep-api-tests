@@ -2,12 +2,17 @@ import {thenSequence} from '../../lib';
 import {randomUUID} from '../../lib/utils';
 
 let MK_EVENT_TYPES = {
+    addText : "urn:fleep:client:conversation:message:add_text",
+    addTodo : "urn:fleep:client:conversation:message:add_todo",
+    edit : "urn:fleep:client:conversation:message:edit",
     addPin : "urn:fleep:client:conversation:message:add_pin",
     posPin : "urn:fleep:client:conversation:message:pos_pin",
 };
 
 let MK_MESSAGE_STATES = {
     pinned: "urn:fleep:msgstate:pinned",
+    text: "urn:fleep:msgstate:text",
+    todo: "urn:fleep:msgstate:todo",
 };
 
 function setupConv(state, topic, client, members) {
@@ -20,15 +25,18 @@ function setupConv(state, topic, client, members) {
         () => client.api_call("api/conversation/create", {topic: topic, account_ids: account_ids}),
         () => client.poll_filter({mk_rec_type: 'conv', topic: topic}),
         () => {
+            for (let member of members) {
+                if (member.account_id) {
+                    member.poll_filter({mk_rec_type: 'conv', topic: topic});
+                }
+            }
+        },
+        () => {
             r_conversation = client.matchStream({
                 mk_rec_type: 'conv',
                 topic: topic,
             });
             state.conversation_id = r_conversation.conversation_id;
-            state.client_req_id = null;
-            state.mk_event_type = null;
-            state.r_message = {};
-            state.r_request = {};
         },
     ]);
 }
@@ -68,7 +76,7 @@ function addMessage(state, client, ev) {
     ]);
 }
 
-function addEvent(state, client, mk_event_type, params) {
+function addEvent(state, client, mk_event_type, params, nocheck) {
     let client_req_id = randomUUID();
     return thenSequence([
         () => client.api_call("api/event/store/", {
@@ -86,7 +94,11 @@ function addEvent(state, client, mk_event_type, params) {
                 client_req_id: client_req_id,
                 mk_event_type: mk_event_type,
             });
-            expect(state.r_request.status_code).toEqual(200);
+        },
+        () => {
+            if (nocheck !== true) { // status code check disabled
+                expect(state.r_request.status_code).toEqual(200);
+            }
         },
     ]);
 }

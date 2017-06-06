@@ -8,7 +8,7 @@ let UC = new UserCache([
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
 
-test(`Reposition pins insice default section.`, function () {
+test('Reposition pins insice default section.', function () {
     let state = {};
     return thenSequence([
         () => setupConv(state, 'Reposition pinned messages', UC.alice, []),
