@@ -106,7 +106,7 @@ test('Test pinned message edit.', function () {
     ]);
 });
 
-test('Test pinned task message edit.', function () {
+test('Test task message edit.', function () {
     let state = {};
     return thenSequence([
         () => setupConv(state, 'Test task message edit', UC.alice, [UC.bob]),
