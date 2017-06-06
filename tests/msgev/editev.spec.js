@@ -156,3 +156,53 @@ test('Test task message edit.', function () {
         },
     ]);
 });
+
+test('Test deleted message edit.', function () {
+    let state = {};
+    return thenSequence([
+        () => setupConv(state, 'Test text message edit', UC.alice, [UC.bob]),
+        // Alice posts a message
+        () => addEvent(state, UC.alice, MK_EVENT_TYPES.addText, {
+            conversation_id: state.conversation_id,
+            message: "message1",
+        }),
+        () => {
+            state.r_message1 = UC.alice.matchStream({
+                mk_rec_type: 'message',
+                conversation_id: state.r_request.identifier.conversation_id,
+                message_nr: state.r_request.identifier.message_nr,
+            });
+            expect(state.r_message1.mk_message_state).toEqual(MK_MESSAGE_STATES.text);
+            expect(state.r_message1.message).toEqual('<msg><p>message1</p></msg>');
+        },
+        // Alice deletes the message
+        () => addEvent(state, UC.alice, MK_EVENT_TYPES.deleteMessage, {
+            conversation_id: state.conversation_id,
+            message_nr: state.r_message1.message_nr,
+        }),
+        () => {
+            state.r_message1 = UC.alice.matchStream({
+                mk_rec_type: 'message',
+                conversation_id: state.r_request.identifier.conversation_id,
+                message_nr: state.r_request.identifier.message_nr,
+            });
+            expect(state.r_message1.mk_message_state).toEqual(MK_MESSAGE_STATES.deleted);
+            expect(state.r_message1.message).toEqual('');
+        },
+        // Alice tries to edit deleted message
+        () => addEvent(state, UC.alice, MK_EVENT_TYPES.edit, {
+            conversation_id: state.conversation_id,
+            message_nr: state.r_message1.message_nr,
+            message: "edit from alice",
+        }),
+        () => {
+            state.r_message1 = UC.alice.matchStream({
+                mk_rec_type: 'message',
+                conversation_id: state.r_message1.conversation_id,
+                message_nr: state.r_message1.message_nr,
+            });
+            expect(state.r_message1.mk_message_state).toEqual(MK_MESSAGE_STATES.deleted);
+            expect(state.r_message1.message).toEqual('');
+        },
+    ]);
+});

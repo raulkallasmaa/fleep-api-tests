@@ -7,12 +7,14 @@ let MK_EVENT_TYPES = {
     edit : "urn:fleep:client:conversation:message:edit",
     addPin : "urn:fleep:client:conversation:message:add_pin",
     posPin : "urn:fleep:client:conversation:message:pos_pin",
+    deleteMessage: "urn:fleep:client:conversation:message:del",
 };
 
 let MK_MESSAGE_STATES = {
     pinned: "urn:fleep:msgstate:pinned",
     text: "urn:fleep:msgstate:text",
     todo: "urn:fleep:msgstate:todo",
+    deleted: "urn:fleep:msgstate:deleted",
 };
 
 function setupConv(state, topic, client, members) {
