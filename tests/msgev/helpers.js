@@ -1,20 +1,36 @@
 import {thenSequence} from '../../lib';
 import {randomUUID} from '../../lib/utils';
 
-let MK_EVENT_TYPES = {
-    addText : "urn:fleep:client:conversation:message:add_text",
-    addTodo : "urn:fleep:client:conversation:message:add_todo",
-    edit : "urn:fleep:client:conversation:message:edit",
-    addPin : "urn:fleep:client:conversation:message:add_pin",
-    posPin : "urn:fleep:client:conversation:message:pos_pin",
-    deleteMessage: "urn:fleep:client:conversation:message:del",
+let et = {
+    CONV_TASK_SECTION_ADD         : "urn:fleep:client:conv_task_section:add",
+    CONV_TASK_SECTION_POS         : "urn:fleep:client:conv_task_section:pos",
+    CONV_TASK_SECTION_DEL         : "urn:fleep:client:conv_task_section:del",
+    CONV_TASK_SECTION_RENAME      : "urn:fleep:client:conv_task_section:rename",
+    MESSAGE_ADD_PLAIN             : "urn:fleep:client:message:add_plain",
+    MESSAGE_ADD_TODO              : "urn:fleep:client:message:add_todo",
+    MESSAGE_ADD_PINNED            : "urn:fleep:client:message:add_pinned",
+    MESSAGE_EDIT                  : "urn:fleep:client:message:edit",
+    MESSAGE_DEL                   : "urn:fleep:client:message:del",
+    MESSAGE_SET_PLAIN             : "urn:fleep:client:message:set_plain",
+    MESSAGE_SET_TODO              : "urn:fleep:client:message:set_todo",
+    MESSAGE_SET_DONE              : "urn:fleep:client:message:set_done",
+    MESSAGE_SET_PINNED            : "urn:fleep:client:message:set_pinned",
+    MESSAGE_SET_UNPINNED          : "urn:fleep:client:message:set_unpinned",
+    MESSAGE_POS_TASK              : "urn:fleep:client:message:pos_task",
+    MESSAGE_POS_PINNED            : "urn:fleep:client:message:pos_pinned",
+    MESSAGE_SET_ASSIGNEES         : "urn:fleep:client:message:set_assignees",
+    MESSAGE_DISABLE_PREVIEW       : "urn:fleep:client:message:disable_preview",
+    MESSAGE_COPY                  : "urn:fleep:client:message:copy",
 };
 
-let MK_MESSAGE_STATES = {
-    pinned: "urn:fleep:msgstate:pinned",
-    text: "urn:fleep:msgstate:text",
-    todo: "urn:fleep:msgstate:todo",
-    deleted: "urn:fleep:msgstate:deleted",
+let ms = {
+    PLAIN    : 'urn:fleep:msgstate:plain',
+    SYSTEM   : 'urn:fleep:msgstate:system',
+    DELETED  : 'urn:fleep:msgstate:deleted',
+    PINNED   : 'urn:fleep:msgstate:pinned',
+    UNPINNED : 'urn:fleep:msgstate:unpinned',
+    TODO     : 'urn:fleep:msgstate:todo',
+    DONE     : 'urn:fleep:msgstate:done',
 };
 
 function setupConv(state, topic, client, members) {
@@ -105,4 +121,4 @@ function addEvent(state, client, mk_event_type, params, nocheck) {
     ]);
 }
 
-export {setupConv, addMessage, addEvent, MK_EVENT_TYPES, MK_MESSAGE_STATES};
+export {setupConv, addMessage, addEvent, et, ms};

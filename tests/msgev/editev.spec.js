@@ -1,5 +1,5 @@
 import {UserCache, thenSequence} from '../../lib';
-import {setupConv, addEvent, MK_EVENT_TYPES, MK_MESSAGE_STATES} from './helpers';
+import {setupConv, addEvent, et, ms} from './helpers';
 
 let UC = new UserCache([
     'Alice Adamson',
@@ -9,12 +9,12 @@ let UC = new UserCache([
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
 
-test('Test text message edit.', function () {
+test('Test plain message edit.', function () {
     let state = {};
     return thenSequence([
-        () => setupConv(state, 'Test text message edit', UC.alice, [UC.bob]),
+        () => setupConv(state, 'Test plain message edit', UC.alice, [UC.bob]),
         // Alice posts a message
-        () => addEvent(state, UC.alice, MK_EVENT_TYPES.addText, {
+        () => addEvent(state, UC.alice, et.MESSAGE_ADD_PLAIN, {
             conversation_id: state.conversation_id,
             message: "message1",
         }),
@@ -24,10 +24,10 @@ test('Test text message edit.', function () {
                 conversation_id: state.r_request.identifier.conversation_id,
                 message_nr: state.r_request.identifier.message_nr,
             });
-            expect(state.r_message1.mk_message_state).toEqual(MK_MESSAGE_STATES.text);
+            expect(state.r_message1.mk_message_state).toEqual(ms.PLAIN);
             expect(state.r_message1.message).toEqual('<msg><p>message1</p></msg>');
         },
-        () => addEvent(state, UC.alice, MK_EVENT_TYPES.edit, {
+        () => addEvent(state, UC.alice, et.MESSAGE_EDIT, {
             conversation_id: state.conversation_id,
             message_nr: state.r_message1.message_nr,
             message: "edit1",
@@ -39,11 +39,11 @@ test('Test text message edit.', function () {
                 conversation_id: state.r_request.identifier.conversation_id,
                 message_nr: state.r_request.identifier.message_nr,
             });
-            expect(state.r_message1.mk_message_state).toEqual(MK_MESSAGE_STATES.text);
+            expect(state.r_message1.mk_message_state).toEqual(ms.PLAIN);
             expect(state.r_message1.message).toEqual('<msg><p>edit1</p></msg>');
         },
         // Bob tries to edit the message posted by alice
-        () => addEvent(state, UC.bob, MK_EVENT_TYPES.edit, {
+        () => addEvent(state, UC.bob, et.MESSAGE_EDIT, {
             conversation_id: state.conversation_id,
             message_nr: state.r_message1.message_nr,
             message: "edit from bob",
@@ -60,7 +60,7 @@ test('Test pinned message edit.', function () {
     return thenSequence([
         () => setupConv(state, 'Test pinned message edit', UC.alice, [UC.bob]),
         // Alice posts a message
-        () => addEvent(state, UC.alice, MK_EVENT_TYPES.addPin, {
+        () => addEvent(state, UC.alice, et.MESSAGE_ADD_PINNED, {
             conversation_id: state.conversation_id,
             message: "message1",
         }),
@@ -70,10 +70,10 @@ test('Test pinned message edit.', function () {
                 conversation_id: state.r_request.identifier.conversation_id,
                 message_nr: state.r_request.identifier.message_nr,
             });
-            expect(state.r_message1.mk_message_state).toEqual(MK_MESSAGE_STATES.pinned);
+            expect(state.r_message1.mk_message_state).toEqual(ms.PINNED);
             expect(state.r_message1.message).toEqual('<msg><p>message1</p></msg>');
         },
-        () => addEvent(state, UC.alice, MK_EVENT_TYPES.edit, {
+        () => addEvent(state, UC.alice, et.MESSAGE_EDIT, {
             conversation_id: state.conversation_id,
             message_nr: state.r_message1.message_nr,
             message: "edit1",
@@ -85,11 +85,11 @@ test('Test pinned message edit.', function () {
                 conversation_id: state.r_request.identifier.conversation_id,
                 message_nr: state.r_request.identifier.message_nr,
             });
-            expect(state.r_message1.mk_message_state).toEqual(MK_MESSAGE_STATES.pinned);
+            expect(state.r_message1.mk_message_state).toEqual(ms.PINNED);
             expect(state.r_message1.message).toEqual('<msg><p>edit1</p></msg>');
         },
         // Bob tries to edit the message posted by alice
-        () => addEvent(state, UC.bob, MK_EVENT_TYPES.edit, {
+        () => addEvent(state, UC.bob, et.MESSAGE_EDIT, {
             conversation_id: state.conversation_id,
             message_nr: state.r_message1.message_nr,
             message: "edit from bob",
@@ -100,7 +100,7 @@ test('Test pinned message edit.', function () {
                 conversation_id: state.r_request.identifier.conversation_id,
                 message_nr: state.r_request.identifier.message_nr,
             });
-            expect(state.r_message1.mk_message_state).toEqual(MK_MESSAGE_STATES.pinned);
+            expect(state.r_message1.mk_message_state).toEqual(ms.PINNED);
             expect(state.r_message1.message).toEqual('<msg><p>edit from bob</p></msg>');
         },
     ]);
@@ -111,7 +111,7 @@ test('Test task message edit.', function () {
     return thenSequence([
         () => setupConv(state, 'Test task message edit', UC.alice, [UC.bob]),
         // Alice posts a message
-        () => addEvent(state, UC.alice, MK_EVENT_TYPES.addTodo, {
+        () => addEvent(state, UC.alice, et.MESSAGE_ADD_TODO, {
             conversation_id: state.conversation_id,
             message: "message1",
         }),
@@ -121,10 +121,10 @@ test('Test task message edit.', function () {
                 conversation_id: state.r_request.identifier.conversation_id,
                 message_nr: state.r_request.identifier.message_nr,
             });
-            expect(state.r_message1.mk_message_state).toEqual(MK_MESSAGE_STATES.todo);
+            expect(state.r_message1.mk_message_state).toEqual(ms.TODO);
             expect(state.r_message1.message).toEqual('<msg><p>message1</p></msg>');
         },
-        () => addEvent(state, UC.alice, MK_EVENT_TYPES.edit, {
+        () => addEvent(state, UC.alice, et.MESSAGE_EDIT, {
             conversation_id: state.conversation_id,
             message_nr: state.r_message1.message_nr,
             message: "edit1",
@@ -136,11 +136,11 @@ test('Test task message edit.', function () {
                 conversation_id: state.r_request.identifier.conversation_id,
                 message_nr: state.r_request.identifier.message_nr,
             });
-            expect(state.r_message1.mk_message_state).toEqual(MK_MESSAGE_STATES.todo);
+            expect(state.r_message1.mk_message_state).toEqual(ms.TODO);
             expect(state.r_message1.message).toEqual('<msg><p>edit1</p></msg>');
         },
         // Bob tries to edit the message posted by alice
-        () => addEvent(state, UC.bob, MK_EVENT_TYPES.edit, {
+        () => addEvent(state, UC.bob, et.MESSAGE_EDIT, {
             conversation_id: state.conversation_id,
             message_nr: state.r_message1.message_nr,
             message: "edit from bob",
@@ -151,7 +151,7 @@ test('Test task message edit.', function () {
                 conversation_id: state.r_request.identifier.conversation_id,
                 message_nr: state.r_request.identifier.message_nr,
             });
-            expect(state.r_message1.mk_message_state).toEqual(MK_MESSAGE_STATES.todo);
+            expect(state.r_message1.mk_message_state).toEqual(ms.TODO);
             expect(state.r_message1.message).toEqual('<msg><p>edit from bob</p></msg>');
         },
     ]);
@@ -162,7 +162,7 @@ test('Test deleted message edit.', function () {
     return thenSequence([
         () => setupConv(state, 'Test text message edit', UC.alice, [UC.bob]),
         // Alice posts a message
-        () => addEvent(state, UC.alice, MK_EVENT_TYPES.addText, {
+        () => addEvent(state, UC.alice, et.MESSAGE_ADD_PLAIN, {
             conversation_id: state.conversation_id,
             message: "message1",
         }),
@@ -172,11 +172,11 @@ test('Test deleted message edit.', function () {
                 conversation_id: state.r_request.identifier.conversation_id,
                 message_nr: state.r_request.identifier.message_nr,
             });
-            expect(state.r_message1.mk_message_state).toEqual(MK_MESSAGE_STATES.text);
+            expect(state.r_message1.mk_message_state).toEqual(ms.PLAIN);
             expect(state.r_message1.message).toEqual('<msg><p>message1</p></msg>');
         },
         // Alice deletes the message
-        () => addEvent(state, UC.alice, MK_EVENT_TYPES.deleteMessage, {
+        () => addEvent(state, UC.alice, et.MESSAGE_DEL, {
             conversation_id: state.conversation_id,
             message_nr: state.r_message1.message_nr,
         }),
@@ -186,11 +186,11 @@ test('Test deleted message edit.', function () {
                 conversation_id: state.r_request.identifier.conversation_id,
                 message_nr: state.r_request.identifier.message_nr,
             });
-            expect(state.r_message1.mk_message_state).toEqual(MK_MESSAGE_STATES.deleted);
+            expect(state.r_message1.mk_message_state).toEqual(ms.DELETED);
             expect(state.r_message1.message).toEqual('');
         },
         // Alice tries to edit deleted message
-        () => addEvent(state, UC.alice, MK_EVENT_TYPES.edit, {
+        () => addEvent(state, UC.alice, et.MESSAGE_EDIT, {
             conversation_id: state.conversation_id,
             message_nr: state.r_message1.message_nr,
             message: "edit from alice",
@@ -201,7 +201,7 @@ test('Test deleted message edit.', function () {
                 conversation_id: state.r_message1.conversation_id,
                 message_nr: state.r_message1.message_nr,
             });
-            expect(state.r_message1.mk_message_state).toEqual(MK_MESSAGE_STATES.deleted);
+            expect(state.r_message1.mk_message_state).toEqual(ms.DELETED);
             expect(state.r_message1.message).toEqual('');
         },
     ]);

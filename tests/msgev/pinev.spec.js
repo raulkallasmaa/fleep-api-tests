@@ -1,5 +1,5 @@
 import {UserCache, thenSequence} from '../../lib';
-import {setupConv, addEvent, MK_EVENT_TYPES, MK_MESSAGE_STATES} from './helpers';
+import {setupConv, addEvent, et, ms} from './helpers';
 
 let UC = new UserCache([
     'Alice Adamson',
@@ -8,12 +8,12 @@ let UC = new UserCache([
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
 
-test('Reposition pins insice default section.', function () {
+test('Reposition pins.', function () {
     let state = {};
     return thenSequence([
         () => setupConv(state, 'Reposition pinned messages', UC.alice, []),
         // pin1
-        () => addEvent(state, UC.alice, MK_EVENT_TYPES.addPin, {
+        () => addEvent(state, UC.alice, et.MESSAGE_ADD_PINNED, {
             conversation_id: state.conversation_id,
             message: "pin1",
         }),
@@ -23,10 +23,10 @@ test('Reposition pins insice default section.', function () {
                 conversation_id: state.r_request.identifier.conversation_id,
                 message_nr: state.r_request.identifier.message_nr,
             });
-            expect(state.r_pin1.mk_message_state).toEqual(MK_MESSAGE_STATES.pinned);
+            expect(state.r_pin1.mk_message_state).toEqual(ms.PINNED);
         },
         // pin2
-        () => addEvent(state, UC.alice, MK_EVENT_TYPES.addPin, {
+        () => addEvent(state, UC.alice, et.MESSAGE_ADD_PINNED, {
             conversation_id: state.conversation_id,
             message: "pin2",
         }),
@@ -36,10 +36,10 @@ test('Reposition pins insice default section.', function () {
                 conversation_id: state.r_request.identifier.conversation_id,
                 message_nr: state.r_request.identifier.message_nr,
             });
-            expect(state.r_pin1.mk_message_state).toEqual(MK_MESSAGE_STATES.pinned);
+            expect(state.r_pin1.mk_message_state).toEqual(ms.PINNED);
         },
         // pin3
-        () => addEvent(state, UC.alice, MK_EVENT_TYPES.addPin, {
+        () => addEvent(state, UC.alice, et.MESSAGE_ADD_PINNED, {
             conversation_id: state.conversation_id,
             message: "pin3",
         }),
@@ -49,10 +49,10 @@ test('Reposition pins insice default section.', function () {
                 conversation_id: state.r_request.identifier.conversation_id,
                 message_nr: state.r_request.identifier.message_nr,
             });
-            expect(state.r_pin1.mk_message_state).toEqual(MK_MESSAGE_STATES.pinned);
+            expect(state.r_pin1.mk_message_state).toEqual(ms.PINNED);
         },
         // pin4
-        () => addEvent(state, UC.alice, MK_EVENT_TYPES.addPin, {
+        () => addEvent(state, UC.alice, et.MESSAGE_ADD_PINNED, {
             conversation_id: state.conversation_id,
             message: "pin4",
         }),
@@ -62,7 +62,7 @@ test('Reposition pins insice default section.', function () {
                 conversation_id: state.r_request.identifier.conversation_id,
                 message_nr: state.r_request.identifier.message_nr,
             });
-            expect(state.r_pin1.mk_message_state).toEqual(MK_MESSAGE_STATES.pinned);
+            expect(state.r_pin1.mk_message_state).toEqual(ms.PINNED);
         },
         // pins before reorder
         () => {
@@ -79,7 +79,7 @@ test('Reposition pins insice default section.', function () {
             ]);
         },
         // reorder
-        () => addEvent(state, UC.alice, MK_EVENT_TYPES.posPin, {
+        () => addEvent(state, UC.alice, et.MESSAGE_POS_PINNED, {
             "conversation_id": state.conversation_id,
             "message_nr": state.r_pin1.message_nr,
             "prev_message_nr": state.r_pin4.message_nr,
@@ -90,7 +90,7 @@ test('Reposition pins insice default section.', function () {
                 conversation_id: state.r_request.identifier.conversation_id,
                 message_nr: state.r_request.identifier.message_nr,
             });
-            expect(state.r_pin1.mk_message_state).toEqual(MK_MESSAGE_STATES.pinned);
+            expect(state.r_pin1.mk_message_state).toEqual(ms.PINNED);
         },
         // pins after reorder
         () => {
