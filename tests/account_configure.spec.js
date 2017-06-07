@@ -7,6 +7,8 @@ let UC = new UserCache([
     'Don Johnson',
     'Ron Jeremy@',
     'Jon Lajoie@',
+    'King Kong@',
+    'Bill Clinton'
 ], __filename, jasmine);
 
 beforeAll(() => UC.setup());
@@ -70,16 +72,15 @@ describe('account configure parameters', function () {
     });
 
     it('should set new password', function () {
-
         return thenSequence([
             // set new password for bob
             () => UC.bob.api_call("api/account/configure", {
-                old_password: UC.bob.password,
-                password: UC.bob.password + 'dsgg54gfdg'
+                old_password: UC.bob.info.password,
+                password: UC.bob.info.password + 'dsgg54gfdg'
             }),
-            // () => UC.bob.poll_filter({mk_rec_type: 'contact', password: UC.bob.password}),
-            // () => UC.bob.matchStream({mk_rec_type: 'contact', password: UC.bob.password}),
-            // (res) => expect(UC.clean(res)).toEqual({})
+            () => UC.bob.logout(),
+            () => UC.bob.password = UC.bob.info.password + 'dsgg54gfdg',
+            () => UC.bob.login(),
         ]);
     });
 
@@ -108,8 +109,8 @@ describe('account configure parameters', function () {
                 "email": "<email:Bob Marley>",
                 "export_files": [],
                 "export_progress": "1",
-                "fleep_address": "<fladdr:Bob Marley>",
-                "fleep_autogen": "<flautogen:Bob Marley>",
+                "fleep_address": "<fladdr:Batman>",
+                "fleep_autogen": "<flautogen:Batman>",
                 "has_password": true,
                 "is_automute_enabled": true,
                 "is_hidden_for_add": true,
@@ -130,7 +131,7 @@ describe('account configure parameters', function () {
                 "dialog_id": null,
                 "display_name": "Batman",
                 "email": "<email:Bob Marley>",
-                "fleep_address": "<fladdr:Bob Marley>",
+                "fleep_address": "<fladdr:Batman>",
                 "is_hidden_for_add": false,
                 "mk_account_status": "active",
                 "mk_rec_type": "contact",
@@ -142,12 +143,11 @@ describe('account configure parameters', function () {
     });
 
     it('should set email interval', function () {
-
         return thenSequence([
             // set bobs email interval to daily
             () => UC.bob.api_call("api/account/configure", {email_interval: 'daily'}),
-            // () => UC.bob.poll_filter({mk_rec_type: 'contact', mk_email_interval: 'never'}),
-            // () => UC.bob.matchStream({mk_rec_type: 'contact', mk_email_interval: 'never'}),
+            () => UC.bob.poll_filter({mk_rec_type: 'contact', mk_email_interval: 'daily'}),
+            () => UC.bob.matchStream({mk_rec_type: 'contact', mk_email_interval: 'daily'}),
             // check that bobs email interval is daily
             (res) => expect(UC.clean(res)).toEqual({
                 "account_id": "<account:Bob Marley>",
@@ -162,8 +162,8 @@ describe('account configure parameters', function () {
                 "email": "<email:Bob Marley>",
                 "export_files": [],
                 "export_progress": "1",
-                "fleep_address": "<fladdr:Bob Marley>",
-                "fleep_autogen": "<flautogen:Bob Marley>",
+                "fleep_address": "<fladdr:Batman>",
+                "fleep_autogen": "<flautogen:Batman>",
                 "has_password": true,
                 "is_automute_enabled": true,
                 "is_hidden_for_add": true,
@@ -179,7 +179,6 @@ describe('account configure parameters', function () {
     });
 
     it('should set full privacy off', function () {
-
         return thenSequence([
             // set full privacy false for bob
             () => UC.bob.api_call("api/account/configure", {is_full_privacy: false}),
@@ -198,8 +197,8 @@ describe('account configure parameters', function () {
                 "email": "<email:Bob Marley>",
                 "export_files": [],
                 "export_progress": "1",
-                "fleep_address": "<fladdr:Bob Marley>",
-                "fleep_autogen": "<flautogen:Bob Marley>",
+                "fleep_address": "<fladdr:Batman>",
+                "fleep_autogen": "<flautogen:Batman>",
                 "has_password": true,
                 "is_automute_enabled": true,
                 "is_full_privacy": false,
@@ -216,7 +215,6 @@ describe('account configure parameters', function () {
     });
 
     it('should set newsletters on', function () {
-
         return thenSequence([
             // set newsletters on for bob
             () => UC.bob.api_call("api/account/configure", {is_newsletter_disabled: false}),
@@ -236,8 +234,8 @@ describe('account configure parameters', function () {
                 "email": "<email:Bob Marley>",
                 "export_files": [],
                 "export_progress": "1",
-                "fleep_address": "<fladdr:Bob Marley>",
-                "fleep_autogen": "<flautogen:Bob Marley>",
+                "fleep_address": "<fladdr:Batman>",
+                "fleep_autogen": "<flautogen:Batman>",
                 "has_password": true,
                 "is_automute_enabled": true,
                 "is_full_privacy": false,
@@ -255,7 +253,6 @@ describe('account configure parameters', function () {
     });
 
     it('should set automute off', function () {
-
         return thenSequence([
             // set automute off for bob
             () => UC.bob.api_call("api/account/configure", {is_automute_enabled: false}),
@@ -275,8 +272,8 @@ describe('account configure parameters', function () {
                 "email": "<email:Bob Marley>",
                 "export_files": [],
                 "export_progress": "1",
-                "fleep_address": "<fladdr:Bob Marley>",
-                "fleep_autogen": "<flautogen:Bob Marley>",
+                "fleep_address": "<fladdr:Batman>",
+                "fleep_autogen": "<flautogen:Batman>",
                 "has_password": true,
                 "is_automute_enabled": false,
                 "is_full_privacy": false,
@@ -294,14 +291,13 @@ describe('account configure parameters', function () {
     });
     //
     // it('should change client settings', function () {
-    //
     //     return thenSequence([
     //         () => UC.bob.api_call("api/account/configure", {client_settings: }),
     //         (res) => expect(UC.clean(res)).toEqual({})
     //     ]);
     // });
     //
-    it.skip('should set new primary email', function () { // alias_account_ids must be fixed with magic
+    it.skip('should set new primary email', function () {
         let conv_topic = 'newPrimaryEmail';
         return thenSequence([
             // create conv and add jil
@@ -325,43 +321,44 @@ describe('account configure parameters', function () {
             () => UC.bob.api_call("api/alias/sync", {}),
             // bob sets his primary email to rons email
             () => UC.bob.api_call("api/account/configure", {primary_email: UC.ron.email}),
-            () => UC.bob.poll_filter({mk_rec_type: 'contact', display_name: "Batman"}),
-            () => UC.bob.matchStream({mk_rec_type: 'contact', display_name: "Batman"}),
+            () => UC.bob.api_call("api/contact/sync", {contact_id: UC.bob.account_id}),
+            () => UC.bob.poll_filter({mk_rec_type: 'contact', email: UC.ron.email}),
+            () => UC.bob.matchStream({mk_rec_type: 'contact', email: UC.ron.email}),
             // check that bobs new primary email is rons email
             // alias_account_ids must be fixed with magic
-            // (res) => expect(UC.clean(res)).toEqual({
-            //     "account_id": "<account:Bob Marley>",
-            //     "activated_time": "...",
-            //     "alias_account_ids": [
-            //         "<account:Bob Marley>",
-            //         ],
-            //     "client_flags": [
-            //         "emoticons_old",
-            //         "show_onboarding",
-            //         ],
-            //     "connected_email": "",
-            //     "dialog_id": null,
-            //     "display_name": "Batman",
-            //     "email": "<email:Ron Jeremy>",
-            //     "export_files": [],
-            //     "export_progress": "1",
-            //     "fleep_address": "<fladdr:Bob Marley>",
-            //     "fleep_autogen": "<flautogen:Bob Marley>",
-            //     "has_password": true,
-            //     "is_automute_enabled": false,
-            //     "is_full_privacy": false,
-            //     "is_hidden_for_add": true,
-            //     "is_newsletter_disabled": false,
-            //     "is_premium": false,
-            //     "mk_account_status": "active",
-            //     "mk_email_interval": "daily",
-            //     "mk_rec_type": "contact",
-            //     "organisation_id": null,
-            //     "phone_nr": "12345",
-            //     "trial_end_time": "...",
-            // }),
-            () => UC.jil.poll_filter({mk_rec_type: 'contact', display_name: "Batman"}),
-            () => UC.jil.matchStream({mk_rec_type: 'contact', display_name: "Batman"}),
+            (res) => expect(UC.clean(res)).toEqual({
+                "account_id": "<account:Bob Marley>",
+                "activated_time": "...",
+                "alias_account_ids": [
+                    "<account:Bob Marley>",
+                    ],
+                "client_flags": [
+                    "emoticons_old",
+                    "show_onboarding",
+                    ],
+                "connected_email": "",
+                "dialog_id": null,
+                "display_name": "Batman",
+                "email": "<email:Ron Jeremy>",
+                "export_files": [],
+                "export_progress": "1",
+                "fleep_address": "<fladdr:Batman>",
+                "fleep_autogen": "<flautogen:Batman>",
+                "has_password": true,
+                "is_automute_enabled": false,
+                "is_full_privacy": false,
+                "is_hidden_for_add": true,
+                "is_newsletter_disabled": false,
+                "is_premium": false,
+                "mk_account_status": "active",
+                "mk_email_interval": "daily",
+                "mk_rec_type": "contact",
+                "organisation_id": null,
+                "phone_nr": "12345",
+                "trial_end_time": "...",
+            }),
+            () => UC.jil.poll_filter({mk_rec_type: 'contact', email: UC.ron.email}),
+            () => UC.jil.matchStream({mk_rec_type: 'contact', email: UC.ron.email}),
             // jil checks that bobs new primary email is rons email
             (res) => expect(UC.clean(res)).toEqual({
                 "account_id": "<account:Bob Marley>",
@@ -369,7 +366,7 @@ describe('account configure parameters', function () {
                 "dialog_id": null,
                 "display_name": "Batman",
                 "email": "<email:Ron Jeremy>",
-                "fleep_address": "<fladdr:Bob Marley>",
+                "fleep_address": "<fladdr:Batman>",
                 "is_hidden_for_add": false,
                 "mk_account_status": "active",
                 "mk_rec_type": "contact",
@@ -380,21 +377,110 @@ describe('account configure parameters', function () {
         ]);
     });
 
-    it.skip('should set fleep address', function () {
-        let conv_topic = 'fleepAddress';
+    it('should register new fleep user and set fleep address', function () {
         return thenSequence([
-            // do a lookup for jons email
-            () => UC.bob.api_call("api/account/lookup", {lookup_list: [UC.jon.email], ignore_list: []}),
-            // create conv and invite jon by email
-            () => UC.bob.api_call("api/conversation/create", {
-                topic: conv_topic,
-                account_ids: [UC.bob.getRecord('contact', 'email', UC.jon.email).account_id]}),
-            (res) => expect(res.header.topic).toEqual(conv_topic),
-            () => UC.bob.poll_filter({mk_rec_type: 'conv', topic: conv_topic}),
-            () => UC.jon.waitMail({}),
-            (res) => console.log(res)
-            // () => UC.jon.raw_api_call("api/account/configure", {fleep_address: UC.jon.fleep_address}),
-            // (res) => expect(UC.clean(res)).toEqual({})
+            // register jon as new fleep account
+            () => UC.jon.raw_api_call('api/account/register', {
+            email: UC.jon.email,
+            display_name: UC.jon.display_name,
+            password: UC.jon.password,
+            use_code: true}),
+            () => UC.jon.waitMail({subject: /Fleep confirmation code/}),
+            (msg) => {
+                let code = msg.subject.split(': ')[1].replace('/-/g', '');
+                return code;
+            },
+            (code) => UC.jon.raw_api_call('api/account/prepare/v2', {
+                registration_mail: UC.jon.email,
+                registration_code: code
+            }),
+            // set a fleep address(randomly generated every time) for jon
+            (res) => UC.jon.raw_api_call('api/account/confirm/v2', {
+                notification_id: res.notification_id,
+                password: UC.jon.password,
+                display_name: UC.jon.display_name,
+                fleep_address: UC.jon.info.fleep_address
+            }),
+            () => UC.jon.poll_filter({mk_rec_type: 'contact', email: UC.jon.email}),
+            () => UC.jon.matchStream({mk_rec_type: 'contact', email: UC.jon.email}),
+            // check that jon sees his fleep address
+            (res) => expect(UC.clean(res)).toEqual({
+                "account_id": "<account:Jon Lajoie>",
+                "activated_time": "...",
+                "client_flags": [
+                    "emoticons_old",
+                    "show_onboarding",
+                    ],
+                "connected_email": "",
+                "dialog_id": null,
+                "display_name": "Jon Lajoie",
+                "email": "<email:Jon Lajoie>",
+                "export_files": [],
+                "export_progress": "1",
+                "fleep_address": "<fladdr:Jon Lajoie>",
+                "fleep_autogen": "<flautogen:Jon Lajoie>",
+                "has_password": true,
+                "is_automute_enabled": true,
+                "is_hidden_for_add": true,
+                "is_premium": false,
+                "mk_account_status": "active",
+                "mk_email_interval": "hourly",
+                "mk_rec_type": "contact",
+                "organisation_id": null,
+                "trial_end_time": "...",
+            }),
+            // meg searches for jon and sees his fleep address
+            () => UC.meg.api_call("api/account/lookup", {lookup_list: [UC.jon.fleep_email], ignore_list: []}),
+            (res) => expect(UC.clean(res)).toEqual({
+                "stream": [{
+                "account_id": "<account:Jon Lajoie>",
+                "avatar_urls": null,
+                "display_name": "Jon Lajoie",
+                "fleep_address": "<fladdr:Jon Lajoie>",
+                "is_in_org": false,
+                "mk_account_status": "active",
+                "mk_rec_type": "contact"}]
+            })
         ]);
+    });
+
+    it('should try to register new fleep user with already taken fleep address', function () {
+        return thenSequence([
+            // register king as new fleep account
+            () => UC.king.raw_api_call('api/account/register', {
+                email: UC.king.email,
+                display_name: UC.king.display_name,
+                password: UC.king.password,
+                use_code: true}),
+            () => UC.king.waitMail({subject: /Fleep confirmation code/}),
+            (msg) => {
+                let code = msg.subject.split(': ')[1].replace('/-/g', '');
+                return code;
+            },
+            (code) => UC.king.raw_api_call('api/account/prepare/v2', {
+                registration_mail: UC.king.email,
+                registration_code: code
+            }),
+            // king tries to set bobs fleep address as his own
+            (res) => UC.king.raw_api_call('api/account/confirm/v2', {
+                notification_id: res.notification_id,
+                password: UC.king.password,
+                display_name: UC.king.display_name,
+                fleep_address: UC.bob.info.fleep_address
+            })
+            // king gets an error: this fleep address is already in use
+            .then(() => Promise.reject(new Error('Business logic error: Fleep address not available!')),
+                (r) => expect(r.statusCode).toEqual(431)),
+        ]);
+    });
+
+    it('should try to set new fleep address', function () {
+       return thenSequence([
+           // bill tries to change his own fleep address but gets an error: fleep address limit exceeded
+           () => UC.bill.initial_poll(),
+           () => UC.bill.api_call("api/account/configure", {fleep_address: UC.bill.info.fleep_address + '5'})
+               .then(() => Promise.reject(new Error('Business logic error: Fleep address limit exceeded!')),
+                   (r) => expect(r.statusCode).toEqual(431)),
+       ]);
     });
 });
