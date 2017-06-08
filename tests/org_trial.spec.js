@@ -32,8 +32,7 @@ let changelog_before_timetravel = {
         "event_data": {
         "account_id": "<account:Bob Marley>",
             "conversation_id": "<conv:organisationTrial>",
-            "email_members": [],
-            "fleep_members": [
+            "member_ids": [
             "<account:Bob Marley>",
             ],
             "topic": "organisationTrial",

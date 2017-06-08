@@ -81,6 +81,7 @@ let sync_changelog = {
        "event_data": {
          "account_id": "<account:Charlie Chaplin>",
          "conversation_id": "<conv:teamsCreate>",
+         "topic": "teamsCreate",
        },
        "event_time": "...",
        "event_type": "chat.set_managed",
