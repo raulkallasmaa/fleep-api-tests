@@ -2,10 +2,10 @@ import {thenSequence} from '../../lib';
 import {randomUUID} from '../../lib/utils';
 
 let et = {
-    CONV_TASK_SECTION_ADD         : "urn:fleep:client:conv_task_section:add",
-    CONV_TASK_SECTION_POS         : "urn:fleep:client:conv_task_section:pos",
-    CONV_TASK_SECTION_DEL         : "urn:fleep:client:conv_task_section:del",
-    CONV_TASK_SECTION_RENAME      : "urn:fleep:client:conv_task_section:rename",
+    CONV_TASK_SECTION_ADD         : "urn:fleep:client:section:task:add",
+    CONV_TASK_SECTION_POS         : "urn:fleep:client:section:task:pos",
+    CONV_TASK_SECTION_DEL         : "urn:fleep:client:section:task:del",
+    CONV_TASK_SECTION_RENAME      : "urn:fleep:client:section:task:rename",
     MESSAGE_ADD_PLAIN             : "urn:fleep:client:message:add_plain",
     MESSAGE_ADD_TODO              : "urn:fleep:client:message:add_todo",
     MESSAGE_ADD_PINNED            : "urn:fleep:client:message:add_pinned",
@@ -21,6 +21,9 @@ let et = {
     MESSAGE_SET_ASSIGNEES         : "urn:fleep:client:message:set_assignees",
     MESSAGE_DISABLE_PREVIEW       : "urn:fleep:client:message:disable_preview",
     MESSAGE_COPY                  : "urn:fleep:client:message:copy",
+
+    MESSAGE_SYNC_PINBOARD         : "urn:fleep:client:message:sync_pinboard",
+    MESSAGE_SYNC_TASKBOARD        : "urn:fleep:client:message:sync_taskboard",
 };
 
 let ms = {
