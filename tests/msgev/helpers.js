@@ -24,13 +24,21 @@ let et = {
 };
 
 let ms = {
-    PLAIN    : 'urn:fleep:msgstate:plain',
-    SYSTEM   : 'urn:fleep:msgstate:system',
-    DELETED  : 'urn:fleep:msgstate:deleted',
-    PINNED   : 'urn:fleep:msgstate:pinned',
-    UNPINNED : 'urn:fleep:msgstate:unpinned',
-    TODO     : 'urn:fleep:msgstate:todo',
-    DONE     : 'urn:fleep:msgstate:done',
+    PLAIN    : 'urn:fleep:message:mk_message_state:plain',
+    SYSTEM   : 'urn:fleep:message:mk_message_state:system',
+    DELETED  : 'urn:fleep:message:mk_message_state:deleted',
+    PINNED   : 'urn:fleep:message:mk_message_state:pinned',
+    UNPINNED : 'urn:fleep:message:mk_message_state:unpinned',
+    TODO     : 'urn:fleep:message:mk_message_state:todo',
+    DONE     : 'urn:fleep:message:mk_message_state:done',
+};
+
+let sect = {
+    SECTION_TYPE_TASK : 'urn:fleep:section:mk_section_type:task',
+
+    SECTION_SUB_TYPE_USER     : 'urn:fleep:section:mk_section_sub_type:user',
+    SECTION_SUB_TYPE_DEFAULT  : 'urn:fleep:section:mk_section_sub_type:default',
+    SECTION_SUB_TYPE_ARCHIVED : 'urn:fleep:section:mk_section_sub_type:archived',
 };
 
 function setupConv(state, topic, client, members) {
@@ -121,4 +129,4 @@ function addEvent(state, client, mk_event_type, params, nocheck) {
     ]);
 }
 
-export {setupConv, addMessage, addEvent, et, ms};
+export {setupConv, addMessage, addEvent, et, ms, sect};

@@ -1,5 +1,5 @@
 import {UserCache, thenSequence} from '../../lib';
-import {setupConv, addEvent, et, ms} from './helpers';
+import {setupConv, addEvent, et, ms, sect} from './helpers';
 
 let UC = new UserCache([
     'Alice Adamson',
@@ -12,6 +12,22 @@ test('Reposition todo messages.', function () {
     let state = {};
     return thenSequence([
         () => setupConv(state, 'Reposition todo messages', UC.alice, []),
+
+        () => {
+            state.r_archived_section = UC.alice.matchStream({
+                mk_rec_type: 'section',
+                conversation_id: state.conversation_id,
+                mk_section_sub_type: sect.SECTION_SUB_TYPE_ARCHIVED,
+            });
+            console.log(state.r_archived_section);
+            state.r_default_section = UC.alice.matchStream({
+                mk_rec_type: 'section',
+                conversation_id: state.conversation_id,
+                mk_section_sub_type: sect.SECTION_SUB_TYPE_DEFAULT,
+            });
+            console.log(state.r_default_section);
+        },
+
         // todo1
         () => addEvent(state, UC.alice, et.MESSAGE_ADD_TODO, {
             conversation_id: state.conversation_id,
