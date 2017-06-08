@@ -297,7 +297,7 @@ describe('account configure parameters', function () {
     //     ]);
     // });
     //
-    it.skip('should set new primary email', function () {
+    it('should set new primary email', function () {
         let conv_topic = 'newPrimaryEmail';
         return thenSequence([
             // create conv and add jil
@@ -321,16 +321,16 @@ describe('account configure parameters', function () {
             () => UC.bob.api_call("api/alias/sync", {}),
             // bob sets his primary email to rons email
             () => UC.bob.api_call("api/account/configure", {primary_email: UC.ron.email}),
-            () => UC.bob.api_call("api/contact/sync", {contact_id: UC.bob.account_id}),
-            () => UC.bob.poll_filter({mk_rec_type: 'contact', email: UC.ron.email}),
-            () => UC.bob.matchStream({mk_rec_type: 'contact', email: UC.ron.email}),
+            // () => UC.bob.api_call("api/contact/sync", {contact_id: UC.bob.account_id}),
+            () => UC.bob.poll_filter({mk_rec_type: 'contact', account_id: UC.bob.account_id}),
+            () => UC.bob.matchStream({mk_rec_type: 'contact', account_id: UC.bob.account_id}),
             // check that bobs new primary email is rons email
             // alias_account_ids must be fixed with magic
             (res) => expect(UC.clean(res)).toEqual({
                 "account_id": "<account:Bob Marley>",
                 "activated_time": "...",
                 "alias_account_ids": [
-                    "<account:Bob Marley>",
+                    "<account:Ron Jeremy>",
                     ],
                 "client_flags": [
                     "emoticons_old",
@@ -357,8 +357,8 @@ describe('account configure parameters', function () {
                 "phone_nr": "12345",
                 "trial_end_time": "...",
             }),
-            () => UC.jil.poll_filter({mk_rec_type: 'contact', email: UC.ron.email}),
-            () => UC.jil.matchStream({mk_rec_type: 'contact', email: UC.ron.email}),
+            () => UC.jil.poll_filter({mk_rec_type: 'contact', account_id: UC.bob.account_id}),
+            () => UC.jil.matchStream({mk_rec_type: 'contact', account_id: UC.bob.account_id}),
             // jil checks that bobs new primary email is rons email
             (res) => expect(UC.clean(res)).toEqual({
                 "account_id": "<account:Bob Marley>",
@@ -461,14 +461,13 @@ describe('account configure parameters', function () {
                 registration_mail: UC.king.email,
                 registration_code: code
             }),
-            // king tries to set bobs fleep address as his own
+            // king tries to set megs fleep address as his own
             (res) => UC.king.raw_api_call('api/account/confirm/v2', {
                 notification_id: res.notification_id,
                 password: UC.king.password,
                 display_name: UC.king.display_name,
-                fleep_address: UC.bob.info.fleep_address
+                fleep_address: UC.meg.info.fleep_address
             })
-            // king gets an error: this fleep address is already in use
             .then(() => Promise.reject(new Error('Business logic error: Fleep address not available!')),
                 (r) => expect(r.statusCode).toEqual(431)),
         ]);
