@@ -318,9 +318,9 @@ describe('account configure parameters', function () {
             },
             // bob confirms ron as his alias
             (nfid) => UC.bob.api_call("api/alias/confirm", {notification_id: nfid}),
-            () => UC.bob.api_call("api/alias/sync", {}),
             // bob sets his primary email to rons email
             () => UC.bob.api_call("api/account/configure", {primary_email: UC.ron.email}),
+            () => UC.bob.api_call("api/alias/sync", {}),
             // () => UC.bob.api_call("api/contact/sync", {contact_id: UC.bob.account_id}),
             () => UC.bob.poll_filter({mk_rec_type: 'contact', account_id: UC.bob.account_id}),
             () => UC.bob.matchStream({mk_rec_type: 'contact', account_id: UC.bob.account_id}),
@@ -330,7 +330,7 @@ describe('account configure parameters', function () {
                 "account_id": "<account:Bob Marley>",
                 "activated_time": "...",
                 "alias_account_ids": [
-                    "<account:Ron Jeremy>",
+                    "<account:Bob Marley>",
                     ],
                 "client_flags": [
                     "emoticons_old",
