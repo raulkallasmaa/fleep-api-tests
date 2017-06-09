@@ -154,6 +154,7 @@ let org_changelog = {
        "event_data": {
          "account_id": "<account:Charlie Chaplin>",
          "conversation_ids": null,
+         "conversation_topics": null,
          "is_autojoin": false,
          "member_ids": [
            "<account:Charlie Chaplin>",

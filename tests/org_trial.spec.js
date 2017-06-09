@@ -15,11 +15,14 @@ let changelog_before_timetravel = {
     "account_id": "<account:Bob Marley>",
         "event_data": {
         "account_id": "<account:Bob Marley>",
-            "conversation_ids": [
+        "conversation_ids": [
             "<conv:organisationTrial>",
-            ],
-            "team_id": "<team:teamName>",
-            "team_name": "teamName",
+        ],
+        "conversation_topics": [
+            "organisationTrial",
+        ],
+        "team_id": "<team:teamName>",
+        "team_name": "teamName",
     },
     "event_time": "...",
         "event_type": "team.add_conversations",
@@ -46,8 +49,9 @@ let changelog_before_timetravel = {
 {
     "account_id": "<account:Bob Marley>",
         "event_data": {
-        "account_id": "<account:Bob Marley>",
+            "account_id": "<account:Bob Marley>",
             "conversation_ids": null,
+            "conversation_topics": null,
             "is_autojoin": false,
             "member_ids": [
             "<account:Bob Marley>",
