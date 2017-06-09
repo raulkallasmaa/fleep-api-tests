@@ -39,9 +39,9 @@ let ms = {
 let sect = {
     SECTION_TYPE_TASK : 'urn:fleep:section:mk_section_type:task',
 
-    SECTION_SUB_TYPE_USER     : 'urn:fleep:section:mk_section_sub_type:user',
-    SECTION_SUB_TYPE_DEFAULT  : 'urn:fleep:section:mk_section_sub_type:default',
-    SECTION_SUB_TYPE_ARCHIVED : 'urn:fleep:section:mk_section_sub_type:archived',
+    SECTION_SUBTYPE_USER     : 'urn:fleep:section:mk_section_subtype:user',
+    SECTION_SUBTYPE_DEFAULT  : 'urn:fleep:section:mk_section_subtype:default',
+    SECTION_SUBTYPE_ARCHIVED : 'urn:fleep:section:mk_section_subtype:archived',
 };
 
 function setupConv(state, topic, client, members) {
@@ -107,6 +107,11 @@ function addMessage(state, client, ev) {
 
 function addEvent(state, client, mk_event_type, params, nocheck) {
     let client_req_id = randomUUID();
+
+    if (state.client_req_id) {
+        console.log('replace client_req_id');
+        client_req_id = state.client_req_id;
+    }
     return thenSequence([
         () => client.api_call("api/event/store/", {
             stream: [
@@ -117,7 +122,9 @@ function addEvent(state, client, mk_event_type, params, nocheck) {
                 },
             ],
         }),
+        (res) => state.res = res,
         () => {
+            state.client_req_id = null;
             state.r_request = client.matchStream({
                 mk_rec_type: 'request',
                 client_req_id: client_req_id,

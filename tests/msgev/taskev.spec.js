@@ -17,13 +17,13 @@ test('Reposition todo messages.', function () {
             state.r_archived_section = UC.alice.matchStream({
                 mk_rec_type: 'section',
                 conversation_id: state.conversation_id,
-                mk_section_sub_type: sect.SECTION_SUB_TYPE_ARCHIVED,
+                mk_section_subtype: sect.SECTION_SUBTYPE_ARCHIVED,
             });
             console.log(state.r_archived_section);
             state.r_default_section = UC.alice.matchStream({
                 mk_rec_type: 'section',
                 conversation_id: state.conversation_id,
-                mk_section_sub_type: sect.SECTION_SUB_TYPE_DEFAULT,
+                mk_section_subtype: sect.SECTION_SUBTYPE_DEFAULT,
             });
             console.log(state.r_default_section);
         },
