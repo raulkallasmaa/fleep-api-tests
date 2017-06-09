@@ -8,7 +8,8 @@ let UC = new UserCache([
     'Ron Jeremy@',
     'Jon Lajoie@',
     'King Kong@',
-    'Bill Clinton'
+    'Bill Clinton',
+    'Indiana Jones',
 ], __filename, jasmine);
 
 beforeAll(() => UC.setup());
@@ -289,14 +290,39 @@ describe('account configure parameters', function () {
             })
         ]);
     });
-    //
-    // it('should change client settings', function () {
-    //     return thenSequence([
-    //         () => UC.bob.api_call("api/account/configure", {client_settings: }),
-    //         (res) => expect(UC.clean(res)).toEqual({})
-    //     ]);
-    // });
-    //
+
+    it('should change client settings', function () {
+        return thenSequence([
+            () => UC.indiana.api_call("api/account/configure", {client_settings: '{"phone_nr": "12345"}'}),
+            (res) => expect(UC.clean(res)).toEqual({
+                "account_id": "<account:Indiana Jones>",
+                "activated_time": "...",
+                "client_flags": [
+                    "emoticons_old",
+                    "show_onboarding",
+                    ],
+                "client_settings": "{\"phone_nr\":\"12345\"}",
+                "connected_email": "",
+                "dialog_id": null,
+                "display_name": "Indiana Jones",
+                "email": "<email:Indiana Jones>",
+                "export_files": [],
+                "export_progress": "1",
+                "fleep_address": "<fladdr:Indiana Jones>",
+                "fleep_autogen": "<flautogen:Indiana Jones>",
+                "has_password": true,
+                "is_automute_enabled": true,
+                "is_hidden_for_add": true,
+                "is_premium": false,
+                "mk_account_status": "active",
+                "mk_email_interval": "never",
+                "mk_rec_type": "contact",
+                "organisation_id": null,
+                "trial_end_time": "...",
+            })
+        ]);
+    });
+
     it('should set new primary email', function () {
         let conv_topic = 'newPrimaryEmail';
         return thenSequence([
@@ -320,12 +346,12 @@ describe('account configure parameters', function () {
             (nfid) => UC.bob.api_call("api/alias/confirm", {notification_id: nfid}),
             // bob sets his primary email to rons email
             () => UC.bob.api_call("api/account/configure", {primary_email: UC.ron.email}),
+            (res) => UC.bob.cache_add_stream([res]),
             () => UC.bob.api_call("api/alias/sync", {}),
-            // () => UC.bob.api_call("api/contact/sync", {contact_id: UC.bob.account_id}),
+            () => UC.bob.api_call("api/contact/sync", {contact_id: UC.bob.account_id}),
             () => UC.bob.poll_filter({mk_rec_type: 'contact', account_id: UC.bob.account_id}),
             () => UC.bob.matchStream({mk_rec_type: 'contact', account_id: UC.bob.account_id}),
             // check that bobs new primary email is rons email
-            // alias_account_ids must be fixed with magic
             (res) => expect(UC.clean(res)).toEqual({
                 "account_id": "<account:Bob Marley>",
                 "activated_time": "...",
