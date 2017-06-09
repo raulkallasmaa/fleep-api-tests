@@ -41,7 +41,7 @@ test('Test pinboard sync.', function () {
         () => addEvent(state, UC.alice, et.MESSAGE_SYNC_PINBOARD, {
             conversation_id: state.conversation_id,
             limit: 1,
-            sync_cursor: JSON.stringify({'conversation_id': state.conversation_id}),
+            pin_cursor: JSON.stringify({'conversation_id': state.conversation_id}),
         }, true),
         () => console.log(state.res),
         () => console.log(state.r_request),

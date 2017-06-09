@@ -42,6 +42,7 @@ test(`Test mk_event_type="${et.MESSAGE_COPY}"`, function () {
             expect(UC.clean(state.r_message1)).toEqual({
                 account_id: '<account:Alice Adamson>',
                 conversation_id: '<conv:Origin conversation.>',
+                lock_account_id: null,
                 inbox_nr: 1,
                 message: '<msg><p>PlainMessage1</p></msg>',
                 message_nr: 2,
@@ -56,6 +57,7 @@ test(`Test mk_event_type="${et.MESSAGE_COPY}"`, function () {
             expect(UC.clean(state.r_message2)).toEqual({
                 account_id: '<account:Alice Adamson>',
                 conversation_id: '<conv:Target conversation.>',
+                lock_account_id: null,
                 inbox_nr: 1,
                 message: '<msg><p>PlainMessage1</p></msg>',
                 message_nr: 2,
