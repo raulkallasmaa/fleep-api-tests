@@ -64,4 +64,3 @@ test('create org and create managed conv with team in it', function () {
         (res) => expect(UC.clean(res)).toEqual(create_conv_result),
     ]);
 });
-
