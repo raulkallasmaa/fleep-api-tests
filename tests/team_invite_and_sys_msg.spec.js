@@ -12,145 +12,51 @@ let UC = new UserCache([
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
 
-let system_message = {
-        "event_horizon": "...",
-        "limit_time": 0,
-        "static_version": "...",
-        "stream": [{
-        "account_id": "<account:Ron Jeremy>",
-        "activity_time": "...",
-        "dialog_id": null,
-        "display_name": "Ron Jeremy",
-        "email": "<email:Ron Jeremy>",
-        "fleep_address": "<fladdr:Ron Jeremy>",
-        "is_hidden_for_add": false,
-        "mk_account_status": "active",
-        "mk_rec_type": "contact",
-        "organisation_id": null,
-        "sort_rank": 4,
-},
- {
-    "account_id": "<account:Ron Jeremy>",
+let FIND_RECS = [
+    {"mk_rec_type": "team"},
+    {'mk_message_type': 'signin'},
+    {"label": "freeTeam"},
+];
 
-        "dialog_id": null,
-        "display_name": "<email:Ron Jeremy>",
-        "email": "<email:Ron Jeremy>",
-        "is_hidden_for_add": true,
-        "mk_account_status": "new",
-        "mk_rec_type": "contact",
-        "organisation_id": null,
-        "sort_rank": 4,
-},
- {
+let EXPECT_RECS = [{
     "admins": [],
-        "autojoin_url": "<autojoin:freeTeam>",
-        "is_autojoin": false,
-        "is_deleted": false,
-        "is_managed": false,
-        "is_tiny": false,
-        "members": [
-        "<account:Bob Marley>",
-            "<account:Ron Jeremy>",
-        ],
-        "mk_rec_type": "team",
-        "mk_sync_mode": "tsm_full",
-        "organisation_id": null,
-        "team_id": "<team:freeTeam>",
-        "team_name": "freeTeam",
-        "team_version_nr": 4,
-},
- {
+    "autojoin_url": "<autojoin:freeTeam>",
+    "is_autojoin": false,
+    "is_deleted": false,
+    "is_managed": false,
+    "is_tiny": false,
+    "members": ["<account:Bob Marley>", "<account:Ron Jeremy>"],
+    "mk_rec_type": "team",
+    "mk_sync_mode": "tsm_full",
+    "organisation_id": null,
+    "team_id": "<team:freeTeam>",
+    "team_name": "freeTeam",
+    "team_version_nr": 4
+}, {
     "index": "...",
-        "is_in_muted": true,
-        "is_in_recent": true,
-        "is_on_left_pane": false,
-        "label": "freeTeam",
-        "label_id": "<label:freeTeam>",
-        "mk_label_status": "active",
-        "mk_label_subtype": "team_label",
-        "mk_label_type": "system_label",
-        "mk_rec_type": "label",
-        "team_id": "<team:freeTeam>",
-},
- {
-    "admins": [],
-        "can_post": true,
-        "conversation_id": "<conv:inviteToTeamViaEmail>",
-        "creator_id": "<account:Bob Marley>",
-        "default_members": [],
-        "export_files": [],
-        "export_progress": "1",
-        "guests": [],
-        "has_email_subject": false,
-        "has_pinboard": false,
-        "has_task_archive": false,
-        "has_taskboard": false,
-        "inbox_message_nr": 3,
-        "inbox_time": "...",
-        "is_automute": false,
-        "is_list": false,
-        "is_managed": false,
-        "is_mark_unread": false,
-        "is_premium": false,
-        "join_message_nr": 1,
-        "label_ids": [
-        "<label:freeTeam>",
-        ],
-        "last_inbox_nr": 1,
-        "last_message_nr": 5,
-        "last_message_time": "...",
-        "leavers": [
-        "<account:Ron Jeremy>",
-        ],
-        "members": [
-        "<account:Bob Marley>",
-            "<account:Ron Jeremy>",
-        ],
-        "mk_alert_level": "default",
-        "mk_conv_type": "cct_no_mail",
-        "mk_rec_type": "conv",
-        "organisation_id": null,
-        "profile_id": "<account:Bob Marley>",
-        "read_message_nr": 4,
-        "send_message_nr": 1,
-        "show_message_nr": 5,
-        "snooze_interval": 0,
-        "snooze_time": 0,
-        "teams": [
-        "<team:freeTeam>",
-        ],
-        "topic": "inviteToTeamViaEmail",
-        "topic_message_nr": 1,
-        "unread_count": 0,
-},
- {
+    "is_in_muted": true,
+    "is_in_recent": true,
+    "is_on_left_pane": false,
+    "label": "freeTeam",
+    "label_id": "<label:freeTeam>",
+    "mk_label_status": "active",
+    "mk_label_subtype": "team_label",
+    "mk_label_type": "system_label",
+    "mk_rec_type": "label",
+    "team_id": "<team:freeTeam>"
+}, {
     "account_id": "<account:Ron Jeremy>",
-        "conversation_id": "<conv:inviteToTeamViaEmail>",
-        "inbox_nr": -1,
-        "message": {
-        "sysmsg_text": "{author} became a Fleep user.",
-    },
+    "conversation_id": "<conv:inviteToTeamViaEmail>",
+    "inbox_nr": -1,
+    "message": { "sysmsg_text": "{author} became a Fleep user." },
     "message_nr": 5,
-        "mk_message_type": "signin",
-        "mk_rec_type": "message",
-        "posted_time": "...",
-        "prev_message_nr": 4,
-        "profile_id": "<account:Bob Marley>",
-        "tags": [],
-},
- {
-    "account_id": "<account:Ron Jeremy>",
-        "conversation_id": "<conv:inviteToTeamViaEmail>",
-        "join_message_nr": 4,
-        "mk_rec_type": "activity",
-        "read_message_nr": 5,
-},
- {
-    "account_id": "<account:Bob Marley>",
-        "conversation_id": "<conv:inviteToTeamViaEmail>",
-        "message_nr": "...",
-        "mk_rec_type": "poke",
-}]};
+    "mk_message_type": "signin",
+    "mk_rec_type": "message",
+    "posted_time": "...",
+    "prev_message_nr": 4,
+    "profile_id": "<account:Bob Marley>",
+    "tags": []
+}];
 
 test('invite to team via email', function () {
     let client = UC.bob;
@@ -207,6 +113,6 @@ test('invite to team via email', function () {
         // check that correct system message is in team chat (Ron became a Fleep user.)
         () => client.poll_filter({mk_rec_type: 'conv', topic: conv_topic}),
         () => client.poke(client.getConvId(conv_topic), true),
-        (res) => expect(UC.clean(res, {event_horizon: null, static_version: null})).toEqual(system_message)
+        () => expect(UC.clean(client.matchStream(FIND_RECS))).toEqual(EXPECT_RECS),
     ]);
 });
