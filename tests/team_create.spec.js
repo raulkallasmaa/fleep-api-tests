@@ -92,6 +92,7 @@ test('create teams with all params', function () {
     let orgName = 'teamsCreateOrgName';
     return thenSequence([
         // create first conversation before team so team can be added later
+        () => client.initial_poll(),
         () => client.api_call("api/conversation/create", {topic: convTopic}),
         (res) => expect(res.header.topic).toEqual(convTopic),
         () => client.poll_filter({mk_rec_type: 'conv', topic: convTopic}),
