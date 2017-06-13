@@ -264,7 +264,7 @@ it('should unmanage conv and team after trial ends', function () {
        () => UC.sysclient.sys_call("sys/shard/time_travel", {
            object_id: client.getOrgId(org_name),
            mk_time_action: 'bbg_trial_notif',
-           time_interval: '80 days',
+           time_interval: '20 days',
        }),
        () => client.waitMail({
            subject: /Please add your payment details/,
@@ -275,7 +275,7 @@ it('should unmanage conv and team after trial ends', function () {
        () => UC.sysclient.sys_call("sys/shard/time_travel", {
            object_id: client.getOrgId(org_name),
            mk_time_action: 'bbg_trial_warn',
-           time_interval: '89 days',
+           time_interval: '29 days',
        }),
        () => client.waitMail({
            subject: /Your free trial of Fleep for Business is ending tomorrow/,
@@ -286,7 +286,7 @@ it('should unmanage conv and team after trial ends', function () {
        () => UC.sysclient.sys_call("sys/shard/time_travel", {
            object_id: client.getOrgId(org_name),
            mk_time_action: 'bbg_trial_end',
-           time_interval: '90 days',
+           time_interval: '30 days',
        }),
        () => client.waitMail({
            subject: /Your trial of Fleep for Business just ended/,
