@@ -168,9 +168,78 @@ test('create custom labels for conversation', function () {
                 "mk_rec_type": "label",
             }]
         }),
-        // trying to change the index of label frontend to 20 but it stays at 9
-        () => client.api_call("api/label/store", {label_id: client.getLabelId(/frontend/), index: 20}),
+        // changing the index of label frontend to 8
+        () => client.api_call("api/label/store", {label_id: client.getLabelId(/frontend/), index: 8}),
         () => client.api_call("api/label/sync_conversations", {label_id: client.getLabelId(/frontend/)}),
-        () => expect(client.getLabel(/frontend/).index).toEqual(9)
+        () => expect(client.getLabel(/frontend/).index).toEqual(8),
+        // changing the index of label backend to 9
+        () => client.api_call("api/label/store", {label_id: client.getLabelId(/backend/), index: 9}),
+        () => client.api_call("api/label/sync_conversations", {label_id: client.getLabelId(/backend/)}),
+        () => expect(client.getLabel(/backend/).index).toEqual(9),
+        // changing is on left pane to false on label frontend
+        () => client.api_call("api/label/store", {label_id: client.getLabelId(/frontend/), is_on_left_pane: false}),
+        () => client.api_call("api/label/sync_conversations", {label_id: client.getLabelId(/frontend/)}),
+        () => expect(client.getLabel(/frontend/).is_on_left_pane).toEqual(false),
+        // changing is in muted and is in recent to false on label backend
+        () => client.api_call("api/label/store", {
+            label_id: client.getLabelId(/backend/),
+            is_in_muted: false,
+            is_in_recent: false}),
+        () => client.api_call("api/label/sync_conversations", {label_id: client.getLabelId(/backend/)}),
+        () => expect(client.getLabel(/backend/).is_in_muted).toEqual(false),
+        () => expect(client.getLabel(/backend/).is_in_recent).toEqual(false),
+        // create a new label called finance and assign it to the conversation
+        () => client.api_call("api/label/store", {label: 'finance'}),
+        () => client.api_call("api/conversation/store/" + client.getConvId(conv_topic), {labels: ['finance']}),
+        () => client.poll_filter({mk_rec_type: 'conv', topic: conv_topic}),
+        () => expect(UC.clean(client.getConv(conv_topic))).toEqual({
+            "admins": [],
+            "can_post": true,
+            "conversation_id": "<conv:customLabels>",
+            "creator_id": "<account:Bob Marley>",
+            "default_members": [],
+            "export_files": [],
+            "export_progress": "1",
+            "guests": [],
+            "has_email_subject": false,
+            "has_pinboard": false,
+            "has_task_archive": false,
+            "has_taskboard": false,
+            "inbox_message_nr": 1,
+            "inbox_time": "...",
+            "is_automute": false,
+            "is_list": false,
+            "is_managed": false,
+            "is_mark_unread": false,
+            "is_premium": false,
+            "join_message_nr": 1,
+            "label_ids": [
+                "<label:finance>",
+                ],
+            "labels": [
+                "finance",
+                ],
+            "last_inbox_nr": 0,
+            "last_message_nr": 1,
+            "last_message_time": "...",
+            "leavers": [],
+            "members": [
+                "<account:Bob Marley>",
+                ],
+            "mk_alert_level": "default",
+            "mk_conv_type": "cct_default",
+            "mk_rec_type": "conv",
+            "organisation_id": null,
+            "profile_id": "<account:Bob Marley>",
+            "read_message_nr": 1,
+            "send_message_nr": 1,
+            "show_message_nr": 1,
+            "snooze_interval": 0,
+            "snooze_time": 0,
+            "teams": [],
+            "topic": "customLabels",
+            "topic_message_nr": 1,
+            "unread_count": 0,
+        })
     ]);
 });
