@@ -171,6 +171,6 @@ test('create custom labels for conversation', function () {
         // trying to change the index of label frontend to 20 but it stays at 9
         () => client.api_call("api/label/store", {label_id: client.getLabelId(/frontend/), index: 20}),
         () => client.api_call("api/label/sync_conversations", {label_id: client.getLabelId(/frontend/)}),
-        (res) => expect(UC.clean(res)).toEqual({})
+        () => expect(client.getLabel(/frontend/).index).toEqual(9)
     ]);
 });
