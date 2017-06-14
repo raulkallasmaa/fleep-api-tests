@@ -223,7 +223,7 @@ let mels_first_sync_teams = {
 };
 
 
-test('create org and create managed conv and check the syste messages', function () {
+test('create org and create managed conv and check the system messages', function () {
     let client = UC.charlie;
     let conv_topic = 'managedConvTopic';
     let org_name = 'managedConvOrgName';
