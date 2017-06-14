@@ -205,7 +205,8 @@ let changelog_after_timetravel = {
         "conversation_id": "<conv:organisationTrial>",
         "inbox_nr": 0,
         "message":  {
-        "organisation_id": "<org:organisationName>",
+            "organisation_id": "<org:organisationName>",
+            "org_name": "organisationName",
             "sysmsg_text": "{author} disabled admin control, all members can change conversation settings.",
     },
     "message_nr": 4,

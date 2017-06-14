@@ -94,6 +94,7 @@ let conv_after_label_sync = {
             "inbox_nr": 0,
             "message": {
                 "members": [],
+                "org_name": null,
                 "organisation_id": null,
                 "topic": "customLabels",
             },
