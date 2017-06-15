@@ -25,23 +25,34 @@ test('user avatar upload, change and delete', function () {
         // bob uploads a new avatar
         () => client.api_put("api/avatar/upload", './data/avatar1.jpg'),
         // we only want to see the files array from the result and use magic on file id and upload url
-        (res) => expect(UC.clean(res.files, {
-            file_id: ['avatar_file', 'name'],
-            upload_url: ['upload_url', 'name']
-        })).toEqual([{
-            "file_id": "<avatar_file:avatar1.jpg>",
-            "file_sha256": "3508c9011a8b93ef73df7be4aa2231d2a6e7f06a9a967e18a38263cde160b281",
-            "file_type": "image/jpeg",
-            "height": 400,
-            "name": "avatar1.jpg",
-            "size": 24875,
-            "upload_url": "<upload_url:avatar1.jpg>",
-            "width": 400,
-        }]),
+        (res) => {
+            expect(UC.clean(res.files, {
+                    file_id: ['avatar_file', 'name'],
+                    upload_url: ['upload_url', 'name']
+                })).toEqual([{
+                    "file_id": "<avatar_file:avatar1.jpg>",
+                    "file_sha256": "3508c9011a8b93ef73df7be4aa2231d2a6e7f06a9a967e18a38263cde160b281",
+                    "file_type": "image/jpeg",
+                    "height": 400,
+                    "name": "avatar1.jpg",
+                    "size": 24875,
+                    "upload_url": "<upload_url:avatar1.jpg>",
+                    "width": 400,
+                }]);
+            let rec = client.getContact(/Bob/);
+            expect(UC.clean(rec).avatar_urls).toEqual({
+                "size_100": "<avatar_size_100:Bob Marley>",
+                "size_50": "<avatar_size_50:Bob Marley>",
+            });
+        },
+
         // check that meg sees bobs avatar
         () => UC.meg.poll_filter({mk_rec_type: 'contact', display_name: 'Bob Marley'}),
         () => UC.meg.getRecord('contact', 'display_name', 'Bob Marley'),
-        (res) => expect(UC.clean(res).avatar_urls).toEqual({}),
+        (res) => expect(UC.clean(res).avatar_urls).toEqual({
+            "size_100": "<avatar_size_100:Bob Marley>",
+            "size_50": "<avatar_size_50:Bob Marley>",
+        }),
 
         // bob changes his avatar
         () => client.api_put("api/avatar/upload", './data/avatar2.jpg'),
@@ -65,7 +76,7 @@ test('user avatar upload, change and delete', function () {
             "stream": [{
             "account_id": "<account:Bob Marley>",
             "activated_time": "...",
-            "avatar_urls": "{}",
+            "avatar_urls": {},
             "client_flags": [
             "emoticons_old",
             "show_onboarding",
