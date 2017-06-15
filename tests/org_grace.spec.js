@@ -81,7 +81,7 @@ let changelog_before_timetravel = {
 };
 
 let changelog_after_timetravel = {
-    "event_horizon": 30,
+    "event_horizon": 29,
     "limit_time": 0,
     "static_version": "...",
     "stream": [{
@@ -176,7 +176,7 @@ let changelog_after_timetravel = {
         "<label:teamName>",
         ],
         "last_inbox_nr": 0,
-        "last_message_nr": 4,
+        "last_message_nr": 3,
         "last_message_time": "...",
         "leavers": [],
         "members": [
@@ -188,9 +188,9 @@ let changelog_after_timetravel = {
         "mk_rec_type": "conv",
         "organisation_id": null,
         "profile_id": "<account:Bob Marley>",
-        "read_message_nr": 3,
+        "read_message_nr": 2,
         "send_message_nr": 1,
-        "show_message_nr": 4,
+        "show_message_nr": 3,
         "snooze_interval": 0,
         "snooze_time": 0,
         "teams": [
@@ -209,11 +209,11 @@ let changelog_after_timetravel = {
             "organisation_id": "<org:organisationName>",
             "sysmsg_text": "{author} disabled admin control, all members can change conversation settings.",
     },
-    "message_nr": 4,
+    "message_nr": 3,
         "mk_message_type": "unmanage",
         "mk_rec_type": "message",
         "posted_time": "...",
-        "prev_message_nr": 3,
+        "prev_message_nr": 2,
         "profile_id": "<account:Bob Marley>",
         "tags": [],
 },

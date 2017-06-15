@@ -58,7 +58,7 @@ let first_conversation = {
      "<label:Performers>",
    ],
    "last_inbox_nr": 0,
-   "last_message_nr": 3,
+   "last_message_nr": 2,
    "last_message_time": "...",
    "leavers": [],
    "members": [
@@ -72,9 +72,9 @@ let first_conversation = {
    "mk_rec_type": "conv",
    "organisation_id": null,
    "profile_id": "<account:Charlie Chaplin>",
-   "read_message_nr": 3,
+   "read_message_nr": 2,
    "send_message_nr": 1,
-   "show_message_nr": 3,
+   "show_message_nr": 2,
    "snooze_interval": 0,
    "snooze_time": 0,
    "teams": [

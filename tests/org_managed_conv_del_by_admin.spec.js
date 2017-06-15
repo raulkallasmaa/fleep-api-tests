@@ -67,11 +67,11 @@ let del_message = {
      "organisation_id": "<org:managedConvOrgName>",
      "sysmsg_text": "An administrator of {org_name} has deleted this conversation and its content.",
    },
-   "message_nr": 6,
+   "message_nr": 4,
    "mk_message_type": "deleteV1",
    "mk_rec_type": "message",
    "posted_time": "...",
-   "prev_message_nr": 5,
+   "prev_message_nr": 3,
    "profile_id": "<account:Charlie Chaplin>",
    "tags": [],
 };

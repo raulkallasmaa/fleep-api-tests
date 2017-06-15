@@ -67,13 +67,13 @@ let conv_after_team_add = {
    "label_ids": [
      "<label:Performers>",
    ],
-   "last_message_nr": 3,
+   "last_message_nr": 2,
    "members": [
      "<account:Bob Dylan>",
      "<account:Charlie Chaplin>",
      "<account:Don Johnson>",
    ],
-   "read_message_nr": 3,
+   "read_message_nr": 2,
    "teams": [
      "<team:Performers>",
    ],
@@ -126,7 +126,7 @@ let team_label_sync = {
          "<label:Performers>",
        ],
        "last_inbox_nr": 0,
-       "last_message_nr": 3,
+       "last_message_nr": 2,
        "last_message_time": "...",
        "leavers": [],
        "members": [
@@ -140,9 +140,9 @@ let team_label_sync = {
        "mk_rec_type": "conv",
        "organisation_id": null,
        "profile_id": "<account:Charlie Chaplin>",
-       "read_message_nr": 3,
+       "read_message_nr": 2,
        "send_message_nr": 1,
-       "show_message_nr": 3,
+       "show_message_nr": 2,
        "snooze_interval": 0,
        "snooze_time": 0,
        "teams": [
@@ -153,6 +153,28 @@ let team_label_sync = {
        "unread_count": 0,
      },
    ],
+};
+
+let add_team_msg = {
+   "account_id": "<account:Charlie Chaplin>",
+   "conversation_id": "<conv:teamsConvTestTopic2>",
+   "inbox_nr": 0,
+   "message": {
+     "members": [
+       "<account:Bob Dylan>",
+       "<account:Don Johnson>",
+     ],
+     "sysmsg_text": "{author} added {team_name} with {members}",
+     "team_id": "<team:Performers>",
+     "team_name": "Performers",
+   },
+   "message_nr": 2,
+   "mk_message_type": "add_teamV2",
+   "mk_rec_type": "message",
+   "posted_time": "...",
+   "prev_message_nr": 1,
+   "profile_id": "<account:Charlie Chaplin>",
+   "tags": [],
 };
 
 let team_label_conversations_after_remove = {
@@ -201,6 +223,8 @@ test('team: add and remove conversations', function () {
         () => client.poke(client.getConvId(convTopic), true),
         // conversation after team is added
         () => expect(UC.clean(client.getConv(convTopic))).toMatchObject(conv_after_team_add),
+        () => client.matchStream({mk_rec_type: 'message', mk_message_type: 'add_teamV2'}),
+        (msg) => expect(UC.clean(msg)).toEqual(add_team_msg),
 
 	// check this conversation appears under label conversations
         () => client.matchStream({mk_rec_type: 'label', team_id: client.getTeamId(teamName)}),
