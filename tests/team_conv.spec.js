@@ -164,7 +164,7 @@ let add_team_msg = {
        "<account:Bob Dylan>",
        "<account:Don Johnson>",
      ],
-     "sysmsg_text": "{author} added {team_name} with {members}",
+     "sysmsg_text": "{author} added {members} using {team_name}",
      "team_id": "<team:Performers>",
      "team_name": "Performers",
    },
