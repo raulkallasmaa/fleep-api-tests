@@ -29,12 +29,14 @@ test('user avatar upload, change and delete', function () {
             file_id: ['avatar_file', 'name'],
             upload_url: ['upload_url', 'name']
         })).toEqual([{
-            "file_id": "<avatar_file:untitled.dat>",
+            "file_id": "<avatar_file:user_avatar1.jpg>",
             "file_sha256": "3508c9011a8b93ef73df7be4aa2231d2a6e7f06a9a967e18a38263cde160b281",
-            "file_type": "application/octet-stream",
-            "name": "untitled.dat",
+            "file_type": "image/jpeg",
+            "height": 400,
+            "name": "user_avatar1.jpg",
             "size": 24875,
-            "upload_url": "<upload_url:untitled.dat>",
+            "upload_url": "<upload_url:user_avatar1.jpg>",
+            "width": 400,
         }]),
         // // check that meg sees bobs avatar
         // () => client.poke(client.getConvId(conv_topic), true),
@@ -50,12 +52,14 @@ test('user avatar upload, change and delete', function () {
             file_id: ['avatar_file', 'name'],
             upload_url: ['upload_url', 'name']
         })).toEqual([{
-            "file_id": "<avatar_file:untitled.dat>",
+            "file_id": "<avatar_file:user_avatar2.jpg>",
             "file_sha256": "696633432af4332e4f099466d0354c7ea7eae0c36c9f92535c855cef95b4aaa5",
-            "file_type": "application/octet-stream",
-            "name": "untitled.dat",
+            "file_type": "image/jpeg",
+            "height": 800,
+            "name": "user_avatar2.jpg",
             "size": 267164,
-            "upload_url": "<upload_url:untitled.dat>",
+            "upload_url": "<upload_url:user_avatar2.jpg>",
+            "width": 566,
         }]),
         () => client.api_call("api/avatar/delete", {}),
         // (res) => expect(UC.clean(res)).toEqual({}),
