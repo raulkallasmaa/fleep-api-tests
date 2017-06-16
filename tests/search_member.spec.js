@@ -34,7 +34,7 @@ describe('search contacts', function () {
                 xres.stream = [];
                 expect(xres).toEqual({
                     "headers": [{
-                        "conversation_id": "<conv:Charlie and Bob>",
+                        "conversation_id": "<conv:Monologue with myself>",
                         "members": ["<account:Alice Adamson>",
                             "<account:Bob Dylan>",
                             "<account:Charlie Chaplin>"],
