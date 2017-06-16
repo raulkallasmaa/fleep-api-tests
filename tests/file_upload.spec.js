@@ -45,7 +45,46 @@ test('file upload', function () {
         }),
         // check that meg sees the file/photo
         () => UC.meg.poke(client.getConvId(conv_topic), true),
-        () => UC.meg.getMessage(/avatar1/),
-        (res) => expect(UC.clean(res)).toEqual({}),
+        () => {
+            let msg = UC.meg.getMessage(/avatar1/);
+            let file = UC.meg.getRecord('file', 'file_name', 'avatar1.jpg');
+            expect(msg.message.indexOf(file.attachment_id) > 0).toEqual(true);
+            expect(UC.clean(file)).toEqual({
+                "account_id": "<account:Bob Marley>",
+                "attachment_id": "<att_id:avatar1.jpg>",
+                "conversation_id": "<conv:fileUpload>",
+                "deleter_id": "",
+                "file_name": "avatar1.jpg",
+                "file_sha256": "3508c9011a8b93ef73df7be4aa2231d2a6e7f06a9a967e18a38263cde160b281",
+                "file_size": 24875,
+                "file_type": "image/jpeg",
+                "file_url": "<file_url:avatar1.jpg>",
+                "height": 400,
+                "is_animated": false,
+                "is_deleted": false,
+                "is_hidden": false,
+                "message_nr": 2,
+                "mk_rec_type": "file",
+                "orientation": null,
+                "posted_time": "...",
+                "sender_name": null,
+                "thumb_url_100": "<thumb100:avatar1.jpg>",
+                "thumb_url_50": "<thumb50:avatar1.jpg>",
+                "width": 400
+            });
+            expect(UC.clean(msg)).toEqual({
+                "account_id": "<account:Bob Marley>",
+                "conversation_id": "<conv:fileUpload>",
+                "inbox_nr": 1,
+                "message": "<msg><file key=\"<att_id:avatar1.jpg>\">avatar1.jpg</file></msg>",
+                "message_nr": 2,
+                "mk_message_type": "text",
+                "mk_rec_type": "message",
+                "posted_time": "...",
+                "prev_message_nr": 1,
+                "profile_id": "<account:Meg Griffin>",
+                "tags": []
+            });
+        },
     ]);
 });
