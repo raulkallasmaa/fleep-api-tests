@@ -1,5 +1,6 @@
 import {UserCache, thenSequence} from '../lib';
 import {imap_test_servers} from '../lib/usercache';
+import ImapClient from 'emailjs-imap-client';
 
 let UC = new UserCache([
     'Box User',
@@ -8,7 +9,7 @@ let UC = new UserCache([
     'External@',
 ], __filename, jasmine);
 
-beforeAll(() => UC.setup());
+beforeAll(() => Promise.all([UC.setup(), cleanImapAll()]));
 afterAll(() => UC.cleanup());
 
 let LINKED1 = {
@@ -26,6 +27,39 @@ let LINKED1 = {
      "smtp_port": 465,
      "smtp_username": "<imapuser:Linked>",
 };
+
+function cleanImap(srv, name) {
+    if (!srv) {
+        return Promise.resolve();
+    }
+
+    let imap = new ImapClient(srv.imap_server, 993, {
+        useSecureTransport: true,
+        id: {name: 'ApiTest'},
+        auth: {
+            user: srv.email.split('@')[0],
+            pass: srv.password,
+        }});
+    imap.logLevel = imap.LOG_LEVEL_WARN;
+
+    return thenSequence([
+        () => imap.connect(),
+        () => imap.selectMailbox('INBOX'),
+        () => imap.deleteMessages('INBOX', '1:*'),
+        () => imap.listMessages('INBOX', '1:*', ['UID', 'INTERNALDATE', 'FLAGS', 'BODY.PEEK[]'], {byUid: true}),
+        (list) => expect(list.length).toEqual(0),
+        () => imap.close(),
+    ]);
+}
+
+function cleanImapAll() {
+    // clear all test mailboxes
+    let k, plist = [];
+    for (k in imap_test_servers) {
+        plist.push(cleanImap(imap_test_servers[k], k));
+    }
+    return Promise.all(plist);
+}
 
 describe('email linking', function () {
     let srv, mail_rec;
