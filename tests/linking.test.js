@@ -9,7 +9,7 @@ let UC = new UserCache([
     'External@',
 ], __filename, jasmine);
 
-beforeAll(() => Promise.all([UC.setup(), cleanImapAll()]));
+beforeAll(() => UC.setup().then(() => cleanImapAll()));
 afterAll(() => UC.cleanup());
 
 let LINKED1 = {
@@ -29,10 +29,6 @@ let LINKED1 = {
 };
 
 function cleanImap(srv, name) {
-    if (!srv) {
-        return Promise.resolve();
-    }
-
     let imap = new ImapClient(srv.imap_server, 993, {
         useSecureTransport: true,
         id: {name: 'ApiTest'},
