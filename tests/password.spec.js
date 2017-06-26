@@ -33,23 +33,25 @@ describe('password tests', function () {
             () => client.login()
         ]);
     });
-    it.skip('retry password reset until it hits velocity', function () {
+
+    it('retry password reset until it hits velocity', function () {
         let client2 = UC.snoop;
         return thenSequence([
             () => client2.logout(),
-            () => client2.raw_api_call("api/account/reset_password", {email: client2.info.fleep_address + 'h54hk5jh4kj@gmail.com'})
+            // try to reset password with an invalid email address
+            () => client2.raw_api_call("api/account/reset_password", {email: client2.info.fleep_address + '@gmail.com'})
                 .then(() => Promise.reject(new Error('Account not found!')),
                     (r) => expect(r.statusCode).toEqual(431)),
-            () => passwordReset()
+            // reset password with same email address over and over again
+            () => Promise.all([
+                client2.raw_api_call("api/account/reset_password", {email: client2.email}),
+                client2.raw_api_call("api/account/reset_password", {email: client2.email}),
+                client2.raw_api_call("api/account/reset_password", {email: client2.email}),
+                client2.raw_api_call("api/account/reset_password", {email: client2.email}),
+                client2.raw_api_call("api/account/reset_password", {email: client2.email}),
+            ])
                 .then(() => Promise.reject(new Error('Too many password reset attempts per hour!')),
                     (r) => expect(r.statusCode).toEqual(431)),
         ]);
     });
 });
-
-function passwordReset() {
-    let client2 = UC.snoop;
-    for (let i = 0; i < 5; i++) {
-        client2.raw_api_call("api/account/reset_password", {email: client2.email});
-    }
-}
