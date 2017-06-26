@@ -10,9 +10,9 @@ afterAll(() => UC.cleanup());
 
 let team_after_create = {
     "admins": [
-"<account:Michael Scofield>",
-],
-"autojoin_url": "<autojoin:teamName>",
+    "<account:Michael Scofield>",
+    ],
+    "autojoin_url": "<autojoin:teamName>",
     "is_autojoin": false,
     "is_deleted": false,
     "is_managed": true,
@@ -31,44 +31,44 @@ let team_after_create = {
 
 let sync_changelog = {
     "stream": [{
-        "account_id": "<account:Lincoln Burrows>",
-        "event_data":  {
-        "account_id": "<account:Lincoln Burrows>",
-        "member_id": "<account:Lincoln Burrows>",
-        "team_id": "<team:teamName>",
-        "team_name": "teamName",
+    "account_id": "<account:Lincoln Burrows>",
+    "event_data":  {
+    "account_id": "<account:Lincoln Burrows>",
+    "member_id": "<account:Lincoln Burrows>",
+    "team_id": "<team:teamName>",
+    "team_name": "teamName",
     },
-        "event_time": "...",
+    "event_time": "...",
     "event_type": "team.switch_member",
     "mk_rec_type": "org_changelog",
     "organisation_id": "<org:organisationName>",
     "version_nr": 3,
     },
-        {
+    {
     "account_id": "<account:Michael Scofield>",
-        "event_data": {
-        "account_id": "<account:Michael Scofield>",
-            "team_id": "<team:teamName>",
-            "team_name": "teamName",
+    "event_data": {
+    "account_id": "<account:Michael Scofield>",
+    "team_id": "<team:teamName>",
+    "team_name": "teamName",
     },
     "event_time": "...",
-        "event_type": "team.set_managed",
-        "mk_rec_type": "org_changelog",
-        "organisation_id": "<org:organisationName>",
-        "version_nr": 2,
-},
-{
+    "event_type": "team.set_managed",
+    "mk_rec_type": "org_changelog",
+    "organisation_id": "<org:organisationName>",
+    "version_nr": 2,
+    },
+    {
     "account_id": "<account:Michael Scofield>",
-        "event_data": {
-        "account_id": "<account:Michael Scofield>",
-            "organisation_name": "organisationName",
+    "event_data": {
+    "account_id": "<account:Michael Scofield>",
+    "organisation_name": "organisationName",
     },
     "event_time": "...",
-        "event_type": "create_org",
-        "mk_rec_type": "org_changelog",
-        "organisation_id": "<org:organisationName>",
-        "version_nr": 1,
-}]
+    "event_type": "create_org",
+    "mk_rec_type": "org_changelog",
+    "organisation_id": "<org:organisationName>",
+    "version_nr": 1,
+    }]
 };
 
 test('join team via email invite', function () {
@@ -118,8 +118,8 @@ test('join team via email invite', function () {
             password: UC.lincoln.password,
             fleep_address: res.suggestions[0]
         }),
-        () => client.api_call("api/account/lookup", {lookup_list: [UC.lincoln.email], ignore_list: []}),
         () => client.poke(client.getConvId(conv_topic), true),
+        () => client.api_call("api/account/lookup", {lookup_list: [UC.lincoln.email], ignore_list: []}),
         () => client.api_call("api/business/sync_changelog/" + client.getOrgId(org_name), {}),
         (res) => expect(UC.clean(res)).toEqual(sync_changelog)
     ]);
