@@ -21,7 +21,7 @@ describe('test email sending', function () {
             .catch(function (err) {
                 expect(err).toEqual({});
                 return true;
-            });
+        });
     });
 });
 
@@ -43,7 +43,6 @@ describe('test email recv', function () {
             .catch(function (err) {
                 expect(err).toEqual({});
                 return true;
-            });
+        });
     });
 });
-

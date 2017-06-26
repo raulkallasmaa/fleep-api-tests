@@ -12,7 +12,7 @@ afterAll(() => UC.cleanup());
 
 let team_after_create = {
    "admins": [
-     "<account:Charlie Chaplin>",
+   "<account:Charlie Chaplin>",
    ],
    "autojoin_url": "<autojoin:Performers>",
    "is_autojoin": false,
@@ -20,9 +20,9 @@ let team_after_create = {
    "is_managed": true,
    "is_tiny": false,
    "members": [
-     "<account:Bob Dylan>",
-     "<account:Charlie Chaplin>",
-     "<account:Don Johnson>",
+   "<account:Bob Dylan>",
+   "<account:Charlie Chaplin>",
+   "<account:Don Johnson>",
    ],
    "mk_rec_type": "team",
    "mk_sync_mode": "tsm_full",
@@ -34,7 +34,7 @@ let team_after_create = {
 
 let team_after_mels_autojoin = {
    "admins": [
-     "<account:Charlie Chaplin>",
+   "<account:Charlie Chaplin>",
    ],
    "autojoin_url": "<autojoin:Performers>",
    "is_autojoin": true,
@@ -42,10 +42,10 @@ let team_after_mels_autojoin = {
    "is_managed": true,
    "is_tiny": false,
    "members": [
-     "<account:Bob Dylan>",
-     "<account:Charlie Chaplin>",
-     "<account:Don Johnson>",
-     "<account:Mel Gibson>",
+   "<account:Bob Dylan>",
+   "<account:Charlie Chaplin>",
+   "<account:Don Johnson>",
+   "<account:Mel Gibson>",
    ],
    "mk_rec_type": "team",
    "mk_sync_mode": "tsm_full",
@@ -56,82 +56,80 @@ let team_after_mels_autojoin = {
 };
 
 let changelog = {
-   "stream": [
-     {
-       "account_id": "<account:Charlie Chaplin>",
-       "event_data": {
-         "account_id": "<account:Charlie Chaplin>",
-         "is_autojoin": false,
-         "team_id": "<team:Performers>",
-         "team_name": "Performers",
-       },
-       "event_time": "...",
-       "event_type": "team.set_autojoin",
-       "mk_rec_type": "org_changelog",
-       "organisation_id": "<org:teamsCreateOrgName>",
-       "version_nr": 5,
-     },
-     {
-       "account_id": "<account:Mel Gibson>",
-       "event_data": {
-         "account_id": "<account:Mel Gibson>",
-         "team_id": "<team:Performers>",
-         "team_name": "Performers",
-       },
-       "event_time": "...",
-       "event_type": "team.autojoin",
-       "mk_rec_type": "org_changelog",
-       "organisation_id": "<org:teamsCreateOrgName>",
-       "version_nr": 4,
-     },
-     {
-       "account_id": "<account:Charlie Chaplin>",
-       "event_data": {
-         "account_id": "<account:Charlie Chaplin>",
-         "is_autojoin": true,
-         "team_id": "<team:Performers>",
-         "team_name": "Performers",
-       },
-       "event_time": "...",
-       "event_type": "team.set_autojoin",
-       "mk_rec_type": "org_changelog",
-       "organisation_id": "<org:teamsCreateOrgName>",
-       "version_nr": 3,
-     },
-     {
-       "account_id": "<account:Charlie Chaplin>",
-       "event_data": {
-         "account_id": "<account:Charlie Chaplin>",
-         "conversation_ids": null,
-         "conversation_topics": null,
-         "is_autojoin": false,
-         "member_ids": [
-           "<account:Bob Dylan>",
-           "<account:Charlie Chaplin>",
-           "<account:Don Johnson>",
-         ],
-         "team_id": "<team:Performers>",
-         "team_name": "Performers",
-       },
-       "event_time": "...",
-       "event_type": "team.create",
-       "mk_rec_type": "org_changelog",
-       "organisation_id": "<org:teamsCreateOrgName>",
-       "version_nr": 2,
-     },
-     {
-       "account_id": "<account:Charlie Chaplin>",
-       "event_data": {
-         "account_id": "<account:Charlie Chaplin>",
-         "organisation_name": "teamsCreateOrgName",
-       },
-       "event_time": "...",
-       "event_type": "create_org",
-       "mk_rec_type": "org_changelog",
-       "organisation_id": "<org:teamsCreateOrgName>",
-       "version_nr": 1,
-     },
+   "stream": [{
+   "account_id": "<account:Charlie Chaplin>",
+   "event_data": {
+   "account_id": "<account:Charlie Chaplin>",
+   "is_autojoin": false,
+   "team_id": "<team:Performers>",
+   "team_name": "Performers",
+   },
+   "event_time": "...",
+   "event_type": "team.set_autojoin",
+   "mk_rec_type": "org_changelog",
+   "organisation_id": "<org:teamsCreateOrgName>",
+   "version_nr": 5,
+   },
+   {
+   "account_id": "<account:Mel Gibson>",
+   "event_data": {
+   "account_id": "<account:Mel Gibson>",
+   "team_id": "<team:Performers>",
+   "team_name": "Performers",
+   },
+   "event_time": "...",
+   "event_type": "team.autojoin",
+   "mk_rec_type": "org_changelog",
+   "organisation_id": "<org:teamsCreateOrgName>",
+   "version_nr": 4,
+   },
+   {
+   "account_id": "<account:Charlie Chaplin>",
+   "event_data": {
+   "account_id": "<account:Charlie Chaplin>",
+   "is_autojoin": true,
+   "team_id": "<team:Performers>",
+   "team_name": "Performers",
+   },
+   "event_time": "...",
+   "event_type": "team.set_autojoin",
+   "mk_rec_type": "org_changelog",
+   "organisation_id": "<org:teamsCreateOrgName>",
+   "version_nr": 3,
+   },
+   {
+   "account_id": "<account:Charlie Chaplin>",
+   "event_data": {
+   "account_id": "<account:Charlie Chaplin>",
+   "conversation_ids": null,
+   "conversation_topics": null,
+   "is_autojoin": false,
+   "member_ids": [
+   "<account:Bob Dylan>",
+   "<account:Charlie Chaplin>",
+   "<account:Don Johnson>",
    ],
+   "team_id": "<team:Performers>",
+   "team_name": "Performers",
+   },
+   "event_time": "...",
+   "event_type": "team.create",
+   "mk_rec_type": "org_changelog",
+   "organisation_id": "<org:teamsCreateOrgName>",
+   "version_nr": 2,
+   },
+   {
+   "account_id": "<account:Charlie Chaplin>",
+   "event_data": {
+   "account_id": "<account:Charlie Chaplin>",
+   "organisation_name": "teamsCreateOrgName",
+   },
+   "event_time": "...",
+   "event_type": "create_org",
+   "mk_rec_type": "org_changelog",
+   "organisation_id": "<org:teamsCreateOrgName>",
+   "version_nr": 1,
+   }],
 };
 
 test('team autojoin enable / use / disable', function () {
@@ -145,13 +143,13 @@ test('team autojoin enable / use / disable', function () {
         (res) => expect(res.header.topic).toEqual(convTopic),
         () => client.poll_filter({mk_rec_type: 'conv', topic: convTopic}),
         () => client.api_call("api/business/create", {organisation_name: orgName}),
-	// create singers team
+        // create singers team
         () => client.api_call("api/team/create", {
                 team_name: teamName,
                 account_ids: [UC.bob.account_id, UC.don.account_id],
                 conversations: [client.getConvId(convTopic)],
                 is_managed: true, }),
-	// team after create
+        // team after create
         () => expect(UC.clean(client.getTeam(teamName))).toEqual(team_after_create),
         // enable autojoin
         () => client.api_call("api/team/configure/" + client.getTeamId(teamName), {
@@ -159,7 +157,7 @@ test('team autojoin enable / use / disable', function () {
         // alice joins team via autojoin key
         () => UC.mel.api_call("api/team/autojoin", {
                 team_url_key: client.getTeamAutoJoinKey(teamName)}),
-	// get mel's join through poll into client
+        // get mel's join through poll into client
         () => client.poke(client.getConvId(convTopic)),
         // check that alice is part of the team
         () => expect(UC.clean(client.getTeam(teamName))).toEqual(team_after_mels_autojoin),
@@ -169,14 +167,10 @@ test('team autojoin enable / use / disable', function () {
         () => expect(UC.clean(client.getTeam(teamName))).toMatchObject({
             "is_autojoin": false,
             "team_version_nr": 4, }),
-	// let bg worker copy log
+        // let bg worker copy log
         () => client.poke(client.getConvId(convTopic), true),
-	// view org changelog to see team changes there
+        // view org changelog to see team changes there
         () => client.api_call('/api/business/sync_changelog/' + client.getOrgId(orgName)),
         (res) => expect(UC.clean(res)).toEqual(changelog),
     ]);
 });
-
-
-
-

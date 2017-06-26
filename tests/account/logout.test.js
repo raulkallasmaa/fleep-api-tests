@@ -1,4 +1,3 @@
-
 import {UserCache, thenSequence} from '../../lib';
 
 let UC = new UserCache([

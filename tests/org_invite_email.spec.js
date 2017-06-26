@@ -11,50 +11,50 @@ afterAll(() => UC.cleanup());
 let business_sync_changelog = {
     "stream": [{
     "account_id": "<account:Lincoln Burrows>",
-        "event_data": {
-        "email_account_id": "<account:Lincoln Burrows>",
-            "member_account_id": "<account:Lincoln Burrows>",
+    "event_data": {
+    "email_account_id": "<account:Lincoln Burrows>",
+    "member_account_id": "<account:Lincoln Burrows>",
     },
     "event_time": "...",
-        "event_type": "activate_member",
-        "mk_rec_type": "org_changelog",
-        "organisation_id": "<org:organisationName>",
-        "version_nr": 3,
-},
- {
+    "event_type": "activate_member",
+    "mk_rec_type": "org_changelog",
+    "organisation_id": "<org:organisationName>",
+    "version_nr": 3,
+    },
+    {
     "account_id": "<account:Michael Scofield>",
-        "event_data":  {
-        "account_id": "<account:Michael Scofield>",
-            "activate_account_ids": null,
-            "add_account_ids": [
-            "<account:Lincoln Burrows>",
-            ],
-            "add_admin_ids": null,
-            "close_account_ids": null,
-            "kick_account_ids": null,
-            "organisation_name": null,
-            "remove_account_ids": null,
-            "remove_admin_ids": null,
-            "suspend_account_ids": null,
-    },
-    "event_time": "...",
-        "event_type": "configure_org",
-        "mk_rec_type": "org_changelog",
-        "organisation_id": "<org:organisationName>",
-        "version_nr": 2,
-},
- {
+    "event_data":  {
     "account_id": "<account:Michael Scofield>",
-        "event_data": {
-        "account_id": "<account:Michael Scofield>",
-            "organisation_name": "organisationName",
+    "activate_account_ids": null,
+    "add_account_ids": [
+    "<account:Lincoln Burrows>",
+    ],
+    "add_admin_ids": null,
+    "close_account_ids": null,
+    "kick_account_ids": null,
+    "organisation_name": null,
+    "remove_account_ids": null,
+    "remove_admin_ids": null,
+    "suspend_account_ids": null,
     },
     "event_time": "...",
-        "event_type": "create_org",
-        "mk_rec_type": "org_changelog",
-        "organisation_id": "<org:organisationName>",
-        "version_nr": 1,
-}]
+    "event_type": "configure_org",
+    "mk_rec_type": "org_changelog",
+    "organisation_id": "<org:organisationName>",
+    "version_nr": 2,
+    },
+    {
+    "account_id": "<account:Michael Scofield>",
+    "event_data": {
+    "account_id": "<account:Michael Scofield>",
+    "organisation_name": "organisationName",
+    },
+    "event_time": "...",
+    "event_type": "create_org",
+    "mk_rec_type": "org_changelog",
+    "organisation_id": "<org:organisationName>",
+    "version_nr": 1,
+    }]
 };
 
 test('join org via email invite', function () {

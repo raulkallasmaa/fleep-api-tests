@@ -12,7 +12,7 @@ afterAll(() => UC.cleanup());
 
 let first_team_create = {
    "admins": [
-     "<account:Charlie Chaplin>",
+   "<account:Charlie Chaplin>",
    ],
    "autojoin_url": "<autojoin:Performers>",
    "is_autojoin": true,
@@ -20,10 +20,10 @@ let first_team_create = {
    "is_managed": true,
    "is_tiny": false,
    "members": [
-     "<account:Bob Dylan>",
-     "<account:Charlie Chaplin>",
-     "<account:Don Johnson>",
-     "<account:Mel Gibson>",
+   "<account:Bob Dylan>",
+   "<account:Charlie Chaplin>",
+   "<account:Don Johnson>",
+   "<account:Mel Gibson>",
    ],
    "mk_rec_type": "team",
    "mk_sync_mode": "tsm_full",
@@ -55,17 +55,17 @@ let first_conversation = {
    "is_premium": false,
    "join_message_nr": 1,
    "label_ids": [
-     "<label:Performers>",
+   "<label:Performers>",
    ],
    "last_inbox_nr": 0,
    "last_message_nr": 2,
    "last_message_time": "...",
    "leavers": [],
    "members": [
-     "<account:Bob Dylan>",
-     "<account:Charlie Chaplin>",
-     "<account:Don Johnson>",
-     "<account:Mel Gibson>",
+   "<account:Bob Dylan>",
+   "<account:Charlie Chaplin>",
+   "<account:Don Johnson>",
+   "<account:Mel Gibson>",
    ],
    "mk_alert_level": "default",
    "mk_conv_type": "cct_default",
@@ -78,7 +78,7 @@ let first_conversation = {
    "snooze_interval": 0,
    "snooze_time": 0,
    "teams": [
-     "<team:Performers>",
+   "<team:Performers>",
    ],
    "topic": "teamsCreate",
    "topic_message_nr": 1,
@@ -97,7 +97,7 @@ test('create teams with all params', function () {
         (res) => expect(res.header.topic).toEqual(convTopic),
         () => client.poll_filter({mk_rec_type: 'conv', topic: convTopic}),
         () => client.api_call("api/business/create", {organisation_name: orgName}),
-	// create singers team
+        // create singers team
         () => client.api_call("api/team/create", {
                 team_name: teamName,
                 account_ids: [UC.bob.account_id, UC.don.account_id],
@@ -107,13 +107,9 @@ test('create teams with all params', function () {
                 emails: UC.mel.email, }),
         // wait for bg worker to do it's stuff
         () => client.poke(client.getConvId(convTopic), true),
-	// check singesrs to have three members
+        // check singesrs to have three members
         () => expect(UC.clean(client.getTeam(teamName))).toEqual(first_team_create),
-	// check actors before changes
+        // check actors before changes
         () => expect(UC.clean(client.getConv(convTopic))).toEqual(first_conversation),
     ]);
 });
-
-
-
-

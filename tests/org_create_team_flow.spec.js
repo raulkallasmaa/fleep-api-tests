@@ -10,10 +10,9 @@ beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
 
 let create_conv_result = {
-   "stream": [
-     {
+       "stream": [{
        "admins": [
-         "<account:Charlie Chaplin>",
+       "<account:Charlie Chaplin>",
        ],
        "autojoin_url": "<autojoin:managedConvTopic>",
        "cmail": "<cmail:managedConvTopic>",
@@ -28,19 +27,18 @@ let create_conv_result = {
        "leavers": [],
        "managed_time": "...",
        "members": [
-         "<account:Charlie Chaplin>",
-         "<account:Don Johnson>",
-         "<account:Mel Gibson>",
+       "<account:Charlie Chaplin>",
+       "<account:Don Johnson>",
+       "<account:Mel Gibson>",
        ],
        "mk_conv_type": "cct_no_mail",
        "mk_rec_type": "org_conv",
        "organisation_id": "<org:managedConvOrgName>",
        "teams": [
-         "<team:managedConvTeamName>",
+       "<team:managedConvTeamName>",
        ],
        "topic": "managedConvTopic",
-     },
-   ],
+       }],
 };
 
 test('business create team flow', function () {
@@ -68,4 +66,3 @@ test('business create team flow', function () {
         (res) => expect(UC.clean(res)).toEqual(create_conv_result),
     ]);
 });
-

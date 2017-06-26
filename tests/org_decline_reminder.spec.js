@@ -9,53 +9,51 @@ beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
 
 let sync_changelog = {
-   "stream": [
-     {
-       "account_id": "<account:Alex Mahone>",
-       "event_data": {
-         "member_account_id": "<account:Alex Mahone>",
-       },
-       "event_time": "...",
-       "event_type": "member_declines",
-       "mk_rec_type": "org_changelog",
-       "organisation_id": "<org:organisationName>",
-       "version_nr": 3,
-     },
-     {
-       "account_id": "<account:Fernando Sucre>",
-       "event_data": {
-         "account_id": "<account:Fernando Sucre>",
-         "activate_account_ids": null,
-         "add_account_ids": [
-           "<account:Alex Mahone>",
-         ],
-         "add_admin_ids": null,
-         "close_account_ids": null,
-         "kick_account_ids": null,
-         "organisation_name": null,
-         "remove_account_ids": null,
-         "remove_admin_ids": null,
-         "suspend_account_ids": null,
-       },
-       "event_time": "...",
-       "event_type": "configure_org",
-       "mk_rec_type": "org_changelog",
-       "organisation_id": "<org:organisationName>",
-       "version_nr": 2,
-     },
-     {
-       "account_id": "<account:Fernando Sucre>",
-       "event_data": {
-         "account_id": "<account:Fernando Sucre>",
-         "organisation_name": "organisationName",
-       },
-       "event_time": "...",
-       "event_type": "create_org",
-       "mk_rec_type": "org_changelog",
-       "organisation_id": "<org:organisationName>",
-       "version_nr": 1,
-     },
+   "stream": [{
+   "account_id": "<account:Alex Mahone>",
+   "event_data": {
+   "member_account_id": "<account:Alex Mahone>",
+   },
+   "event_time": "...",
+   "event_type": "member_declines",
+   "mk_rec_type": "org_changelog",
+   "organisation_id": "<org:organisationName>",
+   "version_nr": 3,
+   },
+   {
+   "account_id": "<account:Fernando Sucre>",
+   "event_data": {
+   "account_id": "<account:Fernando Sucre>",
+   "activate_account_ids": null,
+   "add_account_ids": [
+   "<account:Alex Mahone>",
    ],
+   "add_admin_ids": null,
+   "close_account_ids": null,
+   "kick_account_ids": null,
+   "organisation_name": null,
+   "remove_account_ids": null,
+   "remove_admin_ids": null,
+   "suspend_account_ids": null,
+   },
+   "event_time": "...",
+   "event_type": "configure_org",
+   "mk_rec_type": "org_changelog",
+   "organisation_id": "<org:organisationName>",
+   "version_nr": 2,
+   },
+   {
+   "account_id": "<account:Fernando Sucre>",
+   "event_data": {
+   "account_id": "<account:Fernando Sucre>",
+   "organisation_name": "organisationName",
+   },
+   "event_time": "...",
+   "event_type": "create_org",
+   "mk_rec_type": "org_changelog",
+   "organisation_id": "<org:organisationName>",
+   "version_nr": 1,
+   }],
 };
 
 test('decline org invite', function () {

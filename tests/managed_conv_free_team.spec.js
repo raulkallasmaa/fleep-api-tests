@@ -11,73 +11,70 @@ beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
 
 let sync_conversations = {
-   "stream": [
-     {
-       "admins": [
-         "<account:Meg Griffin>",
-       ],
-       "autojoin_url": "<autojoin:managedConv>",
-       "cmail": "<cmail:managedConv>",
-       "conversation_id": "<conv:managedConv>",
-       "creator_id": "<account:Meg Griffin>",
-       "default_members": [],
-       "guests": [],
-       "has_email_subject": false,
-       "is_deletable": true,
-       "is_list": false,
-       "is_managed": true,
-       "leavers": [],
-       "managed_time": "...",
-       "members": [
-         "<account:Don Johnson>",
-         "<account:Meg Griffin>",
-         "<account:Mel Gibson>",
-       ],
-       "mk_conv_type": "cct_no_mail",
-       "mk_rec_type": "org_conv",
-       "organisation_id": "<org:organisationName>",
-       "teams": [
-         "<team:freeTeam>",
-       ],
-       "topic": "managedConv",
-     },
+   "stream": [{
+   "admins": [
+   "<account:Meg Griffin>",
    ],
+   "autojoin_url": "<autojoin:managedConv>",
+   "cmail": "<cmail:managedConv>",
+   "conversation_id": "<conv:managedConv>",
+   "creator_id": "<account:Meg Griffin>",
+   "default_members": [],
+   "guests": [],
+   "has_email_subject": false,
+   "is_deletable": true,
+   "is_list": false,
+   "is_managed": true,
+   "leavers": [],
+   "managed_time": "...",
+   "members": [
+   "<account:Don Johnson>",
+   "<account:Meg Griffin>",
+   "<account:Mel Gibson>",
+   ],
+   "mk_conv_type": "cct_no_mail",
+   "mk_rec_type": "org_conv",
+   "organisation_id": "<org:organisationName>",
+   "teams": [
+   "<team:freeTeam>",
+   ],
+   "topic": "managedConv",
+   }],
    "sync_cursor": "{}",
 };
 
 let mel_removed_from_team = {
-    "stream": [{
-    "admins": [
-        "<account:Meg Griffin>",
-        ],
-        "autojoin_url": "<autojoin:managedConv>",
-        "cmail": "<cmail:managedConv>",
-        "conversation_id": "<conv:managedConv>",
-        "creator_id": "<account:Meg Griffin>",
-        "default_members": [],
-        "guests": [],
-        "has_email_subject": false,
-        "is_deletable": true,
-        "is_list": false,
-        "is_managed": true,
-        "leavers": [
-        "<account:Mel Gibson>",
-        ],
-        "managed_time": "...",
-        "members": [
-        "<account:Don Johnson>",
-            "<account:Meg Griffin>",
-        ],
-        "mk_conv_type": "cct_no_mail",
-        "mk_rec_type": "org_conv",
-        "organisation_id": "<org:organisationName>",
-        "teams": [
-        "<team:freeTeam>",
-        ],
-        "topic": "managedConv",
-},
-],
-"sync_cursor": "{}",
+   "stream": [{
+   "admins": [
+   "<account:Meg Griffin>",
+   ],
+   "autojoin_url": "<autojoin:managedConv>",
+   "cmail": "<cmail:managedConv>",
+   "conversation_id": "<conv:managedConv>",
+   "creator_id": "<account:Meg Griffin>",
+   "default_members": [],
+   "guests": [],
+   "has_email_subject": false,
+   "is_deletable": true,
+   "is_list": false,
+   "is_managed": true,
+   "leavers": [
+   "<account:Mel Gibson>",
+   ],
+   "managed_time": "...",
+   "members": [
+   "<account:Don Johnson>",
+   "<account:Meg Griffin>",
+   ],
+   "mk_conv_type": "cct_no_mail",
+   "mk_rec_type": "org_conv",
+   "organisation_id": "<org:organisationName>",
+   "teams": [
+   "<team:freeTeam>",
+   ],
+   "topic": "managedConv",
+   }],
+   "sync_cursor": "{}",
 };
 
 test('managed conversation and free team', function () {
@@ -89,7 +86,7 @@ test('managed conversation and free team', function () {
     return thenSequence([
 
         // create org and add don
-	() => UC.meg.initial_poll(),
+        () => UC.meg.initial_poll(),
         () => UC.don.initial_poll(),
         () => client.initial_poll(),
         () => client.api_call("api/business/create", {organisation_name: org_name}),

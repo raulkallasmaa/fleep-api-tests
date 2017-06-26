@@ -12,7 +12,7 @@ afterAll(() => UC.cleanup());
 
 let managed_team_created = {
    "admins": [
-     "<account:Charlie Chaplin>",
+   "<account:Charlie Chaplin>",
    ],
    "autojoin_url": "<autojoin:org-team-name>",
    "is_autojoin": false,
@@ -21,9 +21,9 @@ let managed_team_created = {
    "is_tiny": false,
    "managed_time": "...",
    "members": [
-     "<account:Charlie Chaplin>",
-     "<account:Don Johnson>",
-     "<account:Mel Gibson>",
+   "<account:Charlie Chaplin>",
+   "<account:Don Johnson>",
+   "<account:Mel Gibson>",
    ],
    "mk_rec_type": "team",
    "mk_sync_mode": "tsm_full",
@@ -35,7 +35,7 @@ let managed_team_created = {
 
 let team_after_store = {
    "admins": [
-     "<account:Charlie Chaplin>",
+   "<account:Charlie Chaplin>",
    ],
    "autojoin_url": "<autojoin:org-team-name>",
    "is_autojoin": true,
@@ -43,9 +43,9 @@ let team_after_store = {
    "is_managed": true,
    "is_tiny": false,
    "members": [
-     "<account:Bob Geldof>",
-     "<account:Charlie Chaplin>",
-     "<account:Don Johnson>",
+   "<account:Bob Geldof>",
+   "<account:Charlie Chaplin>",
+   "<account:Don Johnson>",
    ],
    "mk_rec_type": "team",
    "mk_sync_mode": "tsm_full",
@@ -63,9 +63,9 @@ let team_after_unmanage_and_remove = {
    "is_managed": false,
    "is_tiny": false,
    "members": [
-     "<account:Bob Geldof>",
-     "<account:Charlie Chaplin>",
-     "<account:Don Johnson>",
+   "<account:Bob Geldof>",
+   "<account:Charlie Chaplin>",
+   "<account:Don Johnson>",
    ],
    "mk_rec_type": "team",
    "mk_sync_mode": "tsm_full",
@@ -76,149 +76,146 @@ let team_after_unmanage_and_remove = {
 };
 
 let org_changelog = {
-   "stream": [
-     {
-       "account_id": "<account:Charlie Chaplin>",
-       "event_data": {
-         "account_id": "<account:Charlie Chaplin>",
-         "team_id": "<team:org-team-name>",
-         "team_name": "org-team-renamed",
-       },
-       "event_time": "...",
-       "event_type": "team.set_unmanaged",
-       "mk_rec_type": "org_changelog",
-       "organisation_id": "<org:test-org-name>",
-       "version_nr": 9,
-     },
-     {
-       "account_id": "<account:Charlie Chaplin>",
-       "event_data": {
-         "account_id": "<account:Charlie Chaplin>",
-         "is_autojoin": true,
-         "team_id": "<team:org-team-name>",
-         "team_name": "org-team-renamed",
-       },
-       "event_time": "...",
-       "event_type": "team.set_autojoin",
-       "mk_rec_type": "org_changelog",
-       "organisation_id": "<org:test-org-name>",
-       "version_nr": 8,
-     },
-     {
-       "account_id": "<account:Charlie Chaplin>",
-       "event_data": {
-         "account_id": "<account:Charlie Chaplin>",
-         "team_id": "<team:org-team-name>",
-         "team_name": "org-team-renamed",
-       },
-       "event_time": "...",
-       "event_type": "team.set_name",
-       "mk_rec_type": "org_changelog",
-       "organisation_id": "<org:test-org-name>",
-       "version_nr": 7,
-     },
-     {
-       "account_id": "<account:Charlie Chaplin>",
-       "event_data": {
-         "account_id": "<account:Charlie Chaplin>",
-         "member_ids": [
-           "<account:Mel Gibson>",
-         ],
-         "team_id": "<team:org-team-name>",
-         "team_name": "org-team-name",
-       },
-       "event_time": "...",
-       "event_type": "team.remove_members",
-       "mk_rec_type": "org_changelog",
-       "organisation_id": "<org:test-org-name>",
-       "version_nr": 6,
-     },
-     {
-       "account_id": "<account:Charlie Chaplin>",
-       "event_data": {
-         "account_id": "<account:Charlie Chaplin>",
-         "member_ids": [
-           "<account:Bob Geldof>",
-         ],
-         "team_id": "<team:org-team-name>",
-         "team_name": "org-team-name",
-       },
-       "event_time": "...",
-       "event_type": "team.add_members",
-       "mk_rec_type": "org_changelog",
-       "organisation_id": "<org:test-org-name>",
-       "version_nr": 5,
-     },
-     {
-       "account_id": "<account:Charlie Chaplin>",
-       "event_data": {
-         "account_id": "<account:Charlie Chaplin>",
-         "conversation_ids": null,
-         "conversation_topics": null,
-         "is_autojoin": false,
-         "member_ids": [
-           "<account:Charlie Chaplin>",
-           "<account:Don Johnson>",
-           "<account:Mel Gibson>",
-         ],
-         "team_id": "<team:org-team-name>",
-         "team_name": "org-team-name",
-       },
-       "event_time": "...",
-       "event_type": "team.create",
-       "mk_rec_type": "org_changelog",
-       "organisation_id": "<org:test-org-name>",
-       "version_nr": 4,
-     },
-     {
-       "account_id": "<account:Mel Gibson>",
-       "event_data": {
-         "member_account_id": "<account:Mel Gibson>",
-       },
-       "event_time": "...",
-       "event_type": "activate_member",
-       "mk_rec_type": "org_changelog",
-       "organisation_id": "<org:test-org-name>",
-       "version_nr": 3,
-     },
-     {
-       "account_id": "<account:Charlie Chaplin>",
-       "event_data": {
-         "account_id": "<account:Charlie Chaplin>",
-         "activate_account_ids": null,
-         "add_account_ids": [
-           "<account:Don Johnson>",
-           "<account:Mel Gibson>",
-         ],
-         "add_admin_ids": null,
-         "close_account_ids": null,
-         "kick_account_ids": null,
-         "organisation_name": null,
-         "remove_account_ids": null,
-         "remove_admin_ids": null,
-         "suspend_account_ids": null,
-       },
-       "event_time": "...",
-       "event_type": "configure_org",
-       "mk_rec_type": "org_changelog",
-       "organisation_id": "<org:test-org-name>",
-       "version_nr": 2,
-     },
-     {
-       "account_id": "<account:Charlie Chaplin>",
-       "event_data": {
-         "account_id": "<account:Charlie Chaplin>",
-         "organisation_name": "test-org-name",
-       },
-       "event_time": "...",
-       "event_type": "create_org",
-       "mk_rec_type": "org_changelog",
-       "organisation_id": "<org:test-org-name>",
-       "version_nr": 1,
-     },
+   "stream": [{
+   "account_id": "<account:Charlie Chaplin>",
+   "event_data": {
+   "account_id": "<account:Charlie Chaplin>",
+   "team_id": "<team:org-team-name>",
+   "team_name": "org-team-renamed",
+   },
+   "event_time": "...",
+   "event_type": "team.set_unmanaged",
+   "mk_rec_type": "org_changelog",
+   "organisation_id": "<org:test-org-name>",
+   "version_nr": 9,
+   },
+   {
+   "account_id": "<account:Charlie Chaplin>",
+   "event_data": {
+   "account_id": "<account:Charlie Chaplin>",
+   "is_autojoin": true,
+   "team_id": "<team:org-team-name>",
+   "team_name": "org-team-renamed",
+   },
+   "event_time": "...",
+   "event_type": "team.set_autojoin",
+   "mk_rec_type": "org_changelog",
+   "organisation_id": "<org:test-org-name>",
+   "version_nr": 8,
+   },
+   {
+   "account_id": "<account:Charlie Chaplin>",
+   "event_data": {
+   "account_id": "<account:Charlie Chaplin>",
+   "team_id": "<team:org-team-name>",
+   "team_name": "org-team-renamed",
+   },
+   "event_time": "...",
+   "event_type": "team.set_name",
+   "mk_rec_type": "org_changelog",
+   "organisation_id": "<org:test-org-name>",
+   "version_nr": 7,
+   },
+   {
+   "account_id": "<account:Charlie Chaplin>",
+   "event_data": {
+   "account_id": "<account:Charlie Chaplin>",
+   "member_ids": [
+   "<account:Mel Gibson>",
    ],
+   "team_id": "<team:org-team-name>",
+   "team_name": "org-team-name",
+   },
+   "event_time": "...",
+   "event_type": "team.remove_members",
+   "mk_rec_type": "org_changelog",
+   "organisation_id": "<org:test-org-name>",
+   "version_nr": 6,
+   },
+   {
+   "account_id": "<account:Charlie Chaplin>",
+   "event_data": {
+   "account_id": "<account:Charlie Chaplin>",
+   "member_ids": [
+   "<account:Bob Geldof>",
+   ],
+   "team_id": "<team:org-team-name>",
+   "team_name": "org-team-name",
+   },
+   "event_time": "...",
+   "event_type": "team.add_members",
+   "mk_rec_type": "org_changelog",
+   "organisation_id": "<org:test-org-name>",
+   "version_nr": 5,
+   },
+   {
+   "account_id": "<account:Charlie Chaplin>",
+   "event_data": {
+   "account_id": "<account:Charlie Chaplin>",
+   "conversation_ids": null,
+   "conversation_topics": null,
+   "is_autojoin": false,
+   "member_ids": [
+   "<account:Charlie Chaplin>",
+   "<account:Don Johnson>",
+   "<account:Mel Gibson>",
+   ],
+   "team_id": "<team:org-team-name>",
+   "team_name": "org-team-name",
+   },
+   "event_time": "...",
+   "event_type": "team.create",
+   "mk_rec_type": "org_changelog",
+   "organisation_id": "<org:test-org-name>",
+   "version_nr": 4,
+   },
+   {
+   "account_id": "<account:Mel Gibson>",
+   "event_data": {
+   "member_account_id": "<account:Mel Gibson>",
+   },
+   "event_time": "...",
+   "event_type": "activate_member",
+   "mk_rec_type": "org_changelog",
+   "organisation_id": "<org:test-org-name>",
+   "version_nr": 3,
+   },
+   {
+   "account_id": "<account:Charlie Chaplin>",
+   "event_data": {
+   "account_id": "<account:Charlie Chaplin>",
+   "activate_account_ids": null,
+   "add_account_ids": [
+   "<account:Don Johnson>",
+   "<account:Mel Gibson>",
+   ],
+   "add_admin_ids": null,
+   "close_account_ids": null,
+   "kick_account_ids": null,
+   "organisation_name": null,
+   "remove_account_ids": null,
+   "remove_admin_ids": null,
+   "suspend_account_ids": null,
+   },
+   "event_time": "...",
+   "event_type": "configure_org",
+   "mk_rec_type": "org_changelog",
+   "organisation_id": "<org:test-org-name>",
+   "version_nr": 2,
+   },
+   {
+   "account_id": "<account:Charlie Chaplin>",
+   "event_data": {
+   "account_id": "<account:Charlie Chaplin>",
+   "organisation_name": "test-org-name",
+   },
+   "event_time": "...",
+   "event_type": "create_org",
+   "mk_rec_type": "org_changelog",
+   "organisation_id": "<org:test-org-name>",
+   "version_nr": 1,
+   }],
 };
-
 
 test('create org and add managed team', function () {
     let client = UC.charlie;
@@ -242,7 +239,7 @@ test('create org and add managed team', function () {
         (reminder) => UC.mel.api_call("api/business/join/" + client.getOrgId(org_name), {
             reminder_id: reminder.reminder_id}),
 
-	// create managed team
+        // create managed team
         () => client.api_call("api/business/create_team/" + client.getOrgId(org_name), {
             team_name: org_team,
             account_ids: [UC.mel.account_id, UC.don.account_id]}),
@@ -250,7 +247,7 @@ test('create org and add managed team', function () {
         (team) => expect(UC.clean(team)).toEqual(managed_team_created),
 
         // Do various changes to team
-	() => client.api_call("/api/business/store_team/" + client.getOrgId(org_name), {
+        () => client.api_call("/api/business/store_team/" + client.getOrgId(org_name), {
             team_id: client.getTeamId(org_team),
             team_name: org_team_2,
             add_account_ids: [UC.bob.account_id, UC.don.account_id],
@@ -271,7 +268,7 @@ test('create org and add managed team', function () {
         () => client.getTeam(org_team_2),
         (team) => expect(UC.clean(team)).toEqual(team_after_unmanage_and_remove),
 
-	// changelog
+        // changelog
         () => client.poke(client.getConvId(conv_topic)),
         () => client.api_call('/api/business/sync_changelog/' + client.getOrgId(org_name)),
         (res) => expect(UC.clean(res)).toEqual(org_changelog),
@@ -280,5 +277,3 @@ test('create org and add managed team', function () {
         () => client.api_call("api/business/close/" + client.getOrgId(org_name)),
     ]);
 });
-
-

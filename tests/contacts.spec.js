@@ -28,7 +28,7 @@ it('should sync alice contacts', function () {
         (res) => {
             let xres = UC.clean(res);
             expect(xres).toEqual({
-                "contacts": [{
+                    "contacts": [{
                     "mk_rec_type": "contact",
                     "display_name": "Fleep Support",
                     "account_id": "<account:Fleep Support>",
@@ -52,7 +52,7 @@ it('should sync bob contacts', function () {
         (res) => {
             let xres = UC.clean(res);
             expect(xres).toEqual({
-                "contacts": [{
+                    "contacts": [{
                     "mk_rec_type": "contact",
                     "display_name": "Fleep Support",
                     "account_id": "<account:Fleep Support>",
@@ -76,7 +76,7 @@ it('should sync charlie contacts', function () {
         (res) => {
             let xres = UC.clean(res);
             expect(xres).toEqual({
-                "contacts": [{
+                    "contacts": [{
                     "mk_rec_type": "contact",
                     "display_name": "Fleep Support",
                     "account_id": "<account:Fleep Support>",
@@ -189,7 +189,7 @@ it('should check that information changes are synced properly', function () {
 
         // sync by activity; check contacts' last seen time; note that 2 email users are not listed because they have never been active yet
         () => client.api_call("api/contact/sync/activity", {
-            contacts: [
+                contacts: [
                 client2.account_id,
                 client3.account_id,
                 UC.donald.account_id,
@@ -198,28 +198,26 @@ it('should check that information changes are synced properly', function () {
             ]
         }),
         (res) => expect(UC.clean(res)).toEqual({
-            "stream": [
-                {
-                    "account_id": "<account:Bob Dylan>",
-                    "activity_time": '...',
-                    "mk_rec_type": "lastseen",
-                },
-                {
-                    "account_id": "<account:Charlie Chaplin>",
-                    "activity_time": '...',
-                    "mk_rec_type": "lastseen",
-                },
-                {
-                    "account_id": "<account:Fleep Support>",
-                    "activity_time": '...',
-                    "mk_rec_type": "lastseen",
-                },
-            ],
-        }),
+            "stream": [{
+            "account_id": "<account:Bob Dylan>",
+            "activity_time": '...',
+            "mk_rec_type": "lastseen",
+            },
+            {
+            "account_id": "<account:Charlie Chaplin>",
+            "activity_time": '...',
+            "mk_rec_type": "lastseen",
+            },
+            {
+            "account_id": "<account:Fleep Support>",
+            "activity_time": '...',
+            "mk_rec_type": "lastseen",
+            }]
+            }),
 
         // sync all the contacts you want to list by account ids
         () => client.api_call("api/contact/sync/list", {
-            contacts: [
+                contacts: [
                 client.getContact(/Brother/).account_id,
                 client.getContact(/Father/).account_id,
                 client.getContact('President').account_id,
@@ -228,70 +226,68 @@ it('should check that information changes are synced properly', function () {
             ]
         }),
         (res) => expect(UC.clean(res)).toEqual({
-            "contacts": [
-                {
-                    "account_id": "<account:Bob Dylan>",
-                    "activity_time": "...",
-                    "dialog_id": null,
-                    "display_name": "Brother",
-                    "email": "<email:Bob Dylan>",
-                    "fleep_address": "<fladdr:Bob Dylan>",
-                    "is_hidden_for_add": true,
-                    "mk_account_status": "active",
-                    "mk_rec_type": "contact",
-                    "organisation_id": null,
-                    "sort_rank": 0,
-                },
-                {
-                    "account_id": "<account:Charlie Chaplin>",
-                    "activity_time": "...",
-                    "dialog_id": null,
-                    "display_name": "Father",
-                    "email": "<email:Charlie Chaplin>",
-                    "fleep_address": "<fladdr:Charlie Chaplin>",
-                    "is_hidden_for_add": false,
-                    "mk_account_status": "active",
-                    "mk_rec_type": "contact",
-                    "organisation_id": null,
-                    "sort_rank": 4,
-                },
-                {
-                    "account_id": "<account:Fleep Support>",
-                    "activity_time": "...",
-                    "dialog_id": "<dlg:Fleep Support>",
-                    "display_name": "Fleep Support",
-                    "email": "<email:Fleep Support>",
-                    "fleep_address": "<fladdr:Fleep Support>",
-                    "is_hidden_for_add": true,
-                    "mk_account_status": "active",
-                    "mk_rec_type": "contact",
-                    "organisation_id": null,
-                    "sort_rank": 1,
-                },
-                {
-                    "account_id": "<account:President>",
-                    "dialog_id": null,
-                    "display_name": "President",
-                    "email": "<email:Donald Trump>",
-                    "is_hidden_for_add": true,
-                    "mk_account_status": "new",
-                    "mk_rec_type": "contact",
-                    "organisation_id": null,
-                    "phone_nr": "+37258012547",
-                    "sort_rank": 3,
-                },
-                {
-                    "account_id": "<account:Wannabe President>",
-                    "dialog_id": null,
-                    "display_name": "Wannabe President",
-                    "email": "<email:Hillary Clinton>",
-                    "is_hidden_for_add": true,
-                    "mk_account_status": "new",
-                    "mk_rec_type": "contact",
-                    "organisation_id": null,
-                    "sort_rank": 3,
-                },
-            ],
+            "contacts": [{
+            "account_id": "<account:Bob Dylan>",
+            "activity_time": "...",
+            "dialog_id": null,
+            "display_name": "Brother",
+            "email": "<email:Bob Dylan>",
+            "fleep_address": "<fladdr:Bob Dylan>",
+            "is_hidden_for_add": true,
+            "mk_account_status": "active",
+            "mk_rec_type": "contact",
+            "organisation_id": null,
+            "sort_rank": 0,
+            },
+            {
+            "account_id": "<account:Charlie Chaplin>",
+            "activity_time": "...",
+            "dialog_id": null,
+            "display_name": "Father",
+            "email": "<email:Charlie Chaplin>",
+            "fleep_address": "<fladdr:Charlie Chaplin>",
+            "is_hidden_for_add": false,
+            "mk_account_status": "active",
+            "mk_rec_type": "contact",
+            "organisation_id": null,
+            "sort_rank": 4,
+            },
+            {
+            "account_id": "<account:Fleep Support>",
+            "activity_time": "...",
+            "dialog_id": "<dlg:Fleep Support>",
+            "display_name": "Fleep Support",
+            "email": "<email:Fleep Support>",
+            "fleep_address": "<fladdr:Fleep Support>",
+            "is_hidden_for_add": true,
+            "mk_account_status": "active",
+            "mk_rec_type": "contact",
+            "organisation_id": null,
+            "sort_rank": 1,
+            },
+            {
+            "account_id": "<account:President>",
+            "dialog_id": null,
+            "display_name": "President",
+            "email": "<email:Donald Trump>",
+            "is_hidden_for_add": true,
+            "mk_account_status": "new",
+            "mk_rec_type": "contact",
+            "organisation_id": null,
+            "phone_nr": "+37258012547",
+            "sort_rank": 3,
+            },
+            {
+            "account_id": "<account:Wannabe President>",
+            "dialog_id": null,
+            "display_name": "Wannabe President",
+            "email": "<email:Hillary Clinton>",
+            "is_hidden_for_add": true,
+            "mk_account_status": "new",
+            "mk_rec_type": "contact",
+            "organisation_id": null,
+            "sort_rank": 3,
+            }]
         }),
     ]);
 });

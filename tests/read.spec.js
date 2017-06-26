@@ -40,9 +40,9 @@ let alice_create_header = {
    "last_message_time": "...",
    "leavers": [],
    "members": [
-     "<account:Alice In Wonderland>",
-     "<account:Bob Geldof>",
-     "<account:Charlie Sheen>",
+   "<account:Alice In Wonderland>",
+   "<account:Bob Geldof>",
+   "<account:Charlie Sheen>",
    ],
    "mk_alert_level": "default",
    "mk_conv_type": "cct_list",
@@ -78,7 +78,6 @@ let alice_first_header = {
    "unread_count": 0,
 };
 
-
 let bob_first_header = {
    "admins": [],
    "autojoin_url": "<autojoin:readings>",
@@ -112,9 +111,9 @@ let bob_first_header = {
    "last_message_time": "...",
    "leavers": [],
    "members": [
-     "<account:Alice In Wonderland>",
-     "<account:Bob Geldof>",
-     "<account:Charlie Sheen>",
+   "<account:Alice In Wonderland>",
+   "<account:Bob Geldof>",
+   "<account:Charlie Sheen>",
    ],
    "mk_alert_level": "default",
    "mk_conv_type": "cct_list",
@@ -185,9 +184,9 @@ let charlie_first_header = {
    "last_message_time": "...",
    "leavers": [],
    "members": [
-     "<account:Alice In Wonderland>",
-     "<account:Bob Geldof>",
-     "<account:Charlie Sheen>",
+   "<account:Alice In Wonderland>",
+   "<account:Bob Geldof>",
+   "<account:Charlie Sheen>",
    ],
    "mk_alert_level": "default",
    "mk_conv_type": "cct_list",
@@ -240,9 +239,9 @@ let charlie_header_after_read = {
    "last_message_time": "...",
    "leavers": [],
    "members": [
-     "<account:Alice In Wonderland>",
-     "<account:Bob Geldof>",
-     "<account:Charlie Sheen>",
+   "<account:Alice In Wonderland>",
+   "<account:Bob Geldof>",
+   "<account:Charlie Sheen>",
    ],
    "mk_alert_level": "default",
    "mk_conv_type": "cct_list",
@@ -306,11 +305,11 @@ let charlie_after_leave = {
    "last_message_nr": 5,
    "last_message_time": "...",
    "leavers": [
-     "<account:Charlie Sheen>",
+   "<account:Charlie Sheen>",
    ],
    "members": [
-     "<account:Alice In Wonderland>",
-     "<account:Bob Geldof>",
+   "<account:Alice In Wonderland>",
+   "<account:Bob Geldof>",
    ],
    "mk_alert_level": "default",
    "mk_conv_type": "cct_list",
@@ -391,9 +390,9 @@ let charlie_final_header = {
    "last_message_time": "...",
    "leavers": [],
    "members": [
-     "<account:Alice In Wonderland>",
-     "<account:Bob Geldof>",
-     "<account:Charlie Sheen>",
+   "<account:Alice In Wonderland>",
+   "<account:Bob Geldof>",
+   "<account:Charlie Sheen>",
    ],
    "mk_alert_level": "default",
    "mk_conv_type": "cct_list",

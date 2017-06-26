@@ -23,19 +23,19 @@ test('should create a hook and post messages over it', function () {
         () => client.api_call("api/conversation/show_hooks/" + client.getConvId(/createHook/)),
         (res) => expect(UC.clean(res, {})).toEqual({
             "hooks": [{
-                "account_id": "<account:Charlie Chaplin>",
-                "avatar_urls": "<avatar:plainHook>",
-                "conversation_id": "<conv:createHook>",
-                "hook_id": "<id:plainHook>",
-                "hook_key": "<key:plainHook>",
-                "hook_name": "plainHook",
-                "hook_url": "<url:plainHook>",
-                "is_active": true,
-                "mk_hook_type": "plain",
-                "mk_rec_type": "hook",
-                "outgoing_disable_reason": null,
-                "outgoing_disabled": false,
-                "outgoing_url": ""
+            "account_id": "<account:Charlie Chaplin>",
+            "avatar_urls": "<avatar:plainHook>",
+            "conversation_id": "<conv:createHook>",
+            "hook_id": "<id:plainHook>",
+            "hook_key": "<key:plainHook>",
+            "hook_name": "plainHook",
+            "hook_url": "<url:plainHook>",
+            "is_active": true,
+            "mk_hook_type": "plain",
+            "mk_rec_type": "hook",
+            "outgoing_disable_reason": null,
+            "outgoing_disabled": false,
+            "outgoing_url": ""
             }]
         }),
         () => client.poll_filter({mk_rec_type: 'hook', hook_name: 'plainHook'}),
@@ -67,7 +67,7 @@ test('should create a hook and post messages over it', function () {
             "prev_message_nr": 2,
             "profile_id": "<account:Charlie Chaplin>",
             "tags": []
-}),
+        }),
     ]);
 });
 
@@ -100,28 +100,30 @@ test('should import hook', function () {
             mk_hook_type: 'import'}),
         () => client.api_call("api/conversation/show_hooks/" + client.getConvId(/importHook/)),
         (res) => expect(UC.clean(res, {})).toEqual({
-            "hooks": [{"account_id": "<account:Bob Dylan>",
-                    "avatar_urls": "<avatar:hookImport>",
-                    "conversation_id": "<conv:importHook>",
-                    "hook_id": "<id:hookImport>",
-                    "hook_key": "<key:hookImport>",
-                    "hook_name": "hookImport",
-                    "hook_url": "<url:hookImport>",
-                    "is_active": true,
-                    "mk_hook_type": "import",
-                    "mk_rec_type": "hook",
-                    "outgoing_disable_reason": null,
-                    "outgoing_disabled": false,
-                    "outgoing_url": "", }],
+            "hooks": [{
+            "account_id": "<account:Bob Dylan>",
+            "avatar_urls": "<avatar:hookImport>",
+            "conversation_id": "<conv:importHook>",
+            "hook_id": "<id:hookImport>",
+            "hook_key": "<key:hookImport>",
+            "hook_name": "hookImport",
+            "hook_url": "<url:hookImport>",
+            "is_active": true,
+            "mk_hook_type": "import",
+            "mk_rec_type": "hook",
+            "outgoing_disable_reason": null,
+            "outgoing_disabled": false,
+            "outgoing_url": "",
+            }]
         }),
         () => client.poll_filter({mk_rec_type: 'hook', hook_name: 'hookImport'}),
         () => requestAsync({
             uri: client.getHookUrl('hookImport'),
             method: 'POST',
             body: {messages : [
-                { message_key: null, message: 'importMsg1', posted_time: Math.floor(Date.now() / 1000), sender_name: 'test'},
-                { message_key: null, message: 'importMsg2', posted_time: Math.floor(Date.now() / 1000), sender_name: 'raul'},
-                { message_key: 'msgkey1', message: 'importMsg3', posted_time: dateparse, sender_name: 'raul'}
+                {message_key: null, message: 'importMsg1', posted_time: Math.floor(Date.now() / 1000), sender_name: 'test'},
+                {message_key: null, message: 'importMsg2', posted_time: Math.floor(Date.now() / 1000), sender_name: 'raul'},
+                {message_key: 'msgkey1', message: 'importMsg3', posted_time: dateparse, sender_name: 'raul'}
                 ]},
             json: true,
             agent: false
@@ -132,19 +134,19 @@ test('should import hook', function () {
             let msg2 = client.getMessage(/importMsg2/);
             let msg3 = client.getMessage(/importMsg3/);
             expect(UC.clean(msg1)).toEqual({
-                    "account_id": "<account:Bob Dylan>",
-                    "conversation_id": "<conv:importHook>",
-                    "hook_key": "<key:hookImport>",
-                    "inbox_nr": 1,
-                    "message": "<msg><p>importMsg1</p></msg>",
-                    "message_nr": 3,
-                    "mk_message_type": "text",
-                    "mk_rec_type": "message",
-                    "posted_time": "...",
-                    "prev_message_nr": 2,
-                    "profile_id": "<account:Bob Dylan>",
-                    "sender_name": "test",
-                    "tags": [],
+                "account_id": "<account:Bob Dylan>",
+                "conversation_id": "<conv:importHook>",
+                "hook_key": "<key:hookImport>",
+                "inbox_nr": 1,
+                "message": "<msg><p>importMsg1</p></msg>",
+                "message_nr": 3,
+                "mk_message_type": "text",
+                "mk_rec_type": "message",
+                "posted_time": "...",
+                "prev_message_nr": 2,
+                "profile_id": "<account:Bob Dylan>",
+                "sender_name": "test",
+                "tags": [],
             });
             expect(UC.clean(msg2)).toEqual({
                 "account_id": "<account:Bob Dylan>",
@@ -177,6 +179,6 @@ test('should import hook', function () {
                 "tags": [],
             });
             expect(msg3.posted_time).toEqual(dateparse);
-    }
+        },
     ]);
 });

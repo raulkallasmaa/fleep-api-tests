@@ -74,4 +74,3 @@ test('matchRec', function () {
 test('matchStream', function () {
     expect(matchStream([{}], {})).toEqual({});
 });
-

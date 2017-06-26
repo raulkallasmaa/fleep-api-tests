@@ -59,17 +59,17 @@ let starred_conv2 = {
     "is_tiny": true,
     "join_message_nr": 1,
     "label_ids": [
-        "<label:starred>",
+    "<label:starred>",
     ],
     "labels": [
-        "starred",
+    "starred",
     ],
     "last_inbox_nr": 0,
     "last_message_nr": 1,
     "last_message_time": "...",
     "leavers": [],
     "members": [
-        "<account:Bob Marley>",
+    "<account:Bob Marley>",
     ],
     "mk_alert_level": "default",
     "mk_conv_type": "cct_default",
@@ -154,8 +154,8 @@ let unread_conv = {
     "last_message_time": "...",
     "leavers": [],
     "members": [
-        "<account:Fleep Support>",
-        "<account:Jon Lajoie>",
+    "<account:Fleep Support>",
+    "<account:Jon Lajoie>",
     ],
     "mk_alert_level": "default",
     "mk_conv_type": "cct_default",

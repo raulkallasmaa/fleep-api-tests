@@ -131,6 +131,4 @@ describe('email linking', function () {
             () => UC.external.waitMail({body: /hello/, subject: /testmail/}),
         ]);
     });
-
 });
-

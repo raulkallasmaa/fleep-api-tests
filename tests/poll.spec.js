@@ -38,4 +38,3 @@ describe('polling in new conversation', function () {
         });
     });
 });
-

@@ -10,130 +10,126 @@ beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
 
 let create_conv_result = {
-   "stream": [
-     {
-       "admins": [
-         "<account:Charlie Chaplin>",
-       ],
-       "autojoin_url": "<autojoin:managedConvTopic>",
-       "cmail": "<cmail:managedConvTopic>",
-       "conversation_id": "<conv:managedConvTopic>",
-       "creator_id": "<account:Charlie Chaplin>",
-       "default_members": [],
-       "guests": [],
-       "has_email_subject": false,
-       "is_deletable": true,
-       "is_list": false,
-       "is_managed": true,
-       "leavers": [],
-       "managed_time": "...",
-       "members": [
-         "<account:Charlie Chaplin>",
-         "<account:Don Johnson>",
-         "<account:Mel Gibson>",
-       ],
-       "mk_conv_type": "cct_no_mail",
-       "mk_rec_type": "org_conv",
-       "organisation_id": "<org:managedConvOrgName>",
-       "teams": [
-         "<team:managedConvTeamName>",
-       ],
-       "topic": "managedConvTopic",
-     },
+   "stream": [{
+   "admins": [
+   "<account:Charlie Chaplin>",
    ],
+   "autojoin_url": "<autojoin:managedConvTopic>",
+   "cmail": "<cmail:managedConvTopic>",
+   "conversation_id": "<conv:managedConvTopic>",
+   "creator_id": "<account:Charlie Chaplin>",
+   "default_members": [],
+   "guests": [],
+   "has_email_subject": false,
+   "is_deletable": true,
+   "is_list": false,
+   "is_managed": true,
+   "leavers": [],
+   "managed_time": "...",
+   "members": [
+   "<account:Charlie Chaplin>",
+   "<account:Don Johnson>",
+   "<account:Mel Gibson>",
+   ],
+   "mk_conv_type": "cct_no_mail",
+   "mk_rec_type": "org_conv",
+   "organisation_id": "<org:managedConvOrgName>",
+   "teams": [
+   "<team:managedConvTeamName>",
+   ],
+   "topic": "managedConvTopic",
+   }],
 };
 
 let sync_changelog = {
-   "stream": [
-     {
-       "account_id": "<account:Charlie Chaplin>",
-       "event_data": {
-         "account_id": "<account:Charlie Chaplin>",
-         "admin_ids": [
-           "<account:Don Johnson>",
-           "<account:Mel Gibson>",
-         ],
-         "conversation_id": "<conv:managedConvTopic>",
-         "topic": "Charlie, Don and Mel",
-       },
-       "event_time": "...",
-       "event_type": "chat.set_admins",
-       "mk_rec_type": "org_changelog",
-       "organisation_id": "<org:managedConvOrgName>",
-       "version_nr": 6,
-     },
-     {
-       "account_id": "<account:Charlie Chaplin>",
-       "event_data": {
-         "account_id": "<account:Charlie Chaplin>",
-         "conversation_id": "<conv:managedConvTopic>",
-         "topic": "Charlie, Don and Mel",
-       },
-       "event_time": "...",
-       "event_type": "chat.set_managed",
-       "mk_rec_type": "org_changelog",
-       "organisation_id": "<org:managedConvOrgName>",
-       "version_nr": 5,
-     },
-     {
-       "account_id": "<account:Charlie Chaplin>",
-       "event_data": {
-         "account_id": "<account:Charlie Chaplin>",
-         "conversation_id": "<conv:managedConvTopic>",
-         "topic": "managedConvTopic",
-       },
-       "event_time": "...",
-       "event_type": "chat.set_unmanaged",
-       "mk_rec_type": "org_changelog",
-       "organisation_id": "<org:managedConvOrgName>",
-       "version_nr": 4,
-     },
-     {
-       "account_id": "<account:Charlie Chaplin>",
-       "event_data": {
-         "account_id": "<account:Charlie Chaplin>",
-         "admin_ids": [
-           "<account:Don Johnson>",
-           "<account:Mel Gibson>",
-         ],
-         "conversation_id": "<conv:managedConvTopic>",
-         "topic": "managedConvTopic",
-       },
-       "event_time": "...",
-       "event_type": "chat.set_admins",
-       "mk_rec_type": "org_changelog",
-       "organisation_id": "<org:managedConvOrgName>",
-       "version_nr": 3,
-     },
-     {
-       "account_id": "<account:Charlie Chaplin>",
-       "event_data": {
-         "account_id": "<account:Charlie Chaplin>",
-         "conversation_id": "<conv:managedConvTopic>",
-         "member_ids": [
-           "<account:Charlie Chaplin>",
-         ],
-         "topic": "managedConvTopic",
-       },
-       "event_time": "...",
-       "event_type": "chat.create_conversation",
-       "mk_rec_type": "org_changelog",
-       "organisation_id": "<org:managedConvOrgName>",
-       "version_nr": 2,
-     },
-     {
-       "account_id": "<account:Charlie Chaplin>",
-       "event_data": {
-         "account_id": "<account:Charlie Chaplin>",
-         "organisation_name": "managedConvOrgName",
-       },
-       "event_time": "...",
-       "event_type": "create_org",
-       "mk_rec_type": "org_changelog",
-       "organisation_id": "<org:managedConvOrgName>",
-       "version_nr": 1,
-     },
+   "stream": [{
+   "account_id": "<account:Charlie Chaplin>",
+   "event_data": {
+   "account_id": "<account:Charlie Chaplin>",
+   "admin_ids": [
+   "<account:Don Johnson>",
+   "<account:Mel Gibson>",
    ],
+   "conversation_id": "<conv:managedConvTopic>",
+   "topic": "Charlie, Don and Mel",
+   },
+   "event_time": "...",
+   "event_type": "chat.set_admins",
+   "mk_rec_type": "org_changelog",
+   "organisation_id": "<org:managedConvOrgName>",
+   "version_nr": 6,
+   },
+   {
+   "account_id": "<account:Charlie Chaplin>",
+   "event_data": {
+   "account_id": "<account:Charlie Chaplin>",
+   "conversation_id": "<conv:managedConvTopic>",
+   "topic": "Charlie, Don and Mel",
+   },
+   "event_time": "...",
+   "event_type": "chat.set_managed",
+   "mk_rec_type": "org_changelog",
+   "organisation_id": "<org:managedConvOrgName>",
+   "version_nr": 5,
+   },
+   {
+   "account_id": "<account:Charlie Chaplin>",
+   "event_data": {
+   "account_id": "<account:Charlie Chaplin>",
+   "conversation_id": "<conv:managedConvTopic>",
+   "topic": "managedConvTopic",
+   },
+   "event_time": "...",
+   "event_type": "chat.set_unmanaged",
+   "mk_rec_type": "org_changelog",
+   "organisation_id": "<org:managedConvOrgName>",
+   "version_nr": 4,
+   },
+   {
+   "account_id": "<account:Charlie Chaplin>",
+   "event_data": {
+   "account_id": "<account:Charlie Chaplin>",
+   "admin_ids": [
+   "<account:Don Johnson>",
+   "<account:Mel Gibson>",
+   ],
+   "conversation_id": "<conv:managedConvTopic>",
+   "topic": "managedConvTopic",
+   },
+   "event_time": "...",
+   "event_type": "chat.set_admins",
+   "mk_rec_type": "org_changelog",
+   "organisation_id": "<org:managedConvOrgName>",
+   "version_nr": 3,
+   },
+   {
+   "account_id": "<account:Charlie Chaplin>",
+   "event_data": {
+   "account_id": "<account:Charlie Chaplin>",
+   "conversation_id": "<conv:managedConvTopic>",
+   "member_ids": [
+   "<account:Charlie Chaplin>",
+   ],
+   "topic": "managedConvTopic",
+   },
+   "event_time": "...",
+   "event_type": "chat.create_conversation",
+   "mk_rec_type": "org_changelog",
+   "organisation_id": "<org:managedConvOrgName>",
+   "version_nr": 2,
+   },
+   {
+   "account_id": "<account:Charlie Chaplin>",
+   "event_data": {
+   "account_id": "<account:Charlie Chaplin>",
+   "organisation_name": "managedConvOrgName",
+   },
+   "event_time": "...",
+   "event_type": "create_org",
+   "mk_rec_type": "org_changelog",
+   "organisation_id": "<org:managedConvOrgName>",
+   "version_nr": 1,
+   }],
 };
 
 test('create org and create managed conv with team in it', function () {
@@ -167,10 +163,9 @@ test('create org and create managed conv with team in it', function () {
         // sremove topic to see default topic in changelog
         () => client.api_call("api/conversation/store/" + client.getConvId(conv_topic), {
             topic: ''}),
-	// set managed
-        () => client.api_call("api/conversation/store/" + client.getConvId(conv_topic), {
-            is_managed: true}),
-	// set admins via conversation store
+        // set managed
+        () => client.api_call("api/conversation/store/" + client.getConvId(conv_topic), {is_managed: true}),
+        // set admins via conversation store
         () => client.api_call("api/conversation/store/" + client.getConvId(conv_topic), {
              admins: [UC.mel.account_id, UC.don.account_id]}),
         // let bg worker do it's thing

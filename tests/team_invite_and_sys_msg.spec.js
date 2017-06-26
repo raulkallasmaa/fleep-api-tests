@@ -32,7 +32,8 @@ let EXPECT_RECS = [{
     "team_id": "<team:freeTeam>",
     "team_name": "freeTeam",
     "team_version_nr": 4
-}, {
+    },
+    {
     "index": "...",
     "is_in_muted": true,
     "is_in_recent": true,
@@ -44,7 +45,8 @@ let EXPECT_RECS = [{
     "mk_label_type": "system_label",
     "mk_rec_type": "label",
     "team_id": "<team:freeTeam>"
-}, {
+    },
+    {
     "account_id": "<account:Ron Jeremy>",
     "conversation_id": "<conv:inviteToTeamViaEmail>",
     "inbox_nr": -1,

@@ -35,8 +35,7 @@ let mels_reminder_active = {
 };
 
 let mels_org_join = {
-  "stream": [
-     {
+       "stream": [{
        "grace_time": "...",
        "is_admin": false,
        "is_member": true,
@@ -47,13 +46,13 @@ let mels_org_join = {
        "status": "bos_new",
        "trial_time": "...",
        "version_nr": 3,
-     },
-     {
+       },
+       {
        "account_id": "<account:Mel Gibson>",
        "activated_time": "...",
        "client_flags": [
-         "emoticons_old",
-         "show_onboarding",
+       "emoticons_old",
+       "show_onboarding",
        ],
        "connected_email": "",
        "dialog_id": null,
@@ -72,8 +71,8 @@ let mels_org_join = {
        "mk_rec_type": "contact",
        "organisation_id": "<org:test-org-name>",
        "trial_end_time": "...",
-     },
-     {
+       },
+       {
        "account_id": "<account:Mel Gibson>",
        "creator_id": "<account:Charlie Chaplin>",
        "expire_time": "...",
@@ -83,8 +82,7 @@ let mels_org_join = {
        "organisation_id": "<org:test-org-name>",
        "remind_time": "...",
        "reminder_id": "<reminder:org_invite>",
-     },
-   ],
+       }],
 };
 
 test('create org and invite via reminder', function () {
@@ -123,4 +121,3 @@ test('create org and invite via reminder', function () {
             mk_rec_type: 'contact', organisation_id: null, account_id: UC.mel.account_id}),
     ]);
 });
-

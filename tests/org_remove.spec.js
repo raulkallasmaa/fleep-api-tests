@@ -12,7 +12,7 @@ afterAll(() => UC.cleanup());
 
 let sx_managed_team = {
    "admins": [
-      "<account:Don Johnson>",
+   "<account:Don Johnson>",
    ],
    "autojoin_url": "<autojoin:five-org-team-name>",
    "is_autojoin": false,
@@ -20,9 +20,9 @@ let sx_managed_team = {
    "is_managed": true,
    "is_tiny": false,
    "members": [
-     "<account:Charlie Chaplin>",
-     "<account:Don Johnson>",
-     "<account:Mel Gibson>",
+   "<account:Charlie Chaplin>",
+   "<account:Don Johnson>",
+   "<account:Mel Gibson>",
    ],
    "mk_rec_type": "team",
    "mk_sync_mode": "tsm_full",
@@ -34,7 +34,7 @@ let sx_managed_team = {
 
 let sx_managed_conv_one = {
    "admins": [
-     "<account:Don Johnson>",
+   "<account:Don Johnson>",
    ],
    "autojoin_url": "<autojoin:five-org-conv-topic>",
    "cmail": "<cmail:five-org-conv-topic>",
@@ -48,22 +48,22 @@ let sx_managed_conv_one = {
    "leavers": [],
    "managed_time": "...",
    "members": [
-     "<account:Charlie Chaplin>",
-     "<account:Don Johnson>",
-     "<account:Mel Gibson>",
+   "<account:Charlie Chaplin>",
+   "<account:Don Johnson>",
+   "<account:Mel Gibson>",
    ],
    "mk_conv_type": "cct_default",
    "mk_rec_type": "org_conv",
    "organisation_id": "<org:five-org-name>",
    "teams": [
-     "<team:five-org-team-name>",
+   "<team:five-org-team-name>",
    ],
    "topic": "five-org-conv-topic",
 };
 
 let sx_managed_conv_two = {
    "admins": [
-     "<account:Don Johnson>",
+   "<account:Don Johnson>",
    ],
    "autojoin_url": "<autojoin:six-topix>",
    "cmail": "<cmail:six-topix>",
@@ -78,9 +78,9 @@ let sx_managed_conv_two = {
    "leavers": [],
    "managed_time": "...",
    "members": [
-     "<account:Charlie Chaplin>",
-     "<account:Don Johnson>",
-     "<account:Mel Gibson>",
+   "<account:Charlie Chaplin>",
+   "<account:Don Johnson>",
+   "<account:Mel Gibson>",
    ],
    "mk_conv_type": "cct_list",
    "mk_rec_type": "org_conv",
@@ -97,9 +97,9 @@ let sx_managed_team_after_kick = {
    "is_managed": true,
    "is_tiny": false,
    "members": [
-     "<account:Charlie Chaplin>",
-     "<account:Don Johnson>",
-     "<account:Mel Gibson>",
+   "<account:Charlie Chaplin>",
+   "<account:Don Johnson>",
+   "<account:Mel Gibson>",
    ],
    "mk_rec_type": "team",
    "mk_sync_mode": "tsm_full",
@@ -123,15 +123,15 @@ let sx_managed_conv_one_after_kick = {
    "leavers": [],
    "managed_time": "...",
    "members": [
-     "<account:Charlie Chaplin>",
-     "<account:Don Johnson>",
-     "<account:Mel Gibson>",
+   "<account:Charlie Chaplin>",
+   "<account:Don Johnson>",
+   "<account:Mel Gibson>",
    ],
    "mk_conv_type": "cct_default",
    "mk_rec_type": "org_conv",
    "organisation_id": "<org:five-org-name>",
    "teams": [
-     "<team:five-org-team-name>",
+   "<team:five-org-team-name>",
    ],
    "topic": "five-org-conv-topic",
 };
@@ -151,9 +151,9 @@ let sx_managed_conv_two_after_kick = {
    "leavers": [],
    "managed_time": "...",
    "members": [
-     "<account:Charlie Chaplin>",
-     "<account:Don Johnson>",
-     "<account:Mel Gibson>",
+   "<account:Charlie Chaplin>",
+   "<account:Don Johnson>",
+   "<account:Mel Gibson>",
    ],
    "mk_conv_type": "cct_list",
    "mk_rec_type": "org_conv",
@@ -194,8 +194,7 @@ test('create org and create team and then remove member from org', function () {
         () => UC.don.matchStream({mk_rec_type: 'reminder', organisation_id: client.getOrgId(org_name)}),
         (reminder) => UC.don.api_call("api/business/join/" + client.getOrgId(org_name), {
             reminder_id: reminder.reminder_id}),
-
-	() => client.api_call('/api/business/sync/' + client.getOrgId(org_name)),
+        () => client.api_call('/api/business/sync/' + client.getOrgId(org_name)),
 
         // create managed team and two conversations
         () => UC.don.api_call("api/business/create_team/" + client.getOrgId(org_name), {
@@ -205,7 +204,7 @@ test('create org and create team and then remove member from org', function () {
         () => UC.don.api_call("api/business/create_conversation/" + client.getOrgId(org_name), {
             topic: six_topix, account_ids: [UC.charlie.account_id, UC.mel.account_id]}),
 
-	// poll and poke to get cache in sync
+        // poll and poke to get cache in sync
         () => client.poll_filter({mk_rec_type: 'conv', topic: six_topix}),
         () => client.poke(client.getConvId(conv_topic), true),
         () => client.api_call("api/business/sync_conversations/" + client.getOrgId(org_name)),
@@ -222,11 +221,11 @@ test('create org and create team and then remove member from org', function () {
         () => client.api_call("api/business/configure/" + client.getOrgId(org_name), {
             remove_account_ids: [UC.don.account_id]}),
 
-	// let all backend stuff to complete
+        // let all backend stuff to complete
         () => client.poke(client.getConvId(conv_topic), true),
         () => client.api_call("api/business/sync_conversations/" + client.getOrgId(org_name)),
 
-	// check results after kick
+        // check results after kick
         () => client.getTeam(org_team),
         (team) => expect(UC.clean(team)).toEqual(sx_managed_team_after_kick),
         () => client.matchStream({mk_rec_type: 'org_conv', topic: conv_topic}),

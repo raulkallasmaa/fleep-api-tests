@@ -34,12 +34,12 @@ describe('search contacts', function () {
                 xres.stream = [];
                 expect(xres).toEqual({
                     "headers": [{
-                        "conversation_id": "<conv:Monologue with myself>",
-                        "members": ["<account:Alice Adamson>",
-                            "<account:Bob Dylan>",
-                            "<account:Charlie Chaplin>"],
-                        "mk_rec_type": "conv",
-                        "topic": "",
+                    "conversation_id": "<conv:Monologue with myself>",
+                    "members": ["<account:Alice Adamson>",
+                    "<account:Bob Dylan>",
+                    "<account:Charlie Chaplin>"],
+                    "mk_rec_type": "conv",
+                    "topic": "",
                     }],
                     "matches": [],
                     "stream": [],
@@ -69,13 +69,13 @@ it('should search by participants email address', function () {
             xres.stream = [];
             expect(xres).toEqual({
                 "headers": [{
-                    "conversation_id": "<conv:tester@box.fleep.ee, George and Angelina>",
-                    "members": ["<account:Angelina Jolie>",
-                        "<account:Bill Gates>",
-                        "<account:George Clooney>",
-                        "<account:tester@box.fleep.ee>"],
-                    "mk_rec_type": "conv",
-                    "topic": ""
+                "conversation_id": "<conv:tester@box.fleep.ee, George and Angelina>",
+                "members": ["<account:Angelina Jolie>",
+                "<account:Bill Gates>",
+                "<account:George Clooney>",
+                "<account:tester@box.fleep.ee>"],
+                "mk_rec_type": "conv",
+                "topic": ""
                 }],
                 "matches": [],
                 "stream": [],

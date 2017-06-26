@@ -29,12 +29,12 @@ describe('test presence various combinations', function () {
             () => client.api_call("api/conversation/show_activity/" + client.getConvId(conv_topic), {}),
             (res) => expect(UC.clean(res)).toEqual({
                 "stream": [{
-                    "account_id": "<account:Don Johnson>",
-                    "activity_time": '...',
-                    "conversation_id": "<conv:writingPen>",
-                    "is_writing": true,
-                    "join_message_nr": 1,
-                    "mk_rec_type": "activity",
+                "account_id": "<account:Don Johnson>",
+                "activity_time": '...',
+                "conversation_id": "<conv:writingPen>",
+                "is_writing": true,
+                "join_message_nr": 1,
+                "mk_rec_type": "activity",
                 }]
             }),
             // don sends message and clears writing pen
@@ -42,13 +42,13 @@ describe('test presence various combinations', function () {
             () => client.api_call("api/conversation/show_activity/" + client.getConvId(conv_topic), {}),
             (res) => expect(UC.clean(res)).toEqual({
                 "stream": [{
-                    "account_id": "<account:Don Johnson>",
-                    "activity_time": "...",
-                    "conversation_id": "<conv:writingPen>",
-                    "is_writing": false,
-                    "join_message_nr": 1,
-                    "mk_rec_type": "activity",
-                    "read_message_nr": 2,
+                "account_id": "<account:Don Johnson>",
+                "activity_time": "...",
+                "conversation_id": "<conv:writingPen>",
+                "is_writing": false,
+                "join_message_nr": 1,
+                "mk_rec_type": "activity",
+                "read_message_nr": 2,
                 }]
             }),
             // don starts writing and bob sees it
@@ -56,13 +56,13 @@ describe('test presence various combinations', function () {
             () => client.api_call("api/conversation/show_activity/" + client.getConvId(conv_topic), {}),
             (res) => expect(UC.clean(res)).toEqual({
                 "stream": [{
-                    "account_id": "<account:Don Johnson>",
-                    "activity_time": "...",
-                    "conversation_id": "<conv:writingPen>",
-                    "is_writing": true,
-                    "join_message_nr": 1,
-                    "mk_rec_type": "activity",
-                    "read_message_nr": 2,
+                "account_id": "<account:Don Johnson>",
+                "activity_time": "...",
+                "conversation_id": "<conv:writingPen>",
+                "is_writing": true,
+                "join_message_nr": 1,
+                "mk_rec_type": "activity",
+                "read_message_nr": 2,
                 }]
             }),
             // don stops writing and bob sees it
@@ -70,13 +70,13 @@ describe('test presence various combinations', function () {
             () => client.api_call("api/conversation/show_activity/" + client.getConvId(conv_topic), {}),
             (res) => expect(UC.clean(res)).toEqual({
                 "stream": [{
-                    "account_id": "<account:Don Johnson>",
-                    "activity_time": "...",
-                    "conversation_id": "<conv:writingPen>",
-                    "is_writing": false,
-                    "join_message_nr": 1,
-                    "mk_rec_type": "activity",
-                    "read_message_nr": 2,
+                "account_id": "<account:Don Johnson>",
+                "activity_time": "...",
+                "conversation_id": "<conv:writingPen>",
+                "is_writing": false,
+                "join_message_nr": 1,
+                "mk_rec_type": "activity",
+                "read_message_nr": 2,
                 }]
             }),
         ]);
@@ -101,13 +101,13 @@ describe('test presence various combinations', function () {
             () => client.api_call("api/conversation/show_activity/" + client.getConvId(conv_topic), {}),
             (res) => expect(UC.clean(res)).toEqual({
                 "stream": [{
-                    "account_id": "<account:Jil Smith>",
-                    "activity_time": "...",
-                    "conversation_id": "<conv:editingPen>",
-                    "is_writing": true,
-                    "join_message_nr": 1,
-                    "mk_rec_type": "activity",
-                    "read_message_nr": 2,
+                "account_id": "<account:Jil Smith>",
+                "activity_time": "...",
+                "conversation_id": "<conv:editingPen>",
+                "is_writing": true,
+                "join_message_nr": 1,
+                "mk_rec_type": "activity",
+                "read_message_nr": 2,
                 }]
             }),
             // jil cancels pinned message edit with message send
@@ -115,13 +115,13 @@ describe('test presence various combinations', function () {
             () => client.api_call("api/conversation/show_activity/" + client.getConvId(conv_topic), {}),
             (res) => expect(UC.clean(res)).toEqual({
                 "stream": [{
-                    "account_id": "<account:Jil Smith>",
-                    "activity_time": "...",
-                    "conversation_id": "<conv:editingPen>",
-                    "is_writing": false,
-                    "join_message_nr": 1,
-                    "mk_rec_type": "activity",
-                    "read_message_nr": 3,
+                "account_id": "<account:Jil Smith>",
+                "activity_time": "...",
+                "conversation_id": "<conv:editingPen>",
+                "is_writing": false,
+                "join_message_nr": 1,
+                "mk_rec_type": "activity",
+                "read_message_nr": 3,
                 }]
             }),
             // jil stores a new pinned message
@@ -134,13 +134,13 @@ describe('test presence various combinations', function () {
             () => client.api_call("api/conversation/show_activity/" + client.getConvId(conv_topic), {}),
             (res) => expect(UC.clean(res)).toEqual({
                 "stream": [{
-                    "account_id": "<account:Jil Smith>",
-                    "activity_time": "...",
-                    "conversation_id": "<conv:editingPen>",
-                    "is_writing": true,
-                    "join_message_nr": 1,
-                    "mk_rec_type": "activity",
-                    "read_message_nr": 4,
+                "account_id": "<account:Jil Smith>",
+                "activity_time": "...",
+                "conversation_id": "<conv:editingPen>",
+                "is_writing": true,
+                "join_message_nr": 1,
+                "mk_rec_type": "activity",
+                "read_message_nr": 4,
                 }]
             }),
             // jil cancels the pinned message edit and meg checks it
@@ -148,13 +148,13 @@ describe('test presence various combinations', function () {
             () => client.api_call("api/conversation/show_activity/" + client.getConvId(conv_topic), {}),
             (res) => expect(UC.clean(res)).toEqual({
                 "stream": [{
-                    "account_id": "<account:Jil Smith>",
-                    "activity_time": "...",
-                    "conversation_id": "<conv:editingPen>",
-                    "is_writing": false,
-                    "join_message_nr": 1,
-                    "mk_rec_type": "activity",
-                    "read_message_nr": 4,
+                "account_id": "<account:Jil Smith>",
+                "activity_time": "...",
+                "conversation_id": "<conv:editingPen>",
+                "is_writing": false,
+                "join_message_nr": 1,
+                "mk_rec_type": "activity",
+                "read_message_nr": 4,
                 }]
             }),
         ]);

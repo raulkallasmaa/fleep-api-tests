@@ -48,7 +48,7 @@ test('create org and create team and then manage team', function () {
         () => client.poke(client.getConvId(conv_topic), true),
         () => client.api_call("api/business/close/" + client.getOrgId(org_name)),
 
-	// check that conv is back to unmanaged
+        // check that conv is back to unmanaged
         () => client.poll_filter({mk_rec_type: 'message', mk_message_type: 'unmanage'}),
         () => client.matchStream({mk_rec_type: 'message', mk_message_type: 'unmanage'}),
         (msg) => expect(msg.mk_message_type).toEqual('unmanage'),
@@ -61,4 +61,3 @@ test('create org and create team and then manage team', function () {
         (team) => expect(team).toMatchObject({organisation_id: null, is_managed: false, }),
     ]);
 });
-

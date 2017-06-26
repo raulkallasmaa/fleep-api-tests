@@ -16,9 +16,9 @@ let singers_team_after_create = {
    "is_managed": false,
    "is_tiny": false,
    "members": [
-     "<account:Bob Dylan>",
-     "<account:Charlie Chaplin>",
-     "<account:Don Johnson>",
+   "<account:Bob Dylan>",
+   "<account:Charlie Chaplin>",
+   "<account:Don Johnson>",
    ],
    "mk_rec_type": "team",
    "mk_sync_mode": "tsm_full",
@@ -36,7 +36,7 @@ let actors_team_after_create = {
    "is_managed": false,
    "is_tiny": false,
    "members": [
-     "<account:Charlie Chaplin>",
+   "<account:Charlie Chaplin>",
    ],
    "mk_rec_type": "team",
    "mk_sync_mode": "tsm_full",
@@ -54,8 +54,8 @@ let actors_team_after_add_members = {
    "is_managed": false,
    "is_tiny": false,
    "members": [
-     "<account:Charlie Chaplin>",
-     "<account:Mel Gibson>",
+   "<account:Charlie Chaplin>",
+   "<account:Mel Gibson>",
    ],
    "mk_rec_type": "team",
    "mk_sync_mode": "tsm_full",
@@ -65,7 +65,6 @@ let actors_team_after_add_members = {
    "team_version_nr": 3,
 };
 
-
 let actors_team_after_alice_autojoin = {
    "admins": [],
    "autojoin_url": "<autojoin:Actors>",
@@ -74,9 +73,9 @@ let actors_team_after_alice_autojoin = {
    "is_managed": false,
    "is_tiny": false,
    "members": [
-     "<account:Alice Adamson>",
-     "<account:Charlie Chaplin>",
-     "<account:Mel Gibson>",
+   "<account:Alice Adamson>",
+   "<account:Charlie Chaplin>",
+   "<account:Mel Gibson>",
    ],
    "mk_rec_type": "team",
    "mk_sync_mode": "tsm_full",
@@ -122,16 +121,16 @@ let conv_after_actors_added = {
    "is_premium": false,
    "join_message_nr": 1,
    "label_ids": [
-     "<label:Actors>",
+   "<label:Actors>",
    ],
    "last_inbox_nr": 0,
    "last_message_nr": 2,
    "last_message_time": "...",
    "leavers": [],
    "members": [
-     "<account:Alice Adamson>",
-     "<account:Charlie Chaplin>",
-     "<account:Mel Gibson>",
+   "<account:Alice Adamson>",
+   "<account:Charlie Chaplin>",
+   "<account:Mel Gibson>",
    ],
    "mk_alert_level": "default",
    "mk_conv_type": "cct_default",
@@ -144,7 +143,7 @@ let conv_after_actors_added = {
    "snooze_interval": 0,
    "snooze_time": 0,
    "teams": [
-     "<team:Actors>",
+   "<team:Actors>",
    ],
    "topic": "teamsBasic",
    "topic_message_nr": 1,
@@ -180,19 +179,19 @@ let conv_2dogs_after_create = {
    "is_tiny": false,
    "join_message_nr": 1,
    "label_ids": [
-     "<label:Actors>",
-     "<label:Singers>",
+   "<label:Actors>",
+   "<label:Singers>",
    ],
    "last_inbox_nr": 0,
    "last_message_nr": 3,
    "last_message_time": "...",
    "leavers": [],
    "members": [
-     "<account:Alice Adamson>",
-     "<account:Bob Dylan>",
-     "<account:Charlie Chaplin>",
-     "<account:Don Johnson>",
-     "<account:Mel Gibson>",
+   "<account:Alice Adamson>",
+   "<account:Bob Dylan>",
+   "<account:Charlie Chaplin>",
+   "<account:Don Johnson>",
+   "<account:Mel Gibson>",
    ],
    "mk_alert_level": "default",
    "mk_conv_type": "cct_no_mail",
@@ -206,8 +205,8 @@ let conv_2dogs_after_create = {
    "snooze_interval": 0,
    "snooze_time": 0,
    "teams": [
-     "<team:Actors>",
-     "<team:Singers>",
+   "<team:Actors>",
+   "<team:Singers>",
    ],
    "topic": "2 dogs",
    "topic_message_nr": 1,
@@ -222,8 +221,8 @@ let actors_after_removing_alice = {
    "is_managed": false,
    "is_tiny": false,
    "members": [
-     "<account:Charlie Chaplin>",
-     "<account:Mel Gibson>",
+   "<account:Charlie Chaplin>",
+   "<account:Mel Gibson>",
    ],
    "mk_rec_type": "team",
    "mk_sync_mode": "tsm_full",
@@ -255,20 +254,20 @@ let conv_2dogs_after_remove_alice = {
    "is_premium": false,
    "join_message_nr": 1,
    "label_ids": [
-     "<label:Actors>",
-     "<label:Singers>",
+   "<label:Actors>",
+   "<label:Singers>",
    ],
    "last_inbox_nr": 0,
    "last_message_nr": 4,
    "last_message_time": "...",
    "leavers": [
-     "<account:Alice Adamson>",
+   "<account:Alice Adamson>",
    ],
    "members": [
-     "<account:Bob Dylan>",
-     "<account:Charlie Chaplin>",
-     "<account:Don Johnson>",
-     "<account:Mel Gibson>",
+   "<account:Bob Dylan>",
+   "<account:Charlie Chaplin>",
+   "<account:Don Johnson>",
+   "<account:Mel Gibson>",
    ],
    "mk_alert_level": "default",
    "mk_conv_type": "cct_no_mail",
@@ -281,8 +280,8 @@ let conv_2dogs_after_remove_alice = {
    "snooze_interval": 0,
    "snooze_time": 0,
    "teams": [
-     "<team:Actors>",
-     "<team:Singers>",
+   "<team:Actors>",
+   "<team:Singers>",
    ],
    "topic": "2 dogs",
    "topic_message_nr": 1,
@@ -321,13 +320,13 @@ let conv_2dogs_for_alice = {
    "last_message_nr": 4,
    "last_message_time": "...",
    "leavers": [
-     "<account:Alice Adamson>",
+   "<account:Alice Adamson>",
    ],
    "members": [
-     "<account:Bob Dylan>",
-     "<account:Charlie Chaplin>",
-     "<account:Don Johnson>",
-     "<account:Mel Gibson>",
+   "<account:Bob Dylan>",
+   "<account:Charlie Chaplin>",
+   "<account:Don Johnson>",
+   "<account:Mel Gibson>",
    ],
    "mk_alert_level": "default",
    "mk_conv_type": "cct_no_mail",
@@ -368,19 +367,19 @@ let conv_2dogs_after_removing_actors = {
    "is_premium": false,
    "join_message_nr": 1,
    "label_ids": [
-     "<label:Singers>",
+   "<label:Singers>",
    ],
    "last_inbox_nr": 0,
    "last_message_nr": 5,
    "last_message_time": "...",
    "leavers": [
-     "<account:Alice Adamson>",
-     "<account:Mel Gibson>",
+   "<account:Alice Adamson>",
+   "<account:Mel Gibson>",
    ],
    "members": [
-     "<account:Bob Dylan>",
-     "<account:Charlie Chaplin>",
-     "<account:Don Johnson>",
+   "<account:Bob Dylan>",
+   "<account:Charlie Chaplin>",
+   "<account:Don Johnson>",
    ],
    "mk_alert_level": "default",
    "mk_conv_type": "cct_no_mail",
@@ -393,7 +392,7 @@ let conv_2dogs_after_removing_actors = {
    "snooze_interval": 0,
    "snooze_time": 0,
    "teams": [
-     "<team:Singers>",
+   "<team:Singers>",
    ],
    "topic": "2 dogs",
    "topic_message_nr": 1,
@@ -426,11 +425,11 @@ let conv_after_removing_singers = {
    "last_message_nr": 4,
    "last_message_time": "...",
    "leavers": [
-     "<account:Alice Adamson>",
-     "<account:Mel Gibson>",
+   "<account:Alice Adamson>",
+   "<account:Mel Gibson>",
    ],
    "members": [
-     "<account:Charlie Chaplin>",
+   "<account:Charlie Chaplin>",
    ],
    "mk_alert_level": "default",
    "mk_conv_type": "cct_default",
@@ -456,8 +455,8 @@ let actors_team_after_remove = {
    "is_managed": false,
    "is_tiny": false,
    "members": [
-     "<account:Charlie Chaplin>",
-     "<account:Mel Gibson>",
+   "<account:Charlie Chaplin>",
+   "<account:Mel Gibson>",
    ],
    "mk_rec_type": "team",
    "mk_sync_mode": "tsm_full",
@@ -475,9 +474,9 @@ let singers_team_after_rename = {
    "is_managed": false,
    "is_tiny": false,
    "members": [
-     "<account:Bob Dylan>",
-     "<account:Charlie Chaplin>",
-     "<account:Don Johnson>",
+   "<account:Bob Dylan>",
+   "<account:Charlie Chaplin>",
+   "<account:Don Johnson>",
    ],
    "mk_rec_type": "team",
    "mk_sync_mode": "tsm_full",
@@ -501,32 +500,32 @@ test('create teams and team conversations', function () {
         () => client.api_call("api/conversation/create", {topic: conv_topic}),
         (res) => expect(res.header.topic).toEqual(conv_topic),
         () => client.poll_filter({mk_rec_type: 'conv', topic: conv_topic}),
-	// create Actors team that will be modified later
+        // create Actors team that will be modified later
         () => client.api_call("api/team/create", {team_name: actors_team}),
-	// create singers team
+        // create singers team
         () => client.api_call("api/team/create", {
                 team_name: singers_team,
                 account_ids: [UC.bob.account_id, UC.don.account_id]}),
         () => client.poke(client.getConvId(conv_topic)),
-	// check singesrs to have three members
+        // check singesrs to have three members
         () => expect(UC.clean(client.getTeam(singers_team))).toEqual(singers_team_after_create),
-	// check actors before changes
+        // check actors before changes
         () => expect(UC.clean(client.getTeam(actors_team))).toEqual(actors_team_after_create),
 
-	// add member to actors
+        // add member to actors
         () => client.api_call("api/team/configure/" + client.getTeamId(actors_team), {
                 add_account_ids: [UC.mel.account_id]}),
-	// enable autojoin
+        // enable autojoin
         () => client.api_call("api/team/configure/" + client.getTeamId(actors_team), {
                 is_autojoin: true}),
         () => client.poke(client.getConvId(conv_topic)),
-	// check that there are two members and autojoin is enabled
+        // check that there are two members and autojoin is enabled
         () => expect(UC.clean(client.getTeam(actors_team))).toEqual(actors_team_after_add_members),
-	// alice joins team via autojoin key
+        // alice joins team via autojoin key
         () => UC.alice.api_call("api/team/autojoin", {
 		team_url_key: client.getTeamAutoJoinKey(actors_team)}),
         () => client.poke(client.getConvId(conv_topic)),
-	// check that alice is part of the team
+        // check that alice is part of the team
         () => expect(UC.clean(client.getTeam(actors_team))).toEqual(actors_team_after_alice_autojoin),
 
         // try sync teams (must get 2)
@@ -537,14 +536,14 @@ test('create teams and team conversations', function () {
         () => client.api_call("api/team/configure/" + client.getTeamId(actors_team), {
                add_conversations: [client.getConvId(conv_topic)]}),
         () => client.poke(client.getConvId(conv_topic), true),
-	// check that team is in conversation header and team members are there too
+        // check that team is in conversation header and team members are there too
         () => client.api_call("api/team/sync/" + client.getTeamId(actors_team), {
                conversation_id: client.getConvId(conv_topic)}),
         () => client.getConv(conv_topic),
-	(conv) => expect(UC.clean(conv)).toEqual(conv_after_actors_added),
-	// check that team label is created
-	() => client.matchStream({mk_rec_type: 'label', team_id: client.getTeamId(actors_team)}),
-	(team_label) => expect(UC.clean(team_label)).toEqual(actors_team_label),
+        (conv) => expect(UC.clean(conv)).toEqual(conv_after_actors_added),
+        // check that team label is created
+        () => client.matchStream({mk_rec_type: 'label', team_id: client.getTeamId(actors_team)}),
+        (team_label) => expect(UC.clean(team_label)).toEqual(actors_team_label),
 
         // create conversation that contaons both teams
         () => client.api_call("api/conversation/create", {topic: conv_2dogs,
@@ -562,12 +561,12 @@ test('create teams and team conversations', function () {
         () => client.getConv(conv_2dogs),
         (conv) => expect(UC.clean(conv)).toEqual(conv_2dogs_after_remove_alice),
 
-	// get alice version of same conversation
+        // get alice version of same conversation
         () => UC.alice.poke(client.getConvId(conv_2dogs)),
         () => UC.alice.getConv(conv_2dogs),
         (conv) => expect(UC.clean(conv)).toEqual(conv_2dogs_for_alice),
 
-	// remove team
+        // remove team
         () => client.api_call("api/team/remove/" + client.getTeamId(actors_team)),
         () => client.poke(client.getConvId(conv_2dogs), true),
         () => client.getConv(conv_2dogs),

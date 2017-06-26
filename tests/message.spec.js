@@ -93,29 +93,28 @@ it('should pin and unpin message', function () {
             message: 'unpinMsg',
             tags: ['pin', 'is_archived']
         }),
-        (res) => expect(UC.clean(res, {}).stream).toEqual(
-            [{
-                "account_id": "<account:Alice Adamson>",
-                "conversation_id": "<conv:pin1alice>",
-                "edit_account_id": "<account:Alice Adamson>",
-                "edited_time": '...',
-                "flow_message_nr": 4,
-                "inbox_nr": 1,
-                "message": "<msg><p>unpinMsg</p></msg>",
-                "message_nr": 2,
-                "mk_message_type": "text",
-                "mk_msg_sub_type": "mst_unpin",
-                "mk_rec_type": "message",
-                "pin_weight": '...',
-                "posted_time": "...",
-                "prev_message_nr": 1,
-                "profile_id": "<account:Alice Adamson>",
-                "ref_message_nr": 2,
-                "tags": [
-                    "is_archived",
-                    "is_shared",
-                    "unpin"]
-        }])
+        (res) => expect(UC.clean(res, {}).stream).toEqual([{
+            "account_id": "<account:Alice Adamson>",
+            "conversation_id": "<conv:pin1alice>",
+            "edit_account_id": "<account:Alice Adamson>",
+            "edited_time": '...',
+            "flow_message_nr": 4,
+            "inbox_nr": 1,
+            "message": "<msg><p>unpinMsg</p></msg>",
+            "message_nr": 2,
+            "mk_message_type": "text",
+            "mk_msg_sub_type": "mst_unpin",
+            "mk_rec_type": "message",
+            "pin_weight": '...',
+            "posted_time": "...",
+            "prev_message_nr": 1,
+            "profile_id": "<account:Alice Adamson>",
+            "ref_message_nr": 2,
+            "tags": [
+            "is_archived",
+            "is_shared",
+            "unpin"]
+            }])
     ]);
 });
 

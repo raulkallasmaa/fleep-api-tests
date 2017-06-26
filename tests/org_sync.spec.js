@@ -84,15 +84,15 @@ let org2_member_sync = {
 
 let non_member_sync = {
     "stream": [{
-        "grace_time": "...",
-        "is_member": false,
-        "mk_rec_type": "org_header",
-        "organisation_founder_id": "<account:Bob Marley>",
-        "organisation_id": "<org:organisationSync1>",
-        "organisation_name": "organisationSync1",
-        "status": "bos_new",
-        "trial_time": "...",
-        "version_nr": 1,
+    "grace_time": "...",
+    "is_member": false,
+    "mk_rec_type": "org_header",
+    "organisation_founder_id": "<account:Bob Marley>",
+    "organisation_id": "<org:organisationSync1>",
+    "organisation_name": "organisationSync1",
+    "status": "bos_new",
+    "trial_time": "...",
+    "version_nr": 1,
     }]
 };
 
