@@ -78,6 +78,8 @@ test('join org via invite', function () {
         // add email users
         () => client.api_call("api/business/configure/" + client.getOrgId(org_name), {
             add_account_ids: [client.getRecord('contact', 'email', UC.theodore.email).account_id]}),
+        // let bg worker do its thing
+        () => client.poke(client.getConvId(conv_topic), true),
 
         // register theodore with common fleep account flow
         () => UC.theodore.register_via_email(),
