@@ -40,7 +40,7 @@ test('upload external file', function () {
             "name": "externalIMG",
             "size": 93567,
             "status": "success",
-            "upload_url": "fleep-upload://hPVmDYTcRq2A0pWBgR88fA/externalIMG",
+            "upload_url": "<upload_url:externalIMG>",
         }),
         // send the file to the conv with jon
         () => client.api_call("api/message/store/" + client.getConvId(conv_topic), {
@@ -72,3 +72,4 @@ test('upload external file', function () {
         }),
     ]);
 });
+
