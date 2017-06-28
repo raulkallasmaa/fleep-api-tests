@@ -35,8 +35,8 @@ test('upload external file', function () {
             conversation_id: client.getConvId(conv_topic),
         }),
         (res) => {
-            expect(!!res.request_id).toEqual(true);
             request_id = res.request_id;
+            expect(!!request_id).toEqual(true);
         },
         () => client.poll_filter({mk_rec_type: 'upload', status: 'success'}),
         () => {
