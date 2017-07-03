@@ -81,11 +81,12 @@ let changelog_before_timetravel = {
 };
 
 let changelog_after_timetravel = {
-    "event_horizon": 29,
+    "event_horizon": 28,
     "limit_time": 0,
     "static_version": "...",
     "stream": [{
     "grace_time": "...",
+    "is_admin": false,
     "is_member": false,
     "mk_rec_type": "org_header",
     "organisation_founder_id": "<account:Bob Marley>",
@@ -93,7 +94,7 @@ let changelog_after_timetravel = {
     "organisation_name": "organisationName",
     "status": "bos_closed",
     "trial_time": "...",
-    "version_nr": 9,
+    "version_nr": 8,
     },
     {
     "account_id": "<account:Bob Marley>",

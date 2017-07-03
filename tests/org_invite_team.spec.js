@@ -45,16 +45,23 @@ let invite_team_response = {
    "team_id": "<team:Performers>",
    "team_name": "Performers",
    "team_version_nr": 2,
-   },
-   {
+    },
+    {
    "account_id": "<account:Bob Dylan>",
    "inviter_id": "<account:Charlie Chaplin>",
    "is_admin": false,
    "mk_member_status": "bms_pending",
    "mk_rec_type": "org_member",
    "organisation_id": "<org:teamsCreateOrgName>",
-   },
-   {
+    },
+    {
+    "account_id": "<account:Charlie Chaplin>",
+    "is_admin": true,
+    "mk_member_status": "bms_active",
+    "mk_rec_type": "org_member",
+    "organisation_id": "<org:teamsCreateOrgName>",
+    },
+    {
    "account_id": "<account:Don Johnson>",
    "inviter_id": "<account:Charlie Chaplin>",
    "is_admin": false,
@@ -103,19 +110,11 @@ let sync_changelog = {
    "account_id": "<account:Charlie Chaplin>",
    "event_data": {
    "account_id": "<account:Charlie Chaplin>",
-   "activate_account_ids": null,
    "add_account_ids": [
    "<account:Bob Dylan>",
    "<account:Don Johnson>",
    "<account:Mel Gibson>",
    ],
-   "add_admin_ids": null,
-   "close_account_ids": null,
-   "kick_account_ids": null,
-   "organisation_name": null,
-   "remove_account_ids": null,
-   "remove_admin_ids": null,
-   "suspend_account_ids": null,
    },
    "event_time": "...",
    "event_type": "configure_org",

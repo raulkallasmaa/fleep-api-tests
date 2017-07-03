@@ -25,17 +25,9 @@ let business_sync_changelog = {
     "account_id": "<account:Michael Scofield>",
     "event_data":  {
     "account_id": "<account:Michael Scofield>",
-    "activate_account_ids": null,
     "add_account_ids": [
     "<account:Lincoln Burrows>",
     ],
-    "add_admin_ids": null,
-    "close_account_ids": null,
-    "kick_account_ids": null,
-    "organisation_name": null,
-    "remove_account_ids": null,
-    "remove_admin_ids": null,
-    "suspend_account_ids": null,
     },
     "event_time": "...",
     "event_type": "configure_org",

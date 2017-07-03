@@ -34,15 +34,13 @@ let org1_admin_sync = {
     "mk_rec_type": "org_member",
     "organisation_id": "<org:organisationSync1>",
     },
-    {
-    "mk_rec_type": "billing",
-    "organisation_id": "<org:organisationSync1>",
-    }]
+    ]
 };
 
 let org2_admin_sync = {
     "stream": [{
     "grace_time": "...",
+    "is_admin": false,
     "is_member": false,
     "mk_rec_type": "org_header",
     "organisation_founder_id": "<account:Bob Marley>",
@@ -57,6 +55,7 @@ let org2_admin_sync = {
 let org1_member_sync = {
     "stream": [{
     "grace_time": "...",
+    "is_admin": false,
     "is_member": false,
     "mk_rec_type": "org_header",
     "organisation_founder_id": "<account:Bob Marley>",
@@ -71,6 +70,7 @@ let org1_member_sync = {
 let org2_member_sync = {
     "stream": [{
     "grace_time": "...",
+    "is_admin": false,
     "is_member": false,
     "mk_rec_type": "org_header",
     "organisation_founder_id": "<account:Bob Marley>",
@@ -85,6 +85,7 @@ let org2_member_sync = {
 let non_member_sync = {
     "stream": [{
     "grace_time": "...",
+    "is_admin": false,
     "is_member": false,
     "mk_rec_type": "org_header",
     "organisation_founder_id": "<account:Bob Marley>",
