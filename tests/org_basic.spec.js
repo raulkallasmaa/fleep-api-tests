@@ -97,7 +97,7 @@ test('create org and invite via reminder', function () {
         (res) => expect(res.header.topic).toEqual(conv_topic),
         () => client.poll_filter({mk_rec_type: 'conv', topic: conv_topic}),
 
-	// create org
+        // create org
         () => client.api_call("api/business/create", {organisation_name: org_name}),
         () => client.api_call("api/business/configure/" + client.getOrgId(org_name), {
             add_account_ids: [UC.mel.account_id, UC.don.account_id]}),
@@ -116,8 +116,14 @@ test('create org and invite via reminder', function () {
         () => client.api_call("api/business/close/" + client.getOrgId(org_name)),
         () => client.poke(client.getConvId(conv_topic)),
 
-        // check final state
-        () => UC.mel.poll_filter({
-            mk_rec_type: 'contact', organisation_id: null, account_id: UC.mel.account_id}),
+        // check that the emails for the closer and for the member are different
+        () => client.waitMail({
+            subject: /You deleted the Fleep for Business organization/,
+            body: /You have successfully deleted the organization/,
+        }),
+        () => UC.mel.waitMail({
+            subject: /has been deleted on Fleep/,
+            body: /has deleted the organization/,
+        }),
     ]);
 });

@@ -218,12 +218,19 @@ test('create org and create team and then remove member from org', function () {
         () => client.matchStream({mk_rec_type: 'org_conv', topic: six_topix}),
         (conv) => expect(UC.clean(conv)).toEqual(sx_managed_conv_two),
 
+        // remove don from the org
         () => client.api_call("api/business/configure/" + client.getOrgId(org_name), {
             remove_account_ids: [UC.don.account_id]}),
 
         // let all backend stuff to complete
         () => client.poke(client.getConvId(conv_topic), true),
         () => client.api_call("api/business/sync_conversations/" + client.getOrgId(org_name)),
+
+        // check that don receives an email for being removed from the org
+        () => UC.don.waitMail({
+            subject: /You have been removed from/,
+            body: /has removed your Fleep account from the organization/,
+        }),
 
         // check results after kick
         () => client.getTeam(org_team),

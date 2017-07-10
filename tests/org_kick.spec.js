@@ -222,6 +222,12 @@ test('create org and create team and then kick member from all', function () {
         () => client.poke(client.getConvId(six_topix), true),
         () => client.api_call("api/business/sync_conversations/" + client.getOrgId(org_name)),
 
+        // check that mel receives an email for being kicked out of the org
+        () => UC.mel.waitMail({
+            subject: /You have been removed from/,
+            body: /has removed your Fleep account from the organization/,
+        }),
+
         // check results after kick
         () => client.getTeam(org_team),
         (team) => expect(UC.clean(team)).toEqual(sx_managed_team_after_kick),
