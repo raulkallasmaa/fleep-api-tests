@@ -231,6 +231,25 @@ let changelog_after_timetravel = {
     }]
 };
 
+let sync_billing = {
+    "stream": [{
+    "grace_time": "...",
+    "is_admin": true,
+    "is_member": true,
+    "mk_rec_type": "org_header",
+    "organisation_founder_id": "<account:Bob Marley>",
+    "organisation_id": "<org:organisationName>",
+    "organisation_name": "organisationName",
+    "status": "bos_new",
+    "trial_time": "...",
+    "version_nr": 4,
+    },
+    {
+    "mk_rec_type": "billing",
+    "organisation_id": "<org:organisationName>",
+    }],
+};
+
 describe('end grace period', function () {
    it('should delete org (unmanage conv and team) after grace period ends', function () {
        let client = UC.bob;
@@ -263,6 +282,10 @@ describe('end grace period', function () {
            // sync changelog after managed conversation
            () => client.api_call("api/business/sync_changelog/" + client.getOrgId(org_name), {}),
            (res) => expect(UC.clean(res)).toEqual(changelog_before_timetravel),
+
+           // sync org billing
+           () => client.api_call("api/business/sync_billing/" + client.getOrgId(org_name), {}),
+           (res) => expect(UC.clean(res)).toEqual(sync_billing),
 
            // start grace period and look for email
            () => UC.sysclient.sys_call("sys/business/start_grace_period", {
