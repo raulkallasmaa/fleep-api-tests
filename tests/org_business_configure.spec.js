@@ -43,6 +43,14 @@ let meg_is_admin = {
     "organisation_id": "<org:businessConfigure>",
     },
     {
+    "account_id": "<account:Jon Lajoie>",
+    "inviter_id": "<account:Bob Marley>",
+    "is_admin": false,
+    "mk_member_status": "bms_pending",
+    "mk_rec_type": "org_member",
+    "organisation_id": "<org:businessConfigure>",
+    },
+    {
     "account_id": "<account:Meg Griffin>",
     "inviter_id": "<account:Bob Marley>",
     "is_admin": true,
@@ -74,6 +82,14 @@ let meg_not_admin = {
     },
     {
     "account_id": "<account:Jil Smith>",
+    "inviter_id": "<account:Bob Marley>",
+    "is_admin": false,
+    "mk_member_status": "bms_pending",
+    "mk_rec_type": "org_member",
+    "organisation_id": "<org:businessConfigure>",
+    },
+    {
+    "account_id": "<account:Jon Lajoie>",
     "inviter_id": "<account:Bob Marley>",
     "is_admin": false,
     "mk_member_status": "bms_pending",
@@ -119,6 +135,14 @@ let meg_account_closed = {
     "organisation_id": "<org:businessConfigure>",
     },
     {
+    "account_id": "<account:Jon Lajoie>",
+    "inviter_id": "<account:Bob Marley>",
+    "is_admin": false,
+    "mk_member_status": "bms_pending",
+    "mk_rec_type": "org_member",
+    "organisation_id": "<org:businessConfigure>",
+    },
+    {
     "account_id": "<account:Meg Griffin>",
     "inviter_id": "<account:Bob Marley>",
     "is_admin": false,
@@ -139,7 +163,7 @@ let jil_account_suspended = {
     "organisation_name": "businessConfigure",
     "status": "bos_new",
     "trial_time": "...",
-    "version_nr": 7,
+    "version_nr": 8,
     },
     {
     "account_id": "<account:Bob Marley>",
@@ -153,6 +177,14 @@ let jil_account_suspended = {
     "inviter_id": "<account:Bob Marley>",
     "is_admin": false,
     "mk_member_status": "bms_suspended",
+    "mk_rec_type": "org_member",
+    "organisation_id": "<org:businessConfigure>",
+    },
+    {
+    "account_id": "<account:Jon Lajoie>",
+    "inviter_id": "<account:Bob Marley>",
+    "is_admin": false,
+    "mk_member_status": "bms_closed",
     "mk_rec_type": "org_member",
     "organisation_id": "<org:businessConfigure>",
     },
@@ -177,7 +209,7 @@ let jil_account_activated = {
     "organisation_name": "businessConfigure",
     "status": "bos_new",
     "trial_time": "...",
-    "version_nr": 8,
+    "version_nr": 9,
     },
     {
     "account_id": "<account:Bob Marley>",
@@ -191,6 +223,14 @@ let jil_account_activated = {
     "inviter_id": "<account:Bob Marley>",
     "is_admin": false,
     "mk_member_status": "bms_active",
+    "mk_rec_type": "org_member",
+    "organisation_id": "<org:businessConfigure>",
+    },
+    {
+    "account_id": "<account:Jon Lajoie>",
+    "inviter_id": "<account:Bob Marley>",
+    "is_admin": false,
+    "mk_member_status": "bms_closed",
     "mk_rec_type": "org_member",
     "organisation_id": "<org:businessConfigure>",
     },
@@ -215,7 +255,7 @@ let org_changelog = {
     "event_type": "configure_org",
     "mk_rec_type": "org_changelog",
     "organisation_id": "<org:businessConfigure>",
-    "version_nr": 9,
+    "version_nr": 10,
     },
     {
     "account_id": "<account:Bob Marley>",
@@ -228,7 +268,7 @@ let org_changelog = {
     "event_type": "configure_org",
     "mk_rec_type": "org_changelog",
     "organisation_id": "<org:businessConfigure>",
-    "version_nr": 8,
+    "version_nr": 9,
     },
     {
     "account_id": "<account:Bob Marley>",
@@ -236,6 +276,19 @@ let org_changelog = {
     "account_id": "<account:Bob Marley>",
     "suspend_account_ids": [
     "<account:Jil Smith>",
+    ]},
+    "event_time": "...",
+    "event_type": "configure_org",
+    "mk_rec_type": "org_changelog",
+    "organisation_id": "<org:businessConfigure>",
+    "version_nr": 8,
+    },
+    {
+    "account_id": "<account:Bob Marley>",
+    "event_data": {
+    "account_id": "<account:Bob Marley>",
+    "close_account_ids": [
+    "<account:Jon Lajoie>",
     ]},
     "event_time": "...",
     "event_type": "configure_org",
@@ -299,6 +352,7 @@ let org_changelog = {
     "account_id": "<account:Bob Marley>",
     "add_account_ids": [
     "<account:Jil Smith>",
+    "<account:Jon Lajoie>",
     "<account:Meg Griffin>",
     ]},
     "event_time": "...",
@@ -335,7 +389,7 @@ test('business configure parameters', function () {
 
         // promote meg to org admin
         () => client.api_call("api/business/configure/" + client.getOrgId(org_name), {
-            add_account_ids: [UC.meg.account_id, UC.jil.account_id],
+            add_account_ids: [UC.meg.account_id, UC.jil.account_id, UC.jon.account_id],
             add_admin_ids: [UC.meg.account_id]
         }),
         (res) => expect(UC.clean(res)).toEqual(meg_is_admin),
@@ -363,6 +417,17 @@ test('business configure parameters', function () {
             subject: /Your Fleep account has been deleted/,
             body: /has deleted your Fleep account/,
         }),
+
+        // close johns org account
+        () => client.api_call("api/business/configure/" + client.getOrgId(org_name), {
+            close_account_ids: [UC.jon.account_id]
+        }),
+
+        // jon tries to join the org after his account has been closed
+        () => UC.jon.login(),
+        () => UC.jon.poll_filter({mk_rec_type: 'reminder', organisation_id: client.getOrgId(org_name)})
+            .then(() => Promise.reject(new Error('Unauthorized - Expired token, please relogin.')),
+                (r) => expect(r.statusCode).toEqual(401)),
 
         // suspend jils account
         () => client.api_call("api/business/configure/" + client.getOrgId(org_name), {
