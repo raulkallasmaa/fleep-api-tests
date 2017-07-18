@@ -79,7 +79,7 @@ function connectTLS(opts) {
 
 function checkDate(dstr, desc) {
     let now = Date.now(); // ms
-    let days = 30;
+    let days = 14;
     let day_ms = 24 * 60 * 60 * 1000;
     let danger = now + days * day_ms;
 
@@ -171,3 +171,4 @@ test('Certs in keys repo (#' + CERT_FILES.length + ')', function () {
     });
     return p;
 });
+
