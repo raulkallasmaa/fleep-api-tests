@@ -14,7 +14,7 @@ let UC = new UserCache([
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
 
-test('read message number', function () {
+test('read message number, conv marked as read or unread', function () {
     let client = UC.bob;
     let conv_topic = 'readMessageNr';
 

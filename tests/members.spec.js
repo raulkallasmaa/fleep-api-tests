@@ -56,60 +56,51 @@ let after_bob_removed = {
     "unread_count": 0,
 };
 
-describe('member adding', function () {
-    it('should add members to conversation', function () {
-        let client = UC.alice;
-        return thenSequence([
-            () => client.api_call("api/conversation/create", {topic: 'members'}),
-            (res) => expect(res.header.topic).toEqual('members'),
-            () => client.poll_filter({mk_rec_type: 'conv', topic: /members/}),
-            () => client.api_call("api/conversation/add_members/" + client.getConvId(/members/), {emails: UC.bob.email}),
-            (res) => {
-                let xres = UC.clean(res, {});
-                xres.stream = [];
-                expect(xres).toMatchObject({
-                    "stream": [],
-                    "header": {
-                    "conversation_id": "<conv:members>",
-                    "inbox_message_nr": 1,
-                    "inbox_time": "...",
-                    "join_message_nr": 1,
-                    "last_inbox_nr": 0,
-                    "last_message_nr": 2,
-                    "last_message_time": "...",
-                    "leavers": [],
-                    "members": [
-                    "<account:Alice Adamson>",
-                    "<account:Bob Dylan>",
-                    ],
-                    "mk_alert_level": "default",
-                    "mk_rec_type": "conv",
-                    "profile_id": "<account:Alice Adamson>",
-                    "read_message_nr": 1,
-                    "send_message_nr": 1,
-                    "show_message_nr": 1,
-                    "snooze_interval": 0,
-                    "snooze_time": 0,
-                    "unread_count": 0,
-                    },
-                    });
-            }
-        ]);
-    });
+test('add members to conversation', function () {
+    let client = UC.alice;
+    return thenSequence([
+        () => client.api_call("api/conversation/create", {topic: 'members'}),
+        (res) => expect(res.header.topic).toEqual('members'),
+        () => client.poll_filter({mk_rec_type: 'conv', topic: /members/}),
+        () => client.api_call("api/conversation/add_members/" + client.getConvId(/members/), {emails: UC.bob.email}),
+        (res) => expect(UC.clean(res, {stream: []})).toMatchObject({
+                "stream": [],
+                "header": {
+                "conversation_id": "<conv:members>",
+                "inbox_message_nr": 1,
+                "inbox_time": "...",
+                "join_message_nr": 1,
+                "last_inbox_nr": 0,
+                "last_message_nr": 2,
+                "last_message_time": "...",
+                "leavers": [],
+                "members": [
+                "<account:Alice Adamson>",
+                "<account:Bob Dylan>",
+                ],
+                "mk_alert_level": "default",
+                "mk_rec_type": "conv",
+                "profile_id": "<account:Alice Adamson>",
+                "read_message_nr": 1,
+                "send_message_nr": 1,
+                "show_message_nr": 1,
+                "snooze_interval": 0,
+                "snooze_time": 0,
+                "unread_count": 0,
+                }})
+    ]);
 });
 
-describe('member removal', function () {
-    test('should remove members from conversation', function () {
-        let client = UC.alice;
-        return thenSequence([
-            () => client.api_call("api/conversation/create", {topic: 'removeMember'}),
-            (res) => expect(res.header.topic).toEqual('removeMember'),
-            () => client.poll_filter({mk_rec_type: 'conv', topic: /removeMember/}),
-            () => client.api_call("api/conversation/add_members/" + client.getConvId(/removeMember/), {emails: UC.bob.email}),
-            () => client.api_call("api/conversation/remove_members/" + client.getConvId(/removeMember/), {emails: UC.bob.email}),
-            (res) => expect(UC.clean(res.header)).toEqual(after_bob_removed),
-        ]);
-    });
+test('remove members from conversation', function () {
+    let client = UC.alice;
+    return thenSequence([
+        () => client.api_call("api/conversation/create", {topic: 'removeMember'}),
+        (res) => expect(res.header.topic).toEqual('removeMember'),
+        () => client.poll_filter({mk_rec_type: 'conv', topic: /removeMember/}),
+        () => client.api_call("api/conversation/add_members/" + client.getConvId(/removeMember/), {emails: UC.bob.email}),
+        () => client.api_call("api/conversation/remove_members/" + client.getConvId(/removeMember/), {emails: UC.bob.email}),
+        (res) => expect(UC.clean(res.header)).toEqual(after_bob_removed),
+    ]);
 });
 
 test('should leave the conversation', function () {
@@ -119,10 +110,7 @@ test('should leave the conversation', function () {
         (res) => expect(res.header.topic).toEqual('leaveConvo'),
         () => client.poll_filter({mk_rec_type: 'conv', topic: /leaveConvo/}),
         () => client.api_call("api/conversation/leave/" + client.getConvId(/leaveConvo/), {}),
-        (res) => {
-            let xres = UC.clean(res, {result_message_nr: null});
-            xres.stream = [];
-            expect(xres).toEqual({
+        (res) => expect(UC.clean(res, {result_message_nr: null})).toEqual({
                 "stream": [],
                 "result_message_nr": '...',
                 "header": {
@@ -166,8 +154,6 @@ test('should leave the conversation', function () {
                 "topic": "leaveConvo",
                 "topic_message_nr": 1,
                 "unread_count": 0,
-                },
-                });
-        }
+                }}),
     ]);
 });

@@ -85,7 +85,7 @@ let first_conversation = {
    "unread_count": 0,
 };
 
-test('create teams with all params', function () {
+test('create teams with all parameters', function () {
     let client = UC.charlie;
     let convTopic = 'teamsCreate';
     let teamName = 'Performers';

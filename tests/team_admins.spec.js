@@ -120,7 +120,7 @@ let changelog = {
    }],
 };
 
-test('team set admins', function () {
+test('team set and remove admins', function () {
     let client = UC.charlie;
     let convTopic = 'teamsCreate';
     let teamName = 'Performers';

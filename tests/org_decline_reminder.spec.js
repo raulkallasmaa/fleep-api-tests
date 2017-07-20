@@ -48,7 +48,7 @@ let sync_changelog = {
    }],
 };
 
-test('decline org invite', function () {
+test('decline org invite reminder', function () {
     let client = UC.fernando;
     let conv_topic = 'declineReminder';
     let org_name = 'organisationName';

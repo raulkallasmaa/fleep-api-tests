@@ -210,7 +210,7 @@ test('team: add and remove conversations', function () {
                 account_ids: [UC.bob.account_id, UC.don.account_id],
                 is_managed: true, }),
 
-        // intial state of the conversation
+        // initial state of the conversation
         () => expect(UC.clean(client.getConv(convTopic))).toEqual(conv_after_create),
         // add conversation to team conversations
         () => client.api_call("api/team/configure/" + client.getTeamId(teamName), {

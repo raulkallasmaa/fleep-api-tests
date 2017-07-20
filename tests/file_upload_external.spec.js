@@ -17,7 +17,7 @@ afterAll(() => UC.cleanup());
 // bug: upload/ext loses file ext
 // bug: status:success drops request_id
 
-test('upload external file', function () {
+test('upload external file and send', function () {
     let client = UC.bob;
     let conv_topic = 'externalFileUpload';
     let request_id = null;
@@ -84,4 +84,3 @@ test('upload external file', function () {
         }),
     ]);
 });
-

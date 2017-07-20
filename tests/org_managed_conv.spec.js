@@ -160,7 +160,7 @@ test('create org and create managed conv with team in it', function () {
         () => client.api_call("api/business/store_conversation/" + client.getOrgId(org_name), {
             conversation_id: client.getConvId(conv_topic),
             is_managed: false}),
-        // sremove topic to see default topic in changelog
+        // remove topic to see default topic in changelog
         () => client.api_call("api/conversation/store/" + client.getConvId(conv_topic), {
             topic: ''}),
         // set managed

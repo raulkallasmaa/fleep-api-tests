@@ -108,7 +108,7 @@ let conv_after_label_sync = {
     }]
 };
 
-test('create custom labels for conversation', function () {
+test('create custom labels for conversation, rename and remove, change index, is on left pane, is muted, is in recent', function () {
     let client = UC.bob;
     let conv_topic = 'customLabels';
 

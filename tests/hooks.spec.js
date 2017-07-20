@@ -10,7 +10,7 @@ let UC = new UserCache([
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
 
-test('should create a hook and post messages over it', function () {
+test('create a hook and post messages over it', function () {
     let client = UC.charlie;
     return thenSequence([
         () => client.api_call("api/conversation/create", {topic: 'createHook'}),
@@ -71,7 +71,7 @@ test('should create a hook and post messages over it', function () {
     ]);
 });
 
-test('should rename hook and drop hook', function () {
+test('rename hook and drop hook', function () {
     let client = UC.alice;
     return thenSequence([
         () => client.api_call("api/conversation/create", {topic: 'renameHook'}),
@@ -88,7 +88,7 @@ test('should rename hook and drop hook', function () {
     ]);
 });
 
-test('should import hook', function () {
+test('import hook', function () {
     let client = UC.bob;
     let dateparse = Math.floor(Date.parse('Sat, 12 May 2012 12:12:12 GMT') / 1000);
     return thenSequence([

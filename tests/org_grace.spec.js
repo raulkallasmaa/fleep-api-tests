@@ -250,86 +250,75 @@ let sync_billing = {
     }],
 };
 
-describe('end grace period', function () {
-   it('should delete org (unmanage conv and team) after grace period ends', function () {
-       let client = UC.bob;
-       let conv_topic = 'organisationGrace';
-       let team_name = 'teamName';
-       let org_name = 'organisationName';
-       return thenSequence([
-
-           // create org
-           () => client.api_call("api/business/create", {organisation_name: org_name}),
-           () => client.poll_filter({mk_rec_type: 'org_header', organisation_name: org_name}),
-
-           // create managed team
-           () => client.api_call("api/business/create_team/" + client.getOrgId(org_name), {
-               team_name: team_name,
-               account_ids: [UC.mel.account_id],
-               is_managed: true
-           }),
-           () => client.poll_filter({mk_rec_type: 'team', team_name: team_name}),
-
-           // create managed conversation
-           () => client.api_call("api/business/create_conversation/" + client.getOrgId(org_name), {
-               topic: conv_topic,
-               is_managed: true,
-               team_ids: [client.getTeamId(team_name)]
-           }),
-           () => client.poll_filter({mk_rec_type: 'conv', topic: conv_topic}),
-           () => client.poke(client.getConvId(conv_topic), true),
-
-           // sync changelog after managed conversation
-           () => client.api_call("api/business/sync_changelog/" + client.getOrgId(org_name), {}),
-           (res) => expect(UC.clean(res)).toEqual(changelog_before_timetravel),
-
-           // sync org billing
-           () => client.api_call("api/business/sync_billing/" + client.getOrgId(org_name), {}),
-           (res) => expect(UC.clean(res)).toEqual(sync_billing),
-
-           // start grace period and look for email
-           () => UC.sysclient.sys_call("sys/business/start_grace_period", {
-               organisation_id: client.getOrgId(org_name),
-           }),
-           () => client.waitMail({
-               subject: /Payment failed/,
-               body: /next 30 days/,
-           }),
-
-           // time travel 20 days and look for email
-           () => UC.sysclient.sys_call("sys/shard/time_travel", {
-               object_id: client.getOrgId(org_name),
-               mk_time_action: 'bbg_grace_notif',
-               time_interval: '20 days',
-           }),
-           () => client.waitMail({
-               subject: /Payment failure/,
-               body: /next 10 days/,
-           }),
-
-           // time travel for 29 days and look for email
-           () => UC.sysclient.sys_call("sys/shard/time_travel", {
-               object_id: client.getOrgId(org_name),
-               mk_time_action: 'bbg_grace_warn',
-               time_interval: '29 days',
-           }),
-           () => client.waitMail({
-               subject: /Payment failure/,
-               body: /tomorrow/,
-           }),
-
-           // time travel for 30 days and look for email
-           () => UC.sysclient.sys_call("sys/shard/time_travel", {
-               object_id: client.getOrgId(org_name),
-               mk_time_action: 'bbg_grace_end',
-               time_interval: '30 days',
-           }),
-           () => client.waitMail({
-               subject: /Subscription cancelled/,
-               body: /has been cancelled/,
-           }),
-           () => client.poke(client.getConvId(conv_topic), true),
-           (res) => expect(UC.clean(res, {static_version: null})).toEqual(changelog_after_timetravel),
-       ]);
-   });
+test('delete org (unmanage conv and team) after grace period ends', function () {
+    let client = UC.bob;
+    let conv_topic = 'organisationGrace';
+    let team_name = 'teamName';
+    let org_name = 'organisationName';
+    return thenSequence([
+        // create org
+        () => client.api_call("api/business/create", {organisation_name: org_name}),
+        () => client.poll_filter({mk_rec_type: 'org_header', organisation_name: org_name}),
+        // create managed team
+        () => client.api_call("api/business/create_team/" + client.getOrgId(org_name), {
+            team_name: team_name,
+            account_ids: [UC.mel.account_id],
+            is_managed: true
+        }),
+        () => client.poll_filter({mk_rec_type: 'team', team_name: team_name}),
+        // create managed conversation
+        () => client.api_call("api/business/create_conversation/" + client.getOrgId(org_name), {
+            topic: conv_topic,
+            is_managed: true,
+            team_ids: [client.getTeamId(team_name)]
+        }),
+        () => client.poll_filter({mk_rec_type: 'conv', topic: conv_topic}),
+        () => client.poke(client.getConvId(conv_topic), true),
+        // sync changelog after managed conversation
+        () => client.api_call("api/business/sync_changelog/" + client.getOrgId(org_name), {}),
+        (res) => expect(UC.clean(res)).toEqual(changelog_before_timetravel),
+        // sync org billing
+        () => client.api_call("api/business/sync_billing/" + client.getOrgId(org_name), {}),
+        (res) => expect(UC.clean(res)).toEqual(sync_billing),
+        // start grace period and look for email
+        () => UC.sysclient.sys_call("sys/business/start_grace_period", {
+            organisation_id: client.getOrgId(org_name),
+        }),
+        () => client.waitMail({
+            subject: /Payment failed/,
+            body: /next 30 days/,
+        }),
+        // time travel 20 days and look for email
+        () => UC.sysclient.sys_call("sys/shard/time_travel", {
+            object_id: client.getOrgId(org_name),
+            mk_time_action: 'bbg_grace_notif',
+            time_interval: '20 days',
+        }),
+        () => client.waitMail({
+            subject: /Payment failure/,
+            body: /next 10 days/,
+        }),
+        // time travel for 29 days and look for email
+        () => UC.sysclient.sys_call("sys/shard/time_travel", {
+            object_id: client.getOrgId(org_name),
+            mk_time_action: 'bbg_grace_warn',
+            time_interval: '29 days',
+        }),
+        () => client.waitMail({
+            subject: /Payment failure/,
+            body: /tomorrow/,
+        }),
+        // time travel for 30 days and look for email
+        () => UC.sysclient.sys_call("sys/shard/time_travel", {
+            object_id: client.getOrgId(org_name),
+            mk_time_action: 'bbg_grace_end',
+            time_interval: '30 days',
+        }),
+        () => client.waitMail({
+            subject: /Subscription cancelled/,
+            body: /has been cancelled/,
+        }),
+        () => client.poke(client.getConvId(conv_topic), true),
+        (res) => expect(UC.clean(res, {static_version: null})).toEqual(changelog_after_timetravel),
+    ]);
 });

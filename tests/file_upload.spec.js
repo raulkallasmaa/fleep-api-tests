@@ -14,7 +14,7 @@ let UC = new UserCache([
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
 
-test('file upload and send', function () {
+test('upload files and send, forward, copy, edit and delete', function () {
     let client = UC.bob;
     let conv_topic = 'fileUpload';
     let conv_topic2 = 'messageCopy';

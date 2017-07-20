@@ -231,71 +231,64 @@ let changelog_after_timetravel = {
    }]
 };
 
-describe('time travel', function () {
-    it('should unmanage conv and team after trial ends', function () {
-       let client = UC.bob;
-       let conv_topic = 'organisationTrial';
-       let team_name = 'teamName';
-       let org_name = 'organisationName';
-       return thenSequence([
-
-       // create org
-       () => client.api_call("api/business/create", {organisation_name: org_name}),
-       () => client.poll_filter({mk_rec_type: 'org_header', organisation_name: org_name}),
-
-       // create managed team
-       () => client.api_call("api/business/create_team/" + client.getOrgId(org_name), {
-           team_name: team_name,
-           account_ids: [UC.mel.account_id],
-           is_managed: true}),
-       () => client.poll_filter({mk_rec_type: 'team', team_name: team_name}),
-
-       // create managed conversation
-       () => client.api_call("api/business/create_conversation/" + client.getOrgId(org_name), {
-           topic: conv_topic,
-           is_managed: true,
-           team_ids: [client.getTeamId(team_name)]}),
-       () => client.poll_filter({mk_rec_type: 'conv', topic: conv_topic}),
-       () => client.poke(client.getConvId(conv_topic), true),
-
-       // sync changelog after managed conversation
-       () => client.api_call("api/business/sync_changelog/" + client.getOrgId(org_name), {}),
-       (res) => expect(UC.clean(res)).toEqual(changelog_before_timetravel),
-
-       // time travel 80 days and look for email
-       () => UC.sysclient.sys_call("sys/shard/time_travel", {
-           object_id: client.getOrgId(org_name),
-           mk_time_action: 'bbg_trial_notif',
-           time_interval: '20 days',
-       }),
-       () => client.waitMail({
-           subject: /Please add your payment details/,
-           body: /Your free trial of Fleep for Business will end in 10 days/,
-       }),
-
-       // time travel for 89 days and look for email
-       () => UC.sysclient.sys_call("sys/shard/time_travel", {
-           object_id: client.getOrgId(org_name),
-           mk_time_action: 'bbg_trial_warn',
-           time_interval: '29 days',
-       }),
-       () => client.waitMail({
-           subject: /Your free trial of Fleep for Business is ending tomorrow/,
-           body: /Your free trial of Fleep for Business will end tomorrow/,
-       }),
-
-       // time travel for 90 days and look for email
-       () => UC.sysclient.sys_call("sys/shard/time_travel", {
-           object_id: client.getOrgId(org_name),
-           mk_time_action: 'bbg_trial_end',
-           time_interval: '30 days',
-       }),
-       () => client.waitMail({
-           subject: /Your trial of Fleep for Business just ended/,
-           body: /Fleep for Business trial ended/,
-       }),
-       () => client.poke(client.getConvId(conv_topic), true),
-       (res) => expect(UC.clean(res, {static_version: null})).toEqual(changelog_after_timetravel),
-      ]);
-   });
+test('time travel: unmanage conv and team after trial ends', function () {
+    let client = UC.bob;
+    let conv_topic = 'organisationTrial';
+    let team_name = 'teamName';
+    let org_name = 'organisationName';
+    return thenSequence([
+        // create org
+        () => client.api_call("api/business/create", {organisation_name: org_name}),
+        () => client.poll_filter({mk_rec_type: 'org_header', organisation_name: org_name}),
+        // create managed team
+        () => client.api_call("api/business/create_team/" + client.getOrgId(org_name), {
+            team_name: team_name,
+            account_ids: [UC.mel.account_id],
+            is_managed: true
+        }),
+        () => client.poll_filter({mk_rec_type: 'team', team_name: team_name}),
+        // create managed conversation
+        () => client.api_call("api/business/create_conversation/" + client.getOrgId(org_name), {
+            topic: conv_topic,
+            is_managed: true,
+            team_ids: [client.getTeamId(team_name)]
+        }),
+        () => client.poll_filter({mk_rec_type: 'conv', topic: conv_topic}),
+        () => client.poke(client.getConvId(conv_topic), true),
+        // sync changelog after managed conversation
+        () => client.api_call("api/business/sync_changelog/" + client.getOrgId(org_name), {}),
+        (res) => expect(UC.clean(res)).toEqual(changelog_before_timetravel),
+        // time travel 80 days and look for email
+        () => UC.sysclient.sys_call("sys/shard/time_travel", {
+            object_id: client.getOrgId(org_name),
+            mk_time_action: 'bbg_trial_notif',
+            time_interval: '20 days',
+        }),
+        () => client.waitMail({
+            subject: /Please add your payment details/,
+            body: /Your free trial of Fleep for Business will end in 10 days/,
+        }),
+        // time travel for 89 days and look for email
+        () => UC.sysclient.sys_call("sys/shard/time_travel", {
+            object_id: client.getOrgId(org_name),
+            mk_time_action: 'bbg_trial_warn',
+            time_interval: '29 days',
+        }),
+        () => client.waitMail({
+            subject: /Your free trial of Fleep for Business is ending tomorrow/,
+            body: /Your free trial of Fleep for Business will end tomorrow/,
+        }),
+        // time travel for 90 days and look for email
+        () => UC.sysclient.sys_call("sys/shard/time_travel", {
+            object_id: client.getOrgId(org_name),
+            mk_time_action: 'bbg_trial_end',
+            time_interval: '30 days',
+        }),
+        () => client.waitMail({
+            subject: /Your trial of Fleep for Business just ended/,
+            body: /Fleep for Business trial ended/,
+        }),
+        () => client.poke(client.getConvId(conv_topic), true),
+        (res) => expect(UC.clean(res, {static_version: null})).toEqual(changelog_after_timetravel),
+    ]);
 });

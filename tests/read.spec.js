@@ -414,63 +414,61 @@ let charlie_final_header = {
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
 
-describe('mark read unread calls', function () {
-    it('mark messages read', function () {
-        return thenSequence([
-            () => UC.alice.initial_poll(),
-            () => UC.bob.initial_poll(),
-            () => UC.charlie.initial_poll(),
-            // alice creates a conv and adds bob and charlie
-            () => UC.alice.api_call("api/conversation/create", {
-                topic: 'readings',
-                account_ids: [UC.bob.info.account_id, UC.charlie.info.account_id],
-            }),
-            (res) => expect(UC.clean(res.header)).toEqual(alice_create_header),
-            // send some messages
-            () => UC.alice.api_call("api/message/store/" + UC.alice.getConvId(/readings/), {message: 'Greetings, friend!'}),
-            () => UC.alice.api_call("api/message/store/" + UC.alice.getConvId(/readings/), {message: 'How are you doing?'}),
-            () => UC.alice.api_call("api/message/store/" + UC.alice.getConvId(/readings/), {message: 'Talk'}),
-            (res) => expect(UC.clean(res.header)).toMatchObject(alice_first_header),
-            // wait until bg jobs have done their things
-            () => UC.alice.poke(UC.alice.getConvId(/readings/), true),
-            // read conversation for bob
-            () => UC.bob.poll_filter({mk_rec_type: 'message', message: /Talk/}),
-            // find header from response
-            () => expect(UC.clean(UC.bob.matchStream({mk_rec_type: 'conv', topic: 'readings'}))).toEqual(bob_first_header),
-            // mark messages read
-            () => UC.bob.api_call("api/conversation/store/" + UC.alice.getConvId(/readings/), {
-                read_message_nr: UC.bob.getRecord('conv', 'topic', 'readings').last_message_nr}),
-            (res) => expect(UC.clean(res.header)).toMatchObject(bob_header_after_read),
-            // get state for charlie
-            () => UC.charlie.poll_filter({mk_rec_type: 'message', message: /Talk/}),
-            // find conversation header
-            () => expect(UC.clean(UC.charlie.matchStream({mk_rec_type: 'conv', topic: 'readings'})))
-                .toEqual(charlie_first_header),
-            // mark conversation read
-            () => UC.charlie.api_call("api/conversation/mark_read/" + UC.alice.getConvId(/readings/), {}),
-            (res) => expect(UC.clean(res.header)).toEqual(charlie_header_after_read),
-            // mark some messages unread
-            () => UC.charlie.api_call("api/conversation/store/" + UC.alice.getConvId(/readings/), {
-                read_message_nr: 1}),
-            (res) => expect(UC.clean(res.header)).toMatchObject(charlie_after_mark_unread),
-            // charlie leaves
-            () => UC.charlie.api_call("api/conversation/leave/" + UC.alice.getConvId(/readings/), {}),
-            (res) => expect(UC.clean(res.header)).toEqual(charlie_after_leave),
-            // send some messages while charlie is gone
-            () => UC.alice.api_call("api/message/store/" + UC.alice.getConvId(/readings/), {
-                message: 'Where did Charlie go?'}),
-            // add charlie back
-            () => UC.alice.api_call("api/conversation/store/" + UC.alice.getConvId(/readings/), {
-                add_account_ids: [UC.charlie.account_id]}),
-            // send some messages while charlie is gone
-            () => UC.alice.api_call("api/message/store/" + UC.alice.getConvId(/readings/), {
-                message: 'Welcome back!'}),
-            (res) => expect(UC.clean(res.header)).toEqual(alice_final_header),
-            // get final state for charlie
-            () => UC.charlie.poll_filter({mk_rec_type: 'message', message: /back/}),
-            // find conversation header
-            () => expect(UC.clean(UC.charlie.matchStream({mk_rec_type: 'conv', topic: 'readings'})))
-                .toEqual(charlie_final_header),
-        ]);
-    });
+test('mark messages read', function () {
+    return thenSequence([
+        () => UC.alice.initial_poll(),
+        () => UC.bob.initial_poll(),
+        () => UC.charlie.initial_poll(),
+        // alice creates a conv and adds bob and charlie
+        () => UC.alice.api_call("api/conversation/create", {
+            topic: 'readings',
+            account_ids: [UC.bob.info.account_id, UC.charlie.info.account_id],
+        }),
+        (res) => expect(UC.clean(res.header)).toEqual(alice_create_header),
+        // send some messages
+        () => UC.alice.api_call("api/message/store/" + UC.alice.getConvId(/readings/), {message: 'Greetings, friend!'}),
+        () => UC.alice.api_call("api/message/store/" + UC.alice.getConvId(/readings/), {message: 'How are you doing?'}),
+        () => UC.alice.api_call("api/message/store/" + UC.alice.getConvId(/readings/), {message: 'Talk'}),
+        (res) => expect(UC.clean(res.header)).toMatchObject(alice_first_header),
+        // wait until bg jobs have done their things
+        () => UC.alice.poke(UC.alice.getConvId(/readings/), true),
+        // read conversation for bob
+        () => UC.bob.poll_filter({mk_rec_type: 'message', message: /Talk/}),
+        // find header from response
+        () => expect(UC.clean(UC.bob.matchStream({mk_rec_type: 'conv', topic: 'readings'}))).toEqual(bob_first_header),
+        // mark messages read
+        () => UC.bob.api_call("api/conversation/store/" + UC.alice.getConvId(/readings/), {
+            read_message_nr: UC.bob.getRecord('conv', 'topic', 'readings').last_message_nr}),
+        (res) => expect(UC.clean(res.header)).toMatchObject(bob_header_after_read),
+        // get state for charlie
+        () => UC.charlie.poll_filter({mk_rec_type: 'message', message: /Talk/}),
+        // find conversation header
+        () => expect(UC.clean(UC.charlie.matchStream({mk_rec_type: 'conv', topic: 'readings'})))
+            .toEqual(charlie_first_header),
+        // mark conversation read
+        () => UC.charlie.api_call("api/conversation/mark_read/" + UC.alice.getConvId(/readings/), {}),
+        (res) => expect(UC.clean(res.header)).toEqual(charlie_header_after_read),
+        // mark some messages unread
+        () => UC.charlie.api_call("api/conversation/store/" + UC.alice.getConvId(/readings/), {
+            read_message_nr: 1}),
+        (res) => expect(UC.clean(res.header)).toMatchObject(charlie_after_mark_unread),
+        // charlie leaves
+        () => UC.charlie.api_call("api/conversation/leave/" + UC.alice.getConvId(/readings/), {}),
+        (res) => expect(UC.clean(res.header)).toEqual(charlie_after_leave),
+        // send some messages while charlie is gone
+        () => UC.alice.api_call("api/message/store/" + UC.alice.getConvId(/readings/), {
+            message: 'Where did Charlie go?'}),
+        // add charlie back
+        () => UC.alice.api_call("api/conversation/store/" + UC.alice.getConvId(/readings/), {
+            add_account_ids: [UC.charlie.account_id]}),
+        // send some messages while charlie is gone
+        () => UC.alice.api_call("api/message/store/" + UC.alice.getConvId(/readings/), {
+            message: 'Welcome back!'}),
+        (res) => expect(UC.clean(res.header)).toEqual(alice_final_header),
+        // get final state for charlie
+        () => UC.charlie.poll_filter({mk_rec_type: 'message', message: /back/}),
+        // find conversation header
+        () => expect(UC.clean(UC.charlie.matchStream({mk_rec_type: 'conv', topic: 'readings'})))
+            .toEqual(charlie_final_header),
+    ]);
 });

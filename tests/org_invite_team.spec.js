@@ -145,7 +145,7 @@ test('create teams and invite into org', function () {
         // create first conversation before team so team can be added later
         () => client.api_call("api/conversation/create", {topic: convTopic}),
         () => client.poll_filter({mk_rec_type: 'conv', topic: convTopic}),
-	// create singers team
+        // create singers team
         () => client.api_call("api/team/create", {
                 team_name: teamName,
                 account_ids: [UC.bob.account_id, UC.don.account_id],

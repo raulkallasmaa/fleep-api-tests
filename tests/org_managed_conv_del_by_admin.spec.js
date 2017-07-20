@@ -74,7 +74,7 @@ let del_message = {
    "tags": [],
 };
 
-test('create org and create managed conv with team in it and ten delete by admin', function () {
+test('create org and create managed conv with team in it and then delete by admin', function () {
     let client = UC.charlie;
     let conv_topic = 'managedConvTopic';
     let org_name = 'managedConvOrgName';

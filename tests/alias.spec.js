@@ -8,7 +8,7 @@ let UC = new UserCache([
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
 
-it('should add, confirm, remove and sync alias', function () {
+test('add, confirm, remove and sync alias', function () {
     let client = UC.snoop;
     let client2 = UC.michael;
     return thenSequence([

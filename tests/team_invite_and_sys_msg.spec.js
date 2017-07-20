@@ -60,7 +60,7 @@ let EXPECT_RECS = [{
     "tags": []
 }];
 
-test('invite to team via email', function () {
+test('invite to team via email and check for the correct system message', function () {
     let client = UC.bob;
     let conv_topic = 'inviteToTeamViaEmail';
     let team_name = 'freeTeam';

@@ -10,7 +10,7 @@ beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
 
 // storing messages, editing them with edit and with store and adding & removing subject
-it('should store & edit messages and add & remove subject', function () {
+test('store & edit messages and add & remove subject', function () {
     let client = UC.alice;
     let members = [UC.bob.fleep_email, UC.charlie.fleep_email].join(', ');
     return thenSequence([
@@ -41,7 +41,7 @@ it('should store & edit messages and add & remove subject', function () {
     ]);
 });
 
-it('should let other user delete message but not edit', function () {
+test('let other user delete message but not edit', function () {
     let client = UC.alice;
     let client2 = UC.bob;
     let emails = [UC.bob.fleep_email, UC.charlie.fleep_email].join(', ');
@@ -80,7 +80,7 @@ it('should let other user delete message but not edit', function () {
         });
 });
 
-it('should pin and unpin message', function () {
+test('pin and unpin message', function () {
     let client = UC.alice;
     return thenSequence([
         () => client.api_call("api/conversation/create", {topic: 'pin1alice'}),
@@ -118,7 +118,7 @@ it('should pin and unpin message', function () {
     ]);
 });
 
-it('should assign task, set task done & undone and archive task', function () {
+test('assign task, set task done & undone and archive task', function () {
     let client = UC.alice;
     return thenSequence([
         () => client.api_call("api/conversation/create", {topic: 'tasks'}),
@@ -150,7 +150,7 @@ it('should assign task, set task done & undone and archive task', function () {
     ]);
 });
 
-it('should copy a message from another conversation', function () {
+test('copy a message from another conversation', function () {
     let client = UC.alice;
     let fromConv = null;
     let toConv = null;
@@ -193,7 +193,7 @@ it('should copy a message from another conversation', function () {
     ]);
 });
 
-test('should try to copy a deleted message', function () {
+test('try to copy a deleted message', function () {
     let client = UC.bob;
     return thenSequence([
         () => client.api_call("api/conversation/create", {topic: 'copyDeletedMsg'}),

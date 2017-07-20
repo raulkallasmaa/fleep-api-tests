@@ -489,7 +489,7 @@ let singers_team_after_rename = {
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
 
-test('create teams and team conversations', function () {
+test('create teams and team conversations, rename remove and autojoin', function () {
     let client = UC.charlie;
     let conv_topic = 'teamsBasic';
     let conv_2dogs = '2 dogs';
@@ -545,7 +545,7 @@ test('create teams and team conversations', function () {
         () => client.matchStream({mk_rec_type: 'label', team_id: client.getTeamId(actors_team)}),
         (team_label) => expect(UC.clean(team_label)).toEqual(actors_team_label),
 
-        // create conversation that contaons both teams
+        // create conversation that contains both teams
         () => client.api_call("api/conversation/create", {topic: conv_2dogs,
             team_ids: [client.getTeamId(actors_team), client.getTeamId(singers_team)]}),
         () => client.poke(client.getConvId(conv_2dogs), true),

@@ -12,45 +12,43 @@ let UC = new UserCache([
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
 
-describe('search contacts', function () {
-    it('should search by participants name', function () {
-        let client = UC.alice;
-        let add_emails = [UC.bob.fleep_email, UC.charlie.fleep_email].join(', ');
-        let conversation_id = null;
-        return thenSequence([
-            () => client.api_call("api/conversation/create", {}),
-            (res) => {
-                expect(res.header.topic).toEqual('');
-                conversation_id = res.header.conversation_id;
-            },
-            () => client.api_call("api/conversation/add_members/" + conversation_id, {emails: add_emails}),
-            () => client.poke(conversation_id, true),
-            () => client.api_call("api/search", {keywords: 'Charlie Chaplin', search_types: ['topic']}),
-            (res) => {
-                if (UC.clean(conversation_id) === "<conv:Bob and Charlie>") {
-                    UC.register_magic('conv', conversation_id, 'Charlie and Bob');
-                }
-                let xres = UC.clean(res, {});
-                xres.stream = [];
-                expect(xres).toEqual({
-                    "headers": [{
-                    "conversation_id": "<conv:Monologue with myself>",
-                    "members": ["<account:Alice Adamson>",
-                    "<account:Bob Dylan>",
-                    "<account:Charlie Chaplin>"],
-                    "mk_rec_type": "conv",
-                    "topic": "",
-                    }],
-                    "matches": [],
-                    "stream": [],
-                    "suggestions": null,
-                });
+test('search by participants name', function () {
+    let client = UC.alice;
+    let add_emails = [UC.bob.fleep_email, UC.charlie.fleep_email].join(', ');
+    let conversation_id = null;
+    return thenSequence([
+        () => client.api_call("api/conversation/create", {}),
+        (res) => {
+            expect(res.header.topic).toEqual('');
+            conversation_id = res.header.conversation_id;
+        },
+        () => client.api_call("api/conversation/add_members/" + conversation_id, {emails: add_emails}),
+        () => client.poke(conversation_id, true),
+        () => client.api_call("api/search", {keywords: 'Charlie Chaplin', search_types: ['topic']}),
+        (res) => {
+            if (UC.clean(conversation_id) === "<conv:Bob and Charlie>") {
+                UC.register_magic('conv', conversation_id, 'Charlie and Bob');
             }
-        ]);
-    });
+            let xres = UC.clean(res, {});
+            xres.stream = [];
+            expect(xres).toEqual({
+                "headers": [{
+                "conversation_id": "<conv:Monologue with myself>",
+                "members": ["<account:Alice Adamson>",
+                "<account:Bob Dylan>",
+                "<account:Charlie Chaplin>"],
+                "mk_rec_type": "conv",
+                "topic": "",
+                }],
+                "matches": [],
+                "stream": [],
+                "suggestions": null,
+            });
+        }
+    ]);
 });
 
-it('should search by participants email address', function () {
+test('search by participants email address', function () {
     let client = UC.bill;
     let add_members = [UC.angelina.fleep_email, UC.george.fleep_email, 'tester@box.fleep.ee'].join(', ');
     let conversation_id = null;

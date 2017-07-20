@@ -164,7 +164,7 @@ function certCheck(fn) {
             });
 }
 
-test('Certs in keys repo (#' + CERT_FILES.length + ')', function () {
+test('Certificates in keys repo (#' + CERT_FILES.length + ')', function () {
     let p = Promise.resolve();
     CERT_FILES.forEach(function (fn) {
         p = p.then(function () { return certCheck(fn); });
