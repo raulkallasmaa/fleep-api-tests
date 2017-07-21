@@ -29,7 +29,6 @@
     "eslint-plugin-json": "^1.2.0",
     "globby": "^6.1.0",
     "jest": "^20.0.4",
-    "jest-json-reporter": "^1.2.2",
     "lodash": "~4.17.0",
     "nodemailer": "~4.0.1",
     "request": "~2.81.0",
@@ -38,10 +37,9 @@
   "scripts": {
     "check-versions": "npm outdated --depth 0",
     "pretest": "eslint lib tests",
-    "test": "node boot.js && jest -w8"
+    "test": "node boot.js && jest -w8 --json --outputFile=result.json"
   },
   "jest": {
-    "testResultsProcessor": "./node_modules/jest-json-reporter",
     "verbose": true,
     "setupFiles": [
       "./lib/setup-early"
