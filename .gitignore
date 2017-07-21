@@ -13,6 +13,8 @@
 *~
 logs
 
+result.json
+
 node_modules
 
 *-stamp

@@ -37,6 +37,7 @@
   "scripts": {
     "check-versions": "npm outdated --depth 0",
     "pretest": "eslint lib tests",
+    "posttest": "node check.js",
     "test": "node boot.js && jest -w8 --json --outputFile=result.json"
   },
   "jest": {
