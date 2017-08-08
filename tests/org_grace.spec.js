@@ -247,6 +247,7 @@ let sync_billing = {
     {
     "mk_rec_type": "billing",
     "organisation_id": "<org:organisationName>",
+    "next_billing_date": 0
     }],
 };
 
