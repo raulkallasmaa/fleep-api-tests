@@ -50,6 +50,7 @@ test('account/configure change display name', function () {
             "mk_email_interval": "never",
             "mk_rec_type": "contact",
             "organisation_id": null,
+            "storage_used_bytes": 0,
             "trial_end_time": "...",
         }),
         () => UC.meg.poll_filter({mk_rec_type: 'contact', display_name: 'Batman'}),
@@ -120,6 +121,7 @@ test('account/configure set phone number', function () {
             "mk_rec_type": "contact",
             "organisation_id": null,
             "phone_nr": "12345",
+            "storage_used_bytes": 0,
             "trial_end_time": "...",
         }),
         () => UC.meg.poll_filter({mk_rec_type: 'contact', phone_nr: '12345'}),
@@ -173,6 +175,7 @@ test('account/configure set email interval', function () {
             "mk_rec_type": "contact",
             "organisation_id": null,
             "phone_nr": "12345",
+            "storage_used_bytes": 0,
             "trial_end_time": "...",
         })
     ]);
@@ -209,6 +212,7 @@ test('account/configure set full privacy off', function () {
             "mk_rec_type": "contact",
             "organisation_id": null,
             "phone_nr": "12345",
+            "storage_used_bytes": 0,
             "trial_end_time": "...",
         })
     ]);
@@ -247,6 +251,7 @@ test('account/configure set newsletters on', function () {
             "mk_rec_type": "contact",
             "organisation_id": null,
             "phone_nr": "12345",
+            "storage_used_bytes": 0,
             "trial_end_time": "...",
         })
     ]);
@@ -285,6 +290,7 @@ test('account/configure set automute off', function () {
             "mk_rec_type": "contact",
             "organisation_id": null,
             "phone_nr": "12345",
+            "storage_used_bytes": 0,
             "trial_end_time": "...",
         })
     ]);
@@ -317,6 +323,7 @@ test('account/configure change client settings', function () {
             "mk_email_interval": "never",
             "mk_rec_type": "contact",
             "organisation_id": null,
+            "storage_used_bytes": 0,
             "trial_end_time": "...",
         })
     ]);
@@ -380,6 +387,7 @@ test('account/configure set new primary email', function () {
             "mk_rec_type": "contact",
             "organisation_id": null,
             "phone_nr": "12345",
+            "storage_used_bytes": 0,
             "trial_end_time": "...",
         }),
         () => UC.jil.poll_filter({mk_rec_type: 'contact', account_id: UC.bob.account_id}),
@@ -452,6 +460,7 @@ test('account/configure register new fleep user and set fleep address', function
             "mk_email_interval": "hourly",
             "mk_rec_type": "contact",
             "organisation_id": null,
+            "storage_used_bytes": 0,
             "trial_end_time": "...",
         }),
         // meg searches for jon and sees his fleep address

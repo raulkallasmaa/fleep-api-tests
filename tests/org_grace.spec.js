@@ -119,6 +119,7 @@ let changelog_after_timetravel = {
     "mk_email_interval": "never",
     "mk_rec_type": "contact",
     "organisation_id": null,
+    "storage_used_bytes": 0,
     "trial_end_time": "...",
     },
     {
