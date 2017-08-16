@@ -14,7 +14,7 @@ let UC = new UserCache([
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
 
-test('upload files and send, forward, copy, edit and delete', function () {
+test('upload files and send, forward, copy, edit, delete & check storage used bytes', function () {
     let client = UC.bob;
     let conv_topic = 'fileUpload';
     let conv_topic2 = 'messageCopy';
@@ -47,6 +47,12 @@ test('upload files and send, forward, copy, edit and delete', function () {
         () => client.api_call("api/message/store/" + client.getConvId(conv_topic), {
             attachments: [testfile_url_1],
         }),
+        () => client.poke(client.getConvId(conv_topic), true),
+        // check that storage used bytes are shown in bobs contact record after sending 1 file
+        () => client.api_call("api/contact/sync", {
+            contact_id: client.account_id,
+        }),
+        (res) => expect(UC.clean(res.storage_used_bytes)).toEqual(24875),
         // check that meg sees the file/photo
         () => UC.meg.poke(client.getConvId(conv_topic), true),
         () => {
@@ -111,6 +117,12 @@ test('upload files and send, forward, copy, edit and delete', function () {
         () => client.api_call("api/message/store/" + client.getConvId(conv_topic), {
             attachments: [testfile_url_2],
         }),
+        () => client.poke(client.getConvId(conv_topic), true),
+        // check that storage used bytes have increased in bobs contact record after sending 2 files
+        () => client.api_call("api/contact/sync", {
+            contact_id: client.account_id,
+        }),
+        (res) => expect(UC.clean(res.storage_used_bytes)).toEqual(292039),
         // check that meg sees the second file/photo
         () => UC.meg.poke(client.getConvId(conv_topic), true),
         () => {
@@ -192,6 +204,12 @@ test('upload files and send, forward, copy, edit and delete', function () {
             attachments: [testfile_url_3, testfile_url_4],
             message: 'fileUploadAndSend',
         }),
+        () => client.poke(client.getConvId(conv_topic), true),
+        // check that storage used bytes have increased in bobs contact record after sending 4 files
+        () => client.api_call("api/contact/sync", {
+            contact_id: client.account_id,
+        }),
+        (res) => expect(UC.clean(res.storage_used_bytes)).toEqual(292049),
         // check that meg sees the two text files sent in one message
         () => UC.meg.poke(client.getConvId(conv_topic), true),
         () => {
@@ -266,6 +284,12 @@ test('upload files and send, forward, copy, edit and delete', function () {
             message_nr: 2,
             to_conv_id: client.getConvId(conv_topic2),
         }),
+        () => client.poke(client.getConvId(conv_topic2), true),
+        // check that storage used bytes have increased in bobs contact record after copying a file from one conv to another
+        () => client.api_call("api/contact/sync", {
+            contact_id: client.account_id,
+        }),
+        (res) => expect(UC.clean(res.storage_used_bytes)).toEqual(316924),
         // check that jon sees the copied image file
         () => UC.jon.poke(client.getConvId(conv_topic2), true),
         () => {
@@ -315,6 +339,12 @@ test('upload files and send, forward, copy, edit and delete', function () {
             fwd_conversation_id: client.getConvId(conv_topic),
             fwd_message_nr: 3,
         }),
+        () => client.poke(client.getConvId(conv_topic), true),
+        // check that storage used bytes have increased in bobs contact record after forwarding a file
+        () => client.api_call("api/contact/sync", {
+            contact_id: client.account_id,
+        }),
+        (res) => expect(UC.clean(res.storage_used_bytes)).toEqual(584088),
         // check that jon sees the forwarded image file
         () => UC.jon.poke(client.getConvId(conv_topic2), true),
         () => {
@@ -366,6 +396,12 @@ test('upload files and send, forward, copy, edit and delete', function () {
             message_nr: 3,
             attachments: [testfile_url_3],
         }),
+        () => client.poke(client.getConvId(conv_topic2), true),
+        // check that storage used bytes have decreased in bobs contact record after editing a file/message
+        () => client.api_call("api/contact/sync", {
+            contact_id: client.account_id,
+        }),
+        (res) => expect(UC.clean(res.storage_used_bytes)).toEqual(316929),
         // check that jon sees the edited message
         () => UC.jon.poke(client.getConvId(conv_topic2), true),
         () => {
@@ -412,9 +448,16 @@ test('upload files and send, forward, copy, edit and delete', function () {
         },
         // delete the message
         () => client.api_call("api/message/delete/" + client.getConvId(conv_topic2), {message_nr: 3}),
+        // !!! STORAGE USED BYTES DONT CHANGE AFTER MESSAGE DELETE, MIGHT BE A BUG !!!
+        () => client.poke(client.getConvId(conv_topic2), true),
+        () => client.api_call("api/contact/sync", {
+            contact_id: client.account_id,
+        }),
+        (res) => expect(UC.clean(res.storage_used_bytes)).toEqual(316929),
         // check that jon sees that the message is deleted
-        () => UC.jon.poll_filter({mk_rec_type: 'message', conversation_id: client.getConvId(conv_topic2)}),
-        (res) => expect(UC.clean(res.stream[1])).toEqual({
+        () => UC.jon.poke(client.getConvId(conv_topic2), true),
+        () => UC.jon.getRecord('message', 'message_nr', 3),
+        (res) => expect(UC.clean(res)).toEqual({
             "account_id": "<account:Bob Marley>",
             "conversation_id": "<conv:messageCopy>",
             "edit_account_id": "<account:Bob Marley>",
