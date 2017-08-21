@@ -8,7 +8,7 @@ let UC = new UserCache([
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
 
-test('business reset password and check for email', function () {
+test('business reset password and check for email & close session', function () {
     let client = UC.bob;
     let org_name = 'businessResetPassword';
 
@@ -35,6 +35,14 @@ test('business reset password and check for email', function () {
             profile_id: UC.ben.account_id,
             password: UC.ben.password + 'gh54g6h5gh45',
         }),
-        () => UC.ben.waitMail(),
+        // ben receives an email regarding his password change
+        () => UC.ben.waitMail({
+            subject: /Your Fleep account password has been reset/,
+            body: /reset the password of your Fleep account/,
+        }),
+        // ben's current connection/session has been closed and he has been logged out
+        () => UC.ben.poll_filter()
+            .then(() => Promise.reject(new Error('Expired token, please relogin.')),
+                (r) => expect(r.statusCode).toEqual(401)),
     ]);
 });
