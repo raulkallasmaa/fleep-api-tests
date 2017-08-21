@@ -15,8 +15,10 @@ afterAll(() => UC.cleanup());
 test('register new fleep account via email and check for welcome email', function () {
     return thenSequence([
         () => UC.bill.register_via_email(),
-        // () => UC.bill.login(),
-        () => UC.bill.waitMail(),
+        () => UC.bill.waitMail({
+            subject: /Welcome to Fleep/,
+            body: /Thank you for signing up to Fleep/
+        }),
     ]);
 });
 
@@ -51,7 +53,10 @@ test('register new fleep account via team invite and check for welcome email', f
             password: UC.don.password,
             fleep_address: res.suggestions[0]
         }),
-        () => UC.don.waitMail(),
+        () => UC.don.waitMail({
+            subject: /Welcome to Fleep/,
+            body: /Thank you for signing up to Fleep/
+        }),
     ]);
 });
 
@@ -87,6 +92,9 @@ test('register new fleep user via org invite and check for welcome email', funct
             password: UC.king.password,
             fleep_address: res.suggestions[0]
         }),
-        () => UC.king.waitMail(),
+        () => UC.king.waitMail({
+            subject: /Welcome to Fleep/,
+            body: /Thank you for signing up to Fleep/
+        }),
     ]);
 });
