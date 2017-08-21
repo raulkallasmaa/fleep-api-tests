@@ -10,10 +10,49 @@ let UC = new UserCache([
     'King Kong@',
     'Bill Clinton',
     'Indiana Jones',
+    'Mel Gibson@',
 ], __filename, jasmine);
 
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
+
+test.skip('account/register/v2 resend registration code email', function () {
+    let code1 = null;
+    let code2 = null;
+    return thenSequence([
+        // register mel as new fleep account
+        () => UC.mel.raw_api_call('api/account/register', {
+            email: UC.mel.email,
+            display_name: UC.mel.display_name,
+            password: UC.mel.password,
+            use_code: true,
+        }),
+        // mel gets registration code 1 on his email
+        () => UC.mel.waitMail({subject: /Fleep confirmation code/}),
+        (msg1) => {
+            code1 = msg1.subject.split(': ')[1].replace('/-/g', '');
+            return code1;
+        },
+        // trigger registration code email
+        () => UC.mel.raw_api_call("api/account/register/v2", {email: UC.mel.email}),
+        // mel gets registration code 2 on his email
+        () => UC.mel.waitMail({subject: /Fleep confirmation code/}),
+        (msg2) => {
+            code2 = msg2.subject.split(': ')[1].replace('/-/g', '');
+            return code2;
+        },
+        // use code2 to prepare mels account registration
+        () => UC.mel.raw_api_call('api/account/prepare/v2', {
+            registration_mail: UC.mel.email,
+            registration_code: code2
+        }),
+        // !!! CODE1 SHOULDN'T WORK NOW THAT CODE2 HAS BEEN USED TO PREPARE ACCOUNT ALREADY! BUG, NEEDS TO BE FIXED !!!
+        () => UC.mel.raw_api_call('api/account/prepare/v2', {
+            registration_mail: UC.mel.email,
+            registration_code: code1
+        }),
+    ]);
+});
 
 test('account/configure change display name', function () {
     let conv_topic = 'displayName';
