@@ -30,20 +30,7 @@ let team_after_create = {
 };
 
 let sync_changelog = {
-    "stream": [{
-    "account_id": "<account:Lincoln Burrows>",
-    "event_data":  {
-    "account_id": "<account:Lincoln Burrows>",
-    "member_id": "<account:Lincoln Burrows>",
-    "team_id": "<team:teamName>",
-    "team_name": "teamName",
-    },
-    "event_time": "...",
-    "event_type": "team.switch_member",
-    "mk_rec_type": "org_changelog",
-    "organisation_id": "<org:organisationName>",
-    "version_nr": 3,
-    },
+    "stream": [
     {
     "account_id": "<account:Michael Scofield>",
     "event_data": {
