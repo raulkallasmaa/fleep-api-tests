@@ -155,20 +155,29 @@ DevList.forEach(function (info) {
     }
 });
 
-function certCheck(fn) {
+function certCheck(fn, errors) {
     return execAsync('openssl', ['x509', '-text', '-in', fn])
         .then(function (data) {
                 let m = /Not After *:(.*)$/m.exec(data);
                 let after = m[1].trim();
                 return checkDate(after, fn);
-            });
+        })
+        .catch(function (err) {
+            errors.push(err.toString());
+        });
 }
 
 test('Certificates in keys repo (#' + CERT_FILES.length + ')', function () {
     let p = Promise.resolve();
+    let errlist = [];
     CERT_FILES.forEach(function (fn) {
-        p = p.then(function () { return certCheck(fn); });
+        p = p.then(function () { return certCheck(fn, errlist); });
     });
-    return p;
+    return p.then(function () {
+        if (errlist.length > 0) {
+            return Promise.reject(new Error(errlist.join('\n')));
+        }
+        return Promise.resolve();
+    });
 });
 
