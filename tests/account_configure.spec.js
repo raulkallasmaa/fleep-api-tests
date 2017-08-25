@@ -16,7 +16,7 @@ let UC = new UserCache([
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
 
-test.only('account/register/v2 resend registration code email', function () {
+test('account/register/v2 resend registration code email', function () {
     let code1 = null;
     let code2 = null;
     return thenSequence([
@@ -58,20 +58,22 @@ test.only('account/register/v2 resend registration code email', function () {
             registration_mail: UC.mel.email,
             registration_code: code2
         })
-            .then(() => Promise.reject(new Error('Business logic error: Link has already been used.')),
+            .then(() => Promise.reject(new Error('Link has already been used.')),
                 (r) => expect(r.statusCode).toEqual(431)),
         // use code 1 for prepare
         () => UC.mel.raw_api_call('api/account/prepare/v2', {
             registration_mail: UC.mel.email,
             registration_code: code1
         }),
-        // try to confirm already registered mel's registration - ERROR 500
+        // try to confirm already registered mel's registration
         (res) => UC.mel.raw_api_call('api/account/confirm/v2', {
             notification_id: res.notification_id,
             password: UC.mel.password,
             display_name: UC.mel.display_name,
             fleep_address: UC.mel.info.fleep_address
-        }),
+        })
+            .then(() => Promise.reject(new Error('Account already active')),
+                (r) => expect(r.statusCode).toEqual(431)),
     ]);
 });
 
