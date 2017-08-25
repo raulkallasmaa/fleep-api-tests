@@ -13,7 +13,7 @@
 *~
 logs
 
-result.json
+result*.json
 
 node_modules
 
