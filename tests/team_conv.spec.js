@@ -167,6 +167,7 @@ let add_team_msg = {
    "team_name": "Performers",
    },
    "message_nr": 2,
+   "mk_message_state": "urn:fleep:message:mk_message_state:system",
    "mk_message_type": "add_teamV2",
    "mk_rec_type": "message",
    "posted_time": "...",

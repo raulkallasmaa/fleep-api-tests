@@ -52,6 +52,7 @@ let EXPECT_RECS = [{
     "inbox_nr": -1,
     "message": { "sysmsg_text": "{author} became a Fleep user." },
     "message_nr": 5,
+    "mk_message_state": "urn:fleep:message:mk_message_state:system",
     "mk_message_type": "signin",
     "mk_rec_type": "message",
     "posted_time": "...",

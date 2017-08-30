@@ -181,6 +181,7 @@ let unread_conv = {
     "(We <i flp=\"_\" fls=\"_\">love</i> feedback.)</p><p>I will reply as quickly as I can, but I am only " +
     "human <emo kind=\"esmile\">:)</emo><br/></p><p>Happy Fleeping!</p></msg>",
     "message_nr": 2,
+    "mk_message_state": "urn:fleep:message:mk_message_state:plain",
     "mk_message_type": "text",
     "mk_rec_type": "message",
     "posted_time": "...",
@@ -332,6 +333,7 @@ let recent_conv = {
     "inbox_nr": 1,
     "message": "<msg><p>recentMsg</p></msg>",
     "message_nr": 2,
+    "mk_message_state": "urn:fleep:message:mk_message_state:plain",
     "mk_message_type": "text",
     "mk_rec_type": "message",
     "posted_time": "...",
@@ -348,6 +350,7 @@ let recent_conv = {
     "(We <i flp=\"_\" fls=\"_\">love</i> feedback.)</p><p>I will reply as quickly as I can, but I am only " +
     "human <emo kind=\"esmile\">:)</emo><br/></p><p>Happy Fleeping!</p></msg>",
     "message_nr": 2,
+    "mk_message_state": "urn:fleep:message:mk_message_state:plain",
     "mk_message_type": "text",
     "mk_rec_type": "message",
     "posted_time": "...",
@@ -435,6 +438,7 @@ let muted_conv = {
     "topic": "mutedConv",
     },
     "message_nr": 1,
+    "mk_message_state": "urn:fleep:message:mk_message_state:system",
     "mk_message_type": "create",
     "mk_rec_type": "message",
     "posted_time": "...",
@@ -537,6 +541,7 @@ let one_on_one_conv = {
     "(We <i flp=\"_\" fls=\"_\">love</i> feedback.)</p><p>I will reply as quickly as I can, but I am only " +
     "human <emo kind=\"esmile\">:)</emo><br/></p><p>Happy Fleeping!</p></msg>",
     "message_nr": 2,
+    "mk_message_state": "urn:fleep:message:mk_message_state:plain",
     "mk_message_type": "text",
     "mk_rec_type": "message",
     "posted_time": "...",

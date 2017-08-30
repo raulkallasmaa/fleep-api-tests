@@ -113,6 +113,7 @@ test('send message', function () {
             "inbox_nr": 1,
             "message": "<msg><p>msgSend1</p></msg>",
             "message_nr": 2,
+            "mk_message_state": "urn:fleep:message:mk_message_state:plain",
             "mk_message_type": "text",
             "mk_rec_type": "message",
             "posted_time": "...",

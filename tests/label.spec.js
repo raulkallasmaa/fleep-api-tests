@@ -99,6 +99,7 @@ let conv_after_label_sync = {
     "topic": "customLabels",
     },
     "message_nr": 1,
+    "mk_message_state": "urn:fleep:message:mk_message_state:system",
     "mk_message_type": "create",
     "mk_rec_type": "message",
     "posted_time": "...",

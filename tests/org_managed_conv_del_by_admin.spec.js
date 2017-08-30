@@ -66,6 +66,7 @@ let del_message = {
    "sysmsg_text": "An administrator of {org_name} has deleted this conversation and its content.",
    },
    "message_nr": 4,
+   "mk_message_state": "urn:fleep:message:mk_message_state:system",
    "mk_message_type": "deleteV1",
    "mk_rec_type": "message",
    "posted_time": "...",

@@ -45,6 +45,7 @@ let crapnet_response = {
    "inbox_nr": 1,
    "message": "<msg><p>We need to talk...</p></msg>",
    "message_nr": 2,
+   "mk_message_state": "urn:fleep:message:mk_message_state:plain",
    "mk_message_type": "text",
    "mk_rec_type": "message",
    "posted_time": "...",
