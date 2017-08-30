@@ -77,7 +77,7 @@ test('conversation sync ic_full', function () {
         (res) => expect(UC.clean(res.header)).toEqual(after_create),
         // send some messages
         () => UC.alice.api_call("api/conversation/sync/" + UC.alice.getConvId(/readings/), {
-            mk_init_mode: 'ic_full'}),
+            mk_direction: 'ic_full'}),
         (res) => expect(UC.clean(res.header)).toEqual(after_create),
     ]);
 });
