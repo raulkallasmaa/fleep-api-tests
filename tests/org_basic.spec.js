@@ -70,6 +70,7 @@ let mels_org_join = {
        "mk_email_interval": "never",
        "mk_rec_type": "contact",
        "organisation_id": "<org:test-org-name>",
+       "storage_quota_bytes": 53687091200,
        "storage_used_bytes": 0,
        "trial_end_time": "...",
        },
