@@ -411,6 +411,7 @@ test('conversation disclose and disclose all in managed conversation', function 
             "inbox_nr": 3,
             "message": "<msg><p>msg3</p></msg>",
             "message_nr": 4,
+            "mk_message_state": "urn:fleep:message:mk_message_state:plain",
             "mk_message_type": "text",
             "mk_rec_type": "message",
             "posted_time": "...",

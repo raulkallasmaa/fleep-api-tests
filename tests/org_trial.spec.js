@@ -213,6 +213,7 @@ let changelog_after_timetravel = {
    "sysmsg_text": "{author} disabled admin control, all members can change conversation settings.",
    },
    "message_nr": 3,
+   "mk_message_state": "urn:fleep:message:mk_message_state:system",
    "mk_message_type": "unmanage",
    "mk_rec_type": "message",
    "posted_time": "...",
