@@ -47,7 +47,7 @@ test('free conversation with managed team', function () {
         () => UC.don.api_call("api/conversation/store/" + client.getConvId(conv_topic), {
             add_team_ids: [client.getTeamId(team_name)]})
             .then(() => Promise.reject(new Error('Member or conversation not found!')),
-                (r) => expect(r.statusCode).toEqual(430)),
+                (r) => expect(r.statusCode).toEqual(431)),
 
         // Bob adds managed team to conv
         () => client.api_call("api/conversation/store/" + client.getConvId(conv_topic), {
