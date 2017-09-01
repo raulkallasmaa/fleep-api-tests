@@ -54,7 +54,10 @@ test('join org via invite', function () {
     let org_name = 'organisationName';
 
     return thenSequence([
-
+        () => UC.sysclient.sys_call("sys/shard/time_travel", {
+            object_id: '<my_ip>',
+            mk_time_action: 'clear_regcode_ip_velo',
+        }),
         // create conversation for the organisation
         () => client.api_call("api/conversation/create", {topic: conv_topic}),
         (res) => expect(res.header.topic).toEqual(conv_topic),
