@@ -380,6 +380,11 @@ test('business configure parameters', function () {
     let org_name = 'businessConfigure';
     let org_name2 = 'newBusinessConfigure';
     return thenSequence([
+        () => UC.sysclient.sys_call("sys/shard/time_travel", {
+            object_id: '<my_ip>',
+            mk_time_action: 'clear_reset_velo',
+        }),
+
         () => UC.meg.initial_poll(),
         () => UC.jil.initial_poll(),
 
