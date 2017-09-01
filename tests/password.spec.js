@@ -12,6 +12,10 @@ afterAll(() => UC.cleanup());
 test('reset password and set new', function () {
     let client = UC.jessica;
     return thenSequence([
+        () => UC.sysclient.sys_call("sys/shard/time_travel", {
+            object_id: '<my_ip>',
+            mk_time_action: 'clear_reset_velo',
+        }),
         // make sure the account isnt logged in when requesting new password
         () => client.logout(),
         // an email is sent with a password reset link
