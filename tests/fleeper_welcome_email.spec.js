@@ -28,6 +28,10 @@ test('register new fleep account via team invite and check for welcome email', f
     let nfid = null;
 
     return thenSequence([
+        () => UC.sysclient.sys_call("sys/shard/time_travel", {
+            object_id: '<my_ip>',
+            mk_time_action: 'clear_regcode_ip_velo',
+        }),
         // create a team and invite don
         () => client.api_call("api/team/create", {team_name: team_name}),
         () => client.poll_filter({mk_rec_type: 'team', team_name: team_name}),
