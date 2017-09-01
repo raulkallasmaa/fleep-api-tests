@@ -20,6 +20,10 @@ test('account/register/v2 resend registration code email', function () {
     let code1 = null;
     let code2 = null;
     return thenSequence([
+        () => UC.sysclient.sys_call("sys/shard/time_travel", {
+            object_id: '<my_ip>',
+            mk_time_action: 'clear_regcode_ip_velo',
+        }),
         // register mel as new fleep account
         () => UC.mel.raw_api_call('api/account/register', {
             email: UC.mel.email,
