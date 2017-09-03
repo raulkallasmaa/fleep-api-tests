@@ -50,6 +50,6 @@ test('free conversation with team', function () {
         () => UC.jon.api_call("api/conversation/store/" + client.getConvId(conv_topic), {
             remove_team_ids: [client.getTeamId(team_name)]})
             .then(() => Promise.reject(new Error('Member or conversation not found!')),
-                (r) => expect(r.statusCode).toEqual(430)),
+                (r) => expect(r.statusCode).toEqual(431)),
     ]);
 });

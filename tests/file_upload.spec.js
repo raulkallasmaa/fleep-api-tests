@@ -454,12 +454,11 @@ test('upload files and send, forward, copy, edit, delete & check storage used by
         },
         // delete the message
         () => client.api_call("api/message/delete/" + client.getConvId(conv_topic2), {message_nr: 3}),
-        // !!! STORAGE USED BYTES DONT CHANGE AFTER MESSAGE DELETE, MIGHT BE A BUG !!!
         () => client.poke(client.getConvId(conv_topic2), true),
         () => client.api_call("api/contact/sync", {
             contact_id: client.account_id,
         }),
-        (res) => expect(UC.clean(res.storage_used_bytes)).toEqual(316929),
+        (res) => expect(UC.clean(res.storage_used_bytes)).toEqual(316924),
         // check that jon sees that the message is deleted
         () => UC.jon.poke(client.getConvId(conv_topic2), true),
         () => UC.jon.getRecord('message', 'message_nr', 3),
