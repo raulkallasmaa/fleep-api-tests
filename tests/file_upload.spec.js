@@ -4,12 +4,8 @@ import {readFileAsync, requestAsync} from '../lib/utils';
 let UC = new UserCache([
     'Bob Marley',
     'Meg Griffin',
-    'Jil Smith',
-    'Don Johnson',
-    'Ron Jeremy',
     'Jon Lajoie',
     'King Kong',
-    'Bill Clinton'
 ], __filename, jasmine);
 
 beforeAll(() => UC.setup());
@@ -487,24 +483,40 @@ test('upload files and send, forward, copy, edit, delete & check storage used by
 });
 
 test('upload with POST', function () {
-    let client = UC.bob;
+    let client = UC.king;
     let conv_topic = 'fileUploadPOST';
-    let testfile_url_1 = null;
+    let files = ['data/physics.png', 'data/pdf_transistor.pdf', 'data/avatar1.jpg'];
+    let extMap = {
+        'png': 'image/png',
+        'jpg': 'image/jpeg',
+        'jpeg': 'image/jpeg',
+        'pdf': 'application/pdf',
+    };
     return thenSequence([
         // create conv
         () => client.api_call("api/conversation/create", {topic: conv_topic}),
         (res) => expect(res.header.topic).toEqual(conv_topic),
         () => client.poll_filter({mk_rec_type: 'conv', topic: conv_topic}),
 
-        // bob uploads a file
-        () => readFileAsync('data/physics.png'),
-        (data) => {
+        // upload all files
+        () => Promise.all(files.map((fn) => readFileAsync(fn))),
+        (buflist) => {
+            let form = [], buf;
             let boundary = '____XXXXXXXXXXXXXXXXXXXXXX____';
-            let hdr = ['--' + boundary,
-                'Content-Disposition: form-data; name="files"; filename="Physics.png"',
-                'Content-Type: image/png', '', ''].join('\r\n');
-            let tail = ['', '--' + boundary + '--', ''].join('\r\n');
-            let buf = Buffer.concat([Buffer.from(hdr), data, Buffer.from(tail)]);
+            let sep = '--' + boundary;
+            files.forEach((fn, idx) => {
+                let basename = fn.replace(/.*\//, '');
+                let ext = basename.replace(/.*\./, '').toLowerCase();
+                let ctype = extMap[ext] || 'application/octet-stream';
+                form.push(Buffer.from([
+                        sep,
+                        'Content-Disposition: form-data; name="files"; filename="' + basename + '"',
+                        'Content-Type: ' + ctype, '', ''].join('\r\n')));
+                form.push(buflist[idx]);
+                sep = '\r\n--' + boundary;
+            });
+            form.push(Buffer.from(sep + '--\r\n'));
+            buf = Buffer.concat(form);
             return requestAsync({
                 headers: {
                     'Content-Type': 'multipart/form-data; boundary=' + boundary,
@@ -531,15 +543,21 @@ test('upload with POST', function () {
             }
             return res.body;
         },
-        (res) => {
-            testfile_url_1 = res.files[0].upload_url;
-        },
-        // bob sends the file to the conv with meg
-        () => client.api_call("api/message/store/" + client.getConvId(conv_topic), {
-            message: 'postfile',
-            attachments: [testfile_url_1],
+        // send files to the conv
+        (res) => client.api_call("api/message/store/" + client.getConvId(conv_topic), {
+            message: 'postfiles',
+            attachments: res.files.map((f) => f.upload_url),
         }),
-        () => client.poll_filter({mk_rec_type: 'file', file_name: 'Physics.png', file_type: 'image/png'}),
+        () => client.poll_filter({mk_rec_type: 'message', message: /postfiles/}),
+        () => files.forEach((fn) => {
+            let basename = fn.replace(/.*\//, '');
+            let ext = basename.replace(/.*\./, '').toLowerCase();
+            let ctype = extMap[ext] || 'application/octet-stream';
+            let rec = client.getRecord('file', 'file_name', basename);
+            expect(rec.file_type).toEqual(ctype);
+            expect(rec.thumb_url_50 && 'thumb_url_50').toEqual('thumb_url_50');
+            expect(rec.thumb_url_100 && 'thumb_url_100').toEqual('thumb_url_100');
+        }),
     ]);
 });
 
