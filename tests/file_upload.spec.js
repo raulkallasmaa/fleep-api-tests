@@ -1,4 +1,5 @@
 import {UserCache, thenSequence} from '../lib';
+import {readFileAsync, requestAsync} from '../lib/utils';
 
 let UC = new UserCache([
     'Bob Marley',
@@ -484,3 +485,61 @@ test('upload files and send, forward, copy, edit, delete & check storage used by
         }),
     ]);
 });
+
+test('upload with POST', function () {
+    let client = UC.bob;
+    let conv_topic = 'fileUploadPOST';
+    let testfile_url_1 = null;
+    return thenSequence([
+        // create conv
+        () => client.api_call("api/conversation/create", {topic: conv_topic}),
+        (res) => expect(res.header.topic).toEqual(conv_topic),
+        () => client.poll_filter({mk_rec_type: 'conv', topic: conv_topic}),
+
+        // bob uploads a file
+        () => readFileAsync('data/physics.png'),
+        (data) => {
+            let boundary = '____XXXXXXXXXXXXXXXXXXXXXX____';
+            let hdr = ['--' + boundary,
+                'Content-Disposition: form-data; name="files"; filename="Physics.png"',
+                'Content-Type: image/png', '', ''].join('\r\n');
+            let tail = ['', '--' + boundary + '--', ''].join('\r\n');
+            let buf = Buffer.concat([Buffer.from(hdr), data, Buffer.from(tail)]);
+            return requestAsync({
+                headers: {
+                    'Content-Type': 'multipart/form-data; boundary=' + boundary,
+                    'Content-Length': buf.length + '',
+                },
+                uri: client.base_url + 'api/file/upload',
+                method: 'POST',
+                qs: {ticket: client.ticket},
+                body: buf,
+                jar: client.jar,
+                agent: client.agent,
+                simple: false,
+                resolveWithFullResponse: true,
+            });
+        },
+        (res) => {
+            if (res.statusCode >= 300) {
+                return Promise.reject(new Error('http error: ' + res.statusCode + ' ' + res.statusMessage));
+            }
+            if (/application\/json/.test(res.headers['content-type'])) {
+                res.body = JSON.parse(res.body);
+            } else {
+                return Promise.reject(new Error('not json?'));
+            }
+            return res.body;
+        },
+        (res) => {
+            testfile_url_1 = res.files[0].upload_url;
+        },
+        // bob sends the file to the conv with meg
+        () => client.api_call("api/message/store/" + client.getConvId(conv_topic), {
+            message: 'postfile',
+            attachments: [testfile_url_1],
+        }),
+        () => client.poll_filter({mk_rec_type: 'file', file_name: 'Physics.png', file_type: 'image/png'}),
+    ]);
+});
+
