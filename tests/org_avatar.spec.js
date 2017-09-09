@@ -44,6 +44,7 @@ test('org avatar upload, change and delete', function () {
             let rec = client.getOrg(org_name);
             expect(UC.clean(rec).avatar_urls).toEqual({
                 "size_100": "<avatar_size_100:orgName>",
+                "size_200": "<avatar_size_200:orgName>",
                 "size_50": "<avatar_size_50:orgName>",
             });
         },
@@ -51,6 +52,7 @@ test('org avatar upload, change and delete', function () {
         () => UC.meg.api_call("api/business/sync/" + client.getOrgId(org_name), {}),
         (res) => expect(UC.clean(res).stream[0].avatar_urls).toEqual({
             "size_100": "<avatar_size_100:orgName>",
+            "size_200": "<avatar_size_200:orgName>",
             "size_50": "<avatar_size_50:orgName>",
         }),
 
@@ -74,6 +76,7 @@ test('org avatar upload, change and delete', function () {
             let rec = client.getOrg(org_name);
             expect(UC.clean(rec).avatar_urls).toEqual({
                 "size_100": "<avatar_size_100:orgName>",
+                "size_200": "<avatar_size_200:orgName>",
                 "size_50": "<avatar_size_50:orgName>",
                 "size_575": "<avatar_size_575:orgName>",
             });
@@ -82,6 +85,7 @@ test('org avatar upload, change and delete', function () {
         () => UC.meg.api_call("api/business/sync/" + client.getOrgId(org_name), {}),
         (res) => expect(UC.clean(res).stream[0].avatar_urls).toEqual({
             "size_100": "<avatar_size_100:orgName>",
+            "size_200": "<avatar_size_200:orgName>",
             "size_50": "<avatar_size_50:orgName>",
             "size_575": "<avatar_size_575:orgName>",
         }),

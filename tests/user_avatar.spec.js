@@ -42,6 +42,7 @@ test('user avatar upload, change and delete', function () {
             let rec = client.getContact(/Bob/);
             expect(UC.clean(rec).avatar_urls).toEqual({
                 "size_100": "<avatar_size_100:Bob Marley>",
+                "size_200": "<avatar_size_200:Bob Marley>",
                 "size_50": "<avatar_size_50:Bob Marley>",
             });
         },
@@ -50,6 +51,7 @@ test('user avatar upload, change and delete', function () {
         () => UC.meg.getRecord('contact', 'display_name', 'Bob Marley'),
         (res) => expect(UC.clean(res).avatar_urls).toEqual({
             "size_100": "<avatar_size_100:Bob Marley>",
+            "size_200": "<avatar_size_200:Bob Marley>",
             "size_50": "<avatar_size_50:Bob Marley>",
         }),
 
@@ -73,6 +75,7 @@ test('user avatar upload, change and delete', function () {
             let rec = client.getContact(/Bob/);
             expect(UC.clean(rec).avatar_urls).toEqual({
                 "size_100": "<avatar_size_100:Bob Marley>",
+                "size_200": "<avatar_size_200:Bob Marley>",
                 "size_50": "<avatar_size_50:Bob Marley>",
                 "size_575": "<avatar_size_575:Bob Marley>",
             });
@@ -82,6 +85,7 @@ test('user avatar upload, change and delete', function () {
         () => UC.meg.getRecord('contact', 'display_name', 'Bob Marley'),
         (res) => expect(UC.clean(res).avatar_urls).toEqual({
             "size_100": "<avatar_size_100:Bob Marley>",
+            "size_200": "<avatar_size_200:Bob Marley>",
             "size_50": "<avatar_size_50:Bob Marley>",
             "size_575": "<avatar_size_575:Bob Marley>",
         }),

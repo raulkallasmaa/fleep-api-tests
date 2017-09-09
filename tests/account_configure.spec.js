@@ -542,13 +542,15 @@ test('account/configure register new fleep user and set fleep address', function
         () => UC.meg.api_call("api/account/lookup", {lookup_list: [UC.jon.fleep_email], ignore_list: []}),
         (res) => expect(UC.clean(res)).toEqual({
             "stream": [{
-            "account_id": "<account:Jon Lajoie>",
-            "avatar_urls": null,
-            "display_name": "Jon Lajoie",
-            "fleep_address": "<fladdr:Jon Lajoie>",
-            "is_in_org": false,
-            "mk_account_status": "active",
-            "mk_rec_type": "contact"}]
+                "account_id": "<account:Jon Lajoie>",
+                "avatar_urls": null,
+                "display_name": "Jon Lajoie",
+                "fleep_address": "<fladdr:Jon Lajoie>",
+                "is_in_org": false,
+                "mk_account_status": "active",
+                "mk_rec_type": "contact",
+                "organisation_id": null,
+            }]
         })
     ]);
 });
