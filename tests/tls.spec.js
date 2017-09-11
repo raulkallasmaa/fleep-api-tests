@@ -2,9 +2,12 @@
 //import { requestPromise } from '../lib/utils';
 import tls from 'tls';
 import globby from 'globby';
+import fs from 'fs';
 
 import { KEY_DIR, ENV_HOST, BIG_TEST } from '../lib/usercache';
 import { execAsync } from '../lib/utils';
+
+let statAsync = Promise.promisify(fs.stat);
 
 let CERT_PATS = [KEY_DIR + '/cf/*/*.crt', KEY_DIR + '/intca/*/*.crt'];
 let CERT_FILES = globby.sync(CERT_PATS);
@@ -77,7 +80,7 @@ function connectTLS(opts) {
     });
 }
 
-function checkDate(dstr, desc) {
+function checkDate(dstr, desc, secondary) {
     let now = Date.now(); // ms
     let days = 14;
     let day_ms = 24 * 60 * 60 * 1000;
@@ -156,11 +159,22 @@ DevList.forEach(function (info) {
 });
 
 function certCheck(fn, errors) {
-    return execAsync('openssl', ['x509', '-text', '-in', fn])
-        .then(function (data) {
-                let m = /Not After *:(.*)$/m.exec(data);
-                let after = m[1].trim();
-                return checkDate(after, fn);
+    let secondary = false;
+    return statAsync(fn.replace('.crt', '.key.gpg'))
+        .catch(function (err) {
+            secondary = true;
+        })
+        .then(function () {
+            if (secondary) {
+                // ignore certs without corresponding key
+                return Promise.resolve();
+            }
+            return execAsync('openssl', ['x509', '-text', '-in', fn])
+                .then(function (data) {
+                        let m = /Not After *:(.*)$/m.exec(data);
+                        let after = m[1].trim();
+                        return checkDate(after, fn, secondary);
+                });
         })
         .catch(function (err) {
             errors.push(err.toString());
