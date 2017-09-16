@@ -177,6 +177,26 @@ let mels_view_on_convo = [{
    "profile_id": "<account:Mel Gibson>",
    "tags": [],
    },
+   {
+   "conversation_id": "<conv:managedConvTopic>",
+   "is_deleted": false,
+   "mk_rec_type": "section",
+   "mk_section_subtype": "urn:fleep:section:mk_section_subtype:archived",
+   "mk_section_type": "urn:fleep:section:mk_section_type:task",
+   "name": "Archived",
+   "section_id": "<section:Archived>",
+   "weight": 0,
+   },
+   {
+   "conversation_id": "<conv:managedConvTopic>",
+   "is_deleted": false,
+   "mk_rec_type": "section",
+   "mk_section_subtype": "urn:fleep:section:mk_section_subtype:default",
+   "mk_section_type": "urn:fleep:section:mk_section_type:task",
+   "name": "To Do",
+   "section_id": "<section:To Do>",
+   "weight": 4294967296,
+   },
 ];
 
 let mels_first_sync_team = {
