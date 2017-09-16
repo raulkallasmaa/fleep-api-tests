@@ -310,6 +310,7 @@ let bills_email_to_meg = {
     "account_id": "<account:Bill Clinton>",
     "conversation_id": "<dlg:Bill Clinton>",
     "inbox_nr": 6,
+    "lock_account_id": null,
     "message": "<msg><p>Group mail message 1</p></msg>",
     "message_nr": 8,
     "mk_message_state": "urn:fleep:message:mk_message_state:plain",

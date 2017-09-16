@@ -71,6 +71,7 @@ test('add members to conversation', function () {
             "edited_time": "...",
             "flow_message_nr": 2,
             "inbox_nr": 0,
+            "lock_account_id": null,
             "message": {
             "members": [
             "<account:Bob Dylan>",
@@ -144,6 +145,7 @@ test('should leave the conversation', function () {
                 "account_id": "<account:Alice Adamson>",
                 "conversation_id": "<conv:leaveConvo>",
                 "inbox_nr": 0,
+                "lock_account_id": null,
                 "message": "",
                 "message_nr": 2,
                 "mk_message_state": "urn:fleep:message:mk_message_state:system",
