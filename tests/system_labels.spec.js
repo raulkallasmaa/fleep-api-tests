@@ -176,6 +176,7 @@ let unread_conv = {
     "account_id": "<account:Fleep Support>",
     "conversation_id": "<dlg:Fleep Support>",
     "inbox_nr": 1,
+    "lock_account_id": null,
     "message": "<msg><p>Hi there,</p><p>We've created this conversation so it would be easy for you to get in " +
     "touch with us at Fleep. Feel free to use this conversation if you have any questions or feedback for us. " +
     "(We <i flp=\"_\" fls=\"_\">love</i> feedback.)</p><p>I will reply as quickly as I can, but I am only " +
@@ -331,6 +332,7 @@ let recent_conv = {
     "account_id": "<account:Meg Griffin>",
     "conversation_id": "<conv:recentConv>",
     "inbox_nr": 1,
+    "lock_account_id": null,
     "message": "<msg><p>recentMsg</p></msg>",
     "message_nr": 2,
     "mk_message_state": "urn:fleep:message:mk_message_state:plain",
@@ -345,6 +347,7 @@ let recent_conv = {
     "account_id": "<account:Fleep Support>",
     "conversation_id": "<dlg:Fleep Support>",
     "inbox_nr": 1,
+    "lock_account_id": null,
     "message": "<msg><p>Hi there,</p><p>We've created this conversation so it would be easy for you to get in " +
     "touch with us at Fleep. Feel free to use this conversation if you have any questions or feedback for us. " +
     "(We <i flp=\"_\" fls=\"_\">love</i> feedback.)</p><p>I will reply as quickly as I can, but I am only " +
@@ -431,6 +434,7 @@ let muted_conv = {
     "account_id": "<account:Ron Jeremy>",
     "conversation_id": "<conv:mutedConv>",
     "inbox_nr": 0,
+    "lock_account_id": null,
     "message": {
     "members": [],
     "org_name": null,
@@ -536,6 +540,7 @@ let one_on_one_conv = {
     "account_id": "<account:Fleep Support>",
     "conversation_id": "<dlg:Fleep Support>",
     "inbox_nr": 1,
+    "lock_account_id": null,
     "message": "<msg><p>Hi there,</p><p>We've created this conversation so it would be easy for you to get in " +
     "touch with us at Fleep. Feel free to use this conversation if you have any questions or feedback for us. " +
     "(We <i flp=\"_\" fls=\"_\">love</i> feedback.)</p><p>I will reply as quickly as I can, but I am only " +

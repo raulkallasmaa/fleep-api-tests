@@ -207,6 +207,7 @@ let changelog_after_timetravel = {
     "account_id": "<account:Fleep Support>",
     "conversation_id": "<conv:organisationGrace>",
     "inbox_nr": 0,
+    "lock_account_id": null,
     "message": {
     "org_name": "organisationName",
     "organisation_id": "<org:organisationName>",

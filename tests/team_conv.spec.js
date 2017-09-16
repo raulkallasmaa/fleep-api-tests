@@ -157,6 +157,7 @@ let add_team_msg = {
    "account_id": "<account:Charlie Chaplin>",
    "conversation_id": "<conv:teamsConvTestTopic2>",
    "inbox_nr": 0,
+   "lock_account_id": null,
    "message": {
    "members": [
    "<account:Bob Dylan>",

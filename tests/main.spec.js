@@ -111,6 +111,7 @@ test('send message', function () {
             "account_id": "<account:Alice Adamson>",
             "conversation_id": "<conv:sendMsg>",
             "inbox_nr": 1,
+            "lock_account_id": null,
             "message": "<msg><p>msgSend1</p></msg>",
             "message_nr": 2,
             "mk_message_state": "urn:fleep:message:mk_message_state:plain",

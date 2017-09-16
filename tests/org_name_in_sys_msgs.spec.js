@@ -159,6 +159,7 @@ let mels_view_on_convo = [{
    "account_id": "<account:Charlie Chaplin>",
    "conversation_id": "<conv:managedConvTopic>",
    "inbox_nr": 0,
+   "lock_account_id": null,
    "message": {
    "members": [
    "<account:Don Johnson>",

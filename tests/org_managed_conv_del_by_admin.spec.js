@@ -57,6 +57,7 @@ let del_message = {
    "account_id": "<account:Charlie Chaplin>",
    "conversation_id": "<conv:managedConvTopic>",
    "inbox_nr": 1,
+   "lock_account_id": null,
    "message": {
    "members": [
    "<account:Charlie Chaplin>",

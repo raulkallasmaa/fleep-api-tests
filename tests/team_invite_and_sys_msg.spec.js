@@ -50,6 +50,7 @@ let EXPECT_RECS = [{
     "account_id": "<account:Ron Jeremy>",
     "conversation_id": "<conv:inviteToTeamViaEmail>",
     "inbox_nr": -1,
+    "lock_account_id": null,
     "message": { "sysmsg_text": "{author} became a Fleep user." },
     "message_nr": 5,
     "mk_message_state": "urn:fleep:message:mk_message_state:system",

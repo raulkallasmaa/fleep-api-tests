@@ -58,6 +58,7 @@ test('create a hook and post messages over it', function () {
             "conversation_id": "<conv:createHook>",
             "hook_key": "<key:plainHook>",
             "inbox_nr": 1,
+            "lock_account_id": null,
             "is_new_sheet": false,
             "message": "<msg><p>hookMessage</p></msg>",
             "message_nr": 3,

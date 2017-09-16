@@ -92,6 +92,7 @@ let conv_after_label_sync = {
     "account_id": "<account:Bob Marley>",
     "conversation_id": "<conv:customLabels>",
     "inbox_nr": 0,
+    "lock_account_id": null,
     "message": {
     "members": [],
     "org_name": null,

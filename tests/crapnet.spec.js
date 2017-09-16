@@ -43,6 +43,7 @@ let crapnet_response = {
    "account_id": "<account:Bob Dylan>",
    "conversation_id": "<conv:crapnetTest>",
    "inbox_nr": 1,
+    "lock_account_id": null,
    "message": "<msg><p>We need to talk...</p></msg>",
    "message_nr": 2,
    "mk_message_state": "urn:fleep:message:mk_message_state:plain",
