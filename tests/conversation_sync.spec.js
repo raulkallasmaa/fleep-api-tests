@@ -30,6 +30,7 @@ let after_create = {
    "inbox_message_nr": 1,
    "inbox_time": "...",
    "is_automute": false,
+   "is_full": true,
    "is_init": true,
    "is_list": true,
    "is_managed": false,
