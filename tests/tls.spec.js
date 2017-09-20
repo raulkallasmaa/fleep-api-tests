@@ -118,20 +118,20 @@ let LETSENCRYPT = "Let's Encrypt";
 
 let LiveList = [
     ['https://fleep.io', DIGICERT],
-    ['https://fleep.it', LETSENCRYPT],
-    ['https://fleep.im', LETSENCRYPT],
     ['https://builds.fleep.ee', DIGICERT],
     ['imaps://box.fleep.ee', DIGICERT],
+    ['https://stats.fleep.io', DIGICERT],
+    ['https://fleep.it', LETSENCRYPT],
+    ['https://fleep.im', LETSENCRYPT],
     ['https://fleephub.com', LETSENCRYPT],
     ['https://monitor.fleephub.com', LETSENCRYPT],
-    ['https://stats.fleep.io', DIGICERT],
     ['https://dev-monitor.fleep.ee', LETSENCRYPT],
     ['https://test.fleep.ee', LETSENCRYPT],
 ];
 
 let DevList = [
     ['https://dev0.fleep.ee', LETSENCRYPT],
-    //['https://dev1.fleep.ee', LETSENCRYPT],
+    ['https://dev1.fleep.ee', LETSENCRYPT],
     //['https://dev2.fleep.ee', LETSENCRYPT],
     //['https://dev3.fleep.ee', LETSENCRYPT],
     ['https://dev4.fleep.ee', DIGICERT],
@@ -141,7 +141,7 @@ let DevList = [
     //['https://dev8.fleep.ee', LETSENCRYPT],
     //['https://dev9.fleep.ee', LETSENCRYPT],
     ['https://dev10.fleep.ee', LETSENCRYPT],
-    ['https://dev11.fleep.ee', DIGICERT],
+    ['https://dev11.fleep.ee', LETSENCRYPT],
     //['https://dev12.fleep.ee', LETSENCRYPT],
     //['https://dev13.fleep.ee', LETSENCRYPT],
     ['https://dev14.fleep.ee', DIGICERT],
@@ -153,7 +153,7 @@ LiveList.forEach(function (info) {
 });
 DevList.forEach(function (info) {
     let curHost = 'https://' + ENV_HOST;
-    if (BIG_TEST || info[0] === curHost) {
+    if (true || BIG_TEST || info[0] === curHost) {
         checkHttps(info[0], info[1]);
     }
 });
