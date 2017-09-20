@@ -126,6 +126,7 @@ let LiveList = [
     ['https://fleephub.com', LETSENCRYPT],
     ['https://monitor.fleephub.com', LETSENCRYPT],
     ['https://dev-monitor.fleep.ee', LETSENCRYPT],
+    ['https://dev-statistics.fleep.ee', LETSENCRYPT],
     ['https://test.fleep.ee', LETSENCRYPT],
 ];
 
