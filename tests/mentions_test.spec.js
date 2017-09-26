@@ -141,22 +141,6 @@ test('mentions in messages - creating, editing and removing', function () {
         () => UC.meg.poke(client.getConvId(conv_topic), true),
         // check that meg sees the mention
         () => expect(UC.clean(UC.meg.getConv(conv_topic))).toEqual(meg_mentioned),
-        // () => expect(UC.clean(UC.meg.getMessage(/@MegGriffin/))).toEqual({
-        //     "account_id": "<account:Bob Marley>",
-        //     "conversation_id": "<conv:mentionsInMessages>",
-        //     "inbox_nr": 1,
-        //     "lock_account_id": null,
-        //     "message": "<msg><p><mention account_id=\"<account:Meg Griffin>\" mention_name=\"@MegGriffin\">@meg.92ce47fa1c.4253802542</mention></p></msg>",
-        //     "message_nr": 3,
-        //     "mk_message_state": "urn:fleep:message:mk_message_state:plain",
-        //     "mk_message_type": "text",
-        //     "mk_rec_type": "message",
-        //     "posted_time": "...",
-        //     "prev_message_nr": 1,
-        //     "profile_id": "<account:Meg Griffin>",
-        //     "tags": [],
-        // }),
-        // edit the message and mention ben instead
         () => client.api_call("api/message/store/" + client.getConvId(conv_topic), {
             message_nr: 3,
             message: '@' + UC.ben.info.fleep_address,
@@ -164,23 +148,6 @@ test('mentions in messages - creating, editing and removing', function () {
         // check that ben sees the mention
         () => UC.ben.poke(client.getConvId(conv_topic), true),
         () => expect(UC.clean(UC.ben.getConv(conv_topic))).toEqual(ben_mentioned),
-        // () => expect(UC.clean(UC.ben.getMessage(/@BenDover/))).toEqual({
-        //     "account_id": "<account:Bob Marley>",
-        //     "conversation_id": "<conv:mentionsInMessages>",
-        //     "edit_account_id": "<account:Bob Marley>",
-        //     "edited_time": "...",
-        //     "inbox_nr": 1,
-        //     "lock_account_id": null,
-        //     "message": "<msg><p><mention account_id=\"<account:Ben Dover>\" mention_name=\"@BenDover\">@ben.6d2021ac26.e56afc07f8</mention></p></msg>",
-        //     "message_nr": 3,
-        //     "mk_message_state": "urn:fleep:message:mk_message_state:plain",
-        //     "mk_message_type": "text",
-        //     "mk_rec_type": "message",
-        //     "posted_time": "...",
-        //     "prev_message_nr": 1,
-        //     "profile_id": "<account:Ben Dover>",
-        //     "tags": [],
-        // }),
         // check that megs my msg nr is now 0
         () => UC.meg.poke(client.getConvId(conv_topic), true),
         () => expect(UC.clean(UC.meg.getConv(conv_topic)).my_message_nr).toEqual(0),
@@ -191,7 +158,7 @@ test('mentions in messages - creating, editing and removing', function () {
         }),
         // bens my msg nr should be 0 now
         () => UC.ben.poke(client.getConvId(conv_topic), true),
-        () => expect(UC.clean(UC.ben.getConv(conv_topic)).my_message_nr).toEqual(3),
+        () => expect(UC.clean(UC.ben.getConv(conv_topic)).my_message_nr).toEqual(0),
         // check that the message is deleted
         () => expect(UC.clean(UC.ben.getRecord('message', 'message_nr', 3))).toEqual({
             "account_id": "<account:Bob Marley>",
