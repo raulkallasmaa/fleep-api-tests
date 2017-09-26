@@ -165,7 +165,6 @@ test('file storage calculation tests - how files in pinboard, taskboard and flow
         // disclose message 3 to meg so now the 3rd file is added to used storage
         () => client.api_call("api/conversation/disclose/" + client.getConvId(conv_topic), {
             emails: UC.meg.email,
-            message_nr: 2,
         }),
         () => UC.meg.poke(client.getConvId(conv_topic), true),
         () => UC.meg.api_call("api/contact/sync", {
@@ -175,7 +174,6 @@ test('file storage calculation tests - how files in pinboard, taskboard and flow
         // meg deletes the conversation
         () => UC.meg.api_call("api/conversation/store/" + client.getConvId(conv_topic), {
             is_deleted: true,
-            from_message_nr: 6,
         }),
         () => UC.meg.poke(client.getConvId(conv_topic), true),
         () => UC.meg.api_call("api/contact/sync", {
