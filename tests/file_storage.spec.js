@@ -176,11 +176,12 @@ test('file storage calculation tests - how files in pinboard, taskboard and flow
             is_deleted: true,
         }),
         () => UC.meg.poke(client.getConvId(conv_topic), true),
+        () => UC.meg.poke(client.getConvId(conv_topic), true),
         () => UC.meg.api_call("api/contact/sync", {
             contact_id: UC.meg.account_id,
         }),
         // should be 0
-        (res) => expect(UC.clean(res.storage_used_bytes)).toEqual(292039),
+        (res) => expect(UC.clean(res.storage_used_bytes)).toEqual(0),
         // bob sends a new message to the conv that meg deleted so it reappears to her
         () => client.api_call("api/message/store/" + client.getConvId(conv_topic), {
             message: 'undeleteConversation',
