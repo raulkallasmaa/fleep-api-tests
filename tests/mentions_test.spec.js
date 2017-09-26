@@ -141,6 +141,7 @@ test('mentions in messages - creating, editing and removing', function () {
         () => UC.meg.poke(client.getConvId(conv_topic), true),
         // check that meg sees the mention
         () => expect(UC.clean(UC.meg.getConv(conv_topic))).toEqual(meg_mentioned),
+        // edit the message and mention ben instead
         () => client.api_call("api/message/store/" + client.getConvId(conv_topic), {
             message_nr: 3,
             message: '@' + UC.ben.info.fleep_address,
@@ -156,7 +157,7 @@ test('mentions in messages - creating, editing and removing', function () {
             message_nr: 3,
             tags: ['is_deleted'],
         }),
-        // bens my msg nr should be 0 now
+        // check that bens my msg nr is now 0
         () => UC.ben.poke(client.getConvId(conv_topic), true),
         () => expect(UC.clean(UC.ben.getConv(conv_topic)).my_message_nr).toEqual(0),
         // check that the message is deleted
