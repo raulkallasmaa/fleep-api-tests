@@ -79,9 +79,11 @@ let mels_view_on_convo = [{
    "email": "<email:Charlie Chaplin>",
    "fleep_address": "<fladdr:Charlie Chaplin>",
    "is_hidden_for_add": false,
+    "is_org_admin": true,
    "mk_account_status": "active",
    "mk_rec_type": "contact",
    "organisation_id": "<org:managedConvOrgName>",
+    "organisation_name": "managedConvOrgName",
    "sort_rank": 1,
    },
    {
