@@ -207,7 +207,7 @@ test('two orgs and one shared managed conv between them', function () {
         // meg sets jon as conv admin
         () => UC.meg.api_call("api/business/store_conversation/" + UC.meg.getOrgId(org_name1), {
             conversation_id: UC.meg.getConvId(conv_topic),
-            admins: [UC.jon.account_id, UC.meg.account_id]}),
+            add_admins: [UC.jon.account_id, UC.meg.account_id]}),
         (res) => expect(UC.clean(res)).toEqual(jon_conv_admin),
 
         // jon isn't authorized to add bob to conv. jon is org2 admin and conv admin

@@ -48,13 +48,29 @@ let sync_changelog = {
    "account_id": "<account:Charlie Chaplin>",
    "admin_ids": [
    "<account:Don Johnson>",
+         ],
+         "conversation_id": "<conv:managedConvTopic>",
+         "topic": "Charlie, Don and Mel",
+       },
+       "event_time": "...",
+       "event_type": "chat.remove_admins",
+       "mk_rec_type": "org_changelog",
+       "organisation_id": "<org:managedConvOrgName>",
+       "version_nr": 7,
+     },
+     {
+       "account_id": "<account:Charlie Chaplin>",
+       "event_data": {
+         "account_id": "<account:Charlie Chaplin>",
+         "admin_ids": [
+           "<account:Don Johnson>",
    "<account:Mel Gibson>",
    ],
    "conversation_id": "<conv:managedConvTopic>",
    "topic": "Charlie, Don and Mel",
    },
    "event_time": "...",
-   "event_type": "chat.set_admins",
+   "event_type": "chat.add_admins",
    "mk_rec_type": "org_changelog",
    "organisation_id": "<org:managedConvOrgName>",
    "version_nr": 6,
@@ -97,7 +113,7 @@ let sync_changelog = {
    "topic": "managedConvTopic",
    },
    "event_time": "...",
-   "event_type": "chat.set_admins",
+   "event_type": "chat.add_admins",
    "mk_rec_type": "org_changelog",
    "organisation_id": "<org:managedConvOrgName>",
    "version_nr": 3,
@@ -155,7 +171,7 @@ test('create org and create managed conv with team in it', function () {
         // set admins
         () => client.api_call("api/business/store_conversation/" + client.getOrgId(org_name), {
             conversation_id: client.getConvId(conv_topic),
-            admins: [UC.mel.account_id, UC.don.account_id]}),
+            add_admins: [UC.mel.account_id, UC.don.account_id]}),
         // set unmanaged
         () => client.api_call("api/business/store_conversation/" + client.getOrgId(org_name), {
             conversation_id: client.getConvId(conv_topic),
@@ -167,7 +183,12 @@ test('create org and create managed conv with team in it', function () {
         () => client.api_call("api/conversation/store/" + client.getConvId(conv_topic), {is_managed: true}),
         // set admins via conversation store
         () => client.api_call("api/conversation/store/" + client.getConvId(conv_topic), {
-             admins: [UC.mel.account_id, UC.don.account_id]}),
+             add_admins: [UC.mel.account_id, UC.don.account_id]}),
+        // let bg worker do it's thing
+        () => client.poke(client.getConvId(conv_topic), true),
+        // set admins via conversation store
+        () => client.api_call("api/conversation/store/" + client.getConvId(conv_topic), {
+             remove_admins: [UC.don.account_id]}),
         // let bg worker do it's thing
         () => client.poke(client.getConvId(conv_topic), true),
         // check changelog messages
