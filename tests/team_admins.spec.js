@@ -34,7 +34,8 @@ let team_after_create = {
 
 let team_after_bob_is_set_admin = {
    "admins": [
-   "<account:Bob Dylan>",
+        "<account:Bob Dylan>",
+        "<account:Charlie Chaplin>",
    ],
    "autojoin_url": "<autojoin:Performers>",
    "is_autojoin": false,
@@ -59,12 +60,15 @@ let changelog = {
    "account_id": "<account:Charlie Chaplin>",
    "event_data": {
    "account_id": "<account:Charlie Chaplin>",
-   "admin_ids": [],
+   "member_ids": [
+     "<account:Bob Dylan>",
+     "<account:Charlie Chaplin>",
+   ],
    "team_id": "<team:Performers>",
    "team_name": "Performers",
    },
    "event_time": "...",
-   "event_type": "team.set_admins",
+   "event_type": "team.remove_admins",
    "mk_rec_type": "org_changelog",
    "organisation_id": "<org:teamsCreateOrgName>",
    "version_nr": 4,
@@ -73,14 +77,14 @@ let changelog = {
    "account_id": "<account:Charlie Chaplin>",
    "event_data": {
    "account_id": "<account:Charlie Chaplin>",
-   "admin_ids": [
+   "member_ids": [
    "<account:Bob Dylan>",
    ],
    "team_id": "<team:Performers>",
    "team_name": "Performers",
    },
    "event_time": "...",
-   "event_type": "team.set_admins",
+   "event_type": "team.add_admins",
    "mk_rec_type": "org_changelog",
    "organisation_id": "<org:teamsCreateOrgName>",
    "version_nr": 3,
@@ -140,13 +144,13 @@ test('team set and remove admins', function () {
         () => expect(UC.clean(client.getTeam(teamName))).toEqual(team_after_create),
         // enable autojoin
         () => client.api_call("api/team/configure/" + client.getTeamId(teamName), {
-                admin_ids: [UC.bob.account_id], }),
+                add_admin_ids: [UC.bob.account_id], }),
         // check that alice is part of the team
         () => expect(UC.clean(client.getTeam(teamName))).toEqual(team_after_bob_is_set_admin),
         // disable autojoin
         () => client.api_call("api/business/store_team/" + client.getOrgId(orgName), {
                 team_id: client.getTeamId(teamName),
-                admin_ids: [], }),
+                remove_admin_ids: [UC.bob.account_id, UC.charlie.account_id], }),
         () => client.poke(client.getConvId(convTopic)),
         () => expect(UC.clean(client.getTeam(teamName))).toMatchObject({
             "admins": [],
