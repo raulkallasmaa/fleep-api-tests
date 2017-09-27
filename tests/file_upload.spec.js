@@ -167,6 +167,24 @@ test('upload files and send, forward, copy, edit, delete & check storage used by
                 "profile_id": "<account:Meg Griffin>",
                 "tags": [],
             });
+            return thenSequence([
+                () => UC.meg.raw_request(file2.file_url),
+                (res) => {
+                    expect(res.statusCode).toEqual(200);
+                    expect(res.headers['content-type']).toEqual('image/jpeg');
+                    expect(res.headers['content-security-policy']).toEqual("default-src 'none'");
+                    expect(res.headers['content-disposition']).toEqual(undefined);
+                    expect(res.headers['cache-control']).toMatch(/^private, max-age=[0-9]+/);
+                },
+                () => UC.meg.raw_request(file2.thumb_url_100),
+                (res) => {
+                    expect(res.statusCode).toEqual(200);
+                    expect(res.headers['content-type']).toEqual('image/png');
+                    expect(res.headers['content-security-policy']).toEqual("default-src 'none'");
+                    expect(res.headers['content-disposition']).toEqual(undefined);
+                    expect(res.headers['cache-control']).toMatch(/^private, max-age=[0-9]+/);
+                },
+            ]);
         },
         // bob uploads a text file
         () => client.api_put("api/file/upload", './data/example1.txt'),
@@ -556,6 +574,20 @@ test('upload with POST', function () {
             attachments: res.files.map((f) => f.upload_url),
         }),
         () => client.poll_filter({mk_rec_type: 'message', message: /postfiles/}),
+        () => {
+            let file = client.getRecord('file', 'file_name', 'pdf_transistor.pdf');
+            expect(!!file).toEqual(true);
+            return thenSequence([
+                () => client.raw_request(file.file_url),
+                (res) => {
+                    expect(res.statusCode).toEqual(200);
+                    expect(res.headers['content-type']).toEqual('application/pdf');
+                    expect(res.headers['content-security-policy']).toEqual("default-src 'none'");
+                    expect(res.headers['content-disposition']).toEqual('attachment; filename="pdf_transistor.pdf"');
+                    expect(res.headers['cache-control']).toMatch(/^private, max-age=[0-9]+$/);
+                },
+            ]);
+        },
         () => files.forEach((fn) => {
             let basename = fn.replace(/.*\//, '');
             let ext = basename.replace(/.*\./, '').toLowerCase();
