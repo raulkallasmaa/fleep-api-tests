@@ -28,7 +28,6 @@ let changelog_before_timetravel = {
    "event_type": "team.add_conversations",
    "mk_rec_type": "org_changelog",
    "organisation_id": "<org:organisationName>",
-   "version_nr": 4,
    },
    {
    "account_id": "<account:Bob Marley>",
@@ -44,7 +43,6 @@ let changelog_before_timetravel = {
    "event_type": "chat.create_conversation",
    "mk_rec_type": "org_changelog",
    "organisation_id": "<org:organisationName>",
-   "version_nr": 3,
    },
    {
    "account_id": "<account:Bob Marley>",
@@ -64,7 +62,6 @@ let changelog_before_timetravel = {
    "event_type": "team.create",
    "mk_rec_type": "org_changelog",
    "organisation_id": "<org:organisationName>",
-   "version_nr": 2,
    },
    {
    "account_id": "<account:Bob Marley>",
@@ -76,7 +73,6 @@ let changelog_before_timetravel = {
    "event_type": "create_org",
    "mk_rec_type": "org_changelog",
    "organisation_id": "<org:organisationName>",
-   "version_nr": 1,
    }]
 };
 
@@ -250,7 +246,7 @@ test('time travel: unmanage conv and team after trial ends', function () {
         () => client.poke(client.getConvId(conv_topic), true),
         // sync changelog after managed conversation
         () => client.api_call("api/business/sync_changelog/" + client.getOrgId(org_name), {}),
-        (res) => expect(UC.clean(res)).toEqual(changelog_before_timetravel),
+        (res) => expect(UC.clean(res)).toMatchObject(changelog_before_timetravel),
         // time travel 80 days and look for email
         () => UC.sysclient.sys_call("sys/shard/time_travel", {
             object_id: client.getOrgId(org_name),
