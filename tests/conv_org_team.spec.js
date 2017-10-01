@@ -60,7 +60,7 @@ test('free conversation with managed team', function () {
             (r) => expect(r.statusCode).toEqual(431)),
 
         // jon removes managed team from conv
-        () => UC.jon.api_call("api/conversation/store/" + client.getConvId(conv_topic), {
+        () => client.api_call("api/conversation/store/" + client.getConvId(conv_topic), {
             remove_team_ids: [client.getTeamId(team_name)]}),
     ]);
 });
