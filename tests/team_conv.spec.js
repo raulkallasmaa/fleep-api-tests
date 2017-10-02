@@ -68,13 +68,13 @@ let conv_after_team_add = {
    "label_ids": [
    "<label:Performers>",
    ],
-   "last_message_nr": 2,
+   "last_message_nr": 3,
    "members": [
    "<account:Bob Dylan>",
    "<account:Charlie Chaplin>",
    "<account:Don Johnson>",
    ],
-   "read_message_nr": 2,
+   "read_message_nr": 3,
    "teams": [
    "<team:Performers>",
    ],
@@ -97,7 +97,9 @@ let team_label_sync = {
    "team_id": "<team:Performers>",
    },
    {
-   "admins": [],
+   "admins": [
+    "<account:Charlie Chaplin>",
+   ],
    "autojoin_url": "<autojoin:teamsConvTestTopic2>",
    "begin_message_nr": 1,
    "can_post": true,
@@ -117,7 +119,7 @@ let team_label_sync = {
    "is_automute": false,
    "is_init": true,
    "is_list": false,
-   "is_managed": false,
+   "is_managed": true,
    "is_mark_unread": false,
    "is_premium": false,
    "is_tiny": false,
@@ -126,7 +128,7 @@ let team_label_sync = {
    "<label:Performers>",
    ],
    "last_inbox_nr": 0,
-   "last_message_nr": 2,
+   "last_message_nr": 3,
    "last_message_time": "...",
    "leavers": [],
    "members": [
@@ -138,11 +140,11 @@ let team_label_sync = {
    "mk_conv_type": "cct_default",
    "mk_init_mode": "ic_header",
    "mk_rec_type": "conv",
-   "organisation_id": null,
+   "organisation_id": "<org:teamsConvTestTopic2OrgName>",
    "profile_id": "<account:Charlie Chaplin>",
-   "read_message_nr": 2,
+   "read_message_nr": 3,
    "send_message_nr": 1,
-   "show_message_nr": 2,
+   "show_message_nr": 3,
    "snooze_interval": 0,
    "snooze_time": 0,
    "teams": [

@@ -405,10 +405,9 @@ test('add new fleep user to the convo and check that email messages get a new co
             text: 'email text 4'
         }),
         // check that a new convo is created after meg is added to the old one and bill sends a new email
-        () => client.poll_filter({mk_rec_type: 'conv', conversation_id: conversation_id}),
+        () => client.poke(conversation_id, true),
         () => client.getRecord('conv', 'default_topic', 'Bill and Meg'),
         (res) => expect(UC.clean(res)).toEqual(meg_added_to_conv),
-        () => client.poll_filter({mk_rec_type: 'conv', default_topic: 'Bill Clinton'}),
         () => client.getRecord('conv', 'default_topic', 'Bill Clinton'),
         (res) => expect(UC.clean(res)).toEqual(bob_and_bills_new_email_conv)
     ]);
