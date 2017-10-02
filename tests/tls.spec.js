@@ -82,15 +82,20 @@ function connectTLS(opts) {
 
 function checkDate(dstr, desc, secondary) {
     let now = Date.now(); // ms
-    let days = 14;
+    let warn_days = 31;
+    let err_days = 14;
     let day_ms = 24 * 60 * 60 * 1000;
-    let danger = now + days * day_ms;
+    let err_ms = now + err_days * day_ms;
+    let warn_ms = now + warn_days * day_ms;
 
     let cdate_ms = parseCertDate(dstr);
-    if (cdate_ms <= danger) {
+    let age = ((cdate_ms - now) / day_ms) | 0;
+
+    if (cdate_ms <= err_ms) {
         /* eslint no-bitwise:0 */
-        let age = ((cdate_ms - now) / day_ms) | 0;
         return Promise.reject(new Error("cert dangerously old: " + age + " days remaining - " + desc));
+    } else if (cdate_ms <= warn_ms) {
+        console.warn("cert too old: " + age + " days remaining - " + desc);
     }
     return Promise.resolve();
 }
