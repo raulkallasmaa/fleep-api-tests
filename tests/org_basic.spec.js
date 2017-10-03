@@ -52,6 +52,7 @@ let mels_org_join = {
        "activated_time": "...",
        "client_flags": [
        "emoticons_old",
+       "send_email_on_enter",
        "show_onboarding",
        ],
        "connected_email": "",
