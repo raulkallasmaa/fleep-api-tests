@@ -14,9 +14,9 @@ let create_conv_result = {
        "admins": [
        "<account:Charlie Chaplin>",
        ],
-       "autojoin_url": "<autojoin:managedConvTopic>",
-       "cmail": "<cmail:managedConvTopic>",
-       "conversation_id": "<conv:managedConvTopic>",
+       "autojoin_url": "<autojoin:ctfConvTopic>",
+       "cmail": "<cmail:ctfConvTopic>",
+       "conversation_id": "<conv:ctfConvTopic>",
        "creator_id": "<account:Charlie Chaplin>",
        "default_members": [],
        "guests": [],
@@ -33,19 +33,19 @@ let create_conv_result = {
        ],
        "mk_conv_type": "cct_no_mail",
        "mk_rec_type": "org_conv",
-       "organisation_id": "<org:managedConvOrgName>",
+       "organisation_id": "<org:ctfConvOrgName>",
        "teams": [
-       "<team:managedConvTeamName>",
+       "<team:ctfConvTeamName>",
        ],
-       "topic": "managedConvTopic",
+       "topic": "ctfConvTopic",
        }],
 };
 
 test('business create team flow', function () {
     let client = UC.charlie;
-    let conv_topic = 'managedConvTopic';
-    let org_name = 'managedConvOrgName';
-    let org_team = 'managedConvTeamName';
+    let conv_topic = 'ctfConvTopic';
+    let org_name = 'ctfConvOrgName';
+    let org_team = 'ctfConvTeamName';
 
     return thenSequence([
         // create org
