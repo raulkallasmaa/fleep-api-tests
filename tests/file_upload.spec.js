@@ -1,5 +1,5 @@
 import {UserCache, thenSequence} from '../lib';
-import {readFileAsync, requestAsync} from '../lib/utils';
+import {readFileAsync} from '../lib/utils';
 
 let UC = new UserCache([
     'Bob Marley',
@@ -542,19 +542,14 @@ test('upload with POST', function () {
             });
             form.push(Buffer.from(sep + '--\r\n'));
             buf = Buffer.concat(form);
-            return requestAsync({
+            return client.raw_request('api/file/upload', {
                 headers: {
                     'Content-Type': 'multipart/form-data; boundary=' + boundary,
                     'Content-Length': buf.length + '',
                 },
-                uri: client.base_url + 'api/file/upload',
                 method: 'POST',
                 qs: {ticket: client.ticket},
                 body: buf,
-                jar: client.jar,
-                agent: client.agent,
-                simple: false,
-                resolveWithFullResponse: true,
             });
         },
         (res) => {
