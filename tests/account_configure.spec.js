@@ -98,6 +98,7 @@ test('account/configure change display name', function () {
             "activated_time": "...",
             "client_flags": [
             "emoticons_old",
+            "send_email_on_enter",
             "show_onboarding",
             ],
             "connected_email": "",
@@ -169,6 +170,7 @@ test('account/configure set phone number', function () {
             "activated_time": "...",
             "client_flags": [
             "emoticons_old",
+            "send_email_on_enter",
             "show_onboarding",
             ],
             "connected_email": "",
@@ -224,6 +226,7 @@ test('account/configure set email interval', function () {
             "activated_time": "...",
             "client_flags": [
             "emoticons_old",
+            "send_email_on_enter",
             "show_onboarding",
             ],
             "connected_email": "",
@@ -261,6 +264,7 @@ test('account/configure set full privacy off', function () {
             "activated_time": "...",
             "client_flags": [
             "emoticons_old",
+            "send_email_on_enter",
             "show_onboarding",
             ],
             "connected_email": "",
@@ -300,6 +304,7 @@ test('account/configure set newsletters on', function () {
             "activated_time": "...",
             "client_flags": [
             "emoticons_old",
+            "send_email_on_enter",
             "show_onboarding",
             ],
             "connected_email": "",
@@ -340,6 +345,7 @@ test('account/configure set automute off', function () {
             "activated_time": "...",
             "client_flags": [
             "emoticons_old",
+            "send_email_on_enter",
             "show_onboarding",
             ],
             "connected_email": "",
@@ -376,6 +382,7 @@ test('account/configure change client settings', function () {
             "activated_time": "...",
             "client_flags": [
             "emoticons_old",
+            "send_email_on_enter",
             "show_onboarding",
             ],
             "client_settings": "{\"phone_nr\":\"12345\"}",
@@ -439,6 +446,7 @@ test('account/configure set new primary email', function () {
             ],
             "client_flags": [
             "emoticons_old",
+            "send_email_on_enter",
             "show_onboarding",
             ],
             "connected_email": "",
@@ -516,6 +524,7 @@ test('account/configure register new fleep user and set fleep address', function
             "activated_time": "...",
             "client_flags": [
             "emoticons_old",
+            "send_email_on_enter",
             "show_onboarding",
             ],
             "connected_email": "",

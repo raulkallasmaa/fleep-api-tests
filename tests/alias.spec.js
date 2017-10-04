@@ -46,6 +46,7 @@ test('add, confirm, remove and sync alias', function () {
             ],
             "client_flags": [
             "emoticons_old",
+            "send_email_on_enter",
             "show_onboarding",
             ],
             "connected_email": "",
@@ -79,6 +80,7 @@ test('add, confirm, remove and sync alias', function () {
             "alias_account_ids": [],
             "client_flags": [
             "emoticons_old",
+            "send_email_on_enter",
             "show_onboarding",
             ],
             "connected_email": "",
