@@ -340,7 +340,7 @@ let alice_final_header = {
    "inbox_message_nr": 8,
    "inbox_time": "...",
    "is_automute": false,
-   "is_list": true,
+   "is_list": false,
    "is_mark_unread": false,
    "join_message_nr": 1,
    "label_ids": [],
