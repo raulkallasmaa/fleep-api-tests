@@ -71,7 +71,7 @@ let STATIC_GZ = Object.assign({}, STATIC_COMMON, GZIP);
 
 
 let BLOG_PAGE = {
-    'strict-transport-security': 'max-age=31536000; includeSubDomains; preload',
+    'strict-transport-security': 'max-age=31536000; includeSubDomains; preload, max-age=31536000; includeSubDomains',
     'x-frame-options': 'SAMEORIGIN',
     'server': 'nginx',
     'x-content-type-options': 'nosniff',
