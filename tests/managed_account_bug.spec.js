@@ -46,12 +46,6 @@ test('user is removed from managed conv and team after declining org invite and 
         () => UC.meg.api_call('api/account/sync_reminders'),
         () => UC.meg.matchStream({mk_rec_type: 'reminder', organisation_id: client.getOrgId(org_name)}),
         (res) => UC.meg.api_call("api/account/click_reminder", {reminder_id: res.reminder_id}),
-        // meg joins the org
-        // () => UC.meg.api_call('api/account/sync_reminders'),
-        // () => UC.meg.matchStream({mk_rec_type: 'reminder', organisation_id: client.getOrgId(org_name)}),
-        // (res) => UC.meg.api_call("api/business/join/" + client.getOrgId(org_name), {
-        //     reminder_id: res.reminder_id
-        // }),
         () => client.poke(client.getConvId(conv_topic), true),
         // check that meg is in the managed conv
         () => client.getConv(conv_topic).members,
@@ -70,6 +64,75 @@ test('user is removed from managed conv and team after declining org invite and 
         // check that meg is no longer in the managed team
         () => client.getTeam(team_name).members,
         (res) => expect(UC.clean(res)).toEqual(["<account:Bob Marley>"]),
+        // create a new conv
+        () => client.api_call("api/conversation/create", {topic: conv_topic2}),
+        (res) => expect(res.header.topic).toEqual(conv_topic2),
+        () => client.poll_filter({mk_rec_type: 'conv', topic: conv_topic2}),
+        // turn the conv managed
+        () => client.api_call("api/conversation/store/" + client.getConvId(conv_topic2), {is_managed: true}),
+        // check that the conv is managed
+        () => expect(UC.clean(client.getConv(conv_topic2)).is_managed).toEqual(true),
+        () => client.api_call("api/conversation/sync/" + client.getConvId(conv_topic2)),
+        // check that no system message about user being kicked from conv is created after a conv is turned managed
+        () => client.matchStream({mk_rec_type: 'message', message: /removed/, conversation_id: client.getConvId(conv_topic2)}),
+        (res) => expect(UC.clean(res)).toEqual(null),
+    ]);
+});
+
+test('user is removed from managed conv and team after accepting org invite and getting kicked from the org', function () {
+    let client = UC.ben;
+    let conv_topic = 'topic3';
+    let conv_topic2 = 'topic4';
+    let org_name = 'orgName2';
+    let team_name = 'teamName2';
+
+    return thenSequence([
+        // create org
+        () => client.api_call("api/business/create", {organisation_name: org_name}),
+        () => client.poll_filter({mk_rec_type: 'org_header', organisation_name: org_name}),
+        // create managed conv and add don
+        () => client.api_call("api/business/create_conversation/" + client.getOrgId(org_name), {
+            topic: conv_topic,
+            account_ids: [UC.don.account_id],
+        }),
+        () => client.poll_filter({mk_rec_type: 'conv', topic: conv_topic}),
+        // check that the conv is managed
+        () => expect(UC.clean(client.getConv(conv_topic)).is_managed).toEqual(true),
+        // create managed team and add don
+        () => client.api_call("api/team/create", {
+            team_name: team_name,
+            account_ids: [UC.don.account_id],
+            is_managed: true,
+        }),
+        // invite don to the org
+        () => client.api_call("api/business/configure/" + client.getOrgId(org_name), {
+            add_account_ids: [UC.don.account_id]
+        }),
+        () => UC.don.poke(client.getConvId(conv_topic), true),
+        // don joins the org
+        () => UC.don.api_call('api/account/sync_reminders'),
+        () => UC.don.matchStream({mk_rec_type: 'reminder', organisation_id: client.getOrgId(org_name)}),
+        (res) => UC.don.api_call("api/business/join/" + client.getOrgId(org_name), {
+            reminder_id: res.reminder_id
+        }),
+        () => client.poke(client.getConvId(conv_topic), true),
+        // check that don is in the managed conv
+        () => client.getConv(conv_topic).members,
+        (res) => expect(UC.clean(res)).toEqual(["<account:Ben Dover>", "<account:Don Johnson>"]),
+        // check that don is in the managed team
+        () => client.getTeam(team_name).members,
+        (res) => expect(UC.clean(res)).toEqual(["<account:Ben Dover>", "<account:Don Johnson>"]),
+        // kick don from the org
+        () => client.api_call("api/business/configure/" + client.getOrgId(org_name), {
+            kick_account_ids: [UC.don.account_id]
+        }),
+        () => client.poke(client.getConvId(conv_topic), true),
+        // check that don is no longer in the manen Dover
+        () => client.getConv(conv_topic).members,
+        (res) => expect(UC.clean(res)).toEqual(["<account:Ben Dover>"]),
+        // check that don is no longer in the managed team
+        () => client.getTeam(team_name).members,
+        (res) => expect(UC.clean(res)).toEqual(["<account:Ben Dover>"]),
         // create a new conv
         () => client.api_call("api/conversation/create", {topic: conv_topic2}),
         (res) => expect(res.header.topic).toEqual(conv_topic2),
