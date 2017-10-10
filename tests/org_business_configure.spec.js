@@ -26,6 +26,7 @@ let meg_is_admin = {
     "status": "bos_new",
     "trial_time": "...",
     "version_nr": 3,
+    "active_member_count": "...",
     },
     {
     "account_id": "<account:Bob Marley>",
@@ -72,6 +73,7 @@ let meg_not_admin = {
     "status": "bos_new",
     "trial_time": "...",
     "version_nr": 5,
+    "active_member_count": "...",
     },
     {
     "account_id": "<account:Bob Marley>",
@@ -118,6 +120,7 @@ let meg_account_closed = {
     "status": "bos_new",
     "trial_time": "...",
     "version_nr": 6,
+    "active_member_count": "...",
     },
     {
     "account_id": "<account:Bob Marley>",
@@ -164,6 +167,7 @@ let jil_account_suspended = {
     "status": "bos_new",
     "trial_time": "...",
     "version_nr": 8,
+    "active_member_count": "...",
     },
     {
     "account_id": "<account:Bob Marley>",
@@ -210,6 +214,7 @@ let jil_account_activated = {
     "status": "bos_new",
     "trial_time": "...",
     "version_nr": 9,
+    "active_member_count": "...",
     },
     {
     "account_id": "<account:Bob Marley>",

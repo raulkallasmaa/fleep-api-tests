@@ -92,6 +92,7 @@ let changelog_after_timetravel = {
        "status": "bos_closed",
        "trial_time": "...",
        "version_nr": 8,
+       "active_member_count": "...",
      },
      {
        "account_id": "<account:Bob Marley>",
@@ -233,6 +234,7 @@ let sync_billing = {
     "status": "bos_new",
     "trial_time": "...",
     "version_nr": 4,
+    "active_member_count": "...",
     },
     {
     "mk_rec_type": "billing",

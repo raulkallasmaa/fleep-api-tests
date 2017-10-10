@@ -32,6 +32,7 @@ test('invoice payments test', function () {
             "status": "bos_paying",
             "trial_time": "...",
             "version_nr": 2,
+            "active_member_count": "...",
             },
             {
             "account_id": "<account:Bob Marley>",

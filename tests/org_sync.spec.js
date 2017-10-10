@@ -26,6 +26,7 @@ let org1_admin_sync = {
     "status": "bos_new",
     "trial_time": "...",
     "version_nr": 1,
+    "active_member_count": "...",
     },
     {
     "account_id": "<account:Bob Marley>",
@@ -49,6 +50,7 @@ let org2_admin_sync = {
     "status": "bos_new",
     "trial_time": "...",
     "version_nr": 1,
+    "active_member_count": "...",
     }]
 };
 
@@ -64,6 +66,7 @@ let org1_member_sync = {
     "status": "bos_new",
     "trial_time": "...",
     "version_nr": 1,
+    "active_member_count": "...",
     }]
 };
 
@@ -79,6 +82,7 @@ let org2_member_sync = {
     "status": "bos_new",
     "trial_time": "...",
     "version_nr": 1,
+    "active_member_count": "...",
     }]
 };
 
@@ -94,6 +98,7 @@ let non_member_sync = {
     "status": "bos_new",
     "trial_time": "...",
     "version_nr": 1,
+    "active_member_count": "...",
     }]
 };
 

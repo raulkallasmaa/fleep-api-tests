@@ -20,6 +20,7 @@ let org_after_create = {
    "status": "bos_new",
    "trial_time": "...",
    "version_nr": 2,
+   "active_member_count": "...",
 };
 
 let mels_reminder_active = {
@@ -46,6 +47,7 @@ let mels_org_join = {
        "status": "bos_new",
        "trial_time": "...",
        "version_nr": 3,
+       "active_member_count": "...",
        },
        {
        "account_id": "<account:Mel Gibson>",

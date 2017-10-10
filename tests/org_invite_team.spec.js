@@ -22,6 +22,7 @@ let invite_team_response = {
    "status": "bos_new",
    "trial_time": "...",
    "version_nr": 2,
+   "active_member_count": "...",
    },
    {
    "admins": [

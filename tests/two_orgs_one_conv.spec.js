@@ -24,6 +24,7 @@ let org_after_create = {
     "status": "bos_new",
     "trial_time": "...",
     "version_nr": 3,
+    "active_member_count": "...",
     },
     {
     "account_id": "<account:Don Johnson>",
