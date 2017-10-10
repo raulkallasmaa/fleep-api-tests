@@ -142,6 +142,10 @@ test('account/configure change display name', function () {
 
 test('account/configure set new password', function () {
     return thenSequence([
+        () => UC.sysclient.sys_call("sys/shard/time_travel", {
+            object_id: '<my_ip>',
+            mk_time_action: 'clear_regcode_ip_velo',
+        }),
         // set new password for bob
         () => UC.bob.api_call("api/account/configure", {
             old_password: UC.bob.info.password,
@@ -494,6 +498,10 @@ test('account/configure set new primary email', function () {
 
 test('account/configure register new fleep user and set fleep address', function () {
     return thenSequence([
+        () => UC.sysclient.sys_call("sys/shard/time_travel", {
+            object_id: '<my_ip>',
+            mk_time_action: 'clear_regcode_ip_velo',
+        }),
         // register jon as new fleep account
         () => UC.jon.raw_api_call('api/account/register', {
         email: UC.jon.email,

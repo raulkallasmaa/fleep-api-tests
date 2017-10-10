@@ -315,6 +315,7 @@ let conv_2dogs_for_alice = {
    "is_list": false,
    "is_managed": false,
    "is_premium": false,
+   "is_reset": true,
    "is_tiny": false,
    "join_message_nr": 2,
    "label_ids": [],
