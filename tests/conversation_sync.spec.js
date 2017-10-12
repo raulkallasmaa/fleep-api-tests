@@ -53,6 +53,8 @@ let after_create = {
    "mk_init_mode": "ic_full",
    "mk_rec_type": "conv",
    "organisation_id": null,
+   "pin_cursor": null,
+   "pin_sync_state": null,
    "profile_id": "<account:Alice In Wonderland>",
    "read_message_nr": 1,
    "send_message_nr": 1,

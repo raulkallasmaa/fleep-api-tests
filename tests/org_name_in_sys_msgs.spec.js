@@ -57,6 +57,8 @@ let create_conv_result = {
    "mk_init_mode": "ic_full",
    "mk_rec_type": "conv",
    "organisation_id": "<org:managedConvOrgName>",
+   "pin_cursor": null,
+   "pin_sync_state": null,
    "profile_id": "<account:Charlie Chaplin>",
    "read_message_nr": 2,
    "send_message_nr": 1,
@@ -146,6 +148,8 @@ let mels_view_on_convo = [{
    "mk_init_mode": "ic_full",
    "mk_rec_type": "conv",
    "organisation_id": "<org:managedConvOrgName>",
+   "pin_cursor": null,
+   "pin_sync_state": null,
    "profile_id": "<account:Mel Gibson>",
    "read_message_nr": 1,
    "send_message_nr": 2,
@@ -190,6 +194,7 @@ let mels_view_on_convo = [{
    "mk_section_type": "urn:fleep:section:mk_section_type:task",
    "name": "Archived",
    "section_id": "<section:Archived>",
+   "sync_cursor": null,
    "weight": 0,
    },
    {
@@ -200,6 +205,7 @@ let mels_view_on_convo = [{
    "mk_section_type": "urn:fleep:section:mk_section_type:task",
    "name": "To Do",
    "section_id": "<section:To Do>",
+   "sync_cursor": null,
    "weight": 4294967296,
    },
 ];
