@@ -32,6 +32,7 @@ let invite_team_response = {
    "is_autojoin": false,
    "is_deleted": false,
    "is_managed": true,
+   "is_org_wide": false,
    "is_tiny": false,
    "managed_time": "...",
    "members": [

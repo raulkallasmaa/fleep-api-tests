@@ -218,6 +218,7 @@ let mels_first_sync_team = {
    "is_autojoin": false,
    "is_deleted": false,
    "is_managed": false,
+   "is_org_wide": false,
    "is_tiny": false,
    "members": [
    "<account:Charlie Chaplin>",

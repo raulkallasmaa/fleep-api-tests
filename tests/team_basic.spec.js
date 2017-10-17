@@ -14,6 +14,7 @@ let singers_team_after_create = {
    "is_autojoin": false,
    "is_deleted": false,
    "is_managed": false,
+   "is_org_wide": false,
    "is_tiny": false,
    "members": [
    "<account:Bob Dylan>",
@@ -34,6 +35,7 @@ let actors_team_after_create = {
    "is_autojoin": false,
    "is_deleted": false,
    "is_managed": false,
+   "is_org_wide": false,
    "is_tiny": false,
    "members": [
    "<account:Charlie Chaplin>",
@@ -52,6 +54,7 @@ let actors_team_after_add_members = {
    "is_autojoin": true,
    "is_deleted": false,
    "is_managed": false,
+   "is_org_wide": false,
    "is_tiny": false,
    "members": [
    "<account:Charlie Chaplin>",
@@ -71,6 +74,7 @@ let actors_team_after_alice_autojoin = {
    "is_autojoin": true,
    "is_deleted": false,
    "is_managed": false,
+   "is_org_wide": false,
    "is_tiny": false,
    "members": [
    "<account:Alice Adamson>",
@@ -222,6 +226,7 @@ let actors_after_removing_alice = {
    "is_autojoin": false,
    "is_deleted": false,
    "is_managed": false,
+   "is_org_wide": false,
    "is_tiny": false,
    "members": [
    "<account:Charlie Chaplin>",
@@ -460,6 +465,7 @@ let actors_team_after_remove = {
    "is_autojoin": false,
    "is_deleted": true,
    "is_managed": false,
+   "is_org_wide": false,
    "is_tiny": false,
    "members": [
    "<account:Charlie Chaplin>",
@@ -479,6 +485,7 @@ let singers_team_after_rename = {
    "is_autojoin": false,
    "is_deleted": false,
    "is_managed": false,
+   "is_org_wide": false,
    "is_tiny": false,
    "members": [
    "<account:Bob Dylan>",

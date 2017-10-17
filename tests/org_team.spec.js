@@ -18,6 +18,7 @@ let managed_team_created = {
    "is_autojoin": false,
    "is_deleted": false,
    "is_managed": true,
+   "is_org_wide": false,
    "is_tiny": false,
    "managed_time": "...",
    "members": [
@@ -41,6 +42,7 @@ let team_after_store = {
    "is_autojoin": true,
    "is_deleted": false,
    "is_managed": true,
+   "is_org_wide": false,
    "is_tiny": false,
    "members": [
    "<account:Bob Geldof>",
@@ -61,6 +63,7 @@ let team_after_unmanage_and_remove = {
    "is_autojoin": true,
    "is_deleted": true,
    "is_managed": false,
+   "is_org_wide": false,
    "is_tiny": false,
    "members": [
    "<account:Bob Geldof>",
@@ -155,6 +158,7 @@ let org_changelog = {
    "conversation_ids": null,
    "conversation_topics": null,
    "is_autojoin": false,
+   "is_org_wide": false,
    "member_ids": [
    "<account:Charlie Chaplin>",
    "<account:Don Johnson>",

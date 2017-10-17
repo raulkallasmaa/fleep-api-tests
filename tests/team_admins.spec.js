@@ -18,6 +18,7 @@ let team_after_create = {
    "is_autojoin": false,
    "is_deleted": false,
    "is_managed": true,
+   "is_org_wide": false,
    "is_tiny": false,
    "members": [
    "<account:Bob Dylan>",
@@ -41,6 +42,7 @@ let team_after_bob_is_set_admin = {
    "is_autojoin": false,
    "is_deleted": false,
    "is_managed": true,
+   "is_org_wide": false,
    "is_tiny": false,
    "members": [
    "<account:Bob Dylan>",
@@ -96,6 +98,7 @@ let changelog = {
    "conversation_ids": null,
    "conversation_topics": null,
    "is_autojoin": false,
+   "is_org_wide": false,
    "member_ids": [
    "<account:Bob Dylan>",
    "<account:Charlie Chaplin>",

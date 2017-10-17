@@ -24,6 +24,7 @@ let EXPECT_RECS = [{
     "is_autojoin": false,
     "is_deleted": false,
     "is_managed": false,
+    "is_org_wide": false,
     "is_tiny": false,
     "members": ["<account:Bob Marley>", "<account:Ron Jeremy>"],
     "mk_rec_type": "team",

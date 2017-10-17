@@ -18,6 +18,7 @@ let first_team_create = {
    "is_autojoin": true,
    "is_deleted": false,
    "is_managed": true,
+   "is_org_wide": false,
    "is_tiny": false,
    "members": [
    "<account:Bob Dylan>",

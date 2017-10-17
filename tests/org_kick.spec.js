@@ -18,6 +18,7 @@ let sx_managed_team = {
    "is_autojoin": false,
    "is_deleted": false,
    "is_managed": true,
+   "is_org_wide": false,
    "is_tiny": false,
    "members": [
    "<account:Charlie Chaplin>",
@@ -97,6 +98,7 @@ let sx_managed_team_after_kick = {
    "is_autojoin": false,
    "is_deleted": false,
    "is_managed": true,
+   "is_org_wide": false,
    "is_tiny": false,
    "members": [
    "<account:Charlie Chaplin>",

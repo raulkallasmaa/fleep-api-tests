@@ -132,6 +132,7 @@ let changelog_after_timetravel = {
        "is_autojoin": false,
        "is_deleted": false,
        "is_managed": false,
+       "is_org_wide": false,
        "is_tiny": false,
        "members": [
          "<account:Bob Marley>",

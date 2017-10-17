@@ -40,6 +40,7 @@ test('mentions in messages - creating, editing and removing', function () {
         // check that megs my msg nr is now 0
         () => UC.meg.poke(client.getConvId(conv_topic), true),
         () => UC.ben.poke(client.getConvId(conv_topic), true),
+        () => UC.ben.poke(client.getConvId(conv_topic), true),
         () => expect(UC.clean(UC.meg.getConv(conv_topic)).my_message_nr).toEqual(0),
         // delete the mention message
         () => client.api_call("api/message/store/" + client.getConvId(conv_topic), {
@@ -47,6 +48,7 @@ test('mentions in messages - creating, editing and removing', function () {
             tags: ['is_deleted'],
         }),
         // check that bens my msg nr is now 0
+        () => UC.ben.poke(client.getConvId(conv_topic), true),
         () => UC.ben.poke(client.getConvId(conv_topic), true),
         () => UC.ben.poke(client.getConvId(conv_topic), true),
         () => expect(UC.clean(UC.ben.getConv(conv_topic)).my_message_nr).toEqual(0),
