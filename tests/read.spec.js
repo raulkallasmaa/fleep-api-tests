@@ -235,6 +235,7 @@ let charlie_header_after_read = {
    "inbox_message_nr": 4,
    "inbox_time": "...",
    "is_automute": false,
+   "is_full": true,
    "is_init": true,
    "is_list": false,
    "is_managed": false,

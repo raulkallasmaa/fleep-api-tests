@@ -119,6 +119,7 @@ let team_label_sync = {
    "inbox_message_nr": 1,
    "inbox_time": "...",
    "is_automute": false,
+   "is_full": true,
    "is_init": true,
    "is_list": false,
    "is_managed": true,
