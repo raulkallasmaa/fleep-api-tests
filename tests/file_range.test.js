@@ -117,6 +117,15 @@ function fetchRangeError(client, file_url, startLenList, origdata, expStatus) {
             client.log.info("BadRange: %j, expStatus=%s got=%s crange=%j", rvalue, expStatus, status, res.headers['content-range']);
             expect(res.statusCode).toEqual(416);
             expect(res.headers['content-range']).toEqual('bytes */' + origdata.length);
+
+            // are those ok?
+            expect(res.headers['content-type']).toEqual('text/html; charset=utf-8');
+            expect(res.headers['content-security-policy']).toEqual(undefined);
+            expect(res.headers['content-disposition']).toEqual(undefined);
+            expect(res.headers['cache-control']).toEqual(undefined);
+            expect(res.headers['x-frame-options']).toEqual(undefined);
+            expect(res.headers['x-xss-protection']).toEqual(undefined);
+            expect(res.headers['x-content-type-options']).toEqual(undefined);
         }
     ]);
 }
@@ -164,7 +173,7 @@ test('HTTP Range test', function () {
         () => {
             // test block boundaries
             let p = Promise.resolve();
-            for (let i = 0; i < 40; i++) {
+            for (let i = 0; i < 20; i++) {
                 p = fetchRange(p, client, file_url, i * 17, 3 * 17, data);
             }
 
