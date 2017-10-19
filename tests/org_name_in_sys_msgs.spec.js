@@ -195,6 +195,7 @@ let mels_view_on_convo = [{
    "name": "Archived",
    "section_id": "<section:Archived>",
    "sync_cursor": null,
+   "sync_state": null,
    "weight": 0,
    },
    {
@@ -206,6 +207,7 @@ let mels_view_on_convo = [{
    "name": "To Do",
    "section_id": "<section:To Do>",
    "sync_cursor": null,
+   "sync_state": null,
    "weight": 4294967296,
    },
 ];
