@@ -1,6 +1,6 @@
 
 import { parseMime } from '../lib/mime';
-import { randomInt, randomUUID } from '../lib/utils';
+import { randomInt, randomUUID, parseMimeHeaders, generateData } from '../lib/utils';
 import { matchRec, matchStream } from '../lib/testclient';
 
 let mail1 = `Return-Path: <tester+box.2661894524.e222e8c11e@box.fleep.ee>
@@ -74,3 +74,18 @@ test('matchRec', function () {
 test('matchStream', function () {
     expect(matchStream([{}], {})).toEqual({});
 });
+
+test('generateData', function () {
+    let v1 = generateData(1024);
+    let v2 = generateData(1024);
+    expect(v1.length).toEqual(1024);
+    expect(Buffer.compare(v1, v2) !== 0).toEqual(true);
+});
+
+
+test('parseMimeHeaders', function () {
+    let mtest = 'k : v\r\nK2 : V2\r\n v3\r\nk3:v4\r\n\r\n';
+    expect(parseMimeHeaders(mtest)).toEqual({k: 'v', k2: 'V2 v3', k3: 'v4'});
+});
+
+

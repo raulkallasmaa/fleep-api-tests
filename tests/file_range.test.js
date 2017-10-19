@@ -1,5 +1,5 @@
 import {UserCache, thenSequence} from '../lib';
-import crypto from 'crypto';
+import {parseMimeHeaders, generateData} from '../lib/utils';
 
 let UC = new UserCache([
     'Bob Marley',
@@ -7,31 +7,6 @@ let UC = new UserCache([
 
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
-
-function generateData(size) {
-    let input = Buffer.alloc(size);
-    let key = crypto.randomBytes(32);
-    let iv = crypto.randomBytes(16);
-    let ciph = crypto.createCipheriv('AES-256-CTR', key, iv);
-    return ciph.update(input);
-}
-
-function parseMime(str) {
-    let rx = /(\S[^:]+):(.*(\r?\n[ \t].*)*)/g;
-    let res = {};
-    for (let m = rx.exec(str); m; m = rx.exec(str)) {
-        let k = m[1].trim().toLowerCase();
-        let v = m[2].trim().replace(/\s+/g, ' ');
-        res[k] = v;
-    }
-    return res;
-}
-
-test('parseMime', function () {
-    let mtest = 'k : v\r\nK2 : V2\r\n v3\r\nk3:v4\r\n\r\n';
-    expect(parseMime(mtest)).toEqual({k: 'v', k2: 'V2 v3', k3: 'v4'});
-});
-
 
 // fetch single range
 function fetchRange(p, client, file_url, start, len, origdata) {
@@ -103,7 +78,7 @@ function fetchMultiRange(p, client, file_url, startLenList, origdata) {
                 let hdrEnd = curData.indexOf('\r\n\r\n');
                 let dataStart = hdrEnd + 4;
                 let hdrString = curData.slice(0, dataStart - 2).toString('utf8');
-                let hdrs = parseMime(hdrString);
+                let hdrs = parseMimeHeaders(hdrString);
                 client.log.info("MIME subpart: %j", hdrs);
 
                 let clen = parseInt(hdrs['content-length'], 10);
