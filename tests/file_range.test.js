@@ -37,6 +37,8 @@ test('parseMime', function () {
 function fetchRange(p, client, file_url, start, len, origdata) {
     let last = start + len - 1;
     let range = start + '-' + last;
+    let expLast = last < origdata.length ? last : origdata.length - 1;
+    let expRange = start + '-' + expLast;
     return p.then(() => thenSequence([
         () => client.raw_request(file_url, {
             headers: {'Range': 'bytes=' + range},
@@ -44,8 +46,8 @@ function fetchRange(p, client, file_url, start, len, origdata) {
         }),
         (res) => {
             expect(res.statusCode).toEqual(206);
-            expect(res.headers['content-length']).toEqual(len + '');
-            expect(res.headers['content-range']).toEqual('bytes ' + range + '/' + origdata.length);
+            expect(res.headers['content-length']).toEqual((expLast - start + 1) + '');
+            expect(res.headers['content-range']).toEqual('bytes ' + expRange + '/' + origdata.length);
             expect(res.body).toEqual(origdata.slice(start, start + len));
             return res;
         }
@@ -125,6 +127,25 @@ function fetchMultiRange(p, client, file_url, startLenList, origdata) {
     ]));
 }
 
+// error range
+function fetchRangeError(client, file_url, startLenList, origdata, expStatus) {
+    // generate range header
+    let rvalue = typeof startLenList === 'string' ? startLenList :
+        ('bytes=' + startLenList.map((pair) => pair[0] + '-' + (pair[0] + pair[1] - 1)).join(','));
+    return thenSequence([
+        () => client.raw_request(file_url, {
+            headers: {'Range': rvalue},
+            encoding: null,
+        }),
+        (res) => {
+            let status = res.statusCode + ' ' + res.statusMessage;
+            client.log.info("BadRange: %j, expStatus=%s got=%s crange=%j", rvalue, expStatus, status, res.headers['content-range']);
+            expect(res.statusCode).toEqual(416);
+            expect(res.headers['content-range']).toEqual('bytes */' + origdata.length);
+        }
+    ]);
+}
+
 test('HTTP Range test', function () {
     let client = UC.bob;
     let conv_topic = 'fileRange';
@@ -164,12 +185,18 @@ test('HTTP Range test', function () {
             expect(Buffer.compare(data, res.body)).toEqual(0);
         },
 
-        // partual requests
+        // partial requests
         () => {
+            // test block boundaries
             let p = Promise.resolve();
             for (let i = 0; i < 40; i++) {
                 p = fetchRange(p, client, file_url, i * 17, 3 * 17, data);
             }
+
+            // partial overflow
+            p = fetchRange(p, client, file_url, data.length - 10, 20, data);
+
+            // several ranges at once
             p = fetchMultiRange(p, client, file_url, [
                 [0, 19],
                 [200, 5 * 19],
@@ -178,6 +205,26 @@ test('HTTP Range test', function () {
             ], data);
             return p;
         },
+
+        // errors
+        () => {
+            // Too Many Ranges
+            let badranges = [];
+            for (let i = 0; i < 103; i++) {
+                badranges.push([i, 1]);
+            }
+            return fetchRangeError(client, file_url, badranges, data);
+        },
+
+        // no ranges
+        () => fetchRangeError(client, file_url, [], data),
+
+        // no data in range
+        () => fetchRangeError(client, file_url, [[data.length + 1, 10]], data),
+        () => fetchRangeError(client, file_url, 'bytes=200-100', data),
+
+        // bad unit
+        () => fetchRangeError(client, file_url, 'crap=1-2', data),
     ]);
 });
 
