@@ -167,6 +167,7 @@ test('file storage calculation tests - how files in pinboard, taskboard and flow
             emails: UC.meg.email,
         }),
         () => UC.meg.poke(client.getConvId(conv_topic), true),
+        () => UC.meg.poke(client.getConvId(conv_topic), true),
         () => UC.meg.api_call("api/contact/sync", {
             contact_id: UC.meg.account_id,
         }),

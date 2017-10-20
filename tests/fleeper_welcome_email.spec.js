@@ -1,4 +1,5 @@
 import {UserCache, thenSequence} from '../lib';
+import {waitAsync} from "../lib/utils";
 
 let UC = new UserCache([
     'Bob Marley',
@@ -96,6 +97,7 @@ test('register new fleep user via org invite and check for welcome email', funct
             password: UC.king.password,
             fleep_address: res.suggestions[0]
         }),
+        () => waitAsync(5 * 1000),
         () => UC.king.waitMail({
             subject: /Welcome to Fleep/,
             body: /Thank you for signing up to Fleep/
