@@ -513,7 +513,6 @@ test('send an email to 199(MAX) recipients', function () {
         () => expect(client.getRecord('conv', 'default_topic', /Bill,/).members.length).toEqual(200)
     ]);
 });
-
 /*
 test('send an email to 200(MAXED OUT) recipients - member limit exceeded', function () {
     let client = UC.bob;
