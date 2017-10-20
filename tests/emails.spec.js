@@ -513,8 +513,8 @@ test('send an email to 199(MAX) recipients', function () {
         () => expect(client.getRecord('conv', 'default_topic', /Bill,/).members.length).toEqual(200)
     ]);
 });
-
-test.skip('send an email to 200(MAXED OUT) recipients - member limit exceeded', function () {
+/*
+test('send an email to 200(MAXED OUT) recipients - member limit exceeded', function () {
     let client = UC.bob;
     let emailer = UC.bill;
     let email = UC.botox.email;
@@ -536,7 +536,8 @@ test.skip('send an email to 200(MAXED OUT) recipients - member limit exceeded', 
             subject: 'Mail to 200 recipients',
             text: 'Mail to 200 recipients'
         }),
-        // this part needs to be debugged: waitMail doesnt receive the "member limit exceeded" email
-        () => emailer.waitMail()
+        // this part needs to be debugged: waitMail doesn't receive the "member limit exceeded" email
+        () => emailer.waitMail(),
     ]);
 });
+*/
