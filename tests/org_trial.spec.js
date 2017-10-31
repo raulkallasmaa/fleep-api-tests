@@ -53,6 +53,7 @@ let changelog_before_timetravel = {
    "conversation_ids": null,
    "conversation_topics": null,
    "is_autojoin": false,
+   "is_org_wide": false,
    "member_ids": [
    "<account:Bob Marley>",
    "<account:Mel Gibson>",
