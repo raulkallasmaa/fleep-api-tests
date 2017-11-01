@@ -124,8 +124,9 @@ let LETSENCRYPT = "Let's Encrypt";
 let LiveList = [
     ['https://fleep.io', DIGICERT],
     ['https://builds.fleep.ee', DIGICERT],
-    ['imaps://box.fleep.ee', DIGICERT],
     ['https://stats.fleep.io', DIGICERT],
+    ['imaps://mbox.fleep.ee', LETSENCRYPT],
+    ['ssmtp://mbox.fleep.ee', LETSENCRYPT],
     ['https://fleep.it', LETSENCRYPT],
     ['https://fleep.im', LETSENCRYPT],
     ['https://fleephub.com', LETSENCRYPT],
