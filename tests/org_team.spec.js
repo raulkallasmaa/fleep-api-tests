@@ -11,27 +11,27 @@ beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
 
 let managed_team_created = {
-   "admins": [
-   "<account:Charlie Chaplin>",
-   ],
-   "autojoin_url": "<autojoin:org-team-name>",
-   "is_autojoin": false,
-   "is_deleted": false,
-   "is_managed": true,
-   "is_org_wide": false,
-   "is_tiny": false,
-   "managed_time": "...",
-   "members": [
-   "<account:Charlie Chaplin>",
-   "<account:Don Johnson>",
-   "<account:Mel Gibson>",
-   ],
-   "mk_rec_type": "team",
-   "mk_sync_mode": "tsm_full",
-   "organisation_id": "<org:test-org-name>",
-   "team_id": "<team:org-team-name>",
-   "team_name": "org-team-name",
-   "team_version_nr": 1,
+    "admins": [
+        "<account:Charlie Chaplin>",
+    ],
+    "autojoin_url": "<autojoin:org-team-name>",
+    "is_autojoin": false,
+    "is_deleted": false,
+    "is_managed": true,
+    "is_org_wide": false,
+    "is_tiny": false,
+    "managed_time": "...",
+    "members": [
+        "<account:Charlie Chaplin>",
+        "<account:Don Johnson>",
+        "<account:Mel Gibson>",
+    ],
+    "mk_rec_type": "team",
+    "mk_sync_mode": "tsm_full",
+    "organisation_id": "<org:test-org-name>",
+    "team_id": "<team:org-team-name>",
+    "team_name": "org-team-name",
+    "team_version_nr": 1,
 };
 
 let team_after_store = {
