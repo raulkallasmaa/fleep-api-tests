@@ -1,4 +1,5 @@
 import {UserCache, thenSequence} from '../lib';
+import {waitAsync} from "../lib/utils";
 
 let UC = new UserCache([
     'Bob Marley',
@@ -433,11 +434,11 @@ test('business configure parameters', function () {
             close_account_ids: [UC.jon.account_id]
         }),
 
-        // jon tries to join the org after his account has been closed
-        () => UC.jon.login(),
-        () => UC.jon.poll_filter({mk_rec_type: 'reminder', organisation_id: client.getOrgId(org_name)})
-            .then(() => Promise.reject(new Error('Unauthorized - Expired token, please relogin.')),
-                (r) => expect(r.statusCode).toEqual(401)),
+        // jon tries to log in after his account has been closed
+        () => waitAsync(10 * 1000),
+        () => UC.jon.login()
+            .then(() => Promise.reject(new Error('Incorrect email or password.')),
+                (r) => expect(r.statusCode).toEqual(431)),
 
         // suspend jils account
         () => client.api_call("api/business/configure/" + client.getOrgId(org_name), {

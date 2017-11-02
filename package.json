@@ -17,7 +17,7 @@
   "devDependencies": {
     "babel-preset-env": "^1.6.1",
     "babel-register": "~6.26.0",
-    "bluebird": "^3.5.0",
+    "bluebird": "^3.5.1",
     "dns-socket": "^1.6.2",
     "emailjs-imap-client": "^2.0.8",
     "emailjs-mime-parser": "~1.0.0",
