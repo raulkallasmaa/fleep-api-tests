@@ -29,6 +29,7 @@
     "jest": "^21.2.0",
     "lodash": "~4.17.0",
     "nodemailer": "~4.3.1",
+    "pngjs": "^3.3.0",
     "request": "~2.83.0",
     "request-promise": "^4.2.2"
   },

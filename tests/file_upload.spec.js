@@ -1,5 +1,5 @@
 import {UserCache, thenSequence} from '../lib';
-import {readFileAsync} from '../lib/utils';
+import {readFileAsync, generatePNG} from '../lib/utils';
 
 let UC = new UserCache([
     'Bob Marley',
@@ -592,6 +592,138 @@ test('upload with POST', function () {
             expect(rec.thumb_url_50 && 'thumb_url_50').toEqual('thumb_url_50');
             expect(rec.thumb_url_100 && 'thumb_url_100').toEqual('thumb_url_100');
         }),
+    ]);
+});
+
+test('upload unique png', function () {
+    let client = UC.bob;
+    let conv_topic = 'fileUploadUnique';
+    let testfile_url_1 = null;
+    let random_png;
+    let random_rec;
+    return thenSequence([
+        // create conv and add meg
+        () => client.api_call("api/conversation/create", {topic: conv_topic, account_ids: [UC.meg.account_id]}),
+        (res) => expect(res.header.topic).toEqual(conv_topic),
+        () => client.poll_filter({mk_rec_type: 'conv', topic: conv_topic}),
+
+        // bob uploads a file
+        () => generatePNG({width: 266, height: 166}),
+        (data) => {
+            random_png = data;
+            return client.api_put("api/file/upload", 'random.png', data);
+        },
+        (res) => {
+            expect(UC.clean(res.files, {
+                file_id: ['file_id', 'name'],
+                size: null,
+                file_sha256: ['file_sha256', 'name'],
+                upload_url: ['upload_url', 'name']
+            })).toEqual([{
+                "file_id": "<file_id:random.png>",
+                "file_sha256": "<file_sha256:random.png>",
+                "file_type": "image/png",
+                "width": 266,
+                "height": 166,
+                "name": "random.png",
+                "size": "...",
+                "upload_url": "<upload_url:random.png>",
+            }]);
+            testfile_url_1 = res.files[0].upload_url;
+            random_rec = Object.assign({}, res.files[0]);
+        },
+        // bob sends the file to the conv with meg
+        () => client.api_call("api/message/store/" + client.getConvId(conv_topic), {
+            attachments: [testfile_url_1],
+        }),
+        () => client.poke(client.getConvId(conv_topic), true),
+
+        // check that meg sees the file/photo
+        () => UC.meg.poke(client.getConvId(conv_topic), true),
+        () => {
+            let msg1 = UC.meg.getMessage(/random/);
+            let file1 = UC.meg.getRecord('file', 'file_name', 'random.png');
+            expect(msg1.message.indexOf(file1.attachment_id) > 0).toEqual(true);
+            expect(UC.clean(file1)).toEqual({
+                "account_id": "<account:Bob Marley>",
+                "attachment_id": "<att_id:random.png>",
+                "conversation_id": "<conv:fileUploadUnique>",
+                "deleter_id": "",
+                "file_name": "random.png",
+                "file_sha256": "<file_sha256:random.png>",
+                "file_size": random_rec.size,
+                "file_type": "image/png",
+                "file_url": "<file_url:random.png>",
+                "height": 166,
+                "is_animated": false,
+                "is_deleted": false,
+                "is_hidden": false,
+                "message_nr": 2,
+                "mk_rec_type": "file",
+                "orientation": null,
+                "posted_time": "...",
+                "sender_name": null,
+                "thumb_url_100": "<thumb100:random.png>",
+                "thumb_url_50": "<thumb50:random.png>",
+                "width": 266
+            });
+        },
+
+        // bob uploads same file again
+        () => client.api_put("api/file/upload", 'random2.png', random_png),
+        (res) => {
+            expect(UC.clean(res.files, {
+                file_id: ['file_id', 'name'],
+                file_sha256: ['file_sha256', 'name'],
+                upload_url: ['upload_url', 'name']
+            })).toEqual([{
+                "file_id": "<file_id:random.png>",
+                "file_sha256": "<file_sha256:random.png>",
+                "file_type": "image/png",
+                //"width": 266,
+                //"height": 166,
+                "name": "random2.png",
+                "size": random_rec.size,
+                "upload_url": "<upload_url:random2.png>",
+            }]);
+            testfile_url_1 = res.files[0].upload_url;
+        },
+        // bob sends the file to the conv with meg
+        () => client.api_call("api/message/store/" + client.getConvId(conv_topic), {
+            attachments: [testfile_url_1],
+        }),
+        () => client.poke(client.getConvId(conv_topic), true),
+
+        // check that meg sees the file/photo
+        () => UC.meg.poke(client.getConvId(conv_topic), true),
+        () => {
+            let msg1 = UC.meg.getMessage(/random2/);
+            let file1 = UC.meg.getRecord('file', 'file_name', 'random2.png');
+            expect(msg1.message.indexOf(file1.attachment_id) > 0).toEqual(true);
+            expect(UC.clean(file1)).toEqual({
+                "account_id": "<account:Bob Marley>",
+                "attachment_id": "<att_id:random2.png>",
+                "conversation_id": "<conv:fileUploadUnique>",
+                "deleter_id": "",
+                "file_name": "random2.png",
+                "file_sha256": "<file_sha256:random.png>",
+                "file_size": random_rec.size,
+                "file_type": "image/png",
+                "file_url": "<file_url:random2.png>",
+                "height": 166,
+                "is_animated": false,
+                "is_deleted": false,
+                "is_hidden": false,
+                "message_nr": 3,
+                "mk_rec_type": "file",
+                "orientation": null,
+                "posted_time": "...",
+                "sender_name": null,
+                "thumb_url_100": "<thumb100:random2.png>",
+                "thumb_url_50": "<thumb50:random2.png>",
+                "width": 266
+            });
+        },
     ]);
 });
 
