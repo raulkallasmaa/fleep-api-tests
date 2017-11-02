@@ -152,7 +152,7 @@ let DevList = [
     //['https://dev12.fleep.ee', LETSENCRYPT],
     //['https://dev13.fleep.ee', LETSENCRYPT],
     ['https://dev14.fleep.ee', DIGICERT],
-    ['https://dev15.fleep.ee', DIGICERT],
+    ['https://dev15.fleep.ee', LETSENCRYPT],
 ];
 
 LiveList.forEach(function (info) {
