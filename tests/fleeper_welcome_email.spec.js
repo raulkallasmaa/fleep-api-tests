@@ -97,7 +97,7 @@ test('register new fleep user via org invite and check for welcome email', funct
             password: UC.king.password,
             fleep_address: res.suggestions[0]
         }),
-        () => waitAsync(10 * 1000),
+        () => waitAsync(15 * 1000),
         () => UC.king.waitMail({
             subject: /Welcome to Fleep/,
             body: /Thank you for signing up to Fleep/
