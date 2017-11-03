@@ -245,7 +245,7 @@ let jil_added_to_conv = {
     }],
 };
 
-test('conversation disclose and disclose all in managed conversation', function () {
+test('conversation disclose and disclose all in managed conversation using emails parameter', function () {
     let client = UC.bob;
     let conv_topic = 'managedConvDisclose';
     let org_name = 'orgDisclose';
@@ -411,7 +411,7 @@ test('conversation disclose and disclose all in managed conversation', function 
     ]);
 });
 
-test('conversation disclose and disclose all in free conversation', function () {
+test('conversation disclose and disclose all in free conversation using emails parameter', function () {
     let client = UC.bob;
     let conv_topic = 'freeConvDisclose';
 
