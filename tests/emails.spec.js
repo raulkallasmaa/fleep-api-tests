@@ -344,9 +344,9 @@ test('send email from email account to fleep account', function () {
         // bob receives the email in a fleep convo
         () => client.poll_filter({mk_rec_type: 'conv', default_topic: 'Bill Clinton'}),
         () => client.getRecord('conv', 'default_topic', 'Bill Clinton'),
-        (res) => expect(UC.clean(res)).toEqual(first_email_conv_rec),
+        (res) => expect(UC.clean(res)).toMatchObject(first_email_conv_rec),
         () => client.getMessage(/text 1/),
-        (res) => expect(UC.clean(res)).toEqual(first_email_msg_rec),
+        (res) => expect(UC.clean(res)).toMatchObject(first_email_msg_rec),
     ]);
 });
 
@@ -365,9 +365,9 @@ test('send email with same subject and check that the message is sent to the sam
         // bob receives the email in the same fleep convo
         () => client.poll_filter({mk_rec_type: 'message', message: /text 2/}),
         () => client.getMessage(/text 2/),
-        (res) => expect(UC.clean(res)).toEqual(second_email_msg_rec),
+        (res) => expect(UC.clean(res)).toMatchObject(second_email_msg_rec),
         () => client.getRecord('conv', 'unread_count', 2),
-        (res) => expect(UC.clean(res)).toEqual(second_email_conv_rec),
+        (res) => expect(UC.clean(res)).toMatchObject(second_email_conv_rec),
     ]);
 });
 
@@ -386,9 +386,9 @@ test('send email with a different subject and check that the message is sent to 
         // bob receives the email in the same fleep convo
         () => client.poll_filter({mk_rec_type: 'message', message: /text 3/}),
         () => client.getMessage(/text 3/),
-        (res) => expect(UC.clean(res)).toEqual(third_email_msg_rec),
+        (res) => expect(UC.clean(res)).toMatchObject(third_email_msg_rec),
         () => client.getRecord('conv', 'unread_count', 3),
-        (res) => expect(UC.clean(res)).toEqual(third_email_conv_rec),
+        (res) => expect(UC.clean(res)).toMatchObject(third_email_conv_rec),
     ]);
 });
 
@@ -411,9 +411,9 @@ test('add new fleep user to the convo and check that email messages get a new co
         // check that a new convo is created after meg is added to the old one and bill sends a new email
         () => client.poke(conversation_id, true),
         () => client.getRecord('conv', 'default_topic', 'Bill and Meg'),
-        (res) => expect(UC.clean(res)).toEqual(meg_added_to_conv),
+        (res) => expect(UC.clean(res)).toMatchObject(meg_added_to_conv),
         () => client.getRecord('conv', 'default_topic', 'Bill Clinton'),
-        (res) => expect(UC.clean(res)).toEqual(bob_and_bills_new_email_conv)
+        (res) => expect(UC.clean(res)).toMatchObject(bob_and_bills_new_email_conv)
     ]);
 });
 
@@ -472,11 +472,11 @@ test('send an email to 2 fleep users', function () {
         // bob receives the email message
         () => client.poll_filter({mk_rec_type: 'message', message: /Group mail/}),
         () => client.getRecord('message', 'subject', /Group mail/),
-        (res) => expect(UC.clean(res)).toEqual(bills_email_to_bob),
+        (res) => expect(UC.clean(res)).toMatchObject(bills_email_to_bob),
         // meg receives the email message
         () => UC.meg.poll_filter({mk_rec_type: 'message', message: /Group mail/}),
         () => UC.meg.getRecord('message', 'subject', /Group mail/),
-        (res) => expect(UC.clean(res)).toEqual(bills_email_to_meg),
+        (res) => expect(UC.clean(res)).toMatchObject(bills_email_to_meg),
         // check that bills email goes to the same conv where bob and meg are
         () => {
             bobs_conv_id = client.getRecord('message', 'subject', /Group mail/).conversation_id;

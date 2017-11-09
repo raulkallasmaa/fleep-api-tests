@@ -67,15 +67,15 @@ test('check that client_req_id prevents message from being posted twice', functi
         // send message first time
         () => client.api_call("api/message/store/" + client.getConvId(topic),
             {message: 'We need to talk...', client_req_id: client_req_id}),
-        (res) => expect(UC.clean(res)).toEqual(crapnet_response),
+        (res) => expect(UC.clean(res)).toMatchObject(crapnet_response),
         // send same message second time
         () => client.api_call("api/message/store/" + client.getConvId(topic),
             {message: 'We need to talk...', client_req_id: client_req_id}),
-        (res) => expect(UC.clean(res)).toEqual(crapnet_response),
+        (res) => expect(UC.clean(res)).toMatchObject(crapnet_response),
         // check that we got everything via poll
         () => client.poll_filter({mk_rec_type: 'request', client_req_id: client_req_id}),
         () => client.matchStream({mk_rec_type: 'request', client_req_id: client_req_id}),
-        (req) => expect(req).toEqual({
+        (req) => expect(req).toMatchObject({
             "client_req_id": "8faf3a5a-9e31-4e1b-b12c-04935bc71efb",
             "conversation_id": client.getConvId(topic),
             "mk_rec_type": "request",
@@ -83,7 +83,7 @@ test('check that client_req_id prevents message from being posted twice', functi
         }),
         () => client.getConvId(topic),
         (conv_id) => client.matchStream({mk_rec_type: 'conv', conversation_id: conv_id}),
-        (conv) => expect(UC.clean(conv)).toEqual({
+        (conv) => expect(UC.clean(conv)).toMatchObject({
             "conversation_id": "<conv:crapnetTest>",
             "export_files": [],
             "export_progress": "1",

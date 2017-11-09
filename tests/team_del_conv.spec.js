@@ -382,7 +382,7 @@ test('team: add and remove conversations', function () {
         (team_label) => client.api_call("api/label/sync_conversations/", {
             label_id: team_label.label_id,
             mk_init_mode: 'ic_header', }),
-        (res) => expect(UC.clean(res)).toEqual(client_sync_convs_first),
+        (res) => expect(UC.clean(res)).toMatchObject(client_sync_convs_first),
 
         // start with Bob
         () => UC.bob.poll_filter({mk_rec_type: 'conv', topic: convTopic2}),
@@ -393,7 +393,7 @@ test('team: add and remove conversations', function () {
         (team_label) => UC.bob.api_call("api/label/sync_conversations/", {
             label_id: team_label.label_id,
             mk_init_mode: 'ic_header', }),
-        (res) => expect(UC.clean(res)).toEqual(bobs_team_label_cons),
+        (res) => expect(UC.clean(res)).toMatchObject(bobs_team_label_cons),
 
         // Delete from Bob's conversation list
         () => UC.bob.api_call('api/conversation/store/' + UC.bob.getConvId(convTopic), {
@@ -406,6 +406,6 @@ test('team: add and remove conversations', function () {
         (team_label) => UC.bob.api_call("api/label/sync_conversations/", {
             label_id: team_label.label_id,
             mk_init_mode: 'ic_header', }),
-        (res) => expect(UC.clean(res)).toEqual(bobs_conv_list_after_del),
+        (res) => expect(UC.clean(res)).toMatchObject(bobs_conv_list_after_del),
     ]);
 });

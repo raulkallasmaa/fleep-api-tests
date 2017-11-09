@@ -110,8 +110,8 @@ test('create teams with all parameters', function () {
         () => client.poke(client.getConvId(convTopic), true),
         () => client.poke(client.getConvId(convTopic), true),
         // check singesrs to have three members
-        () => expect(UC.clean(client.getTeam(teamName))).toEqual(first_team_create),
+        () => expect(UC.clean(client.getTeam(teamName))).toMatchObject(first_team_create),
         // check actors before changes
-        () => expect(UC.clean(client.getConv(convTopic))).toEqual(first_conversation),
+        () => expect(UC.clean(client.getConv(convTopic))).toMatchObject(first_conversation),
     ]);
 });

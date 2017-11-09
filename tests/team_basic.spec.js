@@ -155,16 +155,11 @@ let conv_after_actors_added = {
 };
 
 let conv_2dogs_after_create = {
-   "admins": [],
-   "autojoin_url": "<autojoin:2 dogs>",
    "begin_message_nr": 1,
    "bw_message_nr": 1,
    "can_post": true,
    "cmail": "<cmail:2 dogs>",
    "conversation_id": "<conv:2 dogs>",
-   "creator_id": "<account:Charlie Chaplin>",
-   "default_members": [],
-   "export_files": [],
    "export_progress": "1",
    "fw_message_nr": 3,
    "guests": [],
@@ -554,7 +549,7 @@ test('create teams and team conversations, rename remove and autojoin', function
         () => client.api_call("api/team/sync/" + client.getTeamId(actors_team), {
                conversation_id: client.getConvId(conv_topic)}),
         () => client.getConv(conv_topic),
-        (conv) => expect(UC.clean(conv)).toEqual(conv_after_actors_added),
+        (conv) => expect(UC.clean(conv)).toMatchObject(conv_after_actors_added),
         // check that team label is created
         () => client.matchStream({mk_rec_type: 'label', team_id: client.getTeamId(actors_team)}),
         (team_label) => expect(UC.clean(team_label)).toEqual(actors_team_label),
@@ -564,7 +559,7 @@ test('create teams and team conversations, rename remove and autojoin', function
             team_ids: [client.getTeamId(actors_team), client.getTeamId(singers_team)]}),
         () => client.poke(client.getConvId(conv_2dogs), true),
         () => client.getConv(conv_2dogs),
-        (conv) => expect(UC.clean(conv, {"conv": {default_members: null}})).toEqual(conv_2dogs_after_create),
+        (conv) => expect(UC.clean(conv)).toMatchObject(conv_2dogs_after_create),
 
         // remove alice and turn autojon off
         () => client.api_call("api/team/configure/" + client.getTeamId(actors_team), {
@@ -573,20 +568,20 @@ test('create teams and team conversations, rename remove and autojoin', function
         () => expect(UC.clean(client.getTeam(actors_team))).toEqual(actors_after_removing_alice),
         () => client.poke(client.getConvId(conv_2dogs), true),
         () => client.getConv(conv_2dogs),
-        (conv) => expect(UC.clean(conv)).toEqual(conv_2dogs_after_remove_alice),
+        (conv) => expect(UC.clean(conv)).toMatchObject(conv_2dogs_after_remove_alice),
 
         // get alice version of same conversation
         () => UC.alice.poke(client.getConvId(conv_2dogs)),
         () => UC.alice.getConv(conv_2dogs),
-        (conv) => expect(UC.clean(conv)).toEqual(conv_2dogs_for_alice),
+        (conv) => expect(UC.clean(conv)).toMatchObject(conv_2dogs_for_alice),
 
         // remove team
         () => client.api_call("api/team/remove/" + client.getTeamId(actors_team)),
         () => client.poke(client.getConvId(conv_2dogs), true),
         () => client.getConv(conv_2dogs),
-        (conv) => expect(UC.clean(conv)).toEqual(conv_2dogs_after_removing_actors),
+        (conv) => expect(UC.clean(conv)).toMatchObject(conv_2dogs_after_removing_actors),
         () => client.getConv(conv_topic),
-        (conv) => expect(UC.clean(conv)).toEqual(conv_after_removing_singers),
+        (conv) => expect(UC.clean(conv)).toMatchObject(conv_after_removing_singers),
         () => expect(UC.clean(client.getTeam(actors_team))).toEqual(actors_team_after_remove),
 
         // test team rename

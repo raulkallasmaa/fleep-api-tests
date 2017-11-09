@@ -262,7 +262,7 @@ test('conversation disclose and disclose all in managed conversation using accou
         (res) => UC.meg.api_call("api/business/join/" + client.getOrgId(org_name), {reminder_id: res.reminder_id}),
         // create managed conv
         () => client.api_call("api/business/create_conversation/" + client.getOrgId(org_name), {topic: conv_topic}),
-        (res) => expect(UC.clean(res)).toEqual(org_conv_create),
+        (res) => expect(UC.clean(res)).toMatchObject(org_conv_create),
         () => client.poll_filter({mk_rec_type: 'conv', topic: conv_topic}),
         // send 3 messages to conv
         () => client.api_call("api/message/store/" + client.getConvId(conv_topic), {message: 'message1'}),
@@ -273,7 +273,7 @@ test('conversation disclose and disclose all in managed conversation using accou
             conversation_id: client.getConvId(conv_topic),
             add_account_ids: [UC.meg.account_id],
         }),
-        (res) => expect(UC.clean(res)).toEqual(added_meg_to_managed_conv),
+        (res) => expect(UC.clean(res)).toMatchObject(added_meg_to_managed_conv),
         // check that meg doesn't see the 3 messages before disclose
         () => UC.meg.poll_filter({mk_rec_type: 'conv', topic: conv_topic}),
         () => UC.meg.matchStream({mk_rec_type: 'message', message: 'message1'}),
@@ -290,7 +290,7 @@ test('conversation disclose and disclose all in managed conversation using accou
         // check that meg now sees the 3 messages
         () => UC.meg.poll_filter({mk_rec_type: 'message', message: /message1/}),
         () => UC.meg.getMessage(/message1/),
-        (res) => expect(UC.clean(res)).toEqual({
+        (res) => expect(UC.clean(res)).toMatchObject({
             "account_id": "<account:Bob Marley>",
             "conversation_id": "<conv:managedConvDiscloseUsingAccountIDs>",
             "inbox_nr": 1,
@@ -306,7 +306,7 @@ test('conversation disclose and disclose all in managed conversation using accou
             "tags": [],
         }),
         () => UC.meg.getMessage(/message2/),
-        (res) => expect(UC.clean(res)).toEqual({
+        (res) => expect(UC.clean(res)).toMatchObject({
             "account_id": "<account:Bob Marley>",
             "conversation_id": "<conv:managedConvDiscloseUsingAccountIDs>",
             "inbox_nr": 2,
@@ -322,7 +322,7 @@ test('conversation disclose and disclose all in managed conversation using accou
             "tags": [],
         }),
         () => UC.meg.getMessage(/message3/),
-        (res) => expect(UC.clean(res)).toEqual({
+        (res) => expect(UC.clean(res)).toMatchObject({
             "account_id": "<account:Bob Marley>",
             "conversation_id": "<conv:managedConvDiscloseUsingAccountIDs>",
             "inbox_nr": 3,
@@ -348,7 +348,7 @@ test('conversation disclose and disclose all in managed conversation using accou
             conversation_id: client.getConvId(conv_topic),
             add_account_ids: [UC.jon.account_id],
         }),
-        (res) => expect(UC.clean(res)).toEqual(added_jon_to_managed_conv),
+        (res) => expect(UC.clean(res)).toMatchObject(added_jon_to_managed_conv),
         // check that jon doesn't see the 3 messages before disclose all
         () => UC.jon.poll_filter({mk_rec_type: 'conv', topic: conv_topic}),
         () => UC.jon.matchStream({mk_rec_type: 'message', message: 'message1'}),
@@ -362,7 +362,7 @@ test('conversation disclose and disclose all in managed conversation using accou
         // check that jon now sees the 3 messages
         () => UC.jon.poll_filter({mk_rec_type: 'message', message: /message1/}),
         () => UC.jon.getMessage(/message1/),
-        (res) => expect(UC.clean(res)).toEqual({
+        (res) => expect(UC.clean(res)).toMatchObject({
             "account_id": "<account:Bob Marley>",
             "conversation_id": "<conv:managedConvDiscloseUsingAccountIDs>",
             "inbox_nr": 1,
@@ -378,7 +378,7 @@ test('conversation disclose and disclose all in managed conversation using accou
             "tags": [],
         }),
         () => UC.jon.getMessage(/message2/),
-        (res) => expect(UC.clean(res)).toEqual({
+        (res) => expect(UC.clean(res)).toMatchObject({
             "account_id": "<account:Bob Marley>",
             "conversation_id": "<conv:managedConvDiscloseUsingAccountIDs>",
             "inbox_nr": 2,
@@ -394,7 +394,7 @@ test('conversation disclose and disclose all in managed conversation using accou
             "tags": [],
         }),
         () => UC.jon.getMessage(/message3/),
-        (res) => expect(UC.clean(res)).toEqual({
+        (res) => expect(UC.clean(res)).toMatchObject({
             "account_id": "<account:Bob Marley>",
             "conversation_id": "<conv:managedConvDiscloseUsingAccountIDs>",
             "inbox_nr": 3,
@@ -426,7 +426,7 @@ test('conversation disclose and disclose all in free conversation using account 
         () => client.api_call("api/message/store/" + client.getConvId(conv_topic), {message: 'msg3'}),
         // add don to the free conv
         () => client.api_call("api/conversation/store/" + client.getConvId(conv_topic), {add_account_ids: [UC.don.account_id]}),
-        (res) => expect(UC.clean(res)).toEqual(added_don_to_free_conv),
+        (res) => expect(UC.clean(res)).toMatchObject(added_don_to_free_conv),
         // check that don doesn't see the 3 messages before disclose
         () => UC.don.poll_filter({mk_rec_type: 'conv', topic: conv_topic}),
         () => UC.don.matchStream({mk_rec_type: 'message', message: /msg1/}),
@@ -443,7 +443,7 @@ test('conversation disclose and disclose all in free conversation using account 
         // check that don now sees the 3 messages
         () => UC.don.poll_filter({mk_rec_type: 'message', message: /msg1/}),
         () => UC.don.getMessage(/msg1/),
-        (res) => expect(UC.clean(res)).toEqual({
+        (res) => expect(UC.clean(res)).toMatchObject({
             "account_id": "<account:Bob Marley>",
             "conversation_id": "<conv:freeConvDiscloseUsingAccountIDs>",
             "inbox_nr": 1,
@@ -459,7 +459,7 @@ test('conversation disclose and disclose all in free conversation using account 
             "tags": [],
         }),
         () => UC.don.getMessage(/msg2/),
-        (res) => expect(UC.clean(res)).toEqual({
+        (res) => expect(UC.clean(res)).toMatchObject({
             "account_id": "<account:Bob Marley>",
             "conversation_id": "<conv:freeConvDiscloseUsingAccountIDs>",
             "inbox_nr": 2,
@@ -475,7 +475,7 @@ test('conversation disclose and disclose all in free conversation using account 
             "tags": [],
         }),
         () => UC.don.getMessage(/msg3/),
-        (res) => expect(UC.clean(res)).toEqual({
+        (res) => expect(UC.clean(res)).toMatchObject({
             "account_id": "<account:Bob Marley>",
             "conversation_id": "<conv:freeConvDiscloseUsingAccountIDs>",
             "inbox_nr": 3,
@@ -494,7 +494,7 @@ test('conversation disclose and disclose all in free conversation using account 
         () => client.api_call("api/conversation/store/" + client.getConvId(conv_topic), {
             add_account_ids: [UC.jil.account_id],
         }),
-        (res) => expect(UC.clean(res)).toEqual(added_jil_to_free_conv),
+        (res) => expect(UC.clean(res)).toMatchObject(added_jil_to_free_conv),
         // check that jil doesn't see the 3 messages before disclose all
         () => UC.jil.poll_filter({mk_rec_type: 'conv', topic: conv_topic}),
         () => UC.jil.matchStream({mk_rec_type: 'message', message: /msg1/}),
@@ -508,7 +508,7 @@ test('conversation disclose and disclose all in free conversation using account 
         // check that jil now sees the 3 messages
         () => UC.jil.poll_filter({mk_rec_type: 'message', message: /msg1/}),
         () => UC.jil.getMessage(/msg1/),
-        (res) => expect(UC.clean(res)).toEqual({
+        (res) => expect(UC.clean(res)).toMatchObject({
             "account_id": "<account:Bob Marley>",
             "conversation_id": "<conv:freeConvDiscloseUsingAccountIDs>",
             "inbox_nr": 1,
@@ -524,7 +524,7 @@ test('conversation disclose and disclose all in free conversation using account 
             "tags": [],
         }),
         () => UC.jil.getMessage(/msg2/),
-        (res) => expect(UC.clean(res)).toEqual({
+        (res) => expect(UC.clean(res)).toMatchObject({
             "account_id": "<account:Bob Marley>",
             "conversation_id": "<conv:freeConvDiscloseUsingAccountIDs>",
             "inbox_nr": 2,
@@ -540,7 +540,7 @@ test('conversation disclose and disclose all in free conversation using account 
             "tags": [],
         }),
         () => UC.jil.getMessage(/msg3/),
-        (res) => expect(UC.clean(res)).toEqual({
+        (res) => expect(UC.clean(res)).toMatchObject({
             "account_id": "<account:Bob Marley>",
             "conversation_id": "<conv:freeConvDiscloseUsingAccountIDs>",
             "inbox_nr": 3,

@@ -259,18 +259,18 @@ test('create org and create managed conv and check the system messages', functio
             team_ids: [client.getTeamId(org_team)], }),
         () => client.poll_filter({mk_rec_type: 'conv', topic: conv_topic}),
         () => client.matchStream({mk_rec_type: 'conv', topic: conv_topic}),
-        (res) => expect(UC.clean(res)).toEqual(create_conv_result),
+        (res) => expect(UC.clean(res)).toMatchObject(create_conv_result),
 
         () => client.poke(client.getConvId(conv_topic)),
         () => UC.mel.poll_filter({mk_rec_type: 'conv', topic: conv_topic}),
         () => UC.mel.api_call('api/conversation/sync/' + client.getConvId(conv_topic), {
             mk_direction: 'ic_full'}),
-        (res) => expect(UC.clean(res.stream)).toEqual(mels_view_on_convo),
+        (res) => expect(UC.clean(res.stream)).toMatchObject(mels_view_on_convo),
         () => UC.mel.api_call('api/conversation/sync_teams/' + client.getConvId(conv_topic), {
             team_ids: [client.getTeamId(org_team)], }),
-        (res) => expect(UC.clean(res)).toEqual(mels_first_sync_teams),
+        (res) => expect(UC.clean(res)).toMatchObject(mels_first_sync_teams),
         () => UC.mel.api_call('api/team/sync/' + client.getTeamId(org_team), {
             conversation_id: client.getConvId(conv_topic), }),
-        (res) => expect(UC.clean(res)).toEqual(mels_first_sync_team),
+        (res) => expect(UC.clean(res)).toMatchObject(mels_first_sync_team),
     ]);
 });

@@ -23,6 +23,7 @@ let after_create = {
    "export_progress": "1",
    "fw_message_nr": 1,
    "guests": [],
+   "inactives": [],
    "has_email_subject": false,
    "has_pinboard": false,
    "has_task_archive": false,

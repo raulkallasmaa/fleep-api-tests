@@ -118,16 +118,15 @@ test('create custom labels for conversation, rename and remove, change index, is
     return thenSequence([
         // create conversation and add two custom labels
         () => client.api_call("api/conversation/create", {topic: conv_topic}),
-        (res) => expect(res.header.topic).toEqual(conv_topic),
         () => client.poll_filter({mk_rec_type: 'conv', topic: conv_topic}),
         () => client.api_call("api/conversation/store/" + client.getConvId(conv_topic), {labels: ['backend', 'frontend']}),
         () => client.poke(client.getConvId(conv_topic), true),
         // sync conversation by label name and check that there are 2 labels
         () => client.api_call("api/label/sync_conversations", {label_id: client.getLabelId(/frontend/)}),
-        (res) => expect(UC.clean(res)).toEqual(conv_after_label_sync),
+        (res) => expect(UC.clean(res)).toMatchObject(conv_after_label_sync),
         // add a new label called full-stack
         () => client.api_call("api/label/store", {label: 'full-stack'}),
-        (res) => expect(UC.clean(res)).toEqual({
+        (res) => expect(UC.clean(res)).toMatchObject({
             "stream": [{         "index": "...",
             "is_in_muted": true,
             "is_in_recent": true,
@@ -142,7 +141,7 @@ test('create custom labels for conversation, rename and remove, change index, is
         }),
         // rename the full-stack label to marketing
         () => client.api_call("api/label/store", {label: 'marketing', label_id: client.getLabelId(/full-stack/)}),
-        (res) => expect(UC.clean(res)).toEqual({
+        (res) => expect(UC.clean(res)).toMatchObject({
             "stream": [{
             "index": "...",
             "is_in_muted": true,
@@ -158,7 +157,7 @@ test('create custom labels for conversation, rename and remove, change index, is
         }),
         // remove label 'marketing' and check that it is removed
         () => client.api_call("api/label/store", {label: 'marketing', index: -1}),
-        (res) => expect(UC.clean(res)).toEqual({
+        (res) => expect(UC.clean(res)).toMatchObject({
             "stream": [{
             "index": "...",
             "is_in_muted": true,
@@ -195,7 +194,7 @@ test('create custom labels for conversation, rename and remove, change index, is
         () => client.api_call("api/label/store", {label: 'finance'}),
         () => client.api_call("api/conversation/store/" + client.getConvId(conv_topic), {labels: ['finance']}),
         () => client.poll_filter({mk_rec_type: 'conv', topic: conv_topic}),
-        () => expect(UC.clean(client.getConv(conv_topic))).toEqual({
+        () => expect(UC.clean(client.getConv(conv_topic))).toMatchObject({
             "admins": [],
             "can_post": true,
             "conversation_id": "<conv:customLabels>",

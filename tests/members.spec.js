@@ -22,6 +22,7 @@ let after_bob_removed = {
     "has_pinboard": false,
     "has_task_archive": false,
     "has_taskboard": false,
+    "inactives": [],
     "inbox_message_nr": 1,
     "inbox_time": "...",
     "is_automute": false,
@@ -97,6 +98,7 @@ test('add members to conversation', function () {
             ],
             "header": {
             "conversation_id": "<conv:members>",
+            "inactives": [],
             "inbox_message_nr": 1,
             "inbox_time": "...",
             "join_message_nr": 1,
@@ -171,6 +173,7 @@ test('should leave the conversation', function () {
                 "has_pinboard": false,
                 "has_task_archive": false,
                 "has_taskboard": false,
+                "inactives": [],
                 "inbox_message_nr": 1,
                 "inbox_time": "...",
                 "is_automute": false,

@@ -219,7 +219,7 @@ test('team: add and remove conversations', function () {
                 is_managed: true, }),
 
         // initial state of the conversation
-        () => expect(UC.clean(client.getConv(convTopic))).toEqual(conv_after_create),
+        () => expect(UC.clean(client.getConv(convTopic))).toMatchObject(conv_after_create),
         // add conversation to team conversations
         () => client.api_call("api/team/configure/" + client.getTeamId(teamName), {
             add_conversations: [client.getConvId(convTopic)], }),
@@ -228,14 +228,14 @@ test('team: add and remove conversations', function () {
         // conversation after team is added
         () => expect(UC.clean(client.getConv(convTopic))).toMatchObject(conv_after_team_add),
         () => client.matchStream({mk_rec_type: 'message', mk_message_type: 'add_teamV2'}),
-        (msg) => expect(UC.clean(msg)).toEqual(add_team_msg),
+        (msg) => expect(UC.clean(msg)).toMatchObject(add_team_msg),
 
         // check this conversation appears under label conversations
         () => client.matchStream({mk_rec_type: 'label', team_id: client.getTeamId(teamName)}),
         (team_label) => client.api_call("api/label/sync_conversations/", {
             label_id: team_label.label_id,
             mk_init_mode: 'ic_header', }),
-        (res) => expect(UC.clean(res)).toEqual(team_label_sync),
+        (res) => expect(UC.clean(res)).toMatchObject(team_label_sync),
 
         // remove conversation from team conversations
         () => client.api_call("api/team/configure/" + client.getTeamId(teamName), {
@@ -248,6 +248,6 @@ test('team: add and remove conversations', function () {
         (team_label) => client.api_call("api/label/sync_conversations/", {
             label_id: team_label.label_id,
             mk_init_mode: 'ic_header', }),
-        (res) => expect(UC.clean(res)).toEqual(team_label_conversations_after_remove),
+        (res) => expect(UC.clean(res)).toMatchObject(team_label_conversations_after_remove),
     ]);
 });

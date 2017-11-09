@@ -112,9 +112,9 @@ test('create org wide team and add members to org after', function () {
             add_account_ids: [UC.don.account_id, UC.bob.account_id]}),
         () => client.poke(client.getConvId(convTopic), true),
         // check singesrs to have three members
-        () => expect(UC.clean(client.getTeam(teamName))).toEqual(first_team_create),
+        () => expect(UC.clean(client.getTeam(teamName))).toMatchObject(first_team_create),
         () => client.poke(client.getConvId(convTopic), true),
         // check actors before changes
-        () => expect(UC.clean(client.getConv(convTopic))).toEqual(first_conversation),
+        () => expect(UC.clean(client.getConv(convTopic))).toMatchObject(first_conversation),
     ]);
 });

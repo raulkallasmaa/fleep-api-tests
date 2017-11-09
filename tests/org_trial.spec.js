@@ -254,7 +254,7 @@ test('time travel: unmanage conv and team after trial ends', function () {
         () => client.poke(client.getConvId(conv_topic), true),
         // sync changelog after managed conversation
         () => client.api_call("api/business/sync_changelog/" + client.getOrgId(org_name), {}),
-        (res) => expect(UC.clean(res)).toEqual(changelog_before_timetravel),
+        (res) => expect(UC.clean(res)).toMatchObject(changelog_before_timetravel),
         // time travel 80 days and look for email
         () => UC.sysclient.sys_call("sys/shard/time_travel", {
             object_id: client.getOrgId(org_name),
@@ -286,6 +286,6 @@ test('time travel: unmanage conv and team after trial ends', function () {
             body: /Fleep for Business trial ended/,
         }),
         () => client.poke(client.getConvId(conv_topic), true),
-        (res) => expect(UC.clean(res, {static_version: null})).toEqual(changelog_after_timetravel),
+        (res) => expect(UC.clean(res, {static_version: null})).toMatchObject(changelog_after_timetravel),
     ]);
 });

@@ -275,10 +275,10 @@ test('delete org (unmanage conv and team) after grace period ends', function () 
         () => client.poke(client.getConvId(conv_topic), true),
         // sync changelog after managed conversation
         () => client.api_call("api/business/sync_changelog/" + client.getOrgId(org_name), {}),
-        (res) => expect(UC.clean(res)).toEqual(changelog_before_timetravel),
+        (res) => expect(UC.clean(res)).toMatchObject(changelog_before_timetravel),
         // sync org billing
         () => client.api_call("api/business/sync_billing/" + client.getOrgId(org_name), {}),
-        (res) => expect(UC.clean(res)).toEqual(sync_billing),
+        (res) => expect(UC.clean(res)).toMatchObject(sync_billing),
         // start grace period and look for email
         () => UC.sysclient.sys_call("sys/business/start_grace_period", {
             organisation_id: client.getOrgId(org_name),
@@ -318,6 +318,6 @@ test('delete org (unmanage conv and team) after grace period ends', function () 
             body: /has been cancelled/,
         }),
         () => client.poke(client.getConvId(conv_topic), true),
-        (res) => expect(UC.clean(res, {static_version: null})).toEqual(changelog_after_timetravel),
+        (res) => expect(UC.clean(res, {static_version: null})).toMatchObject(changelog_after_timetravel),
     ]);
 });
