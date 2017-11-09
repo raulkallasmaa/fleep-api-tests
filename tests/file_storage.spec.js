@@ -60,6 +60,7 @@ test('file storage calculation tests - how files in pinboard, taskboard and flow
             "mk_message_type": "text",
             "mk_rec_type": "message",
             "pin_weight": "...",
+            "pinned_account_id": "<account:Bob Marley>",
             "posted_time": "...",
             "prev_message_nr": 1,
             "profile_id": "<account:Bob Marley>",
@@ -111,11 +112,14 @@ test('file storage calculation tests - how files in pinboard, taskboard and flow
             "posted_time": "...",
             "prev_message_nr": 2,
             "profile_id": "<account:Bob Marley>",
+            "section_id": "<section:To Do>",
             "tags": [
             "is_shared",
             "is_task",
             "is_todo",
             ],
+            "task_weight": 4294967296,
+            "tasked_account_id": "<account:Bob Marley>",
         }),
         // bob uploads a third file
         () => client.api_put("api/file/upload", './data/physics.png'),
