@@ -203,7 +203,7 @@ let changelog_after_timetravel = {
        "message": {
          "org_name": "organisationName",
          "organisation_id": "<org:organisationName>",
-         "sysmsg_text": "{author} disabled admin control, all members can change conversation settings.",
+         "sysmsg_text": "This conversation is no longer managed by {org_name}. All members can change conversation settings and membership.",
        },
        "message_nr": 3,
        "mk_message_state": "urn:fleep:message:mk_message_state:system",
