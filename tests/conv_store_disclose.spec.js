@@ -94,7 +94,7 @@ let conv_after_store = {
          "members": [
            "<account:Don Johnson>",
          ],
-         "sysmsg_text": "{author} disclosed conversations message history to {members} starting from {disclose_time}.",
+         "sysmsg_text": "{author} disclosed previous messages to {teamsAndMembers} starting from {disclose_time}.",
          "team_ids": [
            "<team:DiscloseTeam>",
          ],
@@ -104,7 +104,7 @@ let conv_after_store = {
        },
        "message_nr": 7,
        "mk_message_state": "urn:fleep:message:mk_message_state:system",
-       "mk_message_type": "disclose",
+       "mk_message_type": "discloseV2",
        "mk_rec_type": "message",
        "posted_time": "...",
        "prev_message_nr": 6,
