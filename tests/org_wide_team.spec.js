@@ -2,6 +2,7 @@ import {UserCache, thenSequence} from '../lib';
 
 let UC = new UserCache([
     'Bob Dylan',
+    'Bon Jovi',
     'Charlie Chaplin',
     'Don Johnson',
     'Mel Gibson',
@@ -22,6 +23,7 @@ let first_team_create = {
    "is_tiny": false,
    "members": [
    "<account:Bob Dylan>",
+   "<account:Bon Jovi>",
    "<account:Charlie Chaplin>",
    "<account:Don Johnson>",
    "<account:Mel Gibson>",
@@ -64,6 +66,7 @@ let first_conversation = {
    "leavers": [],
    "members": [
    "<account:Bob Dylan>",
+   "<account:Bon Jovi>",
    "<account:Charlie Chaplin>",
    "<account:Don Johnson>",
    "<account:Mel Gibson>",
@@ -104,6 +107,7 @@ test('create org wide team and add members to org after', function () {
         () => client.api_call("api/team/create", {
                 team_name: teamName,
                 conversations: [client.getConvId(convTopic)],
+                account_ids: [UC.bon.account_id],
                 is_managed: true,
                 is_org_wide: true, }),
         // wait for bg worker to do it's stuff
