@@ -151,7 +151,7 @@ let DevList = [
     ['https://dev11.fleep.ee', LETSENCRYPT],
     //['https://dev12.fleep.ee', LETSENCRYPT],
     //['https://dev13.fleep.ee', LETSENCRYPT],
-    ['https://dev14.fleep.ee', DIGICERT],
+    ['https://dev14.fleep.ee', LETSENCRYPT],
     ['https://dev15.fleep.ee', LETSENCRYPT],
 ];
 
