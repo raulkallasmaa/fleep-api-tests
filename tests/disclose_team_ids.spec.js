@@ -241,7 +241,7 @@ let free_conv_team1 = {
     "has_pinboard": false,
     "has_task_archive": false,
     "has_taskboard": false,
-    "inactives": [],
+    "passive": [],
     "inbox_message_nr": 3,
     "inbox_time": "...",
     "is_automute": false,
@@ -278,7 +278,7 @@ let free_conv_team2 = {
     "has_pinboard": false,
     "has_task_archive": false,
     "has_taskboard": false,
-    "inactives": [],
+    "passive": [],
     "inbox_message_nr": 3,
     "inbox_time": "...",
     "is_automute": false,
@@ -565,6 +565,7 @@ test('conversation disclose and disclose all in free conversation and free team 
         // create a free conversation and send 2 messages
         () => client.api_call("api/conversation/create", {topic: conv_topic}),
         () => client.poll_filter({mk_rec_type: 'conv', topic: conv_topic}),
+        () => client.poke(client.getConvId(conv_topic), true),
         () => client.api_call("api/message/store/" + client.getConvId(conv_topic), {message: 'msg1'}),
         () => client.api_call("api/message/store/" + client.getConvId(conv_topic), {message: 'msg2'}),
         // add team1 to the conv

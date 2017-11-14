@@ -207,7 +207,6 @@ let meg_added_to_conv = {
     "is_mark_unread": false,
     "is_premium": false,
     "join_message_nr": 1,
-    "label_ids": [],
     "last_inbox_nr": 3,
     "last_message_nr": 5,
     "last_message_time": "...",
