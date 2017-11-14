@@ -21,9 +21,6 @@ let conv_after_store = {
       "has_pinboard": false,
       "has_task_archive": false,
       "has_taskboard": false,
-      "inactives": [
-        "<account:Bob Marley>",
-      ],
       "inbox_message_nr": 5,
       "inbox_time": "...",
       "is_automute": false,
@@ -36,8 +33,11 @@ let conv_after_store = {
       "last_inbox_nr": 3,
       "last_message_nr": 5,
       "last_message_time": "...",
-      "mk_alert_level": "inactive",
+      "mk_alert_level": "passive",
       "mk_rec_type": "conv",
+      "passive": [
+        "<account:Bob Marley>",
+      ],
       "profile_id": "<account:Bob Marley>",
       "read_message_nr": 5,
       "send_message_nr": 1,
@@ -60,7 +60,6 @@ let conv_after_store2 = {
       "has_pinboard": false,
       "has_task_archive": false,
       "has_taskboard": false,
-      "inactives": [],
       "inbox_message_nr": 5,
       "inbox_time": "...",
       "is_automute": false,
@@ -75,6 +74,7 @@ let conv_after_store2 = {
       "last_message_time": "...",
       "mk_alert_level": "default",
       "mk_rec_type": "conv",
+      "passive": [],
       "profile_id": "<account:Bob Marley>",
       "read_message_nr": 5,
       "send_message_nr": 5,
@@ -118,7 +118,7 @@ test('set conversation inactive/active', function () {
         }),
         // add don to the free conv
         () => client.api_call("api/conversation/store/" + client.getConvId(convTopic), {
-            mk_alert_level: 'inactive',
+            mk_alert_level: 'passive',
         }),
         (res) => expect(UC.clean(res)).toMatchObject(conv_after_store),
         // add don to the free conv
