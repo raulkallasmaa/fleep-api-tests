@@ -225,6 +225,7 @@ test('team: add and remove conversations', function () {
             add_conversations: [client.getConvId(convTopic)], }),
         // wait for bg worker to do it's stuff
         () => client.poke(client.getConvId(convTopic), true),
+        () => client.poke(client.getConvId(convTopic), true),
         // conversation after team is added
         () => expect(UC.clean(client.getConv(convTopic))).toMatchObject(conv_after_team_add),
         () => client.matchStream({mk_rec_type: 'message', mk_message_type: 'add_teamV2'}),

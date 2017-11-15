@@ -318,6 +318,7 @@ test('delete org (unmanage conv and team) after grace period ends', function () 
             body: /has been cancelled/,
         }),
         () => client.poke(client.getConvId(conv_topic), true),
+        () => client.poke(client.getConvId(conv_topic), true),
         (res) => expect(UC.clean(res, {static_version: null})).toMatchObject(changelog_after_timetravel),
     ]);
 });
