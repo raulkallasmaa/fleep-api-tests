@@ -31,7 +31,7 @@ let conv_after_store = {
         "<label:InactiveTeam>",
       ],
       "last_inbox_nr": 3,
-      "last_message_nr": 5,
+      "last_message_nr": 6,
       "last_message_time": "...",
       "mk_alert_level": "passive",
       "mk_rec_type": "conv",
@@ -39,9 +39,9 @@ let conv_after_store = {
         "<account:Bob Marley>",
       ],
       "profile_id": "<account:Bob Marley>",
-      "read_message_nr": 5,
+      "read_message_nr": 6,
       "send_message_nr": 1,
-      "show_message_nr": 5,
+      "show_message_nr": 6,
       "snooze_interval": -3,
       "snooze_time": 0,
       "teams": [
@@ -49,7 +49,25 @@ let conv_after_store = {
       ],
       "unread_count": 0,
     },
-    "stream": [],
+    "stream": [
+      {
+        "account_id": "<account:Bob Marley>",
+        "conversation_id": "<conv:freeConvTeamInactive>",
+        "inbox_nr": -3,
+        "lock_account_id": null,
+        "message": {
+          "sysmsg_text": "{author} left and became a passive member in this conversation and will not receive notifications unless @mentioned.",
+        },
+        "message_nr": 6,
+        "mk_message_state": "urn:fleep:message:mk_message_state:system",
+        "mk_message_type": "passiveV1",
+        "mk_rec_type": "message",
+        "posted_time": "...",
+        "prev_message_nr": 5,
+        "profile_id": "<account:Bob Marley>",
+        "tags": [],
+      },
+    ],
 };
 
 let conv_after_store2 = {
@@ -70,15 +88,15 @@ let conv_after_store2 = {
         "<label:InactiveTeam>",
       ],
       "last_inbox_nr": 3,
-      "last_message_nr": 5,
+      "last_message_nr": 7,
       "last_message_time": "...",
       "mk_alert_level": "default",
       "mk_rec_type": "conv",
       "passive": [],
       "profile_id": "<account:Bob Marley>",
-      "read_message_nr": 5,
-      "send_message_nr": 5,
-      "show_message_nr": 5,
+      "read_message_nr": 7,
+      "send_message_nr": 7,
+      "show_message_nr": 7,
       "snooze_interval": 0,
       "snooze_time": 0,
       "teams": [
@@ -86,7 +104,25 @@ let conv_after_store2 = {
       ],
       "unread_count": 0,
     },
-    "stream": [],
+    "stream": [
+      {
+        "account_id": "<account:Bob Marley>",
+        "conversation_id": "<conv:freeConvTeamInactive>",
+        "inbox_nr": -3,
+        "lock_account_id": null,
+        "message": {
+          "sysmsg_text": "{author} joined the conversation.",
+        },
+        "message_nr": 7,
+        "mk_message_state": "urn:fleep:message:mk_message_state:system",
+        "mk_message_type": "joinV1",
+        "mk_rec_type": "message",
+        "posted_time": "...",
+        "prev_message_nr": 6,
+        "profile_id": "<account:Bob Marley>",
+        "tags": [],
+      },
+    ],
 };
 
 
