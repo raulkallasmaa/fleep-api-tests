@@ -286,7 +286,6 @@ test('time travel: unmanage conv and team after trial ends', function () {
             body: /Fleep for Business trial ended/,
         }),
         () => client.poke(client.getConvId(conv_topic), true),
-        () => client.poke(client.getConvId(conv_topic), true),
         (res) => expect(UC.clean(res, {static_version: null})).toMatchObject(changelog_after_timetravel),
     ]);
 });
