@@ -79,7 +79,7 @@ test('active member count tests', function () {
         () => client.api_call("api/business/sync/" + client.getOrgId(org_name)),
         () => expect(client.getOrg(org_name).active_member_count).toEqual(1),
         // ben declines the org invite
-        () => UC.ben.poll_filter({mk_rec_type: 'reminder', organisation_id: client.getOrgId(org_name)}),
+        () => UC.ben.api_call('api/account/sync_reminders'),
         () => UC.ben.matchStream({mk_rec_type: 'reminder', organisation_id: client.getOrgId(org_name)}),
         (res) => UC.ben.api_call("api/account/click_reminder", {reminder_id: res.reminder_id}),
         () => client.api_call("api/business/sync/" + client.getOrgId(org_name)),
@@ -115,7 +115,7 @@ test('active member count tests', function () {
         () => client.api_call("api/business/sync/" + client.getOrgId(org_name)),
         () => expect(client.getOrg(org_name).active_member_count).toEqual(1),
         // jon joins the org
-        () => UC.jon.poll_filter({mk_rec_type: 'reminder', organisation_id: client.getOrgId(org_name)}),
+        () => UC.jon.api_call('api/account/sync_reminders'),
         () => UC.jon.matchStream({mk_rec_type: 'reminder', organisation_id: client.getOrgId(org_name)}),
         (res) => UC.jon.api_call("api/business/join/" + client.getOrgId(org_name), {
             reminder_id: res.reminder_id}),
