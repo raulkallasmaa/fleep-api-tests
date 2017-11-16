@@ -139,7 +139,7 @@ let LiveList = [
 let DevList = [
     ['https://dev0.fleep.ee', LETSENCRYPT],
     ['https://dev1.fleep.ee', LETSENCRYPT],
-    //['https://dev2.fleep.ee', LETSENCRYPT],
+    ['https://dev2.fleep.ee', LETSENCRYPT],
     //['https://dev3.fleep.ee', LETSENCRYPT],
     ['https://dev4.fleep.ee', DIGICERT],
     ['https://dev5.fleep.ee', LETSENCRYPT],
