@@ -13,71 +13,119 @@ let UC = new UserCache([
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
 
-let after_org_conv_create = {
+let org_members_added = {
     "stream": [{
-    "admins": [
-    "<account:Bob Marley>",
-    ],
-    "autojoin_url": "<autojoin:managedConvDisclose>",
-    "cmail": "<cmail:managedConvDisclose>",
-    "conversation_id": "<conv:managedConvDisclose>",
-    "creator_id": "<account:Bob Marley>",
-    "default_members": [],
-    "guests": [],
-    "has_email_subject": false,
-    "is_deletable": true,
-    "is_list": false,
-    "is_managed": true,
-    "leavers": [],
-    "managed_time": "...",
-    "members": [
-    "<account:Bob Marley>",
-    ],
-    "mk_conv_type": "cct_default",
-    "mk_rec_type": "org_conv",
+    "active_member_count": "...",
+    "grace_time": "...",
+    "is_admin": true,
+    "is_member": true,
+    "mk_rec_type": "org_header",
+    "organisation_founder_id": "<account:Bob Marley>",
     "organisation_id": "<org:orgDisclose>",
-    "teams": [],
-    "topic": "managedConvDisclose",
+    "organisation_name": "orgDisclose",
+    "status": "bos_new",
+    "trial_time": "...",
+    "version_nr": 2,
+    },
+    {
+    "account_id": "<account:Bob Marley>",
+    "is_admin": true,
+    "mk_member_status": "bms_active",
+    "mk_rec_type": "org_member",
+    "organisation_id": "<org:orgDisclose>",
+    },
+    {
+    "account_id": "<account:Don Johnson>",
+    "inviter_id": "<account:Bob Marley>",
+    "is_admin": false,
+    "mk_member_status": "bms_pending",
+    "mk_rec_type": "org_member",
+    "organisation_id": "<org:orgDisclose>",
+    },
+    {
+    "account_id": "<account:Jil Smith>",
+    "inviter_id": "<account:Bob Marley>",
+    "is_admin": false,
+    "mk_member_status": "bms_pending",
+    "mk_rec_type": "org_member",
+    "organisation_id": "<org:orgDisclose>",
+    },
+    {
+    "account_id": "<account:Jon Lajoie>",
+    "inviter_id": "<account:Bob Marley>",
+    "is_admin": false,
+    "mk_member_status": "bms_pending",
+    "mk_rec_type": "org_member",
+    "organisation_id": "<org:orgDisclose>",
+    },
+    {
+    "account_id": "<account:Meg Griffin>",
+    "inviter_id": "<account:Bob Marley>",
+    "is_admin": false,
+    "mk_member_status": "bms_pending",
+    "mk_rec_type": "org_member",
+    "organisation_id": "<org:orgDisclose>",
     }],
 };
 
-let meg_added_to_conv = {
+let managed_team_meg = {
     "stream": [{
     "admins": [
     "<account:Bob Marley>",
     ],
-    "autojoin_url": "<autojoin:managedConvDisclose>",
-    "cmail": "<cmail:managedConvDisclose>",
-    "conversation_id": "<conv:managedConvDisclose>",
-    "creator_id": "<account:Bob Marley>",
-    "default_members": [],
-    "guests": [],
-    "has_email_subject": false,
-    "is_deletable": true,
-    "is_list": false,
+    "autojoin_url": "<autojoin:teamMeg>",
+    "is_autojoin": false,
+    "is_deleted": false,
     "is_managed": true,
-    "leavers": [],
+    "is_org_wide": false,
+    "is_tiny": false,
     "managed_time": "...",
     "members": [
     "<account:Bob Marley>",
     "<account:Meg Griffin>",
     ],
-    "mk_conv_type": "cct_default",
-    "mk_rec_type": "org_conv",
+    "mk_rec_type": "team",
+    "mk_sync_mode": "tsm_full",
     "organisation_id": "<org:orgDisclose>",
-    "teams": [],
-    "topic": "managedConvDisclose",
+    "team_id": "<team:teamMeg>",
+    "team_name": "teamMeg",
+    "team_version_nr": 1,
     }],
 };
 
-let jon_added_to_conv = {
+let managed_team_don = {
     "stream": [{
     "admins": [
     "<account:Bob Marley>",
     ],
-    "autojoin_url": "<autojoin:managedConvDisclose>",
-    "cmail": "<cmail:managedConvDisclose>",
-    "conversation_id": "<conv:managedConvDisclose>",
+    "autojoin_url": "<autojoin:teamDon>",
+    "is_autojoin": false,
+    "is_deleted": false,
+    "is_managed": true,
+    "is_org_wide": false,
+    "is_tiny": false,
+    "managed_time": "...",
+    "members": [
+    "<account:Bob Marley>",
+    "<account:Don Johnson>",
+    ],
+    "mk_rec_type": "team",
+    "mk_sync_mode": "tsm_full",
+    "organisation_id": "<org:orgDisclose>",
+    "team_id": "<team:teamDon>",
+    "team_name": "teamDon",
+    "team_version_nr": 1,
+    }],
+};
+
+let org_conv_team1 = {
+    "stream": [{
+    "admins": [
+    "<account:Bob Marley>",
+    ],
+    "autojoin_url": "<autojoin:managedConvDiscloseUsingTeamIDsAndAccountIDs>",
+    "cmail": "<cmail:managedConvDiscloseUsingTeamIDsAndAccountIDs>",
+    "conversation_id": "<conv:managedConvDiscloseUsingTeamIDsAndAccountIDs>",
     "creator_id": "<account:Bob Marley>",
     "default_members": [],
     "guests": [],
@@ -89,22 +137,103 @@ let jon_added_to_conv = {
     "managed_time": "...",
     "members": [
     "<account:Bob Marley>",
+    "<account:Jil Smith>",
+    "<account:Meg Griffin>",
+    ],
+    "mk_conv_type": "cct_default",
+    "mk_rec_type": "org_conv",
+    "organisation_id": "<org:orgDisclose>",
+    "teams": [
+    "<team:teamMeg>",
+    ],
+    "topic": "managedConvDiscloseUsingTeamIDsAndAccountIDs",
+    }],
+};
+
+let org_conv_team2 = {
+    "stream": [{
+    "admins": [
+    "<account:Bob Marley>",
+    ],
+    "autojoin_url": "<autojoin:managedConvDiscloseUsingTeamIDsAndAccountIDs>",
+    "cmail": "<cmail:managedConvDiscloseUsingTeamIDsAndAccountIDs>",
+    "conversation_id": "<conv:managedConvDiscloseUsingTeamIDsAndAccountIDs>",
+    "creator_id": "<account:Bob Marley>",
+    "default_members": [],
+    "guests": [],
+    "has_email_subject": false,
+    "is_deletable": true,
+    "is_list": false,
+    "is_managed": true,
+    "leavers": [],
+    "managed_time": "...",
+    "members": [
+    "<account:Bob Marley>",
+    "<account:Don Johnson>",
+    "<account:Jil Smith>",
     "<account:Jon Lajoie>",
     "<account:Meg Griffin>",
     ],
     "mk_conv_type": "cct_default",
     "mk_rec_type": "org_conv",
     "organisation_id": "<org:orgDisclose>",
-    "teams": [],
-    "topic": "managedConvDisclose",
+    "teams": [
+    "<team:teamDon>",
+    "<team:teamMeg>",
+    ],
+    "topic": "managedConvDiscloseUsingTeamIDsAndAccountIDs",
     }],
 };
 
-let don_added_to_conv = {
+let free_team_jil = {
+    "stream": [{
+    "admins": [],
+    "autojoin_url": "<autojoin:teamJil>",
+    "is_autojoin": false,
+    "is_deleted": false,
+    "is_managed": false,
+    "is_org_wide": false,
+    "is_tiny": false,
+    "members": [
+    "<account:Bob Marley>",
+    "<account:Jil Smith>",
+    ],
+    "mk_rec_type": "team",
+    "mk_sync_mode": "tsm_full",
+    "organisation_id": null,
+    "team_id": "<team:teamJil>",
+    "team_name": "teamJil",
+    "team_version_nr": 1,
+    }],
+};
+
+let free_team_jon = {
+    "stream": [{
+    "admins": [],
+    "autojoin_url": "<autojoin:teamJon>",
+    "is_autojoin": false,
+    "is_deleted": false,
+    "is_managed": false,
+    "is_org_wide": false,
+    "is_tiny": false,
+    "members": [
+    "<account:Bob Marley>",
+    "<account:Jon Lajoie>",
+    ],
+    "mk_rec_type": "team",
+    "mk_sync_mode": "tsm_full",
+    "organisation_id": null,
+    "team_id": "<team:teamJon>",
+    "team_name": "teamJon",
+    "team_version_nr": 1,
+    }],
+};
+
+let free_conv_team1 = {
     "header": {
     "admins": [],
     "can_post": true,
-    "conversation_id": "<conv:freeConvDisclose>",
+    "conversation_id": "<conv:freeConvDiscloseUsingTeamIDsAndAccountIDs>",
     "creator_id": "<account:Bob Marley>",
     "default_members": [],
     "export_files": [],
@@ -114,7 +243,7 @@ let don_added_to_conv = {
     "has_pinboard": false,
     "has_task_archive": false,
     "has_taskboard": false,
-    "inbox_message_nr": 4,
+    "inbox_message_nr": 3,
     "inbox_time": "...",
     "is_automute": false,
     "is_list": false,
@@ -122,62 +251,67 @@ let don_added_to_conv = {
     "is_mark_unread": false,
     "is_premium": false,
     "join_message_nr": 1,
-    "label_ids": [],
-    "last_inbox_nr": 3,
+    "label_ids": [
+    "<label:teamJil>",
+    ],
+    "last_inbox_nr": 2,
     "last_message_nr": 5,
     "last_message_time": "...",
     "leavers": [],
     "members": [
     "<account:Bob Marley>",
-    "<account:Don Johnson>",
+    "<account:Jil Smith>",
+    "<account:Meg Griffin>",
     ],
     "mk_alert_level": "default",
     "mk_conv_type": "cct_default",
     "mk_rec_type": "conv",
     "organisation_id": null,
+    "passive": [],
     "profile_id": "<account:Bob Marley>",
     "read_message_nr": 5,
     "send_message_nr": 1,
     "show_message_nr": 5,
     "snooze_interval": 0,
     "snooze_time": 0,
-    "teams": [],
-    "topic": "freeConvDisclose",
+    "teams": [
+    "<team:teamJil>",
+    ],
+    "topic": "freeConvDiscloseUsingTeamIDsAndAccountIDs",
     "topic_message_nr": 1,
     "unread_count": 0,
     },
     "stream": [{
     "account_id": "<account:Bob Marley>",
-    "conversation_id": "<conv:freeConvDisclose>",
-    "inbox_nr": -3,
+    "conversation_id": "<conv:freeConvDiscloseUsingTeamIDsAndAccountIDs>",
+    "inbox_nr": -2,
     "lock_account_id": null,
     "message": {
     "members": [
-    "<account:Don Johnson>",
-    ]
-    },
-    "message_nr": 5,
+    "<account:Meg Griffin>",
+    ]},
+    "message_nr": 4,
     "mk_message_state": "urn:fleep:message:mk_message_state:system",
     "mk_message_type": "add",
     "mk_rec_type": "message",
     "posted_time": "...",
-    "prev_message_nr": 4,
+    "prev_message_nr": 3,
     "profile_id": "<account:Bob Marley>",
     "tags": [],
     },
     {
-    "account_id": "<account:Don Johnson>",
-    "conversation_id": "<conv:freeConvDisclose>",
-    "join_message_nr": 5,
+    "account_id": "<account:Meg Griffin>",
+    "conversation_id": "<conv:freeConvDiscloseUsingTeamIDsAndAccountIDs>",
+    "join_message_nr": 4,
     "mk_rec_type": "activity",
     }],
 };
 
-let jil_added_to_conv = {
+let free_conv_team2 = {
     "header": {
     "admins": [],
     "can_post": true,
-    "conversation_id": "<conv:freeConvDisclose>",
+    "conversation_id": "<conv:freeConvDiscloseUsingTeamIDsAndAccountIDs>",
     "creator_id": "<account:Bob Marley>",
     "default_members": [],
     "export_files": [],
@@ -187,7 +321,7 @@ let jil_added_to_conv = {
     "has_pinboard": false,
     "has_task_archive": false,
     "has_taskboard": false,
-    "inbox_message_nr": 4,
+    "inbox_message_nr": 3,
     "inbox_time": "...",
     "is_automute": false,
     "is_list": false,
@@ -195,41 +329,49 @@ let jil_added_to_conv = {
     "is_mark_unread": false,
     "is_premium": false,
     "join_message_nr": 1,
-    "label_ids": [],
-    "last_inbox_nr": 3,
-    "last_message_nr": 7,
+    "label_ids": [
+    "<label:teamJil>",
+    "<label:teamJon>",
+    ],
+    "last_inbox_nr": 2,
+    "last_message_nr": 8,
     "last_message_time": "...",
     "leavers": [],
     "members": [
     "<account:Bob Marley>",
     "<account:Don Johnson>",
     "<account:Jil Smith>",
+    "<account:Jon Lajoie>",
+    "<account:Meg Griffin>",
     ],
     "mk_alert_level": "default",
     "mk_conv_type": "cct_default",
     "mk_rec_type": "conv",
     "organisation_id": null,
+    "passive": [],
     "profile_id": "<account:Bob Marley>",
-    "read_message_nr": 7,
+    "read_message_nr": 8,
     "send_message_nr": 1,
-    "show_message_nr": 7,
+    "show_message_nr": 8,
     "snooze_interval": 0,
     "snooze_time": 0,
-    "teams": [],
-    "topic": "freeConvDisclose",
+    "teams": [
+    "<team:teamJil>",
+    "<team:teamJon>",
+    ],
+    "topic": "freeConvDiscloseUsingTeamIDsAndAccountIDs",
     "topic_message_nr": 1,
     "unread_count": 0,
     },
     "stream": [{
     "account_id": "<account:Bob Marley>",
-    "conversation_id": "<conv:freeConvDisclose>",
-    "inbox_nr": -3,
+    "conversation_id": "<conv:freeConvDiscloseUsingTeamIDsAndAccountIDs>",
+    "inbox_nr": -2,
     "lock_account_id": null,
     "message": {
     "members": [
-    "<account:Jil Smith>",
-    ],
-    },
+    "<account:Don Johnson>",
+    ]},
     "message_nr": 7,
     "mk_message_state": "urn:fleep:message:mk_message_state:system",
     "mk_message_type": "add",
@@ -240,71 +382,95 @@ let jil_added_to_conv = {
     "tags": [],
     },
     {
-    "account_id": "<account:Jil Smith>",
-    "conversation_id": "<conv:freeConvDisclose>",
+    "account_id": "<account:Don Johnson>",
+    "conversation_id": "<conv:freeConvDiscloseUsingTeamIDsAndAccountIDs>",
     "join_message_nr": 7,
     "mk_rec_type": "activity",
     }],
 };
 
-test('conversation disclose and disclose all in managed conversation', function () {
+test('conversation disclose and disclose all in managed conversation and managed team using team ids and account ids', function () {
     let client = UC.bob;
-    let conv_topic = 'managedConvDisclose';
+    let conv_topic = 'managedConvDiscloseUsingTeamIDsAndAccountIDs';
     let org_name = 'orgDisclose';
+    let team_name1 = 'teamMeg';
+    let team_name2 = 'teamDon';
 
     return thenSequence([
-        // create org and add meg
+        () => UC.meg.initial_poll(),
+        () => UC.don.initial_poll(),
+        () => UC.jil.initial_poll(),
+        () => UC.jon.initial_poll(),
+        // create org and invite 4 users
         () => client.api_call("api/business/create", {organisation_name: org_name}),
         () => client.poll_filter({mk_rec_type: 'org_header', organisation_name: org_name}),
         () => client.api_call("api/business/configure/" + client.getOrgId(org_name), {
-            add_account_ids: [UC.meg.account_id],
+            add_account_ids: [UC.meg.account_id, UC.don.account_id, UC.jil.account_id, UC.jon.account_id]
         }),
-        // meg joins the org
+        (res) => expect(UC.clean(res)).toMatchObject(org_members_added),
+        // get meg into org
         () => UC.meg.poll_filter({mk_rec_type: 'reminder', organisation_id: client.getOrgId(org_name)}),
         () => UC.meg.matchStream({mk_rec_type: 'reminder', organisation_id: client.getOrgId(org_name)}),
-        (res) => UC.meg.api_call("api/business/join/" + client.getOrgId(org_name), {
-            reminder_id: res.reminder_id}),
-        // create managed conv
-        () => client.api_call("api/business/create_conversation/" + client.getOrgId(org_name), {
-            topic: conv_topic,
+        (res) => UC.meg.api_call("api/business/join/" + client.getOrgId(org_name), {reminder_id: res.reminder_id}),
+        // get don into org
+        () => UC.don.poll_filter({mk_rec_type: 'reminder', organisation_id: client.getOrgId(org_name)}),
+        () => UC.don.matchStream({mk_rec_type: 'reminder', organisation_id: client.getOrgId(org_name)}),
+        (res) => UC.don.api_call("api/business/join/" + client.getOrgId(org_name), {reminder_id: res.reminder_id}),
+        // get jil into org
+        () => UC.jil.poll_filter({mk_rec_type: 'reminder', organisation_id: client.getOrgId(org_name)}),
+        () => UC.jil.matchStream({mk_rec_type: 'reminder', organisation_id: client.getOrgId(org_name)}),
+        (res) => UC.jil.api_call("api/business/join/" + client.getOrgId(org_name), {reminder_id: res.reminder_id}),
+        // get jon into org
+        () => UC.jon.poll_filter({mk_rec_type: 'reminder', organisation_id: client.getOrgId(org_name)}),
+        () => UC.jon.matchStream({mk_rec_type: 'reminder', organisation_id: client.getOrgId(org_name)}),
+        (res) => UC.jon.api_call("api/business/join/" + client.getOrgId(org_name), {reminder_id: res.reminder_id}),
+        // create a managed team with meg
+        () => client.api_call("api/business/create_team/" + client.getOrgId(org_name), {
+            team_name: team_name1,
+            account_ids: [UC.meg.account_id],
         }),
-        (res) => expect(UC.clean(res)).toMatchObject(after_org_conv_create),
+        (res) => expect(UC.clean(res)).toMatchObject(managed_team_meg),
+        // create a managed team with don
+        () => client.api_call("api/business/create_team/" + client.getOrgId(org_name), {
+            team_name: team_name2,
+            account_ids: [UC.don.account_id],
+        }),
+        (res) => expect(UC.clean(res)).toMatchObject(managed_team_don),
+        // create a managed conversation and send 2 messages
+        () => client.api_call("api/business/create_conversation/" + client.getOrgId(org_name), {topic: conv_topic}),
         () => client.poll_filter({mk_rec_type: 'conv', topic: conv_topic}),
-        // send 3 messages to conv
-        () => client.api_call("api/message/store/" + client.getConvId(conv_topic), {
-           message: 'msg1',
-        }),
-        () => client.api_call("api/message/store/" + client.getConvId(conv_topic), {
-            message: 'msg2',
-        }),
-        () => client.api_call("api/message/store/" + client.getConvId(conv_topic), {
-            message: 'msg3',
-        }),
-        // add meg to the conv
+        () => client.api_call("api/message/store/" + client.getConvId(conv_topic), {message: 'msg1'}),
+        () => client.api_call("api/message/store/" + client.getConvId(conv_topic), {message: 'msg2'}),
+        // add team1 and jil to the conv
         () => client.api_call("api/business/store_conversation/" + client.getOrgId(org_name), {
             conversation_id: client.getConvId(conv_topic),
-            add_account_ids: [UC.meg.account_id],
+            add_team_ids: [client.getTeamId(team_name1)],
+            add_account_ids: [UC.jil.account_id],
         }),
-        (res) => expect(UC.clean(res)).toMatchObject(meg_added_to_conv),
-        // check that meg does not see the 3 messages before disclose
-        () => UC.meg.poll_filter({mk_rec_type: 'conv', topic: conv_topic}),
+        (res) => expect(UC.clean(res)).toMatchObject(org_conv_team1),
+        // check that neither meg nor jil can see the 2 messages
+        () => UC.meg.api_call("api/conversation/sync/" + client.getConvId(conv_topic)),
         () => UC.meg.matchStream({mk_rec_type: 'message', message: 'msg1'}),
         (res) => expect(UC.clean(res)).toEqual(null),
         () => UC.meg.matchStream({mk_rec_type: 'message', message: 'msg2'}),
         (res) => expect(UC.clean(res)).toEqual(null),
-        () => UC.meg.matchStream({mk_rec_type: 'message', message: 'msg3'}),
+        () => UC.jil.api_call("api/conversation/sync/" + client.getConvId(conv_topic)),
+        () => UC.jil.matchStream({mk_rec_type: 'message', message: 'msg1'}),
         (res) => expect(UC.clean(res)).toEqual(null),
-        // disclose the conv messages to meg
+        () => UC.jil.matchStream({mk_rec_type: 'message', message: 'msg2'}),
+        (res) => expect(UC.clean(res)).toEqual(null),
+        // disclose the conv messages to team1 member meg and regular user jil
         () => client.api_call("api/conversation/disclose/" + client.getConvId(conv_topic), {
-            emails: UC.meg.email,
+            team_ids: [client.getTeamId(team_name1)],
+            account_ids: [UC.jil.account_id],
             message_nr: 2,
         }),
-        // check that meg now sees the 3 messages
-        () => UC.meg.poll_filter({mk_rec_type: 'message', message: /msg1/}),
+        // check that meg now sees the 2 messages
+        () => UC.meg.api_call("api/conversation/sync/" + client.getConvId(conv_topic)),
         () => UC.meg.getMessage(/msg1/),
         (res) => expect(UC.clean(res)).toMatchObject({
             "account_id": "<account:Bob Marley>",
-            "conversation_id": "<conv:managedConvDisclose>",
+            "conversation_id": "<conv:managedConvDiscloseUsingTeamIDsAndAccountIDs>",
             "inbox_nr": 1,
             "lock_account_id": null,
             "message": "<msg><p>msg1</p></msg>",
@@ -320,7 +486,7 @@ test('conversation disclose and disclose all in managed conversation', function 
         () => UC.meg.getMessage(/msg2/),
         (res) => expect(UC.clean(res)).toMatchObject({
             "account_id": "<account:Bob Marley>",
-            "conversation_id": "<conv:managedConvDisclose>",
+            "conversation_id": "<conv:managedConvDiscloseUsingTeamIDsAndAccountIDs>",
             "inbox_nr": 2,
             "lock_account_id": null,
             "message": "<msg><p>msg2</p></msg>",
@@ -333,56 +499,103 @@ test('conversation disclose and disclose all in managed conversation', function 
             "profile_id": "<account:Meg Griffin>",
             "tags": [],
         }),
-        () => UC.meg.getMessage(/msg3/),
+        // check that jil now sees the 2 messages
+        () => UC.jil.api_call("api/conversation/sync/" + client.getConvId(conv_topic)),
+        () => UC.jil.getMessage(/msg1/),
         (res) => expect(UC.clean(res)).toMatchObject({
             "account_id": "<account:Bob Marley>",
-            "conversation_id": "<conv:managedConvDisclose>",
-            "inbox_nr": 3,
+            "conversation_id": "<conv:managedConvDiscloseUsingTeamIDsAndAccountIDs>",
+            "inbox_nr": 1,
             "lock_account_id": null,
-            "message": "<msg><p>msg3</p></msg>",
-            "message_nr": 4,
+            "message": "<msg><p>msg1</p></msg>",
+            "message_nr": 2,
             "mk_message_state": "urn:fleep:message:mk_message_state:plain",
             "mk_message_type": "text",
             "mk_rec_type": "message",
             "posted_time": "...",
-            "prev_message_nr": 3,
-            "profile_id": "<account:Meg Griffin>",
+            "prev_message_nr": 1,
+            "profile_id": "<account:Jil Smith>",
             "tags": [],
         }),
-        // invite jon to the org
-        () => client.api_call("api/business/configure/" + client.getOrgId(org_name), {
-            add_account_ids: [UC.jon.account_id],
+        () => UC.jil.getMessage(/msg2/),
+        (res) => expect(UC.clean(res)).toMatchObject({
+            "account_id": "<account:Bob Marley>",
+            "conversation_id": "<conv:managedConvDiscloseUsingTeamIDsAndAccountIDs>",
+            "inbox_nr": 2,
+            "lock_account_id": null,
+            "message": "<msg><p>msg2</p></msg>",
+            "message_nr": 3,
+            "mk_message_state": "urn:fleep:message:mk_message_state:plain",
+            "mk_message_type": "text",
+            "mk_rec_type": "message",
+            "posted_time": "...",
+            "prev_message_nr": 2,
+            "profile_id": "<account:Jil Smith>",
+            "tags": [],
         }),
-        // jon joins the org
-        () => UC.jon.poll_filter({mk_rec_type: 'reminder', organisation_id: client.getOrgId(org_name)}),
-        () => UC.jon.matchStream({mk_rec_type: 'reminder', organisation_id: client.getOrgId(org_name)}),
-        (res) => UC.jon.api_call("api/business/join/" + client.getOrgId(org_name), {
-            reminder_id: res.reminder_id
-        }),
-        // add jon to the conv
+        // add team2 and jon to the conv
         () => client.api_call("api/business/store_conversation/" + client.getOrgId(org_name), {
             conversation_id: client.getConvId(conv_topic),
+            add_team_ids: [client.getTeamId(team_name2)],
             add_account_ids: [UC.jon.account_id],
         }),
-        (res) => expect(UC.clean(res)).toMatchObject(jon_added_to_conv),
-        // check that jon does not see the 3 messages before disclose all
-        () => UC.jon.poll_filter({mk_rec_type: 'conv', topic: conv_topic}),
+        (res) => expect(UC.clean(res)).toMatchObject(org_conv_team2),
+        // check that neither don nor jon can see the 2 messages
+        () => UC.don.api_call("api/conversation/sync/" + client.getConvId(conv_topic)),
+        () => UC.don.matchStream({mk_rec_type: 'message', message: 'msg1'}),
+        (res) => expect(UC.clean(res)).toEqual(null),
+        () => UC.don.matchStream({mk_rec_type: 'message', message: 'msg2'}),
+        (res) => expect(UC.clean(res)).toEqual(null),
+        () => UC.jon.api_call("api/conversation/sync/" + client.getConvId(conv_topic)),
         () => UC.jon.matchStream({mk_rec_type: 'message', message: 'msg1'}),
         (res) => expect(UC.clean(res)).toEqual(null),
         () => UC.jon.matchStream({mk_rec_type: 'message', message: 'msg2'}),
         (res) => expect(UC.clean(res)).toEqual(null),
-        () => UC.jon.matchStream({mk_rec_type: 'message', message: 'msg3'}),
-        (res) => expect(UC.clean(res)).toEqual(null),
-        // disclose all the conv messages to jon
+        // disclose all the conv messages to team2 member don and regular user jon
         () => client.api_call("api/conversation/disclose_all/" + client.getConvId(conv_topic), {
-            emails: UC.jon.email,
+            team_ids: [client.getTeamId(team_name2)],
+            account_ids: [UC.jon.account_id],
         }),
-        // check that jon now sees the 3 messages
-        () => UC.jon.poll_filter({mk_rec_type: 'message', message: /msg1/}),
+        // check that don now sees the 2 messages
+        () => UC.don.api_call("api/conversation/sync/" + client.getConvId(conv_topic)),
+        () => UC.don.getMessage(/msg1/),
+        (res) => expect(UC.clean(res)).toMatchObject({
+            "account_id": "<account:Bob Marley>",
+            "conversation_id": "<conv:managedConvDiscloseUsingTeamIDsAndAccountIDs>",
+            "inbox_nr": 1,
+            "lock_account_id": null,
+            "message": "<msg><p>msg1</p></msg>",
+            "message_nr": 2,
+            "mk_message_state": "urn:fleep:message:mk_message_state:plain",
+            "mk_message_type": "text",
+            "mk_rec_type": "message",
+            "posted_time": "...",
+            "prev_message_nr": 1,
+            "profile_id": "<account:Don Johnson>",
+            "tags": [],
+        }),
+        () => UC.don.getMessage(/msg2/),
+        (res) => expect(UC.clean(res)).toMatchObject({
+            "account_id": "<account:Bob Marley>",
+            "conversation_id": "<conv:managedConvDiscloseUsingTeamIDsAndAccountIDs>",
+            "inbox_nr": 2,
+            "lock_account_id": null,
+            "message": "<msg><p>msg2</p></msg>",
+            "message_nr": 3,
+            "mk_message_state": "urn:fleep:message:mk_message_state:plain",
+            "mk_message_type": "text",
+            "mk_rec_type": "message",
+            "posted_time": "...",
+            "prev_message_nr": 2,
+            "profile_id": "<account:Don Johnson>",
+            "tags": [],
+        }),
+        // check that jon now sees the 2 messages
+        () => UC.jon.api_call("api/conversation/sync/" + client.getConvId(conv_topic)),
         () => UC.jon.getMessage(/msg1/),
         (res) => expect(UC.clean(res)).toMatchObject({
             "account_id": "<account:Bob Marley>",
-            "conversation_id": "<conv:managedConvDisclose>",
+            "conversation_id": "<conv:managedConvDiscloseUsingTeamIDsAndAccountIDs>",
             "inbox_nr": 1,
             "lock_account_id": null,
             "message": "<msg><p>msg1</p></msg>",
@@ -398,7 +611,7 @@ test('conversation disclose and disclose all in managed conversation', function 
         () => UC.jon.getMessage(/msg2/),
         (res) => expect(UC.clean(res)).toMatchObject({
             "account_id": "<account:Bob Marley>",
-            "conversation_id": "<conv:managedConvDisclose>",
+            "conversation_id": "<conv:managedConvDiscloseUsingTeamIDsAndAccountIDs>",
             "inbox_nr": 2,
             "lock_account_id": null,
             "message": "<msg><p>msg2</p></msg>",
@@ -411,176 +624,212 @@ test('conversation disclose and disclose all in managed conversation', function 
             "profile_id": "<account:Jon Lajoie>",
             "tags": [],
         }),
-        () => UC.jon.getMessage(/msg3/),
-        (res) => expect(UC.clean(res)).toMatchObject({
-            "account_id": "<account:Bob Marley>",
-            "conversation_id": "<conv:managedConvDisclose>",
-            "inbox_nr": 3,
-            "lock_account_id": null,
-            "message": "<msg><p>msg3</p></msg>",
-            "message_nr": 4,
-            "mk_message_state": "urn:fleep:message:mk_message_state:plain",
-            "mk_message_type": "text",
-            "mk_rec_type": "message",
-            "posted_time": "...",
-            "prev_message_nr": 3,
-            "profile_id": "<account:Jon Lajoie>",
-            "tags": [],
-        }),
     ]);
 });
 
-test('conversation disclose and disclose all in free conversation', function () {
+test('conversation disclose and disclose all in free conversation and free team using team ids and account ids', function () {
     let client = UC.bob;
-    let conv_topic = 'freeConvDisclose';
+    let conv_topic = 'freeConvDiscloseUsingTeamIDsAndAccountIDs';
+    let team_name1 = 'teamJil';
+    let team_name2 = 'teamJon';
 
     return thenSequence([
-        // create free conv
+        // create a free team with jil
+        () => client.api_call("api/team/create", {
+            team_name: team_name1,
+            account_ids: [UC.jil.account_id],
+        }),
+        (res) => expect(UC.clean(res)).toMatchObject(free_team_jil),
+        // create a free team with jon
+        () => client.api_call("api/team/create", {
+            team_name: team_name2,
+            account_ids: [UC.jon.account_id],
+        }),
+        (res) => expect(UC.clean(res)).toMatchObject(free_team_jon),
+        // create a free conversation and send 2 messages
         () => client.api_call("api/conversation/create", {topic: conv_topic}),
         () => client.poll_filter({mk_rec_type: 'conv', topic: conv_topic}),
-        // send 3 messages to conv
-        () => client.api_call("api/message/store/" + client.getConvId(conv_topic), {
-            message: 'message1',
-        }),
-        () => client.api_call("api/message/store/" + client.getConvId(conv_topic), {
-            message: 'message2',
-        }),
-        () => client.api_call("api/message/store/" + client.getConvId(conv_topic), {
-            message: 'message3',
-        }),
-        // add don to the free conv
+        () => client.api_call("api/message/store/" + client.getConvId(conv_topic), {message: 'txt1'}),
+        () => client.api_call("api/message/store/" + client.getConvId(conv_topic), {message: 'txt2'}),
+        // add team1 and meg to the conv
         () => client.api_call("api/conversation/store/" + client.getConvId(conv_topic), {
-            add_account_ids: [UC.don.account_id],
+            add_team_ids: [client.getTeamId(team_name1)],
+            add_account_ids: [UC.meg.account_id],
         }),
-        (res) => expect(UC.clean(res)).toMatchObject(don_added_to_conv),
-        // check that don does not see the 3 messages before disclose
-        () => UC.don.poll_filter({mk_rec_type: 'conv', topic: conv_topic}),
-        () => UC.don.matchStream({mk_rec_type: 'message', message: /message1/}),
+        (res) => expect(UC.clean(res)).toMatchObject(free_conv_team1),
+        // check that neither meg nor jil can see the 2 messages
+        () => UC.meg.api_call("api/conversation/sync/" + client.getConvId(conv_topic)),
+        () => UC.meg.matchStream({mk_rec_type: 'message', message: 'txt1'}),
         (res) => expect(UC.clean(res)).toEqual(null),
-        () => UC.don.matchStream({mk_rec_type: 'message', message: /message2/}),
+        () => UC.meg.matchStream({mk_rec_type: 'message', message: 'txt2'}),
         (res) => expect(UC.clean(res)).toEqual(null),
-        () => UC.don.matchStream({mk_rec_type: 'message', message: /message3/}),
+        () => UC.jil.api_call("api/conversation/sync/" + client.getConvId(conv_topic)),
+        () => UC.jil.matchStream({mk_rec_type: 'message', message: 'txt1'}),
         (res) => expect(UC.clean(res)).toEqual(null),
-        // disclose the conv messages to don
+        () => UC.jil.matchStream({mk_rec_type: 'message', message: 'txt2'}),
+        (res) => expect(UC.clean(res)).toEqual(null),
+        // disclose the conv messages to team1 member jil and regular user meg
         () => client.api_call("api/conversation/disclose/" + client.getConvId(conv_topic), {
-            emails: UC.don.email,
+            team_ids: [client.getTeamId(team_name1)],
+            account_ids: [UC.meg.account_id],
             message_nr: 2,
         }),
-        // check that don now sees the 3 messages
-        () => UC.don.poll_filter({mk_rec_type: 'message', message: /message1/}),
-        () => UC.don.getMessage(/message1/),
+        // check that meg now sees the 2 messages
+        () => UC.meg.api_call("api/conversation/sync/" + client.getConvId(conv_topic)),
+        () => UC.meg.getMessage(/txt1/),
         (res) => expect(UC.clean(res)).toMatchObject({
             "account_id": "<account:Bob Marley>",
-            "conversation_id": "<conv:freeConvDisclose>",
+            "conversation_id": "<conv:freeConvDiscloseUsingTeamIDsAndAccountIDs>",
             "inbox_nr": 1,
             "lock_account_id": null,
-            "message": "<msg><p>message1</p></msg>",
+            "message": "<msg><p>txt1</p></msg>",
             "message_nr": 2,
             "mk_message_state": "urn:fleep:message:mk_message_state:plain",
             "mk_message_type": "text",
             "mk_rec_type": "message",
             "posted_time": "...",
             "prev_message_nr": 1,
-            "profile_id": "<account:Don Johnson>",
+            "profile_id": "<account:Meg Griffin>",
             "tags": [],
         }),
-        () => UC.don.getMessage(/message2/),
+        () => UC.meg.getMessage(/txt2/),
         (res) => expect(UC.clean(res)).toMatchObject({
             "account_id": "<account:Bob Marley>",
-            "conversation_id": "<conv:freeConvDisclose>",
+            "conversation_id": "<conv:freeConvDiscloseUsingTeamIDsAndAccountIDs>",
             "inbox_nr": 2,
             "lock_account_id": null,
-            "message": "<msg><p>message2</p></msg>",
+            "message": "<msg><p>txt2</p></msg>",
             "message_nr": 3,
             "mk_message_state": "urn:fleep:message:mk_message_state:plain",
             "mk_message_type": "text",
             "mk_rec_type": "message",
             "posted_time": "...",
             "prev_message_nr": 2,
-            "profile_id": "<account:Don Johnson>",
+            "profile_id": "<account:Meg Griffin>",
             "tags": [],
         }),
-        () => UC.don.getMessage(/message3/),
+        // check that jil now sees the 2 messages
+        () => UC.jil.api_call("api/conversation/sync/" + client.getConvId(conv_topic)),
+        () => UC.jil.getMessage(/txt1/),
         (res) => expect(UC.clean(res)).toMatchObject({
             "account_id": "<account:Bob Marley>",
-            "conversation_id": "<conv:freeConvDisclose>",
-            "inbox_nr": 3,
+            "conversation_id": "<conv:freeConvDiscloseUsingTeamIDsAndAccountIDs>",
+            "inbox_nr": 1,
             "lock_account_id": null,
-            "message": "<msg><p>message3</p></msg>",
-            "message_nr": 4,
+            "message": "<msg><p>txt1</p></msg>",
+            "message_nr": 2,
             "mk_message_state": "urn:fleep:message:mk_message_state:plain",
             "mk_message_type": "text",
             "mk_rec_type": "message",
             "posted_time": "...",
-            "prev_message_nr": 3,
-            "profile_id": "<account:Don Johnson>",
+            "prev_message_nr": 1,
+            "profile_id": "<account:Jil Smith>",
             "tags": [],
         }),
-        // add jil to the free conv
+        () => UC.jil.getMessage(/txt2/),
+        (res) => expect(UC.clean(res)).toMatchObject({
+            "account_id": "<account:Bob Marley>",
+            "conversation_id": "<conv:freeConvDiscloseUsingTeamIDsAndAccountIDs>",
+            "inbox_nr": 2,
+            "lock_account_id": null,
+            "message": "<msg><p>txt2</p></msg>",
+            "message_nr": 3,
+            "mk_message_state": "urn:fleep:message:mk_message_state:plain",
+            "mk_message_type": "text",
+            "mk_rec_type": "message",
+            "posted_time": "...",
+            "prev_message_nr": 2,
+            "profile_id": "<account:Jil Smith>",
+            "tags": [],
+        }),
+        // add team2 and don to the conv
         () => client.api_call("api/conversation/store/" + client.getConvId(conv_topic), {
-            add_account_ids: [UC.jil.account_id],
+            add_team_ids: [client.getTeamId(team_name2)],
+            add_account_ids: [UC.don.account_id],
         }),
-        (res) => expect(UC.clean(res)).toMatchObject(jil_added_to_conv),
-        // check that jil does not see the 3 messages before disclose all
-        () => UC.jil.poll_filter({mk_rec_type: 'conv', topic: conv_topic}),
-        () => UC.jil.matchStream({mk_rec_type: 'message', message: /message1/}),
+        (res) => expect(UC.clean(res)).toMatchObject(free_conv_team2),
+        // check that neither don nor jon can see the 2 messages
+        () => UC.don.api_call("api/conversation/sync/" + client.getConvId(conv_topic)),
+        () => UC.don.matchStream({mk_rec_type: 'message', message: 'msg1'}),
         (res) => expect(UC.clean(res)).toEqual(null),
-        () => UC.jil.matchStream({mk_rec_type: 'message', message: /message2/}),
+        () => UC.don.matchStream({mk_rec_type: 'message', message: 'msg2'}),
         (res) => expect(UC.clean(res)).toEqual(null),
-        () => UC.jil.matchStream({mk_rec_type: 'message', message: /message3/}),
+        () => UC.jon.api_call("api/conversation/sync/" + client.getConvId(conv_topic)),
+        () => UC.jon.matchStream({mk_rec_type: 'message', message: 'msg1'}),
         (res) => expect(UC.clean(res)).toEqual(null),
-        // disclose all the conv messages to jil
+        () => UC.jon.matchStream({mk_rec_type: 'message', message: 'msg2'}),
+        (res) => expect(UC.clean(res)).toEqual(null),
+        // disclose all the conv messages to team2 member jon and regular user don
         () => client.api_call("api/conversation/disclose_all/" + client.getConvId(conv_topic), {
-            emails: UC.jil.email,
+            team_ids: [client.getTeamId(team_name2)],
+            account_ids: [UC.don.account_id],
         }),
-        // check that jil now sees the 3 messages
-        () => UC.jil.poll_filter({mk_rec_type: 'message', message: /message1/}),
-        () => UC.jil.getMessage(/message1/),
+        // check that don now sees the 2 messages
+        () => UC.don.api_call("api/conversation/sync/" + client.getConvId(conv_topic)),
+        () => UC.don.getMessage(/txt1/),
         (res) => expect(UC.clean(res)).toMatchObject({
             "account_id": "<account:Bob Marley>",
-            "conversation_id": "<conv:freeConvDisclose>",
+            "conversation_id": "<conv:freeConvDiscloseUsingTeamIDsAndAccountIDs>",
             "inbox_nr": 1,
             "lock_account_id": null,
-            "message": "<msg><p>message1</p></msg>",
+            "message": "<msg><p>txt1</p></msg>",
             "message_nr": 2,
             "mk_message_state": "urn:fleep:message:mk_message_state:plain",
             "mk_message_type": "text",
             "mk_rec_type": "message",
             "posted_time": "...",
             "prev_message_nr": 1,
-            "profile_id": "<account:Jil Smith>",
+            "profile_id": "<account:Don Johnson>",
             "tags": [],
         }),
-        () => UC.jil.getMessage(/message2/),
+        () => UC.don.getMessage(/txt2/),
         (res) => expect(UC.clean(res)).toMatchObject({
             "account_id": "<account:Bob Marley>",
-            "conversation_id": "<conv:freeConvDisclose>",
+            "conversation_id": "<conv:freeConvDiscloseUsingTeamIDsAndAccountIDs>",
             "inbox_nr": 2,
             "lock_account_id": null,
-            "message": "<msg><p>message2</p></msg>",
+            "message": "<msg><p>txt2</p></msg>",
             "message_nr": 3,
             "mk_message_state": "urn:fleep:message:mk_message_state:plain",
             "mk_message_type": "text",
             "mk_rec_type": "message",
             "posted_time": "...",
             "prev_message_nr": 2,
-            "profile_id": "<account:Jil Smith>",
+            "profile_id": "<account:Don Johnson>",
             "tags": [],
         }),
-        () => UC.jil.getMessage(/message3/),
+        // check that jon now sees the 2 messages
+        () => UC.jon.api_call("api/conversation/sync/" + client.getConvId(conv_topic)),
+        () => UC.jon.getMessage(/txt1/),
         (res) => expect(UC.clean(res)).toMatchObject({
             "account_id": "<account:Bob Marley>",
-            "conversation_id": "<conv:freeConvDisclose>",
-            "inbox_nr": 3,
+            "conversation_id": "<conv:freeConvDiscloseUsingTeamIDsAndAccountIDs>",
+            "inbox_nr": 1,
             "lock_account_id": null,
-            "message": "<msg><p>message3</p></msg>",
-            "message_nr": 4,
+            "message": "<msg><p>txt1</p></msg>",
+            "message_nr": 2,
             "mk_message_state": "urn:fleep:message:mk_message_state:plain",
             "mk_message_type": "text",
             "mk_rec_type": "message",
             "posted_time": "...",
-            "prev_message_nr": 3,
-            "profile_id": "<account:Jil Smith>",
+            "prev_message_nr": 1,
+            "profile_id": "<account:Jon Lajoie>",
+            "tags": [],
+        }),
+        () => UC.jon.getMessage(/txt2/),
+        (res) => expect(UC.clean(res)).toMatchObject({
+            "account_id": "<account:Bob Marley>",
+            "conversation_id": "<conv:freeConvDiscloseUsingTeamIDsAndAccountIDs>",
+            "inbox_nr": 2,
+            "lock_account_id": null,
+            "message": "<msg><p>txt2</p></msg>",
+            "message_nr": 3,
+            "mk_message_state": "urn:fleep:message:mk_message_state:plain",
+            "mk_message_type": "text",
+            "mk_rec_type": "message",
+            "posted_time": "...",
+            "prev_message_nr": 2,
+            "profile_id": "<account:Jon Lajoie>",
             "tags": [],
         }),
     ]);
