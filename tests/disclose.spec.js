@@ -230,7 +230,6 @@ let free_team_jon = {
 };
 
 let free_conv_team1 = {
-    "header": {
     "admins": [],
     "can_post": true,
     "conversation_id": "<conv:freeConvDiscloseUsingTeamIDsAndAccountIDs>",
@@ -280,35 +279,9 @@ let free_conv_team1 = {
     "topic": "freeConvDiscloseUsingTeamIDsAndAccountIDs",
     "topic_message_nr": 1,
     "unread_count": 0,
-    },
-    "stream": [{
-    "account_id": "<account:Bob Marley>",
-    "conversation_id": "<conv:freeConvDiscloseUsingTeamIDsAndAccountIDs>",
-    "inbox_nr": -2,
-    "lock_account_id": null,
-    "message": {
-    "members": [
-    "<account:Meg Griffin>",
-    ]},
-    "message_nr": 4,
-    "mk_message_state": "urn:fleep:message:mk_message_state:system",
-    "mk_message_type": "add",
-    "mk_rec_type": "message",
-    "posted_time": "...",
-    "prev_message_nr": 3,
-    "profile_id": "<account:Bob Marley>",
-    "tags": [],
-    },
-    {
-    "account_id": "<account:Meg Griffin>",
-    "conversation_id": "<conv:freeConvDiscloseUsingTeamIDsAndAccountIDs>",
-    "join_message_nr": 4,
-    "mk_rec_type": "activity",
-    }],
 };
 
 let free_conv_team2 = {
-    "header": {
     "admins": [],
     "can_post": true,
     "conversation_id": "<conv:freeConvDiscloseUsingTeamIDsAndAccountIDs>",
@@ -362,31 +335,6 @@ let free_conv_team2 = {
     "topic": "freeConvDiscloseUsingTeamIDsAndAccountIDs",
     "topic_message_nr": 1,
     "unread_count": 0,
-    },
-    "stream": [{
-    "account_id": "<account:Bob Marley>",
-    "conversation_id": "<conv:freeConvDiscloseUsingTeamIDsAndAccountIDs>",
-    "inbox_nr": -2,
-    "lock_account_id": null,
-    "message": {
-    "members": [
-    "<account:Don Johnson>",
-    ]},
-    "message_nr": 7,
-    "mk_message_state": "urn:fleep:message:mk_message_state:system",
-    "mk_message_type": "add",
-    "mk_rec_type": "message",
-    "posted_time": "...",
-    "prev_message_nr": 6,
-    "profile_id": "<account:Bob Marley>",
-    "tags": [],
-    },
-    {
-    "account_id": "<account:Don Johnson>",
-    "conversation_id": "<conv:freeConvDiscloseUsingTeamIDsAndAccountIDs>",
-    "join_message_nr": 7,
-    "mk_rec_type": "activity",
-    }],
 };
 
 test('conversation disclose and disclose all in managed conversation and managed team using team ids and account ids', function () {
@@ -656,7 +604,8 @@ test('conversation disclose and disclose all in free conversation and free team 
             add_team_ids: [client.getTeamId(team_name1)],
             add_account_ids: [UC.meg.account_id],
         }),
-        (res) => expect(UC.clean(res)).toMatchObject(free_conv_team1),
+        () => client.poke(client.getConvId(conv_topic), true),
+        () => expect(UC.clean(client.getConv(conv_topic))).toMatchObject(free_conv_team1),
         // check that neither meg nor jil can see the 2 messages
         () => UC.meg.api_call("api/conversation/sync/" + client.getConvId(conv_topic)),
         () => UC.meg.matchStream({mk_rec_type: 'message', message: 'txt1'}),
@@ -747,7 +696,8 @@ test('conversation disclose and disclose all in free conversation and free team 
             add_team_ids: [client.getTeamId(team_name2)],
             add_account_ids: [UC.don.account_id],
         }),
-        (res) => expect(UC.clean(res)).toMatchObject(free_conv_team2),
+        () => client.poke(client.getConvId(conv_topic), true),
+        () => expect(UC.clean(client.getConv(conv_topic))).toMatchObject(free_conv_team2),
         // check that neither don nor jon can see the 2 messages
         () => UC.don.api_call("api/conversation/sync/" + client.getConvId(conv_topic)),
         () => UC.don.matchStream({mk_rec_type: 'message', message: 'msg1'}),
