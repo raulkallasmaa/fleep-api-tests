@@ -83,7 +83,7 @@ function connectTLS(opts) {
 function checkDate(dstr, desc, secondary) {
     let now = Date.now(); // ms
     let warn_days = 31;
-    let err_days = 14;
+    let err_days = 11;
     let day_ms = 24 * 60 * 60 * 1000;
     let err_ms = now + err_days * day_ms;
     let warn_ms = now + warn_days * day_ms;
@@ -141,7 +141,7 @@ let DevList = [
     ['https://dev1.fleep.ee', LETSENCRYPT],
     ['https://dev2.fleep.ee', LETSENCRYPT],
     //['https://dev3.fleep.ee', LETSENCRYPT],
-    ['https://dev4.fleep.ee', DIGICERT],
+    ['https://dev4.fleep.ee', LETSENCRYPT],
     ['https://dev5.fleep.ee', LETSENCRYPT],
     //['https://dev6.fleep.ee', LETSENCRYPT],
     ['https://dev7.fleep.ee', LETSENCRYPT],
