@@ -91,7 +91,6 @@ let changelog_after_timetravel = {
      "organisation_name": "organisationName",
      "status": "bos_closed",
      "trial_time": "...",
-     "version_nr": 8,
      "active_member_count": "...",
      },
      {
