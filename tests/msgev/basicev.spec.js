@@ -9,65 +9,71 @@ let UC = new UserCache([
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
 
-test(`Test mk_event_type="${et.MESSAGE_ADD_PLAIN}"`, function () {
+test(`Test mk_event_type="${et.MESSAGE_ADD__PLAIN}"`, function () {
     let state = {};
     return thenSequence([
         () => setupConv(state, 'Post plain message.', UC.alice, [UC.bob]),
         // Alice posts a message
-        () => addEvent(state, UC.alice, et.MESSAGE_ADD_PLAIN, {
+        () => addEvent(state, UC.alice, et.MESSAGE_ADD__PLAIN, {
             conversation_id: state.conversation_id,
-            message: "PlainMessage1",
+            message: "PlainMessage",
         }),
         () => {
-            state.r_message1 = UC.alice.matchStream({
+            state.r_message = UC.alice.matchStream({
                 mk_rec_type: 'message',
                 conversation_id: state.r_request.identifier.conversation_id,
                 message_nr: state.r_request.identifier.message_nr,
             });
-            expect(state.r_message1.mk_message_state).toEqual(ms.PLAIN);
-            expect(state.r_message1.message).toEqual('<msg><p>PlainMessage1</p></msg>');
+            expect(state.r_message).toMatchObject({
+                mk_message_state: ms.PLAIN,
+                message: '<msg><p>PlainMessage</p></msg>',
+            });
         },
     ]);
 });
 
-test(`Test mk_event_type="${et.MESSAGE_ADD_PINNED}"`, function () {
+test(`Test mk_event_type="${et.MESSAGE_ADD__PINNED}"`, function () {
     let state = {};
     return thenSequence([
         () => setupConv(state, 'Post pinned message.', UC.alice, [UC.bob]),
         // Alice posts a message
-        () => addEvent(state, UC.alice, et.MESSAGE_ADD_PINNED, {
+        () => addEvent(state, UC.alice, et.MESSAGE_ADD__PINNED, {
             conversation_id: state.conversation_id,
-            message: "PinnedMessage1",
+            message: "PinnedMessage",
         }),
         () => {
-            state.r_message1 = UC.alice.matchStream({
+            state.r_message = UC.alice.matchStream({
                 mk_rec_type: 'message',
                 conversation_id: state.r_request.identifier.conversation_id,
                 message_nr: state.r_request.identifier.message_nr,
             });
-            expect(state.r_message1.mk_message_state).toEqual(ms.PINNED);
-            expect(state.r_message1.message).toEqual('<msg><p>PinnedMessage1</p></msg>');
+            expect(state.r_message).toMatchObject({
+                mk_message_state: ms.PINNED,
+                message: '<msg><p>PinnedMessage</p></msg>',
+            });
         },
     ]);
 });
 
-test(`Test mk_event_type="${et.MESSAGE_ADD_TODO}"`, function () {
+test(`Test mk_event_type="${et.MESSAGE_ADD__TODO}"`, function () {
     let state = {};
     return thenSequence([
         () => setupConv(state, 'Post todo message.', UC.alice, [UC.bob]),
         // Alice posts a message
-        () => addEvent(state, UC.alice, et.MESSAGE_ADD_TODO, {
+        () => addEvent(state, UC.alice, et.MESSAGE_ADD__TODO, {
             conversation_id: state.conversation_id,
-            message: "TodoMessage1",
+            message: "TodoMessage",
         }),
         () => {
-            state.r_message1 = UC.alice.matchStream({
+            state.r_message = UC.alice.matchStream({
                 mk_rec_type: 'message',
                 conversation_id: state.r_request.identifier.conversation_id,
                 message_nr: state.r_request.identifier.message_nr,
             });
-            expect(state.r_message1.mk_message_state).toEqual(ms.TODO);
-            expect(state.r_message1.message).toEqual('<msg><p>TodoMessage1</p></msg>');
+            expect(state.r_message).toMatchObject({
+                mk_message_state: ms.TODO,
+                message: '<msg><p>TodoMessage</p></msg>',
+            });
         },
     ]);
 });
@@ -77,7 +83,7 @@ test(`Test mk_event_type="${et.MESSAGE_EDIT}"`, function () {
     return thenSequence([
         () => setupConv(state, 'Edit plain message.', UC.alice, [UC.bob]),
         // Alice posts a message
-        () => addEvent(state, UC.alice, et.MESSAGE_ADD_PLAIN, {
+        () => addEvent(state, UC.alice, et.MESSAGE_ADD__PLAIN, {
             conversation_id: state.conversation_id,
             message: "PlainMessage1",
         }),
@@ -87,8 +93,10 @@ test(`Test mk_event_type="${et.MESSAGE_EDIT}"`, function () {
                 conversation_id: state.r_request.identifier.conversation_id,
                 message_nr: state.r_request.identifier.message_nr,
             });
-            expect(state.r_message1.mk_message_state).toEqual(ms.PLAIN);
-            expect(state.r_message1.message).toEqual('<msg><p>PlainMessage1</p></msg>');
+            expect(state.r_message1).toMatchObject({
+                mk_message_state: ms.PLAIN,
+                message: '<msg><p>PlainMessage1</p></msg>',
+            });
         },
         () => addEvent(state, UC.alice, et.MESSAGE_EDIT, {
             conversation_id: state.conversation_id,
@@ -102,17 +110,19 @@ test(`Test mk_event_type="${et.MESSAGE_EDIT}"`, function () {
                 conversation_id: state.r_request.identifier.conversation_id,
                 message_nr: state.r_request.identifier.message_nr,
             });
-            expect(state.r_message1.mk_message_state).toEqual(ms.PLAIN);
-            expect(state.r_message1.message).toEqual('<msg><p>PlainMessage1AfterEdit</p></msg>');
+            expect(state.r_message1).toMatchObject({
+                mk_message_state: ms.PLAIN,
+                message: '<msg><p>PlainMessage1AfterEdit</p></msg>',
+            });
         },
     ]);
 });
 
-test(`Test mk_event_type="${et.MESSAGE_DEL}"`, function () {
+test(`Test mk_event_type="${et.MESSAGE_DELETE}"`, function () {
     let state = {};
     return thenSequence([
         () => setupConv(state, 'Delete plain message.', UC.alice, [UC.bob]),
-        () => addEvent(state, UC.alice, et.MESSAGE_ADD_PLAIN, {
+        () => addEvent(state, UC.alice, et.MESSAGE_ADD__PLAIN, {
             conversation_id: state.conversation_id,
             message: "PlainMessage1",
         }),
@@ -122,10 +132,12 @@ test(`Test mk_event_type="${et.MESSAGE_DEL}"`, function () {
                 conversation_id: state.r_request.identifier.conversation_id,
                 message_nr: state.r_request.identifier.message_nr,
             });
-            expect(state.r_message1.mk_message_state).toEqual(ms.PLAIN);
-            expect(state.r_message1.message).toEqual('<msg><p>PlainMessage1</p></msg>');
+            expect(state.r_message1).toMatchObject({
+                mk_message_state: ms.PLAIN,
+                message: '<msg><p>PlainMessage1</p></msg>',
+            });
         },
-        () => addEvent(state, UC.alice, et.MESSAGE_DEL, {
+        () => addEvent(state, UC.alice, et.MESSAGE_DELETE, {
             conversation_id: state.conversation_id,
             message_nr: state.r_message1.message_nr,
         }),
@@ -135,17 +147,19 @@ test(`Test mk_event_type="${et.MESSAGE_DEL}"`, function () {
                 conversation_id: state.r_request.identifier.conversation_id,
                 message_nr: state.r_request.identifier.message_nr,
             });
-            expect(state.r_message1.mk_message_state).toEqual(ms.DELETED);
-            expect(state.r_message1.message).toEqual('');
+            expect(state.r_message1).toMatchObject({
+                mk_message_state: ms.DELETED,
+                message: '',
+            });
         },
     ]);
 });
 
-test(`Test mk_event_type="${et.MESSAGE_SET_PLAIN}"`, function () {
+test(`Test mk_event_type="${et.MESSAGE_SET__PLAIN}"`, function () {
     let state = {};
     return thenSequence([
-        () => setupConv(state, 'Change message state to plain.', UC.alice, [UC.bob]),
-        () => addEvent(state, UC.alice, et.MESSAGE_ADD_PINNED, {
+        () => setupConv(state, 'Change pinned message state to plain.', UC.alice, [UC.bob]),
+        () => addEvent(state, UC.alice, et.MESSAGE_ADD__PINNED, {
             conversation_id: state.conversation_id,
             message: "PinnedMessage1",
         }),
@@ -155,10 +169,12 @@ test(`Test mk_event_type="${et.MESSAGE_SET_PLAIN}"`, function () {
                 conversation_id: state.r_request.identifier.conversation_id,
                 message_nr: state.r_request.identifier.message_nr,
             });
-            expect(state.r_message1.mk_message_state).toEqual(ms.PINNED);
-            expect(state.r_message1.message).toEqual('<msg><p>PinnedMessage1</p></msg>');
+            expect(state.r_message1).toMatchObject({
+                mk_message_state: ms.PINNED,
+                message: '<msg><p>PinnedMessage1</p></msg>',
+            });
         },
-        () => addEvent(state, UC.alice, et.MESSAGE_SET_PLAIN, {
+        () => addEvent(state, UC.alice, et.MESSAGE_SET__PLAIN, {
             conversation_id: state.conversation_id,
             message_nr: state.r_message1.message_nr,
         }),
@@ -168,17 +184,19 @@ test(`Test mk_event_type="${et.MESSAGE_SET_PLAIN}"`, function () {
                 conversation_id: state.r_request.identifier.conversation_id,
                 message_nr: state.r_request.identifier.message_nr,
             });
-            expect(state.r_message1.mk_message_state).toEqual(ms.PLAIN);
-            expect(state.r_message1.message).toEqual('<msg><p>PinnedMessage1</p></msg>');
+            expect(state.r_message1).toMatchObject({
+                mk_message_state: ms.PLAIN,
+                message: '<msg><p>PinnedMessage1</p></msg>',
+            });
         },
     ]);
 });
 
-test(`Test mk_event_type="${et.MESSAGE_SET_TODO}"`, function () {
+test(`Test mk_event_type="${et.MESSAGE_SET__TODO}"`, function () {
     let state = {};
     return thenSequence([
-        () => setupConv(state, 'Change message state to todo.', UC.alice, [UC.bob]),
-        () => addEvent(state, UC.alice, et.MESSAGE_ADD_PLAIN, {
+        () => setupConv(state, 'Change plain message state to todo.', UC.alice, [UC.bob]),
+        () => addEvent(state, UC.alice, et.MESSAGE_ADD__PLAIN, {
             conversation_id: state.conversation_id,
             message: "PlainMessage1",
         }),
@@ -188,10 +206,12 @@ test(`Test mk_event_type="${et.MESSAGE_SET_TODO}"`, function () {
                 conversation_id: state.r_request.identifier.conversation_id,
                 message_nr: state.r_request.identifier.message_nr,
             });
-            expect(state.r_message1.mk_message_state).toEqual(ms.PLAIN);
-            expect(state.r_message1.message).toEqual('<msg><p>PlainMessage1</p></msg>');
+            expect(state.r_message1).toMatchObject({
+                mk_message_state: ms.PLAIN,
+                message: '<msg><p>PlainMessage1</p></msg>',
+            });
         },
-        () => addEvent(state, UC.alice, et.MESSAGE_SET_TODO, {
+        () => addEvent(state, UC.alice, et.MESSAGE_SET__TODO, {
             conversation_id: state.conversation_id,
             message_nr: state.r_message1.message_nr,
         }),
@@ -201,17 +221,19 @@ test(`Test mk_event_type="${et.MESSAGE_SET_TODO}"`, function () {
                 conversation_id: state.r_request.identifier.conversation_id,
                 message_nr: state.r_request.identifier.message_nr,
             });
-            expect(state.r_message1.mk_message_state).toEqual(ms.TODO);
-            expect(state.r_message1.message).toEqual('<msg><p>PlainMessage1</p></msg>');
+            expect(state.r_message1).toMatchObject({
+                mk_message_state: ms.TODO,
+                message: '<msg><p>PlainMessage1</p></msg>',
+            });
         },
     ]);
 });
 
-test(`Test mk_event_type="${et.MESSAGE_SET_DONE}"`, function () {
+test(`Test mk_event_type="${et.MESSAGE_SET__DONE}"`, function () {
     let state = {};
     return thenSequence([
-        () => setupConv(state, 'Change message state to done.', UC.alice, [UC.bob]),
-        () => addEvent(state, UC.alice, et.MESSAGE_ADD_TODO, {
+        () => setupConv(state, 'Change todo message state to done.', UC.alice, [UC.bob]),
+        () => addEvent(state, UC.alice, et.MESSAGE_ADD__TODO, {
             conversation_id: state.conversation_id,
             message: "TodoMessage1",
         }),
@@ -221,10 +243,12 @@ test(`Test mk_event_type="${et.MESSAGE_SET_DONE}"`, function () {
                 conversation_id: state.r_request.identifier.conversation_id,
                 message_nr: state.r_request.identifier.message_nr,
             });
-            expect(state.r_message1.mk_message_state).toEqual(ms.TODO);
-            expect(state.r_message1.message).toEqual('<msg><p>TodoMessage1</p></msg>');
+            expect(state.r_message1).toMatchObject({
+                mk_message_state: ms.TODO,
+                message: '<msg><p>TodoMessage1</p></msg>',
+            });
         },
-        () => addEvent(state, UC.alice, et.MESSAGE_SET_DONE, {
+        () => addEvent(state, UC.alice, et.MESSAGE_SET__DONE, {
             conversation_id: state.conversation_id,
             message_nr: state.r_message1.message_nr,
         }),
@@ -234,17 +258,19 @@ test(`Test mk_event_type="${et.MESSAGE_SET_DONE}"`, function () {
                 conversation_id: state.r_request.identifier.conversation_id,
                 message_nr: state.r_request.identifier.message_nr,
             });
-            expect(state.r_message1.mk_message_state).toEqual(ms.DONE);
-            expect(state.r_message1.message).toEqual('<msg><p>TodoMessage1</p></msg>');
+            expect(state.r_message1).toMatchObject({
+                mk_message_state: ms.DONE,
+                message: '<msg><p>TodoMessage1</p></msg>',
+            });
         },
     ]);
 });
 
-test(`Test mk_event_type="${et.MESSAGE_SET_PINNED}"`, function () {
+test(`Test mk_event_type="${et.MESSAGE_SET__PINNED}"`, function () {
     let state = {};
     return thenSequence([
-        () => setupConv(state, 'Change message state to pinned.', UC.alice, [UC.bob]),
-        () => addEvent(state, UC.alice, et.MESSAGE_ADD_PLAIN, {
+        () => setupConv(state, 'Change plain message state to pinned.', UC.alice, [UC.bob]),
+        () => addEvent(state, UC.alice, et.MESSAGE_ADD__PLAIN, {
             conversation_id: state.conversation_id,
             message: "PlainMessage1",
         }),
@@ -254,10 +280,12 @@ test(`Test mk_event_type="${et.MESSAGE_SET_PINNED}"`, function () {
                 conversation_id: state.r_request.identifier.conversation_id,
                 message_nr: state.r_request.identifier.message_nr,
             });
-            expect(state.r_message1.mk_message_state).toEqual(ms.PLAIN);
-            expect(state.r_message1.message).toEqual('<msg><p>PlainMessage1</p></msg>');
+            expect(state.r_message1).toMatchObject({
+                mk_message_state: ms.PLAIN,
+                message: '<msg><p>PlainMessage1</p></msg>',
+            });
         },
-        () => addEvent(state, UC.alice, et.MESSAGE_SET_PINNED, {
+        () => addEvent(state, UC.alice, et.MESSAGE_SET__PINNED, {
             conversation_id: state.conversation_id,
             message_nr: state.r_message1.message_nr,
         }),
@@ -267,17 +295,19 @@ test(`Test mk_event_type="${et.MESSAGE_SET_PINNED}"`, function () {
                 conversation_id: state.r_request.identifier.conversation_id,
                 message_nr: state.r_request.identifier.message_nr,
             });
-            expect(state.r_message1.mk_message_state).toEqual(ms.PINNED);
-            expect(state.r_message1.message).toEqual('<msg><p>PlainMessage1</p></msg>');
+            expect(state.r_message1).toMatchObject({
+                mk_message_state: ms.PINNED,
+                message: '<msg><p>PlainMessage1</p></msg>',
+            });
         },
     ]);
 });
 
-test(`Test mk_event_type="${et.MESSAGE_SET_UNPINNED}"`, function () {
+test(`Test mk_event_type="${et.MESSAGE_SET__UNPINNED}"`, function () {
     let state = {};
     return thenSequence([
-        () => setupConv(state, 'Change message state to unpinned.', UC.alice, [UC.bob]),
-        () => addEvent(state, UC.alice, et.MESSAGE_ADD_PINNED, {
+        () => setupConv(state, 'Change pinned message state to unpinned.', UC.alice, [UC.bob]),
+        () => addEvent(state, UC.alice, et.MESSAGE_ADD__PINNED, {
             conversation_id: state.conversation_id,
             message: "PinnedMessage1",
         }),
@@ -287,10 +317,12 @@ test(`Test mk_event_type="${et.MESSAGE_SET_UNPINNED}"`, function () {
                 conversation_id: state.r_request.identifier.conversation_id,
                 message_nr: state.r_request.identifier.message_nr,
             });
-            expect(state.r_message1.mk_message_state).toEqual(ms.PINNED);
-            expect(state.r_message1.message).toEqual('<msg><p>PinnedMessage1</p></msg>');
+            expect(state.r_message1).toMatchObject({
+                mk_message_state: ms.PINNED,
+                message: '<msg><p>PinnedMessage1</p></msg>',
+            });
         },
-        () => addEvent(state, UC.alice, et.MESSAGE_SET_UNPINNED, {
+        () => addEvent(state, UC.alice, et.MESSAGE_SET__UNPINNED, {
             conversation_id: state.conversation_id,
             message_nr: state.r_message1.message_nr,
         }),
@@ -300,18 +332,20 @@ test(`Test mk_event_type="${et.MESSAGE_SET_UNPINNED}"`, function () {
                 conversation_id: state.r_request.identifier.conversation_id,
                 message_nr: state.r_request.identifier.message_nr,
             });
-            expect(state.r_message1.mk_message_state).toEqual(ms.UNPINNED);
-            expect(state.r_message1.message).toEqual('<msg><p>PinnedMessage1</p></msg>');
+            expect(state.r_message1).toMatchObject({
+                mk_message_state: ms.UNPINNED,
+                message: '<msg><p>PinnedMessage1</p></msg>',
+            });
         },
     ]);
 });
 
-test(`Test duplicate mk_event_type="${et.MESSAGE_ADD_PLAIN}"`, function () {
+test(`Test duplicate mk_event_type="${et.MESSAGE_ADD__PLAIN}"`, function () {
     let state = {};
     return thenSequence([
         () => setupConv(state, 'Post plain message.', UC.alice, [UC.bob]),
         // Alice posts a message
-        () => addEvent(state, UC.alice, et.MESSAGE_ADD_PLAIN, {
+        () => addEvent(state, UC.alice, et.MESSAGE_ADD__PLAIN, {
             conversation_id: state.conversation_id,
             message: "PlainMessage1",
         }),
@@ -321,24 +355,28 @@ test(`Test duplicate mk_event_type="${et.MESSAGE_ADD_PLAIN}"`, function () {
                 conversation_id: state.r_request.identifier.conversation_id,
                 message_nr: state.r_request.identifier.message_nr,
             });
-            expect(state.r_message1.mk_message_state).toEqual(ms.PLAIN);
-            expect(state.r_message1.message).toEqual('<msg><p>PlainMessage1</p></msg>');
+            expect(state.r_message1).toMatchObject({
+                mk_message_state: ms.PLAIN,
+                message: '<msg><p>PlainMessage1</p></msg>',
+            });
         },
         () => state.client_req_id = state.r_request.client_req_id,
         // Alice posts a message
-        () => addEvent(state, UC.alice, et.MESSAGE_ADD_PLAIN, {
+        () => addEvent(state, UC.alice, et.MESSAGE_ADD__PLAIN, {
             conversation_id: state.conversation_id,
             message: "PlainMessage2",
         }),
         () => {
-            state.r_message1 = UC.alice.matchStream({
+            state.r_message2 = UC.alice.matchStream({
                 mk_rec_type: 'message',
                 conversation_id: state.r_request.identifier.conversation_id,
                 message_nr: state.r_request.identifier.message_nr,
             });
-            expect(state.r_message1.mk_message_state).toEqual(ms.PLAIN);
-            expect(state.r_message1.message).toEqual('<msg><p>PlainMessage1</p></msg>');
+            expect(state.r_message2).toMatchObject({
+                mk_message_state: ms.PLAIN,
+                message: '<msg><p>PlainMessage1</p></msg>',
+            });
+            expect(state.r_message1).toMatchObject(state.r_message2);
         },
-
     ]);
 });

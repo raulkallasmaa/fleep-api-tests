@@ -2,28 +2,47 @@ import {thenSequence} from '../../lib';
 import {randomUUID} from '../../lib/utils';
 
 let et = {
-    CONV_TASK_SECTION_ADD         : "urn:fleep:client:section:task:add",
-    CONV_TASK_SECTION_POS         : "urn:fleep:client:section:task:pos",
-    CONV_TASK_SECTION_DEL         : "urn:fleep:client:section:task:del",
-    CONV_TASK_SECTION_RENAME      : "urn:fleep:client:section:task:rename",
-    MESSAGE_ADD_PLAIN             : "urn:fleep:client:message:add_plain",
-    MESSAGE_ADD_TODO              : "urn:fleep:client:message:add_todo",
-    MESSAGE_ADD_PINNED            : "urn:fleep:client:message:add_pinned",
-    MESSAGE_EDIT                  : "urn:fleep:client:message:edit",
-    MESSAGE_DEL                   : "urn:fleep:client:message:del",
-    MESSAGE_SET_PLAIN             : "urn:fleep:client:message:set_plain",
-    MESSAGE_SET_TODO              : "urn:fleep:client:message:set_todo",
-    MESSAGE_SET_DONE              : "urn:fleep:client:message:set_done",
-    MESSAGE_SET_PINNED            : "urn:fleep:client:message:set_pinned",
-    MESSAGE_SET_UNPINNED          : "urn:fleep:client:message:set_unpinned",
-    MESSAGE_POS_TASK              : "urn:fleep:client:message:pos_task",
-    MESSAGE_POS_PINNED            : "urn:fleep:client:message:pos_pinned",
-    MESSAGE_SET_ASSIGNEES         : "urn:fleep:client:message:set_assignees",
-    MESSAGE_DISABLE_PREVIEW       : "urn:fleep:client:message:disable_preview",
-    MESSAGE_COPY                  : "urn:fleep:client:message:copy",
+    SECTION_TASK_ADD               : "urn:fleep:client:section:task:add",
+    SECTION_TASK_SET__POSITION     : "urn:fleep:client:section:task:set_position",
+    SECTION_TASK_DELETE            : "urn:fleep:client:section:task:delete",
+    SECTION_TASK_RENAME            : "urn:fleep:client:section:task:rename",
+    SECTION_TASK_ARCHIVE__DONE     : "urn:fleep:client:section:task:archive_done",
 
-    MESSAGE_SYNC_PINBOARD         : "urn:fleep:client:message:sync_pinboard",
-    MESSAGE_SYNC_TASKBOARD        : "urn:fleep:client:message:sync_taskboard",
+    MESSAGE_ADD__PLAIN             : "urn:fleep:client:message:add_plain",
+    MESSAGE_ADD__TODO              : "urn:fleep:client:message:add_todo",
+    MESSAGE_ADD__PINNED            : "urn:fleep:client:message:add_pinned",
+    MESSAGE_EDIT                   : "urn:fleep:client:message:edit",
+    MESSAGE_EDIT__BODY             : "urn:fleep:client:message:edit_body",
+    MESSAGE_EDIT__SUBJECT          : "urn:fleep:client:message:edit_subject",
+    MESSAGE_EDIT__ATTACHMENTS      : "urn:fleep:client:message:edit_attachments",
+    MESSAGE_DELETE__ATTACHMENTS    : "urn:fleep:client:message:delete_attachments",
+
+
+    MESSAGE_DELETE                 : "urn:fleep:client:message:delete",
+    MESSAGE_SET__PLAIN             : "urn:fleep:client:message:set_plain",
+    MESSAGE_SET__TODO              : "urn:fleep:client:message:set_todo",
+    MESSAGE_SET__DONE              : "urn:fleep:client:message:set_done",
+    MESSAGE_SET__PINNED            : "urn:fleep:client:message:set_pinned",
+    MESSAGE_SET__UNPINNED          : "urn:fleep:client:message:set_unpinned",
+    MESSAGE_TASK_SET__POSITION     : "urn:fleep:client:message:task:set_position",
+    MESSAGE_PIN_SET__POSITION      : "urn:fleep:client:message:pin:set_position",
+    MESSAGE_SET__ASSIGNEES         : "urn:fleep:client:message:set_assignees",
+    MESSAGE_DISABLE__PREVIEW       : "urn:fleep:client:message:disable_preview",
+    MESSAGE_COPY                   : "urn:fleep:client:message:copy",
+    MESSAGE_MARK__SPAM             : "urn:fleep:client:message:mark_spam",
+    MESSAGE_UNMARK__SPAM           : "urn:fleep:client:message:unmark_spam",
+
+    CONV_PIN_SYNC                  : "urn:fleep:client:conv:pin:sync",
+    SECTION_TASK_SYNC              : "urn:fleep:client:section:task:sync",
+
+    CONV_UPLOAD__EXTERNAL          : "urn:fleep:client:conv:upload_external",
+
+    CONTACT_GET__DIALOG            : "urn:fleep:client:contact:get_dialog",
+    CONTACT_LOOKUP__BY__EMAIL      : "urn:fleep:client:contact:lookup_by_email",
+    CONTACT_GET                    : "urn:fleep:client:contact:get",
+
+    CONV_ENABLE__DONE__NOTIFICATIONS  : "urn:fleep:client:conv:enable_done_notifications",
+    CONV_DISABLE__DONE__NOTIFICATIONS : "urn:fleep:client:conv:disable_done_notifications",
 };
 
 let ms = {
@@ -89,7 +108,7 @@ function addMessage(state, client, ev) {
             ],
         }),
         () => {
-            state.r_request = client.matchStream({
+            state.r_request = client.matchRequests({
                 mk_rec_type: 'request',
                 client_req_id: state.client_req_id,
                 mk_event_type: state.mk_event_type,
@@ -125,7 +144,7 @@ function addEvent(state, client, mk_event_type, params, nocheck) {
         (res) => state.res = res,
         () => {
             state.client_req_id = null;
-            state.r_request = client.matchStream({
+            state.r_request = client.matchRequests({
                 mk_rec_type: 'request',
                 client_req_id: client_req_id,
                 mk_event_type: mk_event_type,
