@@ -144,9 +144,9 @@ test('assign task, set task done & undone and archive task', function () {
         () => client.api_call("api/message/store/" + client.getConvId(/tasks/), {
             message_nr: client.getMessageNr(/task1/),
             message: 'task2',
-            tags: ['is_todo', 'is_archived']
+            tags: ['is_todo']
         }),
-        () => expect(client.getMessage(/task2/).tags).toEqual(["is_shared", "is_task", "is_todo", "is_archived"])
+        () => expect(client.getMessage(/task2/).tags).toEqual(["is_shared", "is_task", "is_todo"])
     ]);
 });
 
