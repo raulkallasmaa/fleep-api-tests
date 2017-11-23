@@ -108,9 +108,10 @@ test('create teams with all parameters', function () {
                 emails: UC.mel.email, }),
         // wait for bg worker to do it's stuff
         () => client.poke(client.getConvId(convTopic), true),
-        // check singesrs to have three members
+        // check singers to have three members
         () => expect(UC.clean(client.getTeam(teamName))).toMatchObject(first_team_create),
         // check actors before changes
+        () => client.poke(client.getConvId(convTopic), true),
         () => expect(UC.clean(client.getConv(convTopic))).toMatchObject(first_conversation),
     ]);
 });

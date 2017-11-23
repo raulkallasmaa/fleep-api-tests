@@ -1,4 +1,5 @@
 import {UserCache, thenSequence} from '../lib';
+import {waitAsync} from "../lib/utils";
 
 let UC = new UserCache([
     'Bob Marley',
@@ -92,6 +93,7 @@ test('active member count tests', function () {
         }),
         () => client.api_call("api/business/sync/" + client.getOrgId(org_name)),
         () => expect(client.getOrg(org_name).active_member_count).toEqual(1),
+        () => waitAsync(10 * 1000),
         () => UC.don.waitMail({
             subject: /Invitation to/,
             body: /invites you to join the organization/

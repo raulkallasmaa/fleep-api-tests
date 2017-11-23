@@ -40,6 +40,10 @@ test('reset password and set new', function () {
 test('retry password reset until it hits velocity', function () {
     let client2 = UC.snoop;
     return thenSequence([
+        () => UC.sysclient.sys_call("sys/shard/time_travel", {
+            object_id: '<my_ip>',
+            mk_time_action: 'clear_reset_velo',
+        }),
         () => client2.logout(),
         // try to reset password with an invalid email address
         () => client2.raw_api_call("api/account/reset_password", {email: client2.info.fleep_address + '@gmail.com'})
