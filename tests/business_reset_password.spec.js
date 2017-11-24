@@ -1,4 +1,5 @@
 import {UserCache, thenSequence} from '../lib';
+import {waitAsync} from "../lib/utils";
 
 let UC = new UserCache([
     'Bob Dylan',
@@ -21,10 +22,9 @@ test('business reset password and check for email & close session', function () 
         () => client.api_call("api/account/lookup", {lookup_list: [UC.ben.email], ignore_list: []}),
 
         // invite ben
-        () => client.api_call("api/business/configure/" + client.getOrgId(org_name), {
-            add_account_ids: [UC.ben.account_id],
-        }),
+        () => client.api_call("api/business/configure/" + client.getOrgId(org_name), {add_account_ids: [UC.ben.account_id]}),
         // ben joins the org
+        () => UC.ben.api_call('api/account/sync_reminders'),
         () => UC.ben.poll_filter({mk_rec_type: 'reminder', organisation_id: client.getOrgId(org_name)}),
         () => UC.ben.matchStream({mk_rec_type: 'reminder', organisation_id: client.getOrgId(org_name)}),
         (res) => UC.ben.api_call("api/business/join/" + client.getOrgId(org_name), {
@@ -35,6 +35,7 @@ test('business reset password and check for email & close session', function () 
             profile_id: UC.ben.account_id,
             password: UC.ben.password + 'gh54g6h5gh45',
         }),
+        () => waitAsync(10 * 1000),
         // ben receives an email regarding his password change
         () => UC.ben.waitMail({
             subject: /Your Fleep account password has been reset/,

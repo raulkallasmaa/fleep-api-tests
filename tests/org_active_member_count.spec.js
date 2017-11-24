@@ -118,6 +118,7 @@ test('active member count tests', function () {
         () => expect(client.getOrg(org_name).active_member_count).toEqual(1),
         // jon joins the org
         () => UC.jon.api_call('api/account/sync_reminders'),
+        () => UC.jon.poll_filter({mk_rec_type: 'reminder', organisation_id: client.getOrgId(org_name)}),
         () => UC.jon.matchStream({mk_rec_type: 'reminder', organisation_id: client.getOrgId(org_name)}),
         (res) => UC.jon.api_call("api/business/join/" + client.getOrgId(org_name), {
             reminder_id: res.reminder_id}),
