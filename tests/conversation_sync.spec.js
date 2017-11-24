@@ -55,6 +55,7 @@ let after_create = {
     "mk_rec_type": "conv",
     "organisation_id": null,
     "passive": [],
+    "pending": [],
     "pin_cursor": null,
     "pin_sync_state": null,
     "profile_id": "<account:Alice In Wonderland>",
