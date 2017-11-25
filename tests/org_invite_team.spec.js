@@ -44,6 +44,7 @@ let invite_team_response = {
    "mk_rec_type": "team",
    "mk_sync_mode": "tsm_full",
    "organisation_id": "<org:teamsCreateOrgName>",
+   "pending": [],
    "team_id": "<team:Performers>",
    "team_name": "Performers",
    "team_version_nr": 2,

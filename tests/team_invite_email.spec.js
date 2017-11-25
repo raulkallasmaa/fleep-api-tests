@@ -25,6 +25,7 @@ let team_after_create = {
     "mk_rec_type": "team",
     "mk_sync_mode": "tsm_full",
     "organisation_id": "<org:organisationName>",
+    "pending": [],
     "team_id": "<team:teamName>",
     "team_name": "teamName",
     "team_version_nr": 4,

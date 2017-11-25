@@ -30,6 +30,7 @@ let EXPECT_RECS = [{
     "mk_rec_type": "team",
     "mk_sync_mode": "tsm_full",
     "organisation_id": null,
+    "pending": [],
     "team_id": "<team:freeTeam>",
     "team_name": "freeTeam",
     "team_version_nr": 4

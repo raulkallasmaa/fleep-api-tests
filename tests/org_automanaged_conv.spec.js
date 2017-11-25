@@ -214,7 +214,6 @@ test('create org and create auto managed conv in it', function () {
     let client = UC.charlie;
     let conv_topic = 'autoManagedConvTopic';
     let org_name = 'autoManagedConvOrgName';
-    let org_team = 'autoManagedConvTeam';
 
     return thenSequence([
         // create org
