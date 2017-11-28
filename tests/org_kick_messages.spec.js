@@ -49,7 +49,7 @@ test('user is added to managed conv and kicked & only sees the kick message', fu
         () => expect(UC.clean(UC.meg.matchStream({mk_rec_type: 'message', message: /message2/}))).toEqual(null),
         () => expect(UC.clean(UC.meg.matchStream({mk_rec_type: 'message', message: /message3/}))).toEqual(null),
         // check that meg sees the kick message
-        () => expect(UC.clean(UC.meg.getMessage(/administrator/))).toEqual({
+        () => expect(UC.clean(UC.meg.getMessage(/removed/))).toEqual({
             "account_id": "<account:Bob Marley>",
             "conversation_id": "<conv:onlyKickMessage>",
             "inbox_nr": -3,
@@ -60,7 +60,7 @@ test('user is added to managed conv and kicked & only sees the kick message', fu
             ],
             "org_name": "orgName1",
             "organisation_id": "<org:orgName1>",
-            "sysmsg_text": "An administrator of {org_name} removed {members} and their access to the conversation's content.",
+            "sysmsg_text": "{author} removed {members} and their access to the conversation's content.",
             },
             "message_nr": 6,
             "mk_message_state": "urn:fleep:message:mk_message_state:system",
@@ -112,7 +112,7 @@ test('user is member of the convo when it becomes managed, gets kicked and sees 
         () => expect(UC.clean(UC.don.getMessage(/message5/)).message).toEqual("<msg><p>message5</p></msg>"),
         () => expect(UC.clean(UC.don.getMessage(/message6/)).message).toEqual("<msg><p>message6</p></msg>"),
         // check that don sees the kick message
-        () => expect(UC.clean(UC.don.getMessage(/administrator/))).toEqual({
+        () => expect(UC.clean(UC.don.getMessage(/removed/))).toEqual({
             "account_id": "<account:Ben Dover>",
             "conversation_id": "<conv:earlierContentAndKickMessage>",
             "inbox_nr": -3,
@@ -123,7 +123,7 @@ test('user is member of the convo when it becomes managed, gets kicked and sees 
             ],
             "org_name": "orgName2",
             "organisation_id": "<org:orgName2>",
-            "sysmsg_text": "An administrator of {org_name} removed {members} and their access to the conversation's content.",
+            "sysmsg_text": "{author} removed {members} and their access to the conversation's content.",
             },
             "message_nr": 6,
             "mk_message_state": "urn:fleep:message:mk_message_state:system",
@@ -187,7 +187,7 @@ test('user has been in the conv earlier and is added back, gets kicked and sees 
         () => expect(UC.clean(UC.mel.getMessage(/message8/)).message).toEqual("<msg><p>message8</p></msg>"),
         () => expect(UC.clean(UC.mel.matchStream({mk_rec_type: 'message', message: /message9/}))).toEqual(null),
         // check that mel sees the kick message
-        () => expect(UC.clean(UC.mel.getMessage(/administrator/))).toEqual({
+        () => expect(UC.clean(UC.mel.getMessage(/removed/))).toEqual({
             "account_id": "<account:Jon Snow>",
             "conversation_id": "<conv:earlyContentKickMessage>",
             "inbox_nr": -3,
@@ -198,7 +198,7 @@ test('user has been in the conv earlier and is added back, gets kicked and sees 
             ],
             "org_name": "orgName3",
             "organisation_id": "<org:orgName3>",
-            "sysmsg_text": "An administrator of {org_name} removed {members} and their access to the conversation's content.",
+            "sysmsg_text": "{author} removed {members} and their access to the conversation's content.",
             },
             "message_nr": 8,
             "mk_message_state": "urn:fleep:message:mk_message_state:system",
