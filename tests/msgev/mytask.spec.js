@@ -21,7 +21,6 @@ test(`Test my taskboard sync`, function () {
                 mk_section_type: 'urn:fleep:section:mk_section_type:my_task',
                 mk_section_subtype: 'urn:fleep:section:mk_section_subtype:default',
             });
-            console.dir(UC.clean(state.r_section_default));
             expect(UC.clean(state.r_section_default)).toMatchObject({
                section_id: '<section:To Do>',
             });
@@ -33,7 +32,6 @@ test(`Test my taskboard sync`, function () {
                 mk_section_type: 'urn:fleep:section:mk_section_type:my_task',
                 mk_section_subtype: 'urn:fleep:section:mk_section_subtype:archived',
             });
-            console.dir(UC.clean(state.r_section_archived));
             expect(UC.clean(state.r_section_archived)).toMatchObject({
                section_id: '<section:Archived>',
             });
@@ -64,7 +62,20 @@ test(`Test my taskboard sync`, function () {
             section_id: state.r_section_default.section_id,
         }),
         () => {
-            console.dir(state.res);
+            state.r_message_my_task = UC.alice.matchStream({
+                mk_rec_type: 'message',
+                conversation_id: state.r_message1.conversation_id,
+                message_nr: state.r_message1.message_nr,
+            });
+            expect(state.r_message_my_task).toMatchObject({
+                mk_message_state: ms.TODO,
+                message: '<msg><p>TodoMessage1</p></msg>',
+            });
+            expect(UC.clean(state.r_message_my_task.task_state)).toMatchObject({
+                mk_section_type: 'urn:fleep:section:mk_section_type:my_task',
+                section_id: '<section:To Do>',
+                task_weight: 4294967296,
+            });
         },
     ]);
 });
