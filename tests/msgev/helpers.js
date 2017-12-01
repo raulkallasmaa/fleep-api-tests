@@ -8,6 +8,12 @@ let et = {
     SECTION_TASK_RENAME            : "urn:fleep:client:section:task:rename",
     SECTION_TASK_ARCHIVE__DONE     : "urn:fleep:client:section:task:archive_done",
 
+    SECTION_MY__TASK_ADD           : "urn:fleep:client:section:my_task:add",
+    SECTION_MY__TASK_SET__POSITION : "urn:fleep:client:section:my_task:set_position",
+    SECTION_MY__TASK_DELETE        : "urn:fleep:client:section:my_task:delete",
+    SECTION_MY__TASK_RENAME        : "urn:fleep:client:section:my_task:rename",
+    SECTION_MY__TASK_SYNC          : "urn:fleep:client:section:my_task:sync",
+
     MESSAGE_ADD__PLAIN             : "urn:fleep:client:message:add_plain",
     MESSAGE_ADD__TODO              : "urn:fleep:client:message:add_todo",
     MESSAGE_ADD__PINNED            : "urn:fleep:client:message:add_pinned",
@@ -16,7 +22,6 @@ let et = {
     MESSAGE_EDIT__SUBJECT          : "urn:fleep:client:message:edit_subject",
     MESSAGE_EDIT__ATTACHMENTS      : "urn:fleep:client:message:edit_attachments",
     MESSAGE_DELETE__ATTACHMENTS    : "urn:fleep:client:message:delete_attachments",
-
 
     MESSAGE_DELETE                 : "urn:fleep:client:message:delete",
     MESSAGE_SET__PLAIN             : "urn:fleep:client:message:set_plain",
