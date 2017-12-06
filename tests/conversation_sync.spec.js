@@ -68,6 +68,8 @@ let after_create = {
     "topic": "readings",
     "topic_message_nr": 1,
     "unread_count": 0,
+    "is_muted": false,
+    "read_inbox_nr": 0,
 };
 
 test('conversation sync ic_full', function () {

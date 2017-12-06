@@ -68,6 +68,8 @@ test('create new conversation', function () {
             "topic": "test",
             "topic_message_nr": 1,
             "unread_count": 0,
+            "is_muted": false,
+            "read_inbox_nr": 0,
         }),
     ]);
 });
@@ -114,6 +116,8 @@ test('send message', function () {
             "snooze_time": 0,
             "teams": [],
             "unread_count": 0,
+            "is_muted": false,
+            "read_inbox_nr": 1,
             },
             "result_message_nr": "...",
             "stream": [{

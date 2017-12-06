@@ -57,6 +57,8 @@ let after_bob_removed = {
     "topic": "removeMember",
     "topic_message_nr": 2,
     "unread_count": 0,
+    "is_muted": false,
+    "read_inbox_nr": 0,
 };
 
 test('add members to conversation', function () {
@@ -122,6 +124,8 @@ test('add members to conversation', function () {
             "snooze_interval": 0,
             "snooze_time": 0,
             "unread_count": 0,
+            "is_muted": false,
+            "read_inbox_nr": 0,
             }})
     ]);
 });
@@ -207,6 +211,8 @@ test('should leave the conversation', function () {
             "topic": "leaveConvo",
             "topic_message_nr": 1,
             "unread_count": 0,
-                }}),
+            "is_muted": false,
+            "read_inbox_nr": 0,
+        }}),
     ]);
 });
