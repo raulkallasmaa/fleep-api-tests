@@ -44,6 +44,7 @@
     "setupFiles": [
       "./lib/setup-early"
     ],
+    "setupTestFrameworkScriptFile": "./lib/setup-late.js",
     "roots": [
       "<rootDir>/tests/"
     ],
