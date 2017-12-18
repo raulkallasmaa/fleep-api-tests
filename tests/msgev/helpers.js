@@ -45,6 +45,7 @@ let et = {
     CONV_DISABLE__DONE__NOTIFICATIONS : "urn:fleep:client:conv:disable_done_notifications",
 
     ACCOUNT_SET__SLEEP__INTERVAL   : "urn:fleep:client:account:set_sleep_interval",
+    CONV_ADD__MEMBERS              : "urn:fleep:client:conv:add_members",
 };
 
 let ms = {
