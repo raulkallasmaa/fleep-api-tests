@@ -1,5 +1,5 @@
 import {UserCache, thenSequence} from '../lib';
-import {requestAsync} from '../lib/utils';
+import {logRequestAsync} from '../lib/http';
 
 let UC = new UserCache([
     'Alice Adamson',
@@ -39,19 +39,19 @@ test('create a hook and post messages over it', function () {
             }]
         }),
         () => client.poll_filter({mk_rec_type: 'hook', hook_name: 'plainHook'}),
-        () => requestAsync({
+        () => logRequestAsync('plainHookJson', {
             uri: client.getHookUrl('plainHook'),
             method: 'POST',
             body: {message: 'hookMessage'},
             json: true,
             agent: false
-        }),
-        () => requestAsync({
+        }, client.log),
+        () => logRequestAsync('plainHookForm', {
             uri: client.getHookUrl('plainHook'),
             method: 'POST',
             form: {message: 'formMessage'},
             agent: false
-        }),
+        }, client.log),
         () => client.poll_filter({mk_rec_type: 'message', message: /formMessage/}),
         () => expect(UC.clean(client.matchStream({mk_rec_type: 'message', message: /hookMessage/}))).toEqual({
             "account_id": "<account:Charlie Chaplin>",
@@ -119,7 +119,7 @@ test('import hook', function () {
             }]
         }),
         () => client.poll_filter({mk_rec_type: 'hook', hook_name: 'hookImport'}),
-        () => requestAsync({
+        () => logRequestAsync('hookImport', {
             uri: client.getHookUrl('hookImport'),
             method: 'POST',
             body: {messages : [
@@ -129,7 +129,7 @@ test('import hook', function () {
                 ]},
             json: true,
             agent: false
-        }),
+        }, client.log),
         () => client.poke(client.getConvId(/importHook/), true),
         () => {
             let msg1 = client.getMessage(/importMsg1/);
