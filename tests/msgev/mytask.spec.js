@@ -72,7 +72,7 @@ test(`Test my taskboard sync`, function () {
                 mk_message_state: ms.TODO,
                 message: '<msg><p>TodoMessage1</p></msg>',
             });
-            expect(UC.clean(state.r_message_my_task.task_state)).toMatchObject({
+            expect(UC.clean(state.r_message_my_task.assigned_to_me_state)).toMatchObject({
                 mk_section_type: 'urn:fleep:section:mk_section_type:my_task',
                 section_id: '<section:To Do>',
                 task_weight: 4294967296,
@@ -140,10 +140,10 @@ test(`Test my taskboard info propagation`, function () {
                 mk_message_state: ms.TODO,
                 message: '<msg><p>Message assigned to alice</p></msg>',
             });
-            expect(UC.clean(state.r_message_my_task.task_state)).toMatchObject({
+            expect(UC.clean(state.r_message_my_task.assigned_to_me_state)).toMatchObject({
                 mk_section_type: 'urn:fleep:section:mk_section_type:my_task',
                 section_id: '<section:To Do>',
-                task_weight: 4294967296,
+                task_weight: 4295032832,
             });
         },
     ]);
