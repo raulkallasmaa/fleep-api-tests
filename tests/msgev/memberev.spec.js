@@ -11,7 +11,7 @@ let UC = new UserCache([
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
 
-test.skip(`Test mk_event_type="${et.CONV_ADD__MEMBERS}"`, function () {
+test(`Test mk_event_type="${et.CONV_ADD__MEMBERS}"`, function () {
     let state = {};
     return thenSequence([
         () => setupConv(state, 'Test add members', UC.alice, [UC.bob]),
@@ -54,7 +54,7 @@ test.skip(`Test mk_event_type="${et.CONV_ADD__MEMBERS}"`, function () {
     ]);
 });
 
-test.skip(`Test mk_event_type="${et.CONV_ADD__MEMBERS}" with message`, function () {
+test(`Test mk_event_type="${et.CONV_ADD__MEMBERS}" with message`, function () {
     let state = {};
     return thenSequence([
         () => setupConv(state, 'Test add members', UC.alice, [UC.bob]),
