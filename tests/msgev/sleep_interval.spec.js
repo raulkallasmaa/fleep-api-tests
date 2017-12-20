@@ -9,7 +9,7 @@ let UC = new UserCache([
 beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
 
-test.skip(`Test mk_event_type="${et.ACCOUNT_SET__SLEEP__INTERVAL}"`, function () {
+test(`Test mk_event_type="${et.ACCOUNT_SET__SLEEP__INTERVAL}"`, function () {
     let state = {};
     return thenSequence([
         () => addEvent(state, UC.alice, et.ACCOUNT_SET__SLEEP__INTERVAL, {
