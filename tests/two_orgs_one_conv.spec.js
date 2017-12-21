@@ -77,6 +77,7 @@ let conv_after_create = {
     "mk_conv_type": "cct_default",
     "mk_rec_type": "org_conv",
     "organisation_id": "<org:organisationName1>",
+    "pending": [],
     "teams": [],
     "topic": "sharedManagedConv",
     }]
@@ -110,9 +111,12 @@ let jon_conv_admin = {
     "mk_conv_type": "cct_default",
     "mk_rec_type": "org_conv",
     "organisation_id": "<org:organisationName1>",
+    "pending": [
+    "<account:Don Johnson>",
+    ],
     "teams": [],
     "topic": "sharedManagedConv",
-    }]
+    }],
 };
 
 let all_in_conv = {
@@ -144,6 +148,9 @@ let all_in_conv = {
     "mk_conv_type": "cct_default",
     "mk_rec_type": "org_conv",
     "organisation_id": "<org:organisationName1>",
+    "pending": [
+    "<account:Don Johnson>",
+    ],
     "teams": [],
     "topic": "sharedManagedConv",
     }],

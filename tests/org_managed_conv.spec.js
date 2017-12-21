@@ -34,6 +34,7 @@ let create_conv_result = {
    "mk_conv_type": "cct_no_mail",
    "mk_rec_type": "org_conv",
    "organisation_id": "<org:managedConvOrgName>",
+   "pending": [],
    "teams": [
    "<team:managedConvTeamName>",
    ],

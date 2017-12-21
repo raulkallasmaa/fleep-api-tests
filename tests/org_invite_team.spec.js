@@ -165,8 +165,8 @@ test('create teams and invite into org', function () {
         (res) => expect(UC.clean(res)).toEqual(invite_team_response),
         // wait for bg worker to finish
         () => client.poke(client.getConvId(convTopic), true),
-        () => expect(UC.clean(client.getConv(convTopic))).toMatchObject({
-            is_managed: true, }),
+        () => expect(UC.clean(client.getConv(convTopic))).toMatchObject({is_managed: true}),
+        () => client.poke(client.getConvId(convTopic), true),
         () => client.api_call("api/business/sync_changelog/" + client.getOrgId(orgName), {}),
         (res) => expect(UC.clean(res)).toEqual(sync_changelog)
     ]);

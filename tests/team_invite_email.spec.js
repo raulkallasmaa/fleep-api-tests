@@ -28,20 +28,74 @@ let team_after_create = {
     "pending": [],
     "team_id": "<team:teamName>",
     "team_name": "teamName",
-    "team_version_nr": 4,
+    "team_version_nr": 3,
 };
 
 let sync_changelog = {
-    "stream": [
+    "stream": [{
+    "account_id": "<account:Michael Scofield>",
+    "event_data": {
+    "account_id": "<account:Michael Scofield>",
+    "conversation_id": "<conv:joinViaEmail>",
+    "topic": "joinViaEmail",
+    },
+    "event_time": "...",
+    "event_type": "chat.set_managed",
+    "mk_rec_type": "org_changelog",
+    "organisation_id": "<org:organisationName>",
+    "version_nr": 5,
+    },
     {
     "account_id": "<account:Michael Scofield>",
     "event_data": {
     "account_id": "<account:Michael Scofield>",
+    "conversation_ids": [
+    "<conv:joinViaEmail>",
+    ],
+    "conversation_topics": [
+    "joinViaEmail",
+    ],
     "team_id": "<team:teamName>",
     "team_name": "teamName",
     },
     "event_time": "...",
-    "event_type": "team.set_managed",
+    "event_type": "team.add_conversations",
+    "mk_rec_type": "org_changelog",
+    "organisation_id": "<org:organisationName>",
+    "version_nr": 4,
+    },
+    {
+    "account_id": "<account:Michael Scofield>",
+    "event_data": {
+    "account_id": "<account:Michael Scofield>",
+    "member_ids": [
+    "<account:Lincoln Burrows>",
+    ],
+    "team_id": "<team:teamName>",
+    "team_name": "teamName",
+    },
+    "event_time": "...",
+    "event_type": "team.add_members",
+    "mk_rec_type": "org_changelog",
+    "organisation_id": "<org:organisationName>",
+    "version_nr": 3,
+    },
+    {
+    "account_id": "<account:Michael Scofield>",
+    "event_data": {
+    "account_id": "<account:Michael Scofield>",
+    "conversation_ids": null,
+    "conversation_topics": null,
+    "is_autojoin": false,
+    "is_org_wide": false,
+    "member_ids": [
+    "<account:Michael Scofield>",
+    ],
+    "team_id": "<team:teamName>",
+    "team_name": "teamName",
+    },
+    "event_time": "...",
+    "event_type": "team.create",
     "mk_rec_type": "org_changelog",
     "organisation_id": "<org:organisationName>",
     "version_nr": 2,
@@ -57,7 +111,7 @@ let sync_changelog = {
     "mk_rec_type": "org_changelog",
     "organisation_id": "<org:organisationName>",
     "version_nr": 1,
-    }]
+    }],
 };
 
 test('join team via email invite', function () {

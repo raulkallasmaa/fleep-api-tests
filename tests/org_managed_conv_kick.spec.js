@@ -10,68 +10,66 @@ beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
 
 let conv_after_create = {
-   "stream": [
-     {
-       "admins": [
-         "<account:Charlie Chaplin>",
-       ],
-       "autojoin_url": "<autojoin:managedConvTopic>",
-       "cmail": "<cmail:managedConvTopic>",
-       "conversation_id": "<conv:managedConvTopic>",
-       "creator_id": "<account:Charlie Chaplin>",
-       "default_members": [],
-       "guests": [],
-       "has_email_subject": false,
-       "is_deletable": true,
-       "is_list": false,
-       "is_managed": true,
-       "leavers": [],
-       "managed_time": "...",
-       "members": [
-         "<account:Charlie Chaplin>",
-         "<account:Don Johnson>",
-         "<account:Mel Gibson>",
-       ],
-       "mk_conv_type": "cct_default",
-       "mk_rec_type": "org_conv",
-       "organisation_id": "<org:managedConvOrgName>",
-       "teams": [],
-       "topic": "managedConvTopic",
-     },
-   ],
+    "stream": [{
+    "admins": [
+    "<account:Charlie Chaplin>",
+    ],
+    "autojoin_url": "<autojoin:managedConvTopic>",
+    "cmail": "<cmail:managedConvTopic>",
+    "conversation_id": "<conv:managedConvTopic>",
+    "creator_id": "<account:Charlie Chaplin>",
+    "default_members": [],
+    "guests": [],
+    "has_email_subject": false,
+    "is_deletable": true,
+    "is_list": false,
+    "is_managed": true,
+    "leavers": [],
+    "managed_time": "...",
+    "members": [
+    "<account:Charlie Chaplin>",
+    "<account:Don Johnson>",
+    "<account:Mel Gibson>",
+    ],
+    "mk_conv_type": "cct_default",
+    "mk_rec_type": "org_conv",
+    "organisation_id": "<org:managedConvOrgName>",
+    "pending": [],
+    "teams": [],
+    "topic": "managedConvTopic",
+     }],
 };
 
 let conv_after_kick = {
-   "stream": [
-     {
-       "admins": [
-         "<account:Charlie Chaplin>",
-       ],
-       "autojoin_url": "<autojoin:managedConvTopic>",
-       "cmail": "<cmail:managedConvTopic>",
-       "conversation_id": "<conv:managedConvTopic>",
-       "creator_id": "<account:Charlie Chaplin>",
-       "default_members": [],
-       "guests": [],
-       "has_email_subject": false,
-       "is_deletable": true,
-       "is_list": false,
-       "is_managed": true,
-       "leavers": [
-         "<account:Don Johnson>",
-         "<account:Mel Gibson>",
-        ],
-       "managed_time": "...",
-       "members": [
-         "<account:Charlie Chaplin>",
-       ],
-       "mk_conv_type": "cct_default",
-       "mk_rec_type": "org_conv",
-       "organisation_id": "<org:managedConvOrgName>",
-       "teams": [],
-       "topic": "managedConvTopic",
-     },
-   ],
+    "stream": [{
+    "admins": [
+    "<account:Charlie Chaplin>",
+    ],
+    "autojoin_url": "<autojoin:managedConvTopic>",
+    "cmail": "<cmail:managedConvTopic>",
+    "conversation_id": "<conv:managedConvTopic>",
+    "creator_id": "<account:Charlie Chaplin>",
+    "default_members": [],
+    "guests": [],
+    "has_email_subject": false,
+    "is_deletable": true,
+    "is_list": false,
+    "is_managed": true,
+    "leavers": [
+    "<account:Don Johnson>",
+    "<account:Mel Gibson>",
+    ],
+    "managed_time": "...",
+    "members": [
+    "<account:Charlie Chaplin>",
+    ],
+    "mk_conv_type": "cct_default",
+    "mk_rec_type": "org_conv",
+    "organisation_id": "<org:managedConvOrgName>",
+    "pending": [],
+    "teams": [],
+    "topic": "managedConvTopic",
+    }],
 };
 
 

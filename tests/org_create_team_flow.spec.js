@@ -10,35 +10,36 @@ beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
 
 let create_conv_result = {
-       "stream": [{
-       "admins": [
-       "<account:Charlie Chaplin>",
-       ],
-       "autojoin_url": "<autojoin:ctfConvTopic>",
-       "cmail": "<cmail:ctfConvTopic>",
-       "conversation_id": "<conv:ctfConvTopic>",
-       "creator_id": "<account:Charlie Chaplin>",
-       "default_members": [],
-       "guests": [],
-       "has_email_subject": false,
-       "is_deletable": true,
-       "is_list": false,
-       "is_managed": true,
-       "leavers": [],
-       "managed_time": "...",
-       "members": [
-       "<account:Charlie Chaplin>",
-       "<account:Don Johnson>",
-       "<account:Mel Gibson>",
-       ],
-       "mk_conv_type": "cct_no_mail",
-       "mk_rec_type": "org_conv",
-       "organisation_id": "<org:ctfConvOrgName>",
-       "teams": [
-       "<team:ctfConvTeamName>",
-       ],
-       "topic": "ctfConvTopic",
-       }],
+   "stream": [{
+   "admins": [
+   "<account:Charlie Chaplin>",
+   ],
+   "autojoin_url": "<autojoin:ctfConvTopic>",
+   "cmail": "<cmail:ctfConvTopic>",
+   "conversation_id": "<conv:ctfConvTopic>",
+   "creator_id": "<account:Charlie Chaplin>",
+   "default_members": [],
+   "guests": [],
+   "has_email_subject": false,
+   "is_deletable": true,
+   "is_list": false,
+   "is_managed": true,
+   "leavers": [],
+   "managed_time": "...",
+   "members": [
+   "<account:Charlie Chaplin>",
+   "<account:Don Johnson>",
+   "<account:Mel Gibson>",
+   ],
+   "mk_conv_type": "cct_no_mail",
+   "mk_rec_type": "org_conv",
+   "organisation_id": "<org:ctfConvOrgName>",
+   "pending": [],
+   "teams": [
+   "<team:ctfConvTeamName>",
+   ],
+   "topic": "ctfConvTopic",
+   }],
 };
 
 test('business create team flow', function () {
