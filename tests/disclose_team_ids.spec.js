@@ -197,9 +197,9 @@ let free_team_women = {
     "is_org_wide": false,
     "is_tiny": false,
     "members": [
-    "<account:Bob Marley>",
     "<account:Jil Smith>",
     "<account:Meg Griffin>",
+    "<account:Ron Jeremy>",
     ],
     "mk_rec_type": "team",
     "mk_sync_mode": "tsm_full",
@@ -220,9 +220,9 @@ let free_team_men = {
     "is_org_wide": false,
     "is_tiny": false,
     "members": [
-    "<account:Bob Marley>",
     "<account:Don Johnson>",
     "<account:Jon Lajoie>",
+    "<account:Ron Jeremy>",
     ],
     "mk_rec_type": "team",
     "mk_sync_mode": "tsm_full",
@@ -256,7 +256,7 @@ let free_conv_team1 = {
     "last_message_time": "...",
     "mk_alert_level": "default",
     "mk_rec_type": "conv",
-    "profile_id": "<account:Bob Marley>",
+    "profile_id": "<account:Ron Jeremy>",
     "read_message_nr": 4,
     "send_message_nr": 1,
     "show_message_nr": 4,
@@ -294,7 +294,7 @@ let free_conv_team2 = {
     "last_message_time": "...",
     "mk_alert_level": "default",
     "mk_rec_type": "conv",
-    "profile_id": "<account:Bob Marley>",
+    "profile_id": "<account:Ron Jeremy>",
     "read_message_nr": 6,
     "send_message_nr": 1,
     "show_message_nr": 6,
@@ -544,7 +544,7 @@ test('conversation disclose and disclose all in managed conversation and managed
 });
 
 test('conversation disclose and disclose all in free conversation and free team using team ids parameter', function () {
-    let client = UC.bob;
+    let client = UC.ron;
     let conv_topic = 'freeConvDiscloseUsingTeamIDs';
     let team_name1 = 'freeConvDisclose';
     let team_name2 = 'freeConvDiscloseAll';
@@ -593,7 +593,7 @@ test('conversation disclose and disclose all in free conversation and free team 
         () => UC.meg.api_call("api/conversation/sync/" + client.getConvId(conv_topic)),
         () => UC.meg.getMessage(/msg1/),
         (res) => expect(UC.clean(res)).toMatchObject({
-            "account_id": "<account:Bob Marley>",
+            "account_id": "<account:Ron Jeremy>",
             "conversation_id": "<conv:freeConvDiscloseUsingTeamIDs>",
             "inbox_nr": 1,
             "lock_account_id": null,
@@ -609,7 +609,7 @@ test('conversation disclose and disclose all in free conversation and free team 
         }),
         () => UC.meg.getMessage(/msg2/),
         (res) => expect(UC.clean(res)).toMatchObject({
-            "account_id": "<account:Bob Marley>",
+            "account_id": "<account:Ron Jeremy>",
             "conversation_id": "<conv:freeConvDiscloseUsingTeamIDs>",
             "inbox_nr": 2,
             "lock_account_id": null,
@@ -627,7 +627,7 @@ test('conversation disclose and disclose all in free conversation and free team 
         () => UC.jil.api_call("api/conversation/sync/" + client.getConvId(conv_topic)),
         () => UC.jil.getMessage(/msg1/),
         (res) => expect(UC.clean(res)).toMatchObject({
-            "account_id": "<account:Bob Marley>",
+            "account_id": "<account:Ron Jeremy>",
             "conversation_id": "<conv:freeConvDiscloseUsingTeamIDs>",
             "inbox_nr": 1,
             "lock_account_id": null,
@@ -643,7 +643,7 @@ test('conversation disclose and disclose all in free conversation and free team 
         }),
         () => UC.jil.getMessage(/msg2/),
         (res) => expect(UC.clean(res)).toMatchObject({
-            "account_id": "<account:Bob Marley>",
+            "account_id": "<account:Ron Jeremy>",
             "conversation_id": "<conv:freeConvDiscloseUsingTeamIDs>",
             "inbox_nr": 2,
             "lock_account_id": null,
@@ -681,7 +681,7 @@ test('conversation disclose and disclose all in free conversation and free team 
         () => UC.don.api_call("api/conversation/sync/" + client.getConvId(conv_topic)),
         () => UC.don.getMessage(/msg1/),
         (res) => expect(UC.clean(res)).toMatchObject({
-            "account_id": "<account:Bob Marley>",
+            "account_id": "<account:Ron Jeremy>",
             "conversation_id": "<conv:freeConvDiscloseUsingTeamIDs>",
             "inbox_nr": 1,
             "lock_account_id": null,
@@ -697,7 +697,7 @@ test('conversation disclose and disclose all in free conversation and free team 
         }),
         () => UC.don.getMessage(/msg2/),
         (res) => expect(UC.clean(res)).toMatchObject({
-            "account_id": "<account:Bob Marley>",
+            "account_id": "<account:Ron Jeremy>",
             "conversation_id": "<conv:freeConvDiscloseUsingTeamIDs>",
             "inbox_nr": 2,
             "lock_account_id": null,
@@ -715,7 +715,7 @@ test('conversation disclose and disclose all in free conversation and free team 
         () => UC.jon.api_call("api/conversation/sync/" + client.getConvId(conv_topic)),
         () => UC.jon.getMessage(/msg1/),
         (res) => expect(UC.clean(res)).toMatchObject({
-            "account_id": "<account:Bob Marley>",
+            "account_id": "<account:Ron Jeremy>",
             "conversation_id": "<conv:freeConvDiscloseUsingTeamIDs>",
             "inbox_nr": 1,
             "lock_account_id": null,
@@ -731,7 +731,7 @@ test('conversation disclose and disclose all in free conversation and free team 
         }),
         () => UC.jon.getMessage(/msg2/),
         (res) => expect(UC.clean(res)).toMatchObject({
-            "account_id": "<account:Bob Marley>",
+            "account_id": "<account:Ron Jeremy>",
             "conversation_id": "<conv:freeConvDiscloseUsingTeamIDs>",
             "inbox_nr": 2,
             "lock_account_id": null,
