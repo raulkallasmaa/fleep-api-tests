@@ -11,7 +11,7 @@ beforeAll(() => UC.setup());
 afterAll(() => UC.cleanup());
 
 let changelog_before_timetravel = {
-    "stream":[{
+    "stream": [{
     "account_id": "<account:Bob Marley>",
     "event_data": {
     "account_id": "<account:Bob Marley>",
@@ -28,6 +28,7 @@ let changelog_before_timetravel = {
     "event_type": "team.add_conversations",
     "mk_rec_type": "org_changelog",
     "organisation_id": "<org:organisationName>",
+    "version_nr": 4,
     },
     {
     "account_id": "<account:Bob Marley>",
@@ -43,6 +44,7 @@ let changelog_before_timetravel = {
     "event_type": "chat.create_conversation",
     "mk_rec_type": "org_changelog",
     "organisation_id": "<org:organisationName>",
+    "version_nr": 3,
     },
     {
     "account_id": "<account:Bob Marley>",
@@ -63,6 +65,7 @@ let changelog_before_timetravel = {
     "event_type": "team.create",
     "mk_rec_type": "org_changelog",
     "organisation_id": "<org:organisationName>",
+    "version_nr": 2,
     },
     {
     "account_id": "<account:Bob Marley>",
@@ -74,7 +77,8 @@ let changelog_before_timetravel = {
     "event_type": "create_org",
     "mk_rec_type": "org_changelog",
     "organisation_id": "<org:organisationName>",
-    }]
+    "version_nr": 1,
+    }],
 };
 
 let changelog_after_timetravel = {
@@ -82,6 +86,7 @@ let changelog_after_timetravel = {
     "limit_time": 0,
     "static_version": "...",
     "stream": [{
+    "active_member_count": "...",
     "grace_time": "...",
     "is_admin": false,
     "is_member": false,
@@ -91,7 +96,7 @@ let changelog_after_timetravel = {
     "organisation_name": "organisationName",
     "status": "bos_closed",
     "trial_time": "...",
-    "active_member_count": "...",
+    "version_nr": 7,
     },
     {
     "account_id": "<account:Bob Marley>",
@@ -117,6 +122,7 @@ let changelog_after_timetravel = {
     "mk_email_interval": "never",
     "mk_rec_type": "contact",
     "organisation_id": null,
+    "sleep_interval": 1,
     "storage_quota_bytes": 10737418240,
     "storage_used_bytes": 0,
     "trial_end_time": "...",
@@ -136,6 +142,7 @@ let changelog_after_timetravel = {
     "mk_rec_type": "team",
     "mk_sync_mode": "tsm_full",
     "organisation_id": null,
+    "pending": [],
     "team_id": "<team:teamName>",
     "team_name": "teamName",
     "team_version_nr": 3,
@@ -149,6 +156,7 @@ let changelog_after_timetravel = {
     "export_files": [],
     "export_progress": "1",
     "guests": [],
+    "has_done_notifications": false,
     "has_email_subject": false,
     "has_pinboard": false,
     "has_task_archive": false,
@@ -159,6 +167,7 @@ let changelog_after_timetravel = {
     "is_list": false,
     "is_managed": false,
     "is_mark_unread": false,
+    "is_muted": false,
     "is_premium": false,
     "join_message_nr": 1,
     "label_ids": [
@@ -173,10 +182,13 @@ let changelog_after_timetravel = {
     "<account:Mel Gibson>",
     ],
     "mk_alert_level": "default",
-    "mk_conv_type": "cct_no_mail",
+    "mk_conv_type": "cct_default",
     "mk_rec_type": "conv",
     "organisation_id": null,
+    "passive": [],
+    "pending": [],
     "profile_id": "<account:Bob Marley>",
+    "read_inbox_nr": 0,
     "read_message_nr": 2,
     "send_message_nr": 1,
     "show_message_nr": 3,
@@ -241,9 +253,13 @@ test('time travel: unmanage conv and team after trial ends', function () {
         () => client.api_call("api/business/create_conversation/" + client.getOrgId(org_name), {
             topic: conv_topic,
             is_managed: true,
-            team_ids: [client.getTeamId(team_name)]
         }),
         () => client.poll_filter({mk_rec_type: 'conv', topic: conv_topic}),
+        // add team to managed conv
+        () => client.api_call("api/business/store_conversation/" + client.getOrgId(org_name), {
+            conversation_id: client.getConvId(conv_topic),
+            add_team_ids: [client.getTeamId(team_name)],
+        }),
         () => client.poke(client.getConvId(conv_topic), true),
         // sync changelog after managed conversation
         () => client.api_call("api/business/sync_changelog/" + client.getOrgId(org_name), {}),
