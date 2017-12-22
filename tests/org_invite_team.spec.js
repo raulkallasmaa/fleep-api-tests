@@ -47,7 +47,7 @@ let invite_team_response = {
    "pending": [],
    "team_id": "<team:Performers>",
    "team_name": "Performers",
-   "team_version_nr": 2,
+   "team_version_nr": 3,
     },
     {
    "account_id": "<account:Bob Dylan>",
@@ -149,10 +149,14 @@ test('create teams and invite into org', function () {
         () => client.poll_filter({mk_rec_type: 'conv', topic: convTopic}),
         // create singers team
         () => client.api_call("api/team/create", {
-                team_name: teamName,
-                account_ids: [UC.bob.account_id, UC.don.account_id],
-                conversations: [client.getConvId(convTopic)],
-                emails: UC.mel.email, }),
+            team_name: teamName,
+            account_ids: [UC.bob.account_id, UC.don.account_id],
+            emails: UC.mel.email,
+        }),
+        // add team to conv
+        () => client.api_call("api/conversation/store/" + client.getConvId(convTopic), {
+            add_team_ids: [client.getTeamId(teamName)],
+        }),
         // wait for bg worker to do it's stuff
         () => client.poke(client.getConvId(convTopic), true),
         // create organisation
@@ -161,12 +165,12 @@ test('create teams and invite into org', function () {
         // invite team into organisation
         () => client.api_call('api/business/invite_team/' + client.getOrgId(orgName), {
             team_id: client.getTeamId(teamName), }),
-        (res) => expect(UC.clean(res)).toEqual(invite_team_response),
+        (res) => expect(UC.clean(res)).toMatchObject(invite_team_response),
         // wait for bg worker to finish
         () => client.poke(client.getConvId(convTopic), true),
         () => expect(UC.clean(client.getConv(convTopic))).toMatchObject({is_managed: true}),
         () => client.poke(client.getConvId(convTopic), true),
         () => client.api_call("api/business/sync_changelog/" + client.getOrgId(orgName), {}),
-        (res) => expect(UC.clean(res)).toEqual(sync_changelog)
+        (res) => expect(UC.clean(res)).toMatchObject(sync_changelog)
     ]);
 });
