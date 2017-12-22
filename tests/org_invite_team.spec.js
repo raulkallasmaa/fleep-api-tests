@@ -83,60 +83,59 @@ let invite_team_response = {
 };
 
 let sync_changelog = {
-   "stream": [{
-   "account_id": "<account:Charlie Chaplin>",
-   "event_data": {
-   "account_id": "<account:Charlie Chaplin>",
-   "conversation_id": "<conv:teamsCreate>",
-   "topic": "teamsCreate",
-   },
-   "event_time": "...",
-   "event_type": "chat.set_managed",
-   "mk_rec_type": "org_changelog",
-   "organisation_id": "<org:teamsCreateOrgName>",
-   "version_nr": 4,
-   },
-   {
-   "account_id": "<account:Charlie Chaplin>",
-   "event_data": {
-   "account_id": "<account:Charlie Chaplin>",
-   "team_id": "<team:Performers>",
-   "team_name": "Performers",
-   },
-   "event_time": "...",
-   "event_type": "team.set_managed",
-   "mk_rec_type": "org_changelog",
-   "organisation_id": "<org:teamsCreateOrgName>",
-   "version_nr": 3,
-   },
-   {
-   "account_id": "<account:Charlie Chaplin>",
-   "event_data": {
-   "account_id": "<account:Charlie Chaplin>",
-   "add_account_ids": [
-   "<account:Bob Dylan>",
-   "<account:Don Johnson>",
-   "<account:Mel Gibson>",
-   ],
-   },
-   "event_time": "...",
-   "event_type": "configure_org",
-   "mk_rec_type": "org_changelog",
-   "organisation_id": "<org:teamsCreateOrgName>",
-   "version_nr": 2,
-   },
-   {
-   "account_id": "<account:Charlie Chaplin>",
-   "event_data": {
-   "account_id": "<account:Charlie Chaplin>",
-   "organisation_name": "teamsCreateOrgName",
-   },
-   "event_time": "...",
-   "event_type": "create_org",
-   "mk_rec_type": "org_changelog",
-   "organisation_id": "<org:teamsCreateOrgName>",
-   "version_nr": 1,
-   }],
+    "stream": [{
+    "account_id": "<account:Charlie Chaplin>",
+    "event_data": {
+    "account_id": "<account:Charlie Chaplin>",
+    "team_id": "<team:Performers>",
+    "team_name": "Performers",
+    },
+    "event_time": "...",
+    "event_type": "team.set_managed",
+    "mk_rec_type": "org_changelog",
+    "organisation_id": "<org:teamsCreateOrgName>",
+    "version_nr": 4,
+    },
+    {
+    "account_id": "<account:Charlie Chaplin>",
+    "event_data": {
+    "account_id": "<account:Charlie Chaplin>",
+    "conversation_id": "<conv:teamsCreate>",
+    "topic": "teamsCreate",
+    },
+    "event_time": "...",
+    "event_type": "chat.set_managed",
+    "mk_rec_type": "org_changelog",
+    "organisation_id": "<org:teamsCreateOrgName>",
+    "version_nr": 3,
+    },
+    {
+    "account_id": "<account:Charlie Chaplin>",
+    "event_data": {
+    "account_id": "<account:Charlie Chaplin>",
+    "add_account_ids": [
+    "<account:Bob Dylan>",
+    "<account:Don Johnson>",
+    "<account:Mel Gibson>",
+    ]},
+    "event_time": "...",
+    "event_type": "configure_org",
+    "mk_rec_type": "org_changelog",
+    "organisation_id": "<org:teamsCreateOrgName>",
+    "version_nr": 2,
+    },
+    {
+    "account_id": "<account:Charlie Chaplin>",
+    "event_data": {
+    "account_id": "<account:Charlie Chaplin>",
+    "organisation_name": "teamsCreateOrgName",
+    },
+    "event_time": "...",
+    "event_type": "create_org",
+    "mk_rec_type": "org_changelog",
+    "organisation_id": "<org:teamsCreateOrgName>",
+    "version_nr": 1,
+    }],
 };
 
 test('create teams and invite into org', function () {
